@@ -14,14 +14,14 @@ public class IVPFunctionBody extends JPanel {
 	private String name = null;
 	private short type = -1;
 	private JPanel variablesPanel;
-	private IVPCanvas canvas;
+	private IVPContainer canvas;
 	private DataObject function = null;
 	
 	public IVPFunctionBody() {
 		setLayout(new BorderLayout(0, 0));
 		variablesPanel = new JPanel();
 		add(variablesPanel, BorderLayout.NORTH);
-		canvas = new IVPCanvas();
+		canvas = new IVPContainer();
 		add(canvas, BorderLayout.CENTER);
 	}
 

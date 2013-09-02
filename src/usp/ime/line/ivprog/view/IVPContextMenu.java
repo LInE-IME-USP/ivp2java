@@ -4,9 +4,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class ContextMenu extends JPanel {
+public class IVPContextMenu extends JPanel {
 	
-	public ContextMenu() {
+	public IVPContextMenu() {
 	}
 
 	private static final long serialVersionUID = 3814837809047109772L;

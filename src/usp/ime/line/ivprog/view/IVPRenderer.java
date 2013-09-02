@@ -2,7 +2,7 @@ package usp.ime.line.ivprog.view;
 
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 
-public class Renderer {
+public class IVPRenderer {
 
 	public IVPFunctionBody renderFunction(Function f){
 		IVPFunctionBody function = new IVPFunctionBody();

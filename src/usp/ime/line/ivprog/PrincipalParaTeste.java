@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.model.IVPProgram;
-import usp.ime.line.ivprog.view.Menu;
+import usp.ime.line.ivprog.view.IVPMenu;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 
 public class PrincipalParaTeste extends JFrame {
@@ -19,7 +19,7 @@ public class PrincipalParaTeste extends JFrame {
 	private static final long serialVersionUID = 530321876111645014L;
 	private JPanel contentPane;
 	private IVPProgram model = null;
-	private Menu menu = null;
+	private IVPMenu menu = null;
 	private IVPDomainGUI domainGUI;
 	
 	public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class PrincipalParaTeste extends JFrame {
 		model = new IVPProgram();
 		contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
-		menu = new Menu();
+		menu = new IVPMenu();
 		domainGUI = new IVPDomainGUI();
 		IVPController.getInstance().setGui(domainGUI);
 		IVPController.getInstance().setProgram(model);

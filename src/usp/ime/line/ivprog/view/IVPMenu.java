@@ -28,7 +28,7 @@ import com.l2fprod.common.swing.plaf.misc.IconPackagerButtonBarUI;
 import com.l2fprod.common.swing.JTaskPane;
 import com.l2fprod.common.swing.JTaskPaneGroup;
 
-public class Menu extends JPanel {
+public class IVPMenu extends JPanel {
 
 	private static final long serialVersionUID = 4550155655079034404L;
 	private JButtonBar toolbar;
@@ -39,7 +39,7 @@ public class Menu extends JPanel {
 	private JTaskPane taskPane;
 	private JTaskPaneGroup taskPaneGroup;
 
-	public Menu() {
+	public IVPMenu() {
 		setLayout(new BorderLayout(5, 5));
 		setBorder(new EmptyBorder(5,5,5,0));
 		toolbar = new JButtonBar(JButtonBar.HORIZONTAL);
@@ -76,7 +76,7 @@ public class Menu extends JPanel {
 	
 	private void initConstructButton() {
 		Action action = new AbstractAction(ResourceBundleIVP.getString("constructMenu"), 
-				new ImageIcon(Menu.class.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
+				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
 				IVPController.getInstance().showConstructionEnvironment();
 			}
@@ -88,7 +88,7 @@ public class Menu extends JPanel {
 
 	private void initPlayButton() {
 		Action action = new AbstractAction(ResourceBundleIVP.getString("playMenu"), 
-				new ImageIcon(Menu.class.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
+				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
 				IVPController.getInstance().showExecutionEnvironment();
 			}

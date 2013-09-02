@@ -13,7 +13,7 @@ import javax.swing.JTabbedPane;
 
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.IVPFunctionBody;
-import usp.ime.line.ivprog.view.Renderer;
+import usp.ime.line.ivprog.view.IVPRenderer;
 
 import javax.swing.border.EmptyBorder;
 
@@ -22,13 +22,13 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	private static final long serialVersionUID = 4725912646391705263L;
 	private JPanel workspaceContainer;
 	private JTabbedPane tabbedPane;
-	private Renderer renderer = null;
+	private IVPRenderer renderer = null;
 
 	public IVPDomainGUI() {
 		setPreferredSize(new Dimension(800,600));
 		setLayout(new BorderLayout(0, 0));
 		initTabbedPane();
-		renderer = new Renderer();
+		renderer = new IVPRenderer();
 	}
 
 	private void initTabbedPane() {

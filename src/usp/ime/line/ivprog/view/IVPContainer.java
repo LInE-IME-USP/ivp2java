@@ -17,8 +17,8 @@ import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class IVPCanvas extends JPanel {
-	public IVPCanvas() {
+public class IVPContainer extends JPanel {
+	public IVPContainer() {
 		setBackground(new Color(176, 224, 230));
 	}
 
