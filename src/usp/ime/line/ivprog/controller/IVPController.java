@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.controller;
 
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 
 public class IVPController {
@@ -45,4 +46,10 @@ public class IVPController {
 	public void showConstructionEnvironment(){
 		System.out.println("show construction environment");
 	}
+	
+	public void addChild(CodeComposite container, short childType){
+		System.out.println("Add child to container: "+childType);
+	}
+	
+	
 }

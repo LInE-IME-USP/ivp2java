@@ -23,4 +23,10 @@ public final class ModelConstants {
 	public static final short FUNC_RETURN_DOUBLE = 18;
 	public static final short FUNC_RETURN_STRING = 19;
 	public static final short FUNC_RETURN_BOOLEAN = 20;
+	public static final short MODEL_FOR = 20;
+	public static final short MODEL_WHILE = 21;
+	public static final short MODEL_IFELSE = 22;
+	public static final short MODEL_WRITE = 23;
+	public static final short MODEL_READ = 24;
+	
 }

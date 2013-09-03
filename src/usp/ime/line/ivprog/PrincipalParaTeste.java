@@ -23,16 +23,8 @@ public class PrincipalParaTeste extends JFrame {
 	private IVPDomainGUI domainGUI;
 	
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrincipalParaTeste frame = new PrincipalParaTeste();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		PrincipalParaTeste frame = new PrincipalParaTeste();
+		frame.setVisible(true);
 	}
 
 	/**
