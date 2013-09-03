@@ -12,7 +12,6 @@ import java.util.Observer;
 import javax.swing.JTabbedPane;
 
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
-import usp.ime.line.ivprog.view.IVPFunctionBody;
 import usp.ime.line.ivprog.view.IVPRenderer;
 
 import javax.swing.border.EmptyBorder;

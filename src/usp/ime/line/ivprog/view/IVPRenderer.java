@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.view;
 
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.view.domaingui.IVPFunctionBody;
 
 public class IVPRenderer {
 
