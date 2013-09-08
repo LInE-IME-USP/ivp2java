@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.controller.IVPController;
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.view.IVPMenu;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
@@ -37,9 +38,9 @@ public class PrincipalParaTeste extends JFrame {
 		contentPane.setLayout(new BorderLayout());
 		menu = new IVPMenu();
 		domainGUI = new IVPDomainGUI();
-		IVPController.getInstance().setGui(domainGUI);
-		IVPController.getInstance().setProgram(model);
-		IVPController.getInstance().initializeModel();
+		Services.getService().controller().setGui(domainGUI);
+		Services.getService().controller().setProgram(model);
+		Services.getService().controller().initializeModel();
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(size.width/2 - 400, size.height/2 - 300);
 		contentPane.add(domainGUI, BorderLayout.CENTER);

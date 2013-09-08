@@ -11,6 +11,7 @@ import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.controller.IVPController;
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.BorderLayout;
@@ -78,7 +79,7 @@ public class IVPMenu extends JPanel {
 		Action action = new AbstractAction(ResourceBundleIVP.getString("constructMenu"), 
 				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
-				IVPController.getInstance().showConstructionEnvironment();
+				Services.getService().controller().showConstructionEnvironment();
 			}
 		};
 		construct = new JToggleButton(action);
@@ -90,7 +91,7 @@ public class IVPMenu extends JPanel {
 		Action action = new AbstractAction(ResourceBundleIVP.getString("playMenu"), 
 				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
-				IVPController.getInstance().showExecutionEnvironment();
+				Services.getService().controller().showExecutionEnvironment();
 			}
 		};
 		play = new JToggleButton(action);

@@ -11,6 +11,7 @@ import java.util.Observer;
 
 import javax.swing.JTabbedPane;
 
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.IVPRenderer;
 
@@ -21,13 +22,11 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	private static final long serialVersionUID = 4725912646391705263L;
 	private JPanel workspaceContainer;
 	private JTabbedPane tabbedPane;
-	private IVPRenderer renderer = null;
 
 	public IVPDomainGUI() {
 		setPreferredSize(new Dimension(800,600));
 		setLayout(new BorderLayout(0, 0));
 		initTabbedPane();
-		renderer = new IVPRenderer();
 	}
 
 	private void initTabbedPane() {
@@ -40,9 +39,9 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	}
 	
 	public void update(Observable model, Object o) {
-		System.out.println("Update from model "+model+" "+o);
-		if(o instanceof Function){
-			updateFunction(renderer.renderFunction((Function) o));
+		Object domainObject = Services.getService().renderer().paint(o);
+		if(domainObject instanceof IVPFunctionBody){
+			updateFunction((IVPFunctionBody) domainObject);
 		}
 		revalidate();
 		repaint();

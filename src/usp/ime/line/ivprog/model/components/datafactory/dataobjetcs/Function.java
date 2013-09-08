@@ -3,19 +3,26 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 import java.util.Vector;
 
 import usp.ime.line.ivprog.model.ModelConstants;
+import usp.ime.line.ivprog.model.utils.IVPObservableMap;
 
 public class Function extends CodeComposite {
 
 	private String functionName = "";
 	private short returnType = -1;
-	private Vector parameterList = new Vector();
-	private Vector localVariableList = new Vector();
-	private Vector referenceList = new Vector();
+	private IVPObservableMap parameters;
+	private IVPObservableMap localVariables;
+	private int variableID = 0;
+	private Vector references;
 	private boolean isMainFunction = false;
 
+	public Function(){
+		parameters = new IVPObservableMap();
+		localVariables = new IVPObservableMap();
+		references = new Vector();
+	}
+	
 	/**
-	 * Return the function name.
-	 * 
+	 * Returns the function name.
 	 * @return the name
 	 */
 	public String getFunctionName() {
@@ -24,50 +31,42 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Set the function's name.
-	 * 
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 	public void setFunctionName(String name) {
 		functionName = name;
 	}
 
 	/**
-	 * Return the parameters list for this function.
-	 * 
-	 * @return the parameterList
+	 * Return the parameters map for this function.
+	 * @return the parameters map
 	 */
-	public Vector getParameterList() {
-		return parameterList;
+	public IVPObservableMap getParameterMap() {
+		return parameters;
 	}
 
 	/**
 	 * Set the parameters list for this function.
-	 * 
-	 * @param paramList
-	 *            the parameterList to set
+	 * @param paramMap the parameter map to set
 	 */
-	public void setParameterList(Vector paramList) {
-		parameterList = paramList;
+	public void setParameterMap(IVPObservableMap paramMap) {
+		parameters = paramMap;
 	}
 
 	/**
 	 * Return the local variables list.
-	 * 
 	 * @return the localVariableList
 	 */
-	public Vector getLocalVariableList() {
-		return localVariableList;
+	public IVPObservableMap getLocalVariableMap() {
+		return localVariables;
 	}
 
 	/**
 	 * Set the local variables list.
-	 * 
-	 * @param localVarList
-	 *            the localVariableList to set
+	 * @param localVarMap the localVariableList to set
 	 */
-	public void setLocalVariableList(Vector localVarList) {
-		localVariableList = localVarList;
+	public void setLocalVariableMap(IVPObservableMap localVarMap) {
+		localVariables = localVarMap;
 	}
 
 	/**
@@ -78,8 +77,7 @@ public class Function extends CodeComposite {
 	}
 
 	/**
-	 * @param isMainFunction
-	 *            the isMainFunction to set
+	 * @param isMainFunction the isMainFunction to set
 	 */
 	public void setMainFunction(boolean isMain) {
 		isMainFunction = isMain;
@@ -87,7 +85,6 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Return the return type of this function.
-	 * 
 	 * @see ModelConstants
 	 * @return the returnType
 	 */
@@ -97,10 +94,8 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Set the return type of this function.
-	 * 
 	 * @see ModelConstants
-	 * @param rType
-	 *            the returnType to set
+	 * @param rType the returnType to set
 	 */
 	public void setReturnType(short rType) {
 		returnType = rType;
@@ -108,113 +103,70 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Add a local variable to the list.
-	 * 
 	 * @param var
 	 */
 	public void addLocalVariable(Variable var) {
-		localVariableList.add(var);
+		variableID++;
+		localVariables.put(var.getVariableName(), var);
 	}
 
 	/**
 	 * Remove a local variable with the specified name from the list and return
 	 * it.
-	 * 
 	 * @param name
 	 */
-	public Variable removeLocalVariableFromIndex(int index) {
-		Variable variable = null;
-		variable = (Variable) localVariableList.get(index);
+	public Variable removeLocalVariable(String name) {
+		Variable variable = (Variable) localVariables.remove(name);
 		return variable;
 	}
 
 	/**
-	 * Get the index of the variable with the specified name.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public int getIndexForVariableWithName(String name){
-		Variable variable = null;
-		for (int i = 0; i < localVariableList.size(); i++) {
-			if (((Variable) localVariableList.get(i)).getVariableName()
-					.equals(name)) {
-				variable = (Variable) localVariableList.get(i);
-			}
-		}
-		return localVariableList.indexOf(variable);
-	}
-	
-	/**
 	 * Add a parameter to the parameters list.
-	 * 
 	 * @param var
 	 */
 	public void addParameter(Variable var) {
-		parameterList.add(var);
-	}
-
-	/**
-	 * Get the index of the parameter with the specified name.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public int getIndexForParameterWithName(String name) {
-		Variable variable = null;
-		for (int i = 0; i < parameterList.size(); i++) {
-			if (((Variable) parameterList.get(i)).getVariableName()
-					.equals(name)) {
-				variable = (Variable) parameterList.get(i);
-			}
-		}
-		return parameterList.indexOf(variable);
+		parameters.put(var.getVariableName(), var);
 	}
 
 	/**
 	 * Remove a parameter with the specified name and return it.
-	 * 
 	 * @param name
 	 */
-	public Variable removeParameterAtIndex(int index) {
-		Variable variable = null;
-		variable = (Variable) parameterList.get(index);
+	public Variable removeParameter(String name) {
+		Variable variable = (Variable) parameters.remove(name);
 		return variable;
 	}
 
 	/**
 	 * Return the list of references to this function.
-	 * 
 	 * @return
 	 */
 	public Vector getReferenceList() {
-		return referenceList;
+		return references;
 	}
 
 	/**
 	 * Set the list of references to this function.
-	 * 
 	 * @param refList
 	 */
 	public void setReferenceList(Vector refList) {
-		referenceList = refList;
+		references = refList;
 	}
 
 	/**
 	 * Append a reference to this function at the end of the list.
-	 * 
 	 * @param ref
 	 */
 	public void addReferenceToTheList(FunctionReference ref) {
-		referenceList.add(ref);
+		references.add(ref);
 	}
 
 	/**
 	 * Remove the specified reference to this function from the list.
-	 * 
 	 * @param ref
 	 */
 	public void removeFunctionReference(FunctionReference ref) {
-		referenceList.remove(ref);
+		references.remove(ref);
 	}
 
 	public String toXML() {
@@ -222,16 +174,18 @@ public class Function extends CodeComposite {
 				+ "</id>" + "<name>" + functionName + "</name>" + "<type>"
 				+ returnType + "</type>" + "<isMain>" + isMainFunction
 				+ "</isMain>" + "<parameterlist>";
-		for (int i = 0; i < parameterList.size(); i++) {
-			str += ((DataObject) parameterList.get(i)).toXML();
+		Vector v1 = parameters.toVector();
+		Vector v2 = localVariables.toVector();
+		for (int i = 0; i < v1.size(); i++) {
+			str += ((DataObject) v1.get(i)).toXML();
 		}
 		str += "</parameterlist><variablelist>";
-		for (int i = 0; i < localVariableList.size(); i++) {
-			str += ((DataObject) localVariableList.get(i)).toXML();
+		for (int i = 0; i < v2.size(); i++) {
+			str += ((DataObject) v2.get(i)).toXML();
 		}
 		str += "</variablelist><referencelist>";
-		for (int i = 0; i < referenceList.size(); i++) {
-			str += ((DataObject) referenceList.get(i)).toXML();
+		for (int i = 0; i < references.size(); i++) {
+			str += ((DataObject) references.get(i)).toXML();
 		}
 		str += "</referencelist><children>";
 		for (int i = 0; i < getChildrenList().size(); i++) {
@@ -243,6 +197,11 @@ public class Function extends CodeComposite {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	//Used when a new variable is generated
+	public int getVariableID() {
+		return variableID;
 	}
 
 }

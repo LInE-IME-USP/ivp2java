@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.controller.IVPController;
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.ModelConstants;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
@@ -74,7 +75,7 @@ public class IVPContextMenu extends JPanel {
 		writeBtn = new JButton("Escreva");
 		writeBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				IVPController.getInstance().addChild(container.getCodeComposite(), ModelConstants.MODEL_WRITE);
+				Services.getService().controller().addChild(container.getCodeComposite(), ModelConstants.MODEL_WRITE);
 				hideMenu();
 			}
 		});
@@ -87,7 +88,7 @@ public class IVPContextMenu extends JPanel {
 		forBtn = new JButton("Faça N vezes");
 		forBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				IVPController.getInstance().addChild(container.getCodeComposite(), ModelConstants.MODEL_FOR);
+				Services.getService().controller().addChild(container.getCodeComposite(), ModelConstants.MODEL_FOR);
 				hideMenu();
 			}
 		});
@@ -100,7 +101,7 @@ public class IVPContextMenu extends JPanel {
 		ifElseBtn = new JButton("Se/Senão");
 		ifElseBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				IVPController.getInstance().addChild(container.getCodeComposite(), ModelConstants.MODEL_IFELSE);
+				Services.getService().controller().addChild(container.getCodeComposite(), ModelConstants.MODEL_IFELSE);
 				hideMenu();
 			}
 		});
@@ -113,7 +114,7 @@ public class IVPContextMenu extends JPanel {
 		whileBtn = new JButton("Enquanto");
 		whileBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				IVPController.getInstance().addChild(container.getCodeComposite(), ModelConstants.MODEL_WHILE);
+				Services.getService().controller().addChild(container.getCodeComposite(), ModelConstants.MODEL_WHILE);
 				hideMenu();
 			}
 		});

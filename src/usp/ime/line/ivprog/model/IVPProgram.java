@@ -3,10 +3,14 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import usp.ime.line.ivprog.controller.IVPMapping;
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPProgram extends Observable {
@@ -15,6 +19,7 @@ public class IVPProgram extends Observable {
 	private HashMap preDefinedFunctions = null;
 	private HashMap createdFunctions = null;
 	private DataFactory dataFactory = null;
+	private int varCount = 0;
 	
 	public IVPProgram(){
 		globalVariables = new HashMap();
@@ -29,12 +34,11 @@ public class IVPProgram extends Observable {
 	
 	//Program actions
 	public void createFunction(String name, short functionType){
-		Function newFunction = (Function) dataFactory.createFunction();
-		newFunction.setFunctionName(name);
-		newFunction.setReturnType(functionType);
-		createdFunctions.put(name, newFunction);
-		setChanged();
-		notifyObservers(newFunction);
+		Function f = (Function) dataFactory.createFunction();
+		f.setFunctionName(name);
+		f.setReturnType(functionType);
+		createdFunctions.put(name, f);
+		notifyCodeCompositeCreated(f);
 	}
 	
 	public void removeFunction(String name){
@@ -59,16 +63,26 @@ public class IVPProgram extends Observable {
 		
 	}
 	
-	public void createVariable(String name, short type){
-		
+	public void createVariable(Function f){
+		Variable newVar = (Variable) dataFactory.createVariable();
+		newVar.setVariableName("newVar"+f.getVariableID());
+		newVar.setVariableType(ModelConstants.VAR_INT_TYPE);
+		f.addLocalVariable(newVar);
+		notifyVariableCreated(newVar);
 	}
 	
 	public void removeVariable(String name){
 		
 	}
 	
+	private void notifyCodeCompositeCreated(DataObject dataObject){
+		Services.getService().mapping().addToMap(dataObject.getUniqueID()+"", dataObject);
+		setChanged();
+		notifyObservers(dataObject.getUniqueID()+"");
+	}
 	
-	
+	private void notifyVariableCreated(Variable var){
+	}
 	
 }
 

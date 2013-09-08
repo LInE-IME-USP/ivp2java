@@ -12,7 +12,7 @@ public class RoundedJPanel extends JPanel {
 
     public RoundedJPanel() {
         super();
-        setOpaque(false);
+        //setOpaque(false);
     }
 
     protected void paintComponent(Graphics g) {

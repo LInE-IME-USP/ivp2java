@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 
 import java.awt.BorderLayout;
@@ -17,11 +18,11 @@ public class IVPFunctionBody extends JPanel {
 	private short type = -1;
 	private IVPVariablePanel variablesPanel;
 	private IVPContainer canvas;
-	private CodeComposite function = null;
+	private Function function = null;
 	
-	public IVPFunctionBody() {
+	public IVPFunctionBody(Function function, boolean isMain) {
 		setLayout(new BorderLayout(0, 0));
-		variablesPanel = new IVPVariablePanel();
+		variablesPanel = new IVPVariablePanel(function, isMain);
 		add(variablesPanel, BorderLayout.NORTH);
 		canvas = new IVPContainer(false, function);
 		add(canvas, BorderLayout.CENTER);
@@ -43,11 +44,11 @@ public class IVPFunctionBody extends JPanel {
 		this.type = type;
 	}
 
-	public CodeComposite getDataFunction() {
+	public Function getDataFunction() {
 		return function;
 	}
 
-	public void setDataFunction(CodeComposite function) {
+	public void setDataFunction(Function function) {
 		this.function = function;
 	}
 
