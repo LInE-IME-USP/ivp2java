@@ -1,40 +1,39 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class Print extends CodeComponent {
 
-	private Expression printableObject = null;
+	private String printableObjectID = null;
 
 	/**
 	 * Return the printable object.
-	 * 
 	 * @return the printableObject
 	 */
-	public Expression getPrintableObject() {
-		return printableObject;
+	public String getPrintableObject() {
+		return printableObjectID;
 	}
 
 	/**
 	 * Set the printable object.
-	 * 
-	 * @param printableObject
-	 *            the printableObject to set
+	 * @param printableObject the printableObject to set
 	 */
-	public void setPrintableObject(Expression printableObject) {
-		this.printableObject = printableObject;
+	public void setPrintableObject(String printableObject) {
+		this.printableObjectID = printableObject;
 	}
 
 	/**
 	 * Removes the printable object and return it.
 	 */
-	public DataObject removePrintableObject() {
-		DataObject printable = printableObject;
-		printableObject = null;
-		return printable;
+	public String removePrintableObject() {
+		printableObjectID = null;
+		return printableObjectID;
 	}
 
 	public String toXML() {
+		Expression printable = (Expression) Services.getService().mapping().getObject(printableObjectID);
 		String str = "<dataobject class=\"print\"><id>" + getUniqueID()
-				+ "</id>" + "<printable>" + printableObject.toXML()
+				+ "</id>" + "<printable>" + printable.toXML()
 				+ "</printable></dataobject>";
 		return str;
 	}

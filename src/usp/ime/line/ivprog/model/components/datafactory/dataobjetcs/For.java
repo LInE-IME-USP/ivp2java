@@ -2,46 +2,43 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import java.util.Vector;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class For extends CodeComposite {
 
-	private Expression indexInitialValue = null;
-	private Expression upperBound = null;
-	private Expression increment = null;
-
+	private String indexInitialValue = null;
+	private String upperBound = null;
+	private String increment = null;
 
 	/**
 	 * Returns the expression containing index initial value.
-	 * 
 	 * @return
 	 */
-	public Expression getIndexInitialValue() {
+	public String getIndexInitialValue() {
 		return indexInitialValue;
 	}
 
 	/**
 	 * Set the index initial value expression.
-	 * 
 	 * @param indexInitValue
 	 */
-	public void setIndexInitialValue(Expression indexInitValue) {
+	public void setIndexInitialValue(String indexInitValue) {
 		indexInitialValue = indexInitValue;
 	}
 
 	/**
 	 * Return the index upper bound's expression.
-	 * 
 	 * @return
 	 */
-	public Expression getUpperBound() {
+	public String getUpperBound() {
 		return upperBound;
 	}
 
 	/**
 	 * Sets the upper bound's expression.
-	 * 
 	 * @param hBound
 	 */
-	public void setUpperBound(Expression hBound) {
+	public void setUpperBound(String hBound) {
 		upperBound = hBound;
 	}
 
@@ -50,7 +47,7 @@ public class For extends CodeComposite {
 	 * 
 	 * @return
 	 */
-	public Expression getIncrement() {
+	public String getIncrement() {
 		return increment;
 	}
 
@@ -59,19 +56,22 @@ public class For extends CodeComposite {
 	 * 
 	 * @param inc
 	 */
-	public void setIncrement(Expression inc) {
+	public void setIncrement(String inc) {
 		increment = inc;
 	}
 
 	public String toXML() {
+		Expression index = (Expression) Services.getService().mapping().getObject(indexInitialValue);
+		Expression upper = (Expression) Services.getService().mapping().getObject(upperBound);
+		Expression inc = (Expression) Services.getService().mapping().getObject(increment);
 		String str = "<dataobject class=\"for\">" + "<id>" + getUniqueID()
-				+ "</id>" + "<initialvalue>" + indexInitialValue.toXML()
-				+ "</initialvalue>" + "<upperbound>" + upperBound.toXML()
-				+ "</upperbound>" + "<increment>" + increment.toXML()
+				+ "</id>" + "<initialvalue>" + index.toXML()
+				+ "</initialvalue>" + "<upperbound>" + upper.toXML()
+				+ "</upperbound>" + "<increment>" + inc.toXML()
 				+ "</increment>" + "<children>";
 		Vector children = getChildrenList();
 		for (int i = 0; i < children.size(); i++) {
-			str += ((DataObject) children.get(i)).toXML();
+			str += ((DataObject)  Services.getService().mapping().getObject((String) children.get(i))).toXML();
 		}
 		str += "</children></dataobject>";
 		return str;
@@ -81,3 +81,4 @@ public class For extends CodeComposite {
 		return null;
 	}
 }
+ 

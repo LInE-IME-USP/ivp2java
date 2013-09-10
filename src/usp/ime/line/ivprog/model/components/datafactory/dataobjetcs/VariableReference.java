@@ -1,26 +1,27 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class VariableReference extends Reference {
 
-	private Variable referencedVariable = null;
+	private String referencedVariableID = null;
 
 	/**
 	 * Return the referenced variable.
-	 * 
 	 * @return
 	 */
-	public Variable getReferencedVariable() {
-		return referencedVariable;
+	public String getReferencedVariable() {
+		return referencedVariableID;
 	}
 
 	/**
 	 * Set the referenced variable.
-	 * 
 	 * @param referencedVar
 	 */
-	public void setReferencedVariable(Variable referencedVar) {
-		referencedVariable = referencedVar;
-		setReferencedName(referencedVariable.getVariableName());
+	public void setReferencedVariable(String referencedVar) {
+		referencedVariableID = referencedVar;
+		Variable var = (Variable) Services.getService().mapping().getObject(referencedVar);
+		setReferencedName(var.getVariableName());
 	}
 
 	public String toXML() {
@@ -32,7 +33,6 @@ public class VariableReference extends Reference {
 	}
 
 	public String toJavaString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

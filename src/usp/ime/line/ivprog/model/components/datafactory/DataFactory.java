@@ -34,7 +34,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createConstant() {
 		Variable variable = new Variable();
-		variable.setUniqueID(objectID++);
+		variable.setUniqueID(""+objectID++);
 		return variable;
 	}
 
@@ -46,7 +46,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createVariable() {
 		Variable variable = new Variable();
-		variable.setUniqueID(objectID++);
+		variable.setUniqueID(""+objectID++);
 		return variable;
 	}
 
@@ -58,7 +58,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createIVPVector() {
 		IVPVector array = new IVPVector();
-		array.setUniqueID(objectID++);
+		array.setUniqueID(""+objectID++);
 		return array;
 	}
 
@@ -70,7 +70,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createIVPMatrix() {
 		IVPMatrix matrix = new IVPMatrix();
-		matrix.setUniqueID(objectID++);
+		matrix.setUniqueID(""+objectID++);
 		return matrix;
 	}
 
@@ -82,7 +82,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createOperation() {
 		Operation op = new Operation();
-		op.setUniqueID(objectID++);
+		op.setUniqueID(""+objectID++);
 		return op;
 	}
 
@@ -94,7 +94,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createIfElse() {
 		IfElse ifelse = new IfElse();
-		ifelse.setUniqueID(objectID++);
+		ifelse.setUniqueID(""+objectID++);
 		return ifelse;
 	}
 
@@ -107,7 +107,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createFor() {
 		For f = new For();
-		f.setUniqueID(objectID++);
+		f.setUniqueID(""+objectID++);
 		return f;
 	}
 
@@ -119,7 +119,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createWhile() {
 		While w = new While();
-		w.setUniqueID(objectID++);
+		w.setUniqueID(""+objectID++);
 		return w;
 	}
 
@@ -131,7 +131,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createPrint() {
 		Print print = new Print();
-		print.setUniqueID(objectID++);
+		print.setUniqueID(""+objectID++);
 		return print;
 	}
 
@@ -143,7 +143,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createComment() {
 		Comment comment = new Comment();
-		comment.setUniqueID(objectID++);
+		comment.setUniqueID(""+objectID++);
 		return comment;
 	}
 
@@ -155,7 +155,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createAttributionLine() {
 		AttributionLine attline = new AttributionLine();
-		attline.setUniqueID(objectID++);
+		attline.setUniqueID(""+objectID++);
 		return attline;
 	}
 
@@ -167,7 +167,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createReturnStatement() {
 		ReturnStatement returnStatement = new ReturnStatement();
-		returnStatement.setUniqueID(objectID++);
+		returnStatement.setUniqueID(""+objectID++);
 		return returnStatement;
 	}
 
@@ -179,7 +179,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createFunction() {
 		Function f = new Function();
-		f.setUniqueID(objectID++);
+		f.setUniqueID(""+objectID++);
 		return f;
 	}
 
@@ -191,7 +191,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createFunctionReference() {
 		FunctionReference fr = new FunctionReference();
-		fr.setUniqueID(objectID++);
+		fr.setUniqueID(""+objectID++);
 		return fr;
 	}
 
@@ -203,7 +203,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createVarReference() {
 		VariableReference varRef = new VariableReference();
-		varRef.setUniqueID(objectID++);
+		varRef.setUniqueID(""+objectID++);
 		return varRef;
 	}
 
@@ -215,7 +215,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createIVPVectorReference() {
 		IVPVectorReference vRef = new IVPVectorReference();
-		vRef.setUniqueID(objectID++);
+		vRef.setUniqueID(""+objectID++);
 		return vRef;
 	}
 
@@ -227,7 +227,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createIVPMatrixReference() {
 		IVPMatrixReference mRef = new IVPMatrixReference();
-		mRef.setUniqueID(objectID++);
+		mRef.setUniqueID(""+objectID++);
 		return mRef;
 	}
 
@@ -239,7 +239,7 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createAskUser() {
 		AskUser ask = new AskUser();
-		ask.setUniqueID(objectID++);
+		ask.setUniqueID(""+objectID++);
 		return ask;
 	}
 }

@@ -66,20 +66,18 @@ public abstract class Collection extends DataObject {
 
 	/**
 	 * Append a reference to the end of reference list.
-	 * 
 	 * @param ref
 	 */
-	public void addReferenceToTheList(Reference ref) {
-		referenceList.add(ref);
+	public void addReferenceToTheList(Expression refID) {
+		referenceList.add(refID);
 	}
 
 	/**
 	 * Remove the specified reference from the list and return it.
-	 * 
 	 * @param ref
 	 */
-	public DataObject removeReferenceFromTheList(Reference ref) {
-		referenceList.remove(ref);
-		return ref;
+	public String removeReferenceFromTheList(String refID) {
+		referenceList.remove(refID);
+		return refID;
 	}
 }

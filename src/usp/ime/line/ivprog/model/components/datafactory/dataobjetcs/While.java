@@ -1,33 +1,35 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class While extends CodeComposite {
 
-	private Operation condition = null;
+	private String conditionID = null;
 
 	/**
 	 * Return the loop condition.
-	 * 
 	 * @return
 	 */
-	public Operation getCondition() {
-		return condition;
+	public String getCondition() {
+		return conditionID;
 	}
 
 	/**
 	 * Set the loop condition.
-	 * 
 	 * @param cond
 	 */
-	public void setCondition(Operation cond) {
-		condition = cond;
+	public void setCondition(String cond) {
+		conditionID = cond;
 	}
 
 	public String toXML() {
+		Operation operation = (Operation) Services.getService().mapping().getObject(conditionID);
 		String str = "<dataobject class=\"while\"><id>" + getUniqueID()
-				+ "</id>" + "<condition>" + condition.toXML()
+				+ "</id>" + "<condition>" + operation.toXML()
 				+ "</condition><children>";
 		for (int i = 0; i < getChildrenList().size(); i++) {
-			str += ((DataObject) getChildAtIndex(i)).toXML();
+			CodeComposite aChild = (CodeComposite) Services.getService().mapping().getObject((String) getChildAtIndex(i));
+			str += aChild.toXML();
 		}
 		str += "</children></dataobject>";
 		return str;

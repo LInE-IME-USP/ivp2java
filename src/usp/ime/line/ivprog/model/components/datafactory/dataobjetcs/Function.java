@@ -2,6 +2,7 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import java.util.Vector;
 
+import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.ModelConstants;
 import usp.ime.line.ivprog.model.utils.IVPObservableMap;
 
@@ -11,16 +12,16 @@ public class Function extends CodeComposite {
 	private short returnType = -1;
 	private IVPObservableMap parameters;
 	private IVPObservableMap localVariables;
-	private int variableID = 0;
+	private int variableCount = 0;
 	private Vector references;
 	private boolean isMainFunction = false;
 
-	public Function(){
-		parameters = new IVPObservableMap();
-		localVariables = new IVPObservableMap();
+	public Function() {
+		parameters = new IVPObservableMap(false);
+		localVariables = new IVPObservableMap(true);
 		references = new Vector();
 	}
-	
+
 	/**
 	 * Returns the function name.
 	 * @return the name
@@ -95,7 +96,8 @@ public class Function extends CodeComposite {
 	/**
 	 * Set the return type of this function.
 	 * @see ModelConstants
-	 * @param rType the returnType to set
+	 * @param rType
+	 *            the returnType to set
 	 */
 	public void setReturnType(short rType) {
 		returnType = rType;
@@ -105,18 +107,18 @@ public class Function extends CodeComposite {
 	 * Add a local variable to the list.
 	 * @param var
 	 */
-	public void addLocalVariable(Variable var) {
-		variableID++;
-		localVariables.put(var.getVariableName(), var);
+	public void addLocalVariable(String varID) {
+		variableCount++;
+		localVariables.put(varID, varID);
 	}
 
 	/**
 	 * Remove a local variable with the specified name from the list and return
 	 * it.
-	 * @param name
+	 * @param id
 	 */
-	public Variable removeLocalVariable(String name) {
-		Variable variable = (Variable) localVariables.remove(name);
+	public String removeLocalVariable(String varID) {
+		String variable = (String) localVariables.remove(varID);
 		return variable;
 	}
 
@@ -124,17 +126,17 @@ public class Function extends CodeComposite {
 	 * Add a parameter to the parameters list.
 	 * @param var
 	 */
-	public void addParameter(Variable var) {
-		parameters.put(var.getVariableName(), var);
+	public void addParameter(String paramID) {
+		parameters.put(paramID, paramID);
 	}
 
 	/**
-	 * Remove a parameter with the specified name and return it.
+	 * Remove a parameter with the specified id and return it.
 	 * @param name
 	 */
-	public Variable removeParameter(String name) {
-		Variable variable = (Variable) parameters.remove(name);
-		return variable;
+	public String removeParameter(String paramID) {
+		String param = (String) parameters.remove(paramID);
+		return param;
 	}
 
 	/**
@@ -153,16 +155,18 @@ public class Function extends CodeComposite {
 		references = refList;
 	}
 
+	//DÚVIDA SE PRECISAREI DISSO OU NÃO... VOU TENTAR NÃO DEPENDER DISSO... PRECISAREI CRIAR UM OUVIDOR PRA QUAIS FUNÇÕES EXISTEM.
 	/**
 	 * Append a reference to this function at the end of the list.
 	 * @param ref
 	 */
-	public void addReferenceToTheList(FunctionReference ref) {
-		references.add(ref);
+	public void addReferenceToTheList(String functionReference) {
+		references.add(functionReference);
 	}
 
 	/**
 	 * Remove the specified reference to this function from the list.
+	 * 
 	 * @param ref
 	 */
 	public void removeFunctionReference(FunctionReference ref) {
@@ -176,12 +180,15 @@ public class Function extends CodeComposite {
 				+ "</isMain>" + "<parameterlist>";
 		Vector v1 = parameters.toVector();
 		Vector v2 = localVariables.toVector();
+		
 		for (int i = 0; i < v1.size(); i++) {
-			str += ((DataObject) v1.get(i)).toXML();
+			Variable param = (Variable) Services.getService().mapping().getObject((String) v1.get(i));
+			str += param.toXML();
 		}
 		str += "</parameterlist><variablelist>";
 		for (int i = 0; i < v2.size(); i++) {
-			str += ((DataObject) v2.get(i)).toXML();
+			Variable var = (Variable) Services.getService().mapping().getObject((String) v2.get(i));
+			str += var.toXML();
 		}
 		str += "</variablelist><referencelist>";
 		for (int i = 0; i < references.size(); i++) {
@@ -189,7 +196,8 @@ public class Function extends CodeComposite {
 		}
 		str += "</referencelist><children>";
 		for (int i = 0; i < getChildrenList().size(); i++) {
-			str += ((DataObject) getChildrenList().get(i)).toXML();
+			CodeComposite child = (CodeComposite) Services.getService().mapping().getObject((String)getChildrenList().get(i));
+			str += child.toXML();
 		}
 		str += "</children></dataobject>";
 		return str;
@@ -199,9 +207,9 @@ public class Function extends CodeComposite {
 		return null;
 	}
 
-	//Used when a new variable is generated
+	// Used when a new variable is generated
 	public int getVariableID() {
-		return variableID;
+		return variableCount;
 	}
 
 }

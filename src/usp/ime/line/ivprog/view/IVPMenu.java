@@ -42,10 +42,10 @@ public class IVPMenu extends JPanel {
 
 	public IVPMenu() {
 		setLayout(new BorderLayout(5, 5));
-		setBorder(new EmptyBorder(5,5,5,0));
+		setBorder(new EmptyBorder(5, 5, 5, 0));
 		toolbar = new JButtonBar(JButtonBar.HORIZONTAL);
 		toolbar.setUI(new IconPackagerButtonBarUI());
-		toolbar.setPreferredSize(new Dimension(200,75));
+		toolbar.setPreferredSize(new Dimension(200, 75));
 		toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
 		group = new ButtonGroup();
 		add(toolbar, BorderLayout.NORTH);
@@ -55,7 +55,7 @@ public class IVPMenu extends JPanel {
 
 	private void initDomainMenu() {
 		domainMenu = new JPanel();
-		domainMenu.setPreferredSize(new Dimension(200,0));
+		domainMenu.setPreferredSize(new Dimension(200, 0));
 		domainMenu.setBackground(Color.black);
 		add(domainMenu, BorderLayout.CENTER);
 		domainMenu.setLayout(new BorderLayout(0, 0));
@@ -68,18 +68,22 @@ public class IVPMenu extends JPanel {
 			taskPane.add(taskPaneGroup);
 		}
 	}
-	
-	private void initButtons(){
+
+	private void initButtons() {
 		initPlayButton();
 		initConstructButton();
 		construct.setSelected(true);
 	}
-	
+
 	private void initConstructButton() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("constructMenu"), 
-				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
+		Action action = new AbstractAction(
+				ResourceBundleIVP.getString("constructMenu"),
+				new ImageIcon(
+						IVPMenu.class
+								.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller().showConstructionEnvironment();
+				Services.getService().controller()
+						.showConstructionEnvironment();
 			}
 		};
 		construct = new JToggleButton(action);
@@ -88,8 +92,11 @@ public class IVPMenu extends JPanel {
 	}
 
 	private void initPlayButton() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("playMenu"), 
-				new ImageIcon(IVPMenu.class.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
+		Action action = new AbstractAction(
+				ResourceBundleIVP.getString("playMenu"),
+				new ImageIcon(
+						IVPMenu.class
+								.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().controller().showExecutionEnvironment();
 			}

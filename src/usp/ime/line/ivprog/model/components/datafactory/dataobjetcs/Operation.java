@@ -1,9 +1,11 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class Operation extends Expression {
 
-	private Expression expressionA = null;
-	private Expression expressionB = null;
+	private String expressionAID = null;
+	private String expressionBID = null;
 	private short operationType = -1;
 
 	/**
@@ -11,11 +13,10 @@ public class Operation extends Expression {
 	 * "operator" B). Observation: a variable is also an expression (a terminal
 	 * symbol). This method returns the left side of an expression. In other
 	 * words, it returns expression A.
-	 * 
 	 * @return expressionA
 	 */
-	public Expression getExpressionA() {
-		return expressionA;
+	public String getExpressionA() {
+		return expressionAID;
 	}
 
 	/**
@@ -26,8 +27,8 @@ public class Operation extends Expression {
 	 * 
 	 * @param expA
 	 */
-	public void setExpressionA(Expression expA) {
-		expressionA = expA;
+	public void setExpressionA(String expA) {
+		expressionAID = expA;
 	}
 
 	/**
@@ -37,8 +38,8 @@ public class Operation extends Expression {
 	 * words, it returns expression B.
 	 * @return expressionB
 	 */
-	public Expression getExpressionB() {
-		return expressionB;
+	public String getExpressionB() {
+		return expressionBID;
 	}
 
 	/**
@@ -48,8 +49,8 @@ public class Operation extends Expression {
 	 * words, it sets expression B.
 	 * @param expressionA
 	 */
-	public void setExpressionB(Expression expB) {
-		expressionB = expB;
+	public void setExpressionB(String expB) {
+		expressionBID = expB;
 	}
 
 	/**
@@ -73,10 +74,12 @@ public class Operation extends Expression {
 	}
 
 	public String toXML() {
+		Expression expA = (Expression) Services.getService().mapping().getObject(expressionAID);
+		Expression expB = (Expression) Services.getService().mapping().getObject(expressionBID);
 		String str = "<dataobject class=\"operation\"><id>" + getUniqueID()
 				+ "</id>" + "<operationtype>" + operationType
-				+ "<operationtype>" + "<expressionA>" + expressionA.toXML()
-				+ "</expressionA>" + "<expressionB>" + expressionB.toXML()
+				+ "<operationtype>" + "<expressionA>" + expA.toXML()
+				+ "</expressionA>" + "<expressionB>" + expB.toXML()
 				+ "</expressionB>" + "</dataobject>";
 		return str;
 	}

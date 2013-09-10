@@ -1,54 +1,52 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class IVPVectorReference extends Reference {
 
-	private IVPVector referencedVector = null;
-	private Expression position = null;
+	private String referencedVectorID = null;
+	private String positionExpID = null;
 
 	/**
 	 * Return the referenced vector.
-	 * 
 	 * @return the referencedVector
 	 */
-	public IVPVector getReferencedVector() {
-		return referencedVector;
+	public String getReferencedVector() {
+		return referencedVectorID;
 	}
 
 	/**
 	 * Set the referenced vector.
-	 * 
-	 * @param referencedVec
-	 *            the referencedVector to set
+	 * @param referencedVec the referencedVector to set
 	 */
-	public void setReferencedVector(IVPVector referencedVec) {
-		referencedVector = referencedVec;
-		setReferencedName(referencedVec.getCollectionName());
+	public void setReferencedVector(String referencedVecID) {
+		referencedVectorID = referencedVecID;
+		IVPVector v = (IVPVector) Services.getService().mapping().getObject(referencedVecID);
+		setReferencedName(v.getCollectionName());
 	}
 
 	/**
 	 * Return the expression that specifies the positions of this reference.
-	 * 
 	 * @return the position
 	 */
-	public Expression getPosition() {
-		return position;
+	public String getPosition() {
+		return positionExpID;
 	}
 
 	/**
 	 * Set the expression that specifies the positions of this reference.
-	 * 
-	 * @param position
-	 *            the position to set
+	 * @param position the position to set
 	 */
-	public void setPosition(Expression pos) {
-		position = pos;
+	public void setPosition(String pos) {
+		positionExpID = pos;
 	}
 
 	public String toXML() {
+		Expression posExp = (Expression) Services.getService().mapping().getObject(positionExpID);
 		String str = "<dataobject class=\"vectorreference\">" + "<id>"
 				+ getUniqueID() + "</id>" + "<referencedname>" + referencedName
 				+ "<referencedname>" + "<referencedtype>" + referenceType
-				+ "</referencedtype>" + "<index>" + position.toXML()
+				+ "</referencedtype>" + "<index>" + posExp.toXML()
 				+ "</index>" + "</dataobject>";
 		return str;
 	}

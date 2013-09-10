@@ -81,7 +81,7 @@ public class BlueishButtonUI extends BasicButtonUI {
 		AbstractButton button = (AbstractButton) c;
 		button.setRolloverEnabled(true);
 		button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-	    button.setOpaque(false);
+		button.setOpaque(false);
 	}
 
 	public void paint(Graphics g, JComponent c) {

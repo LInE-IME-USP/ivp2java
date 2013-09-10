@@ -1,6 +1,5 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
-
 public class Comment extends CodeComponent {
 
 	private String comment = "";

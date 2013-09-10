@@ -10,8 +10,8 @@ public abstract class CodeComposite extends CodeComponent {
 	 * Append a child at the end of children's vector.
 	 * @param aChild
 	 */
-	public void addChild(CodeComposite aChild) {
-		children.add(aChild);
+	public void addChild(String aChildID) {
+		children.add(aChildID);
 	}
 
 	/**
@@ -19,27 +19,26 @@ public abstract class CodeComposite extends CodeComponent {
 	 * @param holdingComponent
 	 * @param index
 	 */
-	public void addChildToIndex(CodeComponent holdingComponent, int index) {
-		children.add(index, holdingComponent);
+	public void addChildToIndex(String holdingComponentID, int index) {
+		children.add(index, holdingComponentID);
 	}
 
 	/**
 	 * Remove a child from the specified position and return it.
 	 * @param index
 	 */
-	public CodeComponent removeChildFromIndex(int index) {
-		CodeComponent removedChild = (CodeComponent) children.get(index);
-		children.remove(index);
-		return removedChild;
+	public String removeChildFromIndex(int index) {
+		String removedChildID = (String) children.remove(index);
+		return removedChildID;
 	}
 
 	/**
 	 * Remove the specified child from the children vector and return it.
 	 * @param child
 	 */
-	public CodeComponent removeChild(CodeComposite child) {
-		children.remove(child);
-		return child;
+	public String removeChild(String childID) {
+		children.remove(childID);
+		return childID;
 	}
 
 	/**
@@ -47,8 +46,8 @@ public abstract class CodeComposite extends CodeComponent {
 	 * @param i
 	 * @return
 	 */
-	public CodeComponent getChildAtIndex(int i) {
-		return (CodeComponent) children.get(new Integer(i).intValue());
+	public String getChildAtIndex(int i) {
+		return (String) children.get(i);
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class PrincipalParaTeste extends JFrame {
 	private IVPProgram model = null;
 	private IVPMenu menu = null;
 	private IVPDomainGUI domainGUI;
-	
+
 	public static void main(String[] args) {
 		PrincipalParaTeste frame = new PrincipalParaTeste();
 		frame.setVisible(true);
@@ -42,12 +42,12 @@ public class PrincipalParaTeste extends JFrame {
 		Services.getService().controller().setProgram(model);
 		Services.getService().controller().initializeModel();
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(size.width/2 - 400, size.height/2 - 300);
+		setLocation(size.width / 2 - 400, size.height / 2 - 300);
 		contentPane.add(domainGUI, BorderLayout.CENTER);
 		contentPane.add(menu, BorderLayout.WEST);
-		setSize(new Dimension(800,600));
+		setSize(new Dimension(800, 600));
 		setContentPane(contentPane);
-	
+
 	}
 
 }

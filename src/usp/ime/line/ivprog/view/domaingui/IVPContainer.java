@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class IVPContainer extends JPanel {
-	
+
 	private static final long serialVersionUID = 8071308601441583992L;
 	private boolean isInternal = false;
 	private CodeComposite container;
-	
+
 	public IVPContainer(boolean isInternalContainer, CodeComposite c) {
 		setBackground(new Color(255, 240, 250));
 		container = c;
@@ -34,27 +34,27 @@ public class IVPContainer extends JPanel {
 	private void initialization() {
 		setLayout(new GridBagLayout());
 		if (isInternal)
-            setPreferredSize(new Dimension(10, 30));
+			setPreferredSize(new Dimension(10, 30));
 		addChild(new IVPContextMenu(this));
 	}
-	
-	public void addChild(JComponent c){
+
+	public void addChild(JComponent c) {
 		GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(4, 2, 2, 2);
-        gbc.gridy = getComponentCount() - 1;
-        add(c, gbc);
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = getComponentCount() - 1;
-        Component strut = Box.createVerticalStrut(1);
-        add(strut, gbc);
-        revalidate();
-        repaint();
+		gbc.gridx = 0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.0;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(4, 2, 2, 2);
+		gbc.gridy = getComponentCount() - 1;
+		add(c, gbc);
+		gbc.weighty = 1.0;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = getComponentCount() - 1;
+		Component strut = Box.createVerticalStrut(1);
+		add(strut, gbc);
+		revalidate();
+		repaint();
 	}
 
 	public CodeComposite getCodeComposite() {

@@ -18,13 +18,13 @@ import usp.ime.line.ivprog.view.IVPRenderer;
 import javax.swing.border.EmptyBorder;
 
 public class IVPDomainGUI extends JPanel implements Observer {
-	
+
 	private static final long serialVersionUID = 4725912646391705263L;
 	private JPanel workspaceContainer;
 	private JTabbedPane tabbedPane;
 
 	public IVPDomainGUI() {
-		setPreferredSize(new Dimension(800,600));
+		setPreferredSize(new Dimension(800, 600));
 		setLayout(new BorderLayout(0, 0));
 		initTabbedPane();
 	}
@@ -37,37 +37,36 @@ public class IVPDomainGUI extends JPanel implements Observer {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		workspaceContainer.add(tabbedPane, BorderLayout.CENTER);
 	}
-	
+
 	public void update(Observable model, Object o) {
 		Object domainObject = Services.getService().renderer().paint(o);
-		if(domainObject instanceof IVPFunctionBody){
+		if (domainObject instanceof IVPFunctionBody) {
 			updateFunction((IVPFunctionBody) domainObject);
 		}
 		revalidate();
 		repaint();
 	}
-	
-	//update function tabs
-	public void addTab(String tabName, IVPFunctionBody function){
+
+	// update function tabs
+	public void addTab(String tabName, IVPFunctionBody function) {
 		tabbedPane.add(tabName, function);
 	}
-	
-	public void removeTabAtIndex(int index){
+
+	public void removeTabAtIndex(int index) {
 		tabbedPane.remove(index);
 	}
-	
-	public void updateFunction(IVPFunctionBody function){
-		if(tabbedPane.getTabCount() == 0){
-			System.out.println("deveria ter adicionado "+function);
+
+	public void updateFunction(IVPFunctionBody function) {
+		if (tabbedPane.getTabCount() == 0) {
 			tabbedPane.add(function.getName(), function);
 			return;
 		}
-		for(int i = 0; i < tabbedPane.getTabCount(); i++){
-			if(tabbedPane.getTitleAt(i).equals(function.getName())){
+		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+			if (tabbedPane.getTitleAt(i).equals(function.getName())) {
 				tabbedPane.remove(i);
 				tabbedPane.add(function, i);
 			}
 		}
 	}
-	
+
 }

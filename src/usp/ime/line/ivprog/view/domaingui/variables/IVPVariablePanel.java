@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
@@ -19,9 +20,12 @@ import com.l2fprod.common.demo.TaskPaneMain;
 
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.utils.IVPObservableMap;
 import usp.ime.line.ivprog.view.domaingui.IVPFunctionBody;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
+import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -31,6 +35,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import javax.swing.SwingConstants;
 
@@ -48,14 +53,14 @@ public class IVPVariablePanel extends JPanel {
 		f = function;
 		initialization(isMain);
 		f.getLocalVariableMap().addObserver(varPanel);
-		if(paramPanel != null)
+		if (paramPanel != null)
 			f.getParameterMap().addObserver(paramPanel);
 	}
 
 	private void initialization(boolean isMain) {
 		initLayout();
 		initContainer();
-		if(!isMain){
+		if (!isMain) {
 			initParamBtn();
 			initParamPanel();
 		}
@@ -70,6 +75,8 @@ public class IVPVariablePanel extends JPanel {
 
 	private void initParamPanel() {
 		paramPanel = new PanelObserver();
+		paramPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, paramPanel,
+				paramPanel.getClass(), 1));
 		GridBagConstraints gbc_paramPanel = new GridBagConstraints();
 		gbc_paramPanel.insets = new Insets(2, 0, 2, 0);
 		gbc_paramPanel.fill = GridBagConstraints.BOTH;
@@ -79,17 +86,23 @@ public class IVPVariablePanel extends JPanel {
 	}
 
 	private void initParamBtn() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("addParamBtn")) {
+		Action action = new AbstractAction(
+				ResourceBundleIVP.getString("addParamBtn")) {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().controller().addParameter(f);
 			}
 		};
-		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-		action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+		action.putValue(
+				Action.SMALL_ICON,
+				new ImageIcon(
+						IVPVariablePanel.class
+								.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+		action.putValue(Action.SHORT_DESCRIPTION,
+				"Adiciona um novo parâmetro à função:" + "Principal");
 		addParamBtn = new JButton(action);
 		addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
 		addParamBtn.setUI(new BlueishButtonUI());
-		addParamBtn.setPreferredSize(new Dimension(95,25));
+		addParamBtn.setPreferredSize(new Dimension(95, 25));
 		GridBagConstraints gbc_addParamBtn = new GridBagConstraints();
 		gbc_addParamBtn.anchor = GridBagConstraints.WEST;
 		gbc_addParamBtn.insets = new Insets(3, 3, 3, 3);
@@ -100,6 +113,8 @@ public class IVPVariablePanel extends JPanel {
 
 	private void initVarPanel() {
 		varPanel = new PanelObserver();
+		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel,
+				varPanel.getClass(), 1));
 		GridBagConstraints gbc_varPanel = new GridBagConstraints();
 		gbc_varPanel.insets = new Insets(2, 0, 2, 0);
 		gbc_varPanel.fill = GridBagConstraints.BOTH;
@@ -109,17 +124,23 @@ public class IVPVariablePanel extends JPanel {
 	}
 
 	private void initAddVarBtn() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("addVarBtn")) {
+		Action action = new AbstractAction(
+				ResourceBundleIVP.getString("addVarBtn")) {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().controller().addVariable(f);
 			}
 		};
-		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,"Adiciona um novo parâmetro à função:" + "Principal");
+		action.putValue(
+				Action.SMALL_ICON,
+				new ImageIcon(
+						IVPVariablePanel.class
+								.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+		action.putValue(Action.SHORT_DESCRIPTION,
+				"Adiciona um novo parâmetro à função:" + "Principal");
 		addVarBtn = new JButton(action);
 		addVarBtn.setHorizontalAlignment(SwingConstants.LEFT);
 		addVarBtn.setUI(new BlueishButtonUI());
-		addVarBtn.setPreferredSize(new Dimension(95,25));
+		addVarBtn.setPreferredSize(new Dimension(95, 25));
 		GridBagConstraints gbc_addVarBtn = new GridBagConstraints();
 		gbc_addVarBtn.anchor = GridBagConstraints.WEST;
 		gbc_addVarBtn.insets = new Insets(3, 3, 3, 3);
@@ -140,12 +161,29 @@ public class IVPVariablePanel extends JPanel {
 	}
 
 	private class PanelObserver extends RoundedJPanel implements Observer {
-		
+
 		public void update(Observable arg0, Object arg1) {
-			System.out.println(">>> Chegou notificação: "+arg1);
+			Vector v = ((IVPObservableMap) arg0).toVector();
+			if (((IVPObservableMap) arg0).isLocalVarMap()) {
+				varPanel.removeAll();
+				for (int i = 0; i < v.size(); i++) {
+					varPanel.add(Services.getService().renderer()
+							.paint(((String) v.get(i))));
+					
+				}
+				varPanel.revalidate();
+				varPanel.repaint();
+			} else {
+				paramPanel.removeAll();
+				for (int i = 0; i < v.size(); i++) {
+					paramPanel.add(Services.getService().renderer()
+							.paint(((String) v.get(i))));
+				}
+				paramPanel.revalidate();
+				paramPanel.repaint();
+			}
+
 		}
-		
 	}
-	
-	
+
 }

@@ -1,34 +1,33 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class IVPVector extends Collection {
 
 	private int vectorSize = 0;
-	private Variable[] elements = null;
+	private String[] elements = null;
 
 	/**
 	 * Put the specified object into the specified array position. If there's a
 	 * variable at that position it will be overwritten.
-	 * 
 	 * @param index
 	 * @param element
 	 */
-	public void addElementToIndex(int index, Variable element) {
-		elements[index] = element;
+	public void addElementToIndex(int index, String elementID) {
+		elements[index] = elementID;
 	}
 
 	/**
 	 * Return the element at the specified position in this vector.
-	 * 
 	 * @param index
 	 * @return at the specified position
 	 */
-	public Variable getElementAtIndex(int index) {
+	public String getElementAtIndex(int index) {
 		return elements[index];
 	}
 
 	/**
 	 * Return the IVProgVector size.
-	 * 
 	 * @return the vector size
 	 */
 	public int getVectorSize() {
@@ -37,24 +36,22 @@ public class IVPVector extends Collection {
 
 	/**
 	 * Sets the IVProgVector size.
-	 * 
 	 * @param vSize
 	 */
 	public void setVectorSize(int vSize) {
 		vectorSize = vSize;
-		elements = new Variable[vSize];
+		elements = new String[vSize];
 	}
 
 	/**
 	 * Remove the element from the specified position, return it, and put a null
 	 * on the elements place.
-	 * 
 	 * @param index
 	 */
-	public DataObject removeFromIndex(int index) {
-		DataObject variable = elements[index];
+	public String removeFromIndex(int index) {
+		String variableID = elements[index];
 		elements[index] = null;
-		return variable;
+		return variableID;
 	}
 
 	public String toXML() {
@@ -65,7 +62,8 @@ public class IVPVector extends Collection {
 				+ "</collectiontype>" + "<size>" + vectorSize
 				+ "</size><elements>";
 		for (int i = 0; i < vectorSize; i++) {
-			str += "<element>" + elements[i].toString() + "</element>";
+			Variable anElement = (Variable) Services.getService().mapping().getObject(elements[i]);
+			str += "<element>" + anElement.toXML() + "</element>";
 		}
 		str += "</elements></dataobject>";
 		return str;

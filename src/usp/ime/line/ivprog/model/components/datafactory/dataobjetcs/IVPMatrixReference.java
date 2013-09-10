@@ -1,70 +1,67 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class IVPMatrixReference extends Reference {
 
-	private IVPMatrix referencedMatrix = null;
-	private Expression line = null;
-	private Expression column = null;
+	private String referencedMatrixID = null;
+	private String lineExpID = null;
+	private String columnExpID = null;
 
 	/**
 	 * Return the referenced matrix.
-	 * 
 	 * @return the referencedMatrix
 	 */
-	public IVPMatrix getReferencedMatrix() {
-		return referencedMatrix;
+	public String getReferencedMatrix() {
+		return referencedMatrixID;
 	}
 
 	/**
 	 * Set the referencedMatrix.
-	 * 
-	 * @param referencedMatrix
-	 *            the referencedMatrix to set
+	 * @param referencedMatrix the referencedMatrix to set
 	 */
-	public void setReferencedMatrix(IVPMatrix referencedMatrix) {
-		this.referencedMatrix = referencedMatrix;
-		setReferencedName(referencedMatrix.getCollectionName());
+	public void setReferencedMatrix(String referencedMatrix) {
+		referencedMatrixID = referencedMatrix;
+		IVPMatrix m = (IVPMatrix) Services.getService().mapping().getObject(referencedMatrixID);
+		setReferencedName(m.getCollectionName());
 	}
 
 	/**
 	 * Return the expression that specifies the line in this reference.
-	 * 
 	 * @return the line
 	 */
-	public Expression getLineExpression() {
-		return line;
+	public String getLineExpression() {
+		return lineExpID;
 	}
 
 	/**
 	 * Set the expression that specifies the line in this reference.
-	 * 
-	 * @param line
-	 *            the line to set
+	 * @param line the line to set
 	 */
-	public void setLineExpression(Expression line) {
-		this.line = line;
+	public void setLineExpression(String line) {
+		this.lineExpID = line;
 	}
 
 	/**
 	 * Return the expression that specifies the column in this reference.
-	 * 
 	 * @return the column
 	 */
-	public Expression getColumnExpression() {
-		return column;
+	public String getColumnExpression() {
+		return columnExpID;
 	}
 
 	/**
 	 * Set the expression that specifies the column in this reference.
 	 * 
-	 * @param column
-	 *            the column to set
+	 * @param columnExpID the column to set
 	 */
-	public void setColumnExpression(Expression col) {
-		column = col;
+	public void setColumnExpression(String col) {
+		columnExpID = col;
 	}
 
 	public String toXML() {
+		Expression line = (Expression) Services.getService().mapping().getObject(lineExpID);
+		Expression column = (Expression) Services.getService().mapping().getObject(columnExpID);
 		String str = "<dataobject class\"ivpmatrixreference\">" + "<id>"
 				+ getUniqueID() + "</id>" + "<referencedname>" + referencedName
 				+ "</referencedname>" + "<type>" + referenceType + "</type>"

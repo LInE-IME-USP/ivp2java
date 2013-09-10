@@ -1,15 +1,17 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import usp.ime.line.ivprog.controller.Services;
+
 public class AttributionLine extends CodeComponent {
 
-	private Reference leftVariable = null;
-	private Expression rightExpression = null;
+	private String leftVariable = null;
+	private String rightExpression = null;
 	private short leftVariableType = -1;
 
 	/**
 	 * @return the leftVariable
 	 */
-	public Reference getLeftVariable() {
+	public String getLeftVariableID() {
 		return leftVariable;
 	}
 
@@ -17,22 +19,21 @@ public class AttributionLine extends CodeComponent {
 	 * @param leftVariable
 	 *            the leftVariable to set
 	 */
-	public void setLeftVariable(Reference leftVariable) {
+	public void setLeftVariableID(String leftVariable) {
 		this.leftVariable = leftVariable;
 	}
 
 	/**
 	 * @return the rightExpression
 	 */
-	public Expression getRightExpression() {
+	public String getRightExpressionID() {
 		return rightExpression;
 	}
 
 	/**
-	 * @param rightExpression
-	 *            the rightExpression to set
+	 * @param rightExpression the rightExpression to set
 	 */
-	public void setRightExpression(Expression rightExpression) {
+	public void setRightExpression(String rightExpression) {
 		this.rightExpression = rightExpression;
 	}
 
@@ -54,17 +55,19 @@ public class AttributionLine extends CodeComponent {
 	/**
 	 * Removes the right side of the attribution line and return it.
 	 */
-	public DataObject removeRightExpression() {
-		DataObject rightExp = rightExpression;
-		rightExpression = null;
-		return rightExp;
+	public String removeRightExpression() {
+		String rightExpID = rightExpression;
+		rightExpression = "";
+		return rightExpID;
 	}
 
 	public String toXML() {
+		Variable varLeft = (Variable) Services.getService().mapping().getObject(leftVariable);
+		Expression rightExp = (Expression) Services.getService().mapping().getObject(rightExpression);
 		String str = "<dataobject class=\"attline\">" + "<id>" + getUniqueID()
 				+ "</id>" + "<variabletype>" + leftVariableType
-				+ "</variabletype>" + "<left>" + leftVariable.toXML()
-				+ "</left>" + "<right>" + rightExpression.toXML() + "</right>"
+				+ "</variabletype>" + "<left>" + varLeft.toXML()
+				+ "</left>" + "<right>" + rightExp.toXML() + "</right>"
 				+ "</dataobject>";
 		return str;
 	}
