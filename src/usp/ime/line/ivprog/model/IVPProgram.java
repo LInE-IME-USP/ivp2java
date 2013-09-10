@@ -118,5 +118,15 @@ public class IVPProgram extends Observable {
 			listener.changeVariableName(id, name);
 		}
 	}
+	
+	public void changeVariableInitialValue(String id, String value){
+		Variable v = (Variable) Services.getService().getModelMapping().get(id);
+		v.setVariableValue(value);
+		
+		for(int i=0; i<variableListeners.size(); i++){
+			IVariableListener listener = (IVariableListener) variableListeners.get(i);
+			listener.changeVariableValue(id, value);
+		}
+	}
 
 }

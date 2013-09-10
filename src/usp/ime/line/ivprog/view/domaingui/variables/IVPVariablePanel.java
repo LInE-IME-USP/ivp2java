@@ -219,7 +219,14 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		if(variable!=null){
 			variable.setVariableName(name);
 		}
-		
+	}
+
+	@Override
+	public void changeVariableValue(String id, String value) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		if(variable!=null){
+			variable.setVariableValue(value);
+		}
 	}
 
 }

@@ -1,41 +1,33 @@
 package usp.ime.line.ivprog.view.domaingui.variables;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import java.awt.FlowLayout;
-
-import javax.swing.JLabel;
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import sun.swing.BakedArrayList;
 import usp.ime.line.ivprog.controller.Services;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.view.components.editinplace.EditInPlace;
+import usp.ime.line.ivprog.view.components.editinplace.IValueListener;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
-import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
-
-import java.awt.Color;
 
 public class IVPVariableBasic extends RoundedJPanel {
 
 	private JPanel valueContainer;
 	private JLabel equalLabel;
-	private JLabel nameLabel;
+	
+	private EditInPlace name;
+	private EditInPlace value;
+	
 	private JLabel valueLabel;
-	private JTextField nameField;
-	private JPanel nameContainer;
+	
+	
 	private JPanel optionsContainer;
 	private JButton configBtn;
 	private JButton excludeBtn;
@@ -51,9 +43,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private void initialization() {
 		initLayout();
-		initNameContainer();
-		initNameLabel();
-		initNameField();
+		initName();
 		initEqualLabel();
 		initValueContainer();
 		initOptionsContainer();
@@ -120,57 +110,39 @@ public class IVPVariableBasic extends RoundedJPanel {
 	}
 
 	private void initValueContainer() {
-		valueContainer = new JPanel();
-		valueLabel = new JLabel("0");
+		value = new EditInPlace();
+		value.setValue("0");
+		value.setValueListener(new IValueListener() {
+			@Override
+			public void valueChanged(String value) {
+				Services.getService().getController().changeVariableInitialValue(id, value);
+			}
+		});
+		add(value);
 		
-		valueContainer.add(valueLabel);
-		
-		//valueContainer.setOpaque(false);
-		
-		add(valueContainer);
 	}
 
+	private void initName(){
+		name = new EditInPlace();
+		name.setValueListener(new IValueListener() {
+			@Override
+			public void valueChanged(String value) {
+				Services.getService().getController().changeVariableName(id, value);
+			}
+		});
+		add(name);
+	}
+	
 	private void initEqualLabel() {
 		equalLabel = new JLabel("=");
 		add(equalLabel);
 	}
-
-	private void initNameContainer() {
-		nameContainer = new JPanel();
-		//nameContainer.setOpaque(false);
-		add(nameContainer);
-	}
-	private void initNameLabel(){
-		nameLabel = new JLabel();
-		nameLabel.addMouseListener(new VariableMouseListener());
-		nameContainer.add(nameLabel);
-	}
-	private void initNameField(){
-		nameField = new JTextField(5);
-		nameField.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				nameContainer.setVisible(true);
-				nameField.setVisible(false);
-				
-				// TODO validar
-				Services.getService().getController().changeVariableName(id, nameField.getText());
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				System.out.println("FOCUS");
-			}
-		});
-		nameField.setVisible(false);
-		add(nameField);
-		
-	}
-
+	
 	public void setVariableName(String name) {
-		nameLabel.setText(name);
+		this.name.setValue(name);
+	}
+	public void setVariableValue(String value){
+		this.value.setValue(value);
 	}
 	
 	public void setEscope(String escope) {
@@ -181,33 +153,5 @@ public class IVPVariableBasic extends RoundedJPanel {
 		id = uniqueID;
 	}
 
-	private class VariableMouseListener implements MouseListener{
-		public void mouseClicked(MouseEvent e) {
-			
-		}
-		public void mouseEntered(MouseEvent arg0) {
-			nameContainer.setBackground(Color.yellow);
-		}
-		public void mouseExited(MouseEvent arg0) {
-			nameContainer.setBackground(BACKGROUND_COLOR);
-		}
-		public void mousePressed(MouseEvent arg0) {
-			System.out.println("PRESSED");
-		}
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("released");
-			if(e.getSource().equals(nameLabel)){
-				System.out.println("Chegou");
-				//nameContainer.removeAll();
-				//nameContainer.add(nameField);
-				//nameContainer.revalidate();
-				//nameContainer.repaint();
-				nameField.setVisible(true);
-				nameContainer.setVisible(false);
-				nameField.requestFocus();
-			}
-		}	
-	}
 	
-
 }

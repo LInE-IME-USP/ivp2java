@@ -4,7 +4,6 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
-import usp.ime.line.ivprog.view.domaingui.IVPFunctionBody;
 
 public class IVPController {
 
@@ -57,6 +56,9 @@ public class IVPController {
 	}
 	public void changeVariableName(String id, String name){
 		program.changeVariableName(id, name);
+	}
+	public void changeVariableInitialValue(String id, String value){
+		program.changeVariableInitialValue(id, value);
 	}
 
 }
