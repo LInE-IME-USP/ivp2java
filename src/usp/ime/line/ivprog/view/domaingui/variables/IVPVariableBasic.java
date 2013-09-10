@@ -25,7 +25,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Color;
 
-public class IVPVariableBasic extends RoundedJPanel implements MouseListener {
+public class IVPVariableBasic extends RoundedJPanel {
 
 	private JPanel valueContainer;
 	private JLabel equalLabel;
@@ -49,6 +49,7 @@ public class IVPVariableBasic extends RoundedJPanel implements MouseListener {
 		initEqualLabel();
 		initValueContainer();
 		initOptionsContainer();
+		initNameField();
 		initBtns();
 	}
 
@@ -126,9 +127,14 @@ public class IVPVariableBasic extends RoundedJPanel implements MouseListener {
 		nameContainer.setOpaque(false);
 		add(nameContainer);
 	}
+	
+	private void initNameField(){
+		nameField = new JTextField(5);
+	}
 
 	public void setVariableName(String name) {
 		nameLabel = new JLabel(name);
+		nameLabel.addMouseListener(new VariableMouseListener());
 		nameContainer.add(nameLabel);
 	}
 	
@@ -140,10 +146,21 @@ public class IVPVariableBasic extends RoundedJPanel implements MouseListener {
 		id = uniqueID;
 	}
 
-	public void mouseClicked(MouseEvent arg0) {}
-	public void mouseEntered(MouseEvent arg0) {}
-	public void mouseExited(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {}
-	public void mouseReleased(MouseEvent arg0) {}
+	private class VariableMouseListener implements MouseListener{
+		public void mouseClicked(MouseEvent e) {
+			if(e.getSource().equals(nameLabel)){
+				System.out.println("Chegou");
+				nameContainer.removeAll();
+				nameContainer.add(nameField);
+				nameContainer.revalidate();
+				nameContainer.repaint();
+			}
+		}
+		public void mouseEntered(MouseEvent arg0) {}
+		public void mouseExited(MouseEvent arg0) {}
+		public void mousePressed(MouseEvent arg0) {}
+		public void mouseReleased(MouseEvent arg0) {}	
+	}
+	
 
 }
