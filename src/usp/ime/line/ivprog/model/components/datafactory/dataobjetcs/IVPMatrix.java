@@ -70,7 +70,7 @@ public class IVPMatrix extends Collection {
 				+ "</numberofcolumns><elements>";
 		for (int i = 0; i < nLines; i++) {
 			for (int j = 0; j < nColumns; j++) {
-				Variable anElement = (Variable) Services.getService().mapping().getObject(elements[i][j]);
+				Variable anElement = (Variable) Services.getService().getModelMapping().get(elements[i][j]);
 				
 				
 				str += "<A" + i + "" + j + ">" + anElement.toXML()

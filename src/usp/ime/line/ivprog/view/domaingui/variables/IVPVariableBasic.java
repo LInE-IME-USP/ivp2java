@@ -12,11 +12,14 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
+import sun.swing.BakedArrayList;
 import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -30,6 +33,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private JPanel valueContainer;
 	private JLabel equalLabel;
 	private JLabel nameLabel;
+	private JLabel valueLabel;
 	private JTextField nameField;
 	private JPanel nameContainer;
 	private JPanel optionsContainer;
@@ -37,19 +41,23 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private JButton excludeBtn;
 	private String escopeID;
 	private String id;
+	
+	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
 
 	public IVPVariableBasic() {
-		setBackground(new Color(204, 255, 204));
+		setBackground(BACKGROUND_COLOR);
 		initialization();
 	}
 
 	private void initialization() {
 		initLayout();
 		initNameContainer();
+		initNameLabel();
+		initNameField();
 		initEqualLabel();
 		initValueContainer();
 		initOptionsContainer();
-		initNameField();
+		
 		initBtns();
 	}
 
@@ -79,7 +87,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private void initDeleteBtn() {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller().deleteVariable(escopeID, id);
+				Services.getService().getController().deleteVariable(escopeID, id);
 			}
 		};
 		action.putValue(
@@ -113,7 +121,12 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private void initValueContainer() {
 		valueContainer = new JPanel();
-		valueContainer.setOpaque(false);
+		valueLabel = new JLabel("0");
+		
+		valueContainer.add(valueLabel);
+		
+		//valueContainer.setOpaque(false);
+		
 		add(valueContainer);
 	}
 
@@ -124,18 +137,40 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private void initNameContainer() {
 		nameContainer = new JPanel();
-		nameContainer.setOpaque(false);
+		//nameContainer.setOpaque(false);
 		add(nameContainer);
 	}
-	
+	private void initNameLabel(){
+		nameLabel = new JLabel();
+		nameLabel.addMouseListener(new VariableMouseListener());
+		nameContainer.add(nameLabel);
+	}
 	private void initNameField(){
 		nameField = new JTextField(5);
+		nameField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				nameContainer.setVisible(true);
+				nameField.setVisible(false);
+				
+				// TODO validar
+				Services.getService().getController().changeVariableName(id, nameField.getText());
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				System.out.println("FOCUS");
+			}
+		});
+		nameField.setVisible(false);
+		add(nameField);
+		
 	}
 
 	public void setVariableName(String name) {
-		nameLabel = new JLabel(name);
-		nameLabel.addMouseListener(new VariableMouseListener());
-		nameContainer.add(nameLabel);
+		nameLabel.setText(name);
 	}
 	
 	public void setEscope(String escope) {
@@ -148,18 +183,30 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private class VariableMouseListener implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
+			
+		}
+		public void mouseEntered(MouseEvent arg0) {
+			nameContainer.setBackground(Color.yellow);
+		}
+		public void mouseExited(MouseEvent arg0) {
+			nameContainer.setBackground(BACKGROUND_COLOR);
+		}
+		public void mousePressed(MouseEvent arg0) {
+			System.out.println("PRESSED");
+		}
+		public void mouseReleased(MouseEvent e) {
+			System.out.println("released");
 			if(e.getSource().equals(nameLabel)){
 				System.out.println("Chegou");
-				nameContainer.removeAll();
-				nameContainer.add(nameField);
-				nameContainer.revalidate();
-				nameContainer.repaint();
+				//nameContainer.removeAll();
+				//nameContainer.add(nameField);
+				//nameContainer.revalidate();
+				//nameContainer.repaint();
+				nameField.setVisible(true);
+				nameContainer.setVisible(false);
+				nameField.requestFocus();
 			}
-		}
-		public void mouseEntered(MouseEvent arg0) {}
-		public void mouseExited(MouseEvent arg0) {}
-		public void mousePressed(MouseEvent arg0) {}
-		public void mouseReleased(MouseEvent arg0) {}	
+		}	
 	}
 	
 

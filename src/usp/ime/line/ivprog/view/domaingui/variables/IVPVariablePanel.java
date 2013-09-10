@@ -20,6 +20,7 @@ import com.l2fprod.common.demo.TaskPaneMain;
 
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.utils.IVPObservableMap;
@@ -39,7 +40,7 @@ import java.util.Vector;
 
 import javax.swing.SwingConstants;
 
-public class IVPVariablePanel extends JPanel {
+public class IVPVariablePanel extends JPanel implements IVariableListener {
 
 	private static final long serialVersionUID = -2214975678822644250L;
 	private JPanel container;
@@ -55,6 +56,8 @@ public class IVPVariablePanel extends JPanel {
 		f.getLocalVariableMap().addObserver(varPanel);
 		if (paramPanel != null)
 			f.getParameterMap().addObserver(paramPanel);
+		
+		Services.getService().getController().getProgram().addVariableListener(this);
 	}
 
 	private void initialization(boolean isMain) {
@@ -89,7 +92,7 @@ public class IVPVariablePanel extends JPanel {
 		Action action = new AbstractAction(
 				ResourceBundleIVP.getString("addParamBtn")) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller().addParameter(f);
+				Services.getService().getController().addParameter(f);
 			}
 		};
 		action.putValue(
@@ -127,7 +130,7 @@ public class IVPVariablePanel extends JPanel {
 		Action action = new AbstractAction(
 				ResourceBundleIVP.getString("addVarBtn")) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller().addVariable(f);
+				Services.getService().getController().addVariable(f);
 			}
 		};
 		action.putValue(
@@ -165,18 +168,18 @@ public class IVPVariablePanel extends JPanel {
 		public void update(Observable arg0, Object arg1) {
 			Vector v = ((IVPObservableMap) arg0).toVector();
 			if (((IVPObservableMap) arg0).isLocalVarMap()) {
-				varPanel.removeAll();
+				/*varPanel.removeAll();
 				for (int i = 0; i < v.size(); i++) {
-					varPanel.add(Services.getService().renderer()
+					varPanel.add(Services.getService().getRenderer()
 							.paint(((String) v.get(i))));
 					
 				}
 				varPanel.revalidate();
-				varPanel.repaint();
+				varPanel.repaint();*/
 			} else {
 				paramPanel.removeAll();
 				for (int i = 0; i < v.size(); i++) {
-					paramPanel.add(Services.getService().renderer()
+					paramPanel.add(Services.getService().getRenderer()
 							.paint(((String) v.get(i))));
 				}
 				paramPanel.revalidate();
@@ -184,6 +187,39 @@ public class IVPVariablePanel extends JPanel {
 			}
 
 		}
+	}
+
+	@Override
+	public void addedVariable(String id) {
+		varPanel.add(Services.getService().getRenderer()
+				.paint(id));
+		varPanel.revalidate();
+		varPanel.repaint();
+	}
+
+	@Override
+	public void changeVariable(String id) {
+		System.out.println("variavel alterada");
+		
+	}
+
+	@Override
+	public void removedVariable(String id) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		if(variable!=null){
+			varPanel.remove(variable);
+		}
+		varPanel.revalidate();
+		varPanel.repaint();
+	}
+
+	@Override
+	public void changeVariableName(String id, String name) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		if(variable!=null){
+			variable.setVariableName(name);
+		}
+		
 	}
 
 }

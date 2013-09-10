@@ -182,12 +182,12 @@ public class Function extends CodeComposite {
 		Vector v2 = localVariables.toVector();
 		
 		for (int i = 0; i < v1.size(); i++) {
-			Variable param = (Variable) Services.getService().mapping().getObject((String) v1.get(i));
+			Variable param = (Variable) Services.getService().getModelMapping().get((String) v1.get(i));
 			str += param.toXML();
 		}
 		str += "</parameterlist><variablelist>";
 		for (int i = 0; i < v2.size(); i++) {
-			Variable var = (Variable) Services.getService().mapping().getObject((String) v2.get(i));
+			Variable var = (Variable) Services.getService().getModelMapping().get((String) v2.get(i));
 			str += var.toXML();
 		}
 		str += "</variablelist><referencelist>";
@@ -196,7 +196,7 @@ public class Function extends CodeComposite {
 		}
 		str += "</referencelist><children>";
 		for (int i = 0; i < getChildrenList().size(); i++) {
-			CodeComposite child = (CodeComposite) Services.getService().mapping().getObject((String)getChildrenList().get(i));
+			CodeComposite child = (CodeComposite) Services.getService().getModelMapping().get((String)getChildrenList().get(i));
 			str += child.toXML();
 		}
 		str += "</children></dataobject>";

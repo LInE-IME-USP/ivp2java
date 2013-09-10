@@ -107,7 +107,7 @@ public class Variable extends Expression {
 				+ variableType + "</type>" + "<value>" + variableValue
 				+ "</value>" + "<referencelist>";
 		for (int i = 0; i < variableReferenceList.size(); i++) {
-			VariableReference varRef = (VariableReference) Services.getService().mapping().getObject((String)variableReferenceList.get(i));
+			VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get((String)variableReferenceList.get(i));
 			str += varRef.toXML();
 		}
 		str += "</referencelist></dataobject>";

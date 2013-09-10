@@ -23,12 +23,12 @@ public class While extends CodeComposite {
 	}
 
 	public String toXML() {
-		Operation operation = (Operation) Services.getService().mapping().getObject(conditionID);
+		Operation operation = (Operation) Services.getService().getModelMapping().get(conditionID);
 		String str = "<dataobject class=\"while\"><id>" + getUniqueID()
 				+ "</id>" + "<condition>" + operation.toXML()
 				+ "</condition><children>";
 		for (int i = 0; i < getChildrenList().size(); i++) {
-			CodeComposite aChild = (CodeComposite) Services.getService().mapping().getObject((String) getChildAtIndex(i));
+			CodeComposite aChild = (CodeComposite) Services.getService().getModelMapping().get((String) getChildAtIndex(i));
 			str += aChild.toXML();
 		}
 		str += "</children></dataobject>";

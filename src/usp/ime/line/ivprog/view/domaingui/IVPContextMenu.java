@@ -76,7 +76,7 @@ public class IVPContextMenu extends JPanel {
 		writeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Services.getService()
-						.controller()
+						.getController()
 						.addChild(container.getCodeComposite(),
 								ModelConstants.MODEL_WRITE);
 				hideMenu();
@@ -93,7 +93,7 @@ public class IVPContextMenu extends JPanel {
 		forBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Services.getService()
-						.controller()
+						.getController()
 						.addChild(container.getCodeComposite(),
 								ModelConstants.MODEL_FOR);
 				hideMenu();
@@ -110,7 +110,7 @@ public class IVPContextMenu extends JPanel {
 		ifElseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Services.getService()
-						.controller()
+						.getController()
 						.addChild(container.getCodeComposite(),
 								ModelConstants.MODEL_IFELSE);
 				hideMenu();
@@ -127,7 +127,7 @@ public class IVPContextMenu extends JPanel {
 		whileBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Services.getService()
-						.controller()
+						.getController()
 						.addChild(container.getCodeComposite(),
 								ModelConstants.MODEL_WHILE);
 				hideMenu();

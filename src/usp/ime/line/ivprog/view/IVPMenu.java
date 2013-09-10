@@ -82,7 +82,7 @@ public class IVPMenu extends JPanel {
 						IVPMenu.class
 								.getResource("/usp/ime/line/resources/icons/construction32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller()
+				Services.getService().getController()
 						.showConstructionEnvironment();
 			}
 		};
@@ -98,7 +98,7 @@ public class IVPMenu extends JPanel {
 						IVPMenu.class
 								.getResource("/usp/ime/line/resources/icons/play32x32.png"))) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().controller().showExecutionEnvironment();
+				Services.getService().getController().showExecutionEnvironment();
 			}
 		};
 		play = new JToggleButton(action);

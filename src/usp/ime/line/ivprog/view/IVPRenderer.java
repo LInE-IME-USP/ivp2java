@@ -14,7 +14,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class IVPRenderer {
 
 	public JComponent paint(Object objectKey) {
-		DataObject object = (DataObject) Services.getService().mapping().getObject((String) objectKey);
+		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
 		if (object instanceof Function) {
 			return renderFunction((Function) object);
 		} else if (object instanceof Variable) {
@@ -41,6 +41,7 @@ public class IVPRenderer {
 		variable.setVariableName(object.getVariableName());
 		variable.setID(object.getUniqueID());
 		variable.setEscope(object.getEscopeID());
+		Services.getService().getViewMapping().put(object.getUniqueID(), variable);
 		return variable;
 	}
 

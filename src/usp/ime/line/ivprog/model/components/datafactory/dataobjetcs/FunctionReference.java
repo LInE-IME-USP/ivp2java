@@ -16,7 +16,7 @@ public class FunctionReference extends Reference {
 	public void setReferencedFunction(String functionID) {
 		if (functionID != null) {
 			referencedFunctionID = functionID;
-			Function f = (Function) Services.getService().mapping().getObject(functionID);
+			Function f = (Function) Services.getService().getModelMapping().get(functionID);
 			setReferencedName(f.getFunctionName());
 			setReferenceType(f.getReturnType());
 		}
@@ -66,7 +66,7 @@ public class FunctionReference extends Reference {
 		String paramID = "";
 		for (int i = 0; i < parameterList.size(); i++) {
 			paramID = (String) parameterList.get(i);
-			VariableReference param = (VariableReference) Services.getService().mapping().getObject(paramID);
+			VariableReference param = (VariableReference) Services.getService().getModelMapping().get(paramID);
 			if (param.getReferencedName().equals(name)) {
 				paramID = (String) parameterList.get(i);
 				parameterList.remove(i);

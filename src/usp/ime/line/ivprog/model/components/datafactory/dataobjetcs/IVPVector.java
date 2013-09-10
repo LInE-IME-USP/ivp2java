@@ -62,7 +62,7 @@ public class IVPVector extends Collection {
 				+ "</collectiontype>" + "<size>" + vectorSize
 				+ "</size><elements>";
 		for (int i = 0; i < vectorSize; i++) {
-			Variable anElement = (Variable) Services.getService().mapping().getObject(elements[i]);
+			Variable anElement = (Variable) Services.getService().getModelMapping().get(elements[i]);
 			str += "<element>" + anElement.toXML() + "</element>";
 		}
 		str += "</elements></dataobject>";

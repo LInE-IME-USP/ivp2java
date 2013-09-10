@@ -61,9 +61,9 @@ public class For extends CodeComposite {
 	}
 
 	public String toXML() {
-		Expression index = (Expression) Services.getService().mapping().getObject(indexInitialValue);
-		Expression upper = (Expression) Services.getService().mapping().getObject(upperBound);
-		Expression inc = (Expression) Services.getService().mapping().getObject(increment);
+		Expression index = (Expression) Services.getService().getModelMapping().get(indexInitialValue);
+		Expression upper = (Expression) Services.getService().getModelMapping().get(upperBound);
+		Expression inc = (Expression) Services.getService().getModelMapping().get(increment);
 		String str = "<dataobject class=\"for\">" + "<id>" + getUniqueID()
 				+ "</id>" + "<initialvalue>" + index.toXML()
 				+ "</initialvalue>" + "<upperbound>" + upper.toXML()
@@ -71,7 +71,7 @@ public class For extends CodeComposite {
 				+ "</increment>" + "<children>";
 		Vector children = getChildrenList();
 		for (int i = 0; i < children.size(); i++) {
-			str += ((DataObject)  Services.getService().mapping().getObject((String) children.get(i))).toXML();
+			str += ((DataObject)  Services.getService().getModelMapping().get((String) children.get(i))).toXML();
 		}
 		str += "</children></dataobject>";
 		return str;

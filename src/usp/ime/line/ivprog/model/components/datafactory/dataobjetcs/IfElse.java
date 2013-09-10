@@ -54,19 +54,19 @@ public class IfElse extends CodeComposite {
 	}
 
 	public String toXML() {
-		Operation comp = (Operation) Services.getService().mapping().getObject(comparisonID);
+		Operation comp = (Operation) Services.getService().getModelMapping().get(comparisonID);
 		String str = "<dataobject class=\"ifelse\">" + "<id>" + getUniqueID()
 				+ "</id>" + "<comparison>" + comp.toXML()
 				+ "</comparison>" + "<ifchildren>";
 		
 		
 		for (int i = 0; i < getChildrenList().size(); i++) {
-			CodeComposite child = (CodeComposite) Services.getService().mapping().getObject((String) getChildrenList().get(i));
+			CodeComposite child = (CodeComposite) Services.getService().getModelMapping().get((String) getChildrenList().get(i));
 			str += child.toXML();
 		}
 		str += "</ifchildren><elsechildren>";
 		for (int i = 0; i < elseChildren.size(); i++) {
-			CodeComposite child = (CodeComposite) Services.getService().mapping().getObject((String) elseChildren.get(i));
+			CodeComposite child = (CodeComposite) Services.getService().getModelMapping().get((String) elseChildren.get(i));
 			str += child.toXML();
 		}
 		str += "</elsechildren></dataobject>";

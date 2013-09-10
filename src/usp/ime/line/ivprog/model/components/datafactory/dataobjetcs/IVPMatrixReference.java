@@ -22,7 +22,7 @@ public class IVPMatrixReference extends Reference {
 	 */
 	public void setReferencedMatrix(String referencedMatrix) {
 		referencedMatrixID = referencedMatrix;
-		IVPMatrix m = (IVPMatrix) Services.getService().mapping().getObject(referencedMatrixID);
+		IVPMatrix m = (IVPMatrix) Services.getService().getModelMapping().get(referencedMatrixID);
 		setReferencedName(m.getCollectionName());
 	}
 
@@ -60,8 +60,8 @@ public class IVPMatrixReference extends Reference {
 	}
 
 	public String toXML() {
-		Expression line = (Expression) Services.getService().mapping().getObject(lineExpID);
-		Expression column = (Expression) Services.getService().mapping().getObject(columnExpID);
+		Expression line = (Expression) Services.getService().getModelMapping().get(lineExpID);
+		Expression column = (Expression) Services.getService().getModelMapping().get(columnExpID);
 		String str = "<dataobject class\"ivpmatrixreference\">" + "<id>"
 				+ getUniqueID() + "</id>" + "<referencedname>" + referencedName
 				+ "</referencedname>" + "<type>" + referenceType + "</type>"

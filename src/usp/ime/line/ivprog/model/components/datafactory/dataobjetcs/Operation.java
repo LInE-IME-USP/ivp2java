@@ -74,8 +74,8 @@ public class Operation extends Expression {
 	}
 
 	public String toXML() {
-		Expression expA = (Expression) Services.getService().mapping().getObject(expressionAID);
-		Expression expB = (Expression) Services.getService().mapping().getObject(expressionBID);
+		Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
+		Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
 		String str = "<dataobject class=\"operation\"><id>" + getUniqueID()
 				+ "</id>" + "<operationtype>" + operationType
 				+ "<operationtype>" + "<expressionA>" + expA.toXML()

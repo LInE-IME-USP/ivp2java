@@ -31,7 +31,7 @@ public class Print extends CodeComponent {
 	}
 
 	public String toXML() {
-		Expression printable = (Expression) Services.getService().mapping().getObject(printableObjectID);
+		Expression printable = (Expression) Services.getService().getModelMapping().get(printableObjectID);
 		String str = "<dataobject class=\"print\"><id>" + getUniqueID()
 				+ "</id>" + "<printable>" + printable.toXML()
 				+ "</printable></dataobject>";

@@ -40,7 +40,7 @@ public class ReturnStatement extends CodeComponent {
 	}
 
 	public String toXML() {
-		Expression expToBeReturned = (Expression) Services.getService().mapping().getObject(expressionToBeReturnedID);
+		Expression expToBeReturned = (Expression) Services.getService().getModelMapping().get(expressionToBeReturnedID);
 		String str = "<dataobject class=\"returnstatement\">" + "<id>"
 				+ getUniqueID() + "</id>" + "<expression>"
 				+ expToBeReturned.toXML() + "</expression>"

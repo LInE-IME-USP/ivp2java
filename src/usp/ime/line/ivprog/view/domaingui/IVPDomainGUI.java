@@ -39,7 +39,7 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	}
 
 	public void update(Observable model, Object o) {
-		Object domainObject = Services.getService().renderer().paint(o);
+		Object domainObject = Services.getService().getRenderer().paint(o);
 		if (domainObject instanceof IVPFunctionBody) {
 			updateFunction((IVPFunctionBody) domainObject);
 		}

@@ -20,7 +20,7 @@ public class VariableReference extends Reference {
 	 */
 	public void setReferencedVariable(String referencedVar) {
 		referencedVariableID = referencedVar;
-		Variable var = (Variable) Services.getService().mapping().getObject(referencedVar);
+		Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
 		setReferencedName(var.getVariableName());
 	}
 

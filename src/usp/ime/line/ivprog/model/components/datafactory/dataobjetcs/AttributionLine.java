@@ -62,8 +62,8 @@ public class AttributionLine extends CodeComponent {
 	}
 
 	public String toXML() {
-		Variable varLeft = (Variable) Services.getService().mapping().getObject(leftVariable);
-		Expression rightExp = (Expression) Services.getService().mapping().getObject(rightExpression);
+		Variable varLeft = (Variable) Services.getService().getModelMapping().get(leftVariable);
+		Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
 		String str = "<dataobject class=\"attline\">" + "<id>" + getUniqueID()
 				+ "</id>" + "<variabletype>" + leftVariableType
 				+ "</variabletype>" + "<left>" + varLeft.toXML()

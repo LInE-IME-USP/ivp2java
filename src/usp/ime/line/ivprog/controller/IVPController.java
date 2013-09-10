@@ -55,5 +55,8 @@ public class IVPController {
 	public void deleteVariable(String escopeID, String id) {
 		program.removeVariable(escopeID, id);
 	}
+	public void changeVariableName(String id, String name){
+		program.changeVariableName(id, name);
+	}
 
 }

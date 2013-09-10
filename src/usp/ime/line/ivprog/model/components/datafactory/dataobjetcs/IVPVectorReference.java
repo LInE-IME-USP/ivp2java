@@ -21,7 +21,7 @@ public class IVPVectorReference extends Reference {
 	 */
 	public void setReferencedVector(String referencedVecID) {
 		referencedVectorID = referencedVecID;
-		IVPVector v = (IVPVector) Services.getService().mapping().getObject(referencedVecID);
+		IVPVector v = (IVPVector) Services.getService().getModelMapping().get(referencedVecID);
 		setReferencedName(v.getCollectionName());
 	}
 
@@ -42,7 +42,7 @@ public class IVPVectorReference extends Reference {
 	}
 
 	public String toXML() {
-		Expression posExp = (Expression) Services.getService().mapping().getObject(positionExpID);
+		Expression posExp = (Expression) Services.getService().getModelMapping().get(positionExpID);
 		String str = "<dataobject class=\"vectorreference\">" + "<id>"
 				+ getUniqueID() + "</id>" + "<referencedname>" + referencedName
 				+ "<referencedname>" + "<referencedtype>" + referenceType
