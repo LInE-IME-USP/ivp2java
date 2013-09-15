@@ -1,15 +1,31 @@
 package usp.ime.line.ivprog.controller;
 
+import ilm.framework.domain.DomainModel;
+
+import java.util.HashMap;
+
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
+import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
 
 public class IVPController {
 
 	private IVPProgram program = null;
 	private IVPDomainGUI gui = null;
+	private HashMap actionList;
+	
+	public IVPController(){
+		actionList = new HashMap();
+	}
 
+	public HashMap getActionList(){
+		return actionList;
+	}
+	
 	public IVPProgram getProgram() {
 		return program;
 	}
@@ -27,7 +43,6 @@ public class IVPController {
 	}
 
 	public void initializeModel() {
-		program.addObserver(gui);
 		program.initializeModel();
 	}
 
@@ -39,26 +54,44 @@ public class IVPController {
 	
 	}
 
-	public void addChild(CodeComposite container, short childType) {
+	public void addChild(String scopeID, short childType) {
 	
 	}
 
-	public void addParameter(Function f) {
+	public void addParameter(String scopeID) {
 
 	}
 
-	public void addVariable(Function f) {
-		program.createVariable(f);
+	public void addVariable(String scopeID) {
+		NewVariable newVar = (NewVariable) actionList.get("newvar");
+		newVar.setScopeID(scopeID);
+		newVar.execute();
 	}
 
-	public void deleteVariable(String escopeID, String id) {
-		program.removeVariable(escopeID, id);
+	public void deleteVariable(String scopeID, String id) {
+		DeleteVariable delVar = (DeleteVariable) actionList.get("delvar");
+		delVar.setScopeID(scopeID);
+		delVar.setVariableID(id);
+		delVar.execute();
 	}
+	
+	//TODO: DomainAction
 	public void changeVariableName(String id, String name){
 		program.changeVariableName(id, name);
 	}
+	
+	//TODO: DomainAction
 	public void changeVariableInitialValue(String id, String value){
 		program.changeVariableInitialValue(id, value);
+	}
+	
+	public void initDomainActionList(DomainModel model) {
+		NewVariable newVar = new NewVariable("newvar","newvar");
+		newVar.setDomainModel(model);
+		actionList.put("newvar", newVar);
+		DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
+		delVar.setDomainModel(model);
+		actionList.put("delvar", delVar);
 	}
 
 }

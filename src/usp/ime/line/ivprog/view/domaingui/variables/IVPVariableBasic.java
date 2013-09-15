@@ -1,21 +1,33 @@
 package usp.ime.line.ivprog.view.domaingui.variables;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import usp.ime.line.ivprog.controller.Services;
-import usp.ime.line.ivprog.view.components.editinplace.EditInPlace;
-import usp.ime.line.ivprog.view.components.editinplace.IValueListener;
+import java.awt.FlowLayout;
+
+import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
+
+import java.awt.Color;
 
 public class IVPVariableBasic extends RoundedJPanel {
 
@@ -47,7 +59,6 @@ public class IVPVariableBasic extends RoundedJPanel {
 		initEqualLabel();
 		initValueContainer();
 		initOptionsContainer();
-		
 		initBtns();
 	}
 
@@ -153,5 +164,4 @@ public class IVPVariableBasic extends RoundedJPanel {
 		id = uniqueID;
 	}
 
-	
 }

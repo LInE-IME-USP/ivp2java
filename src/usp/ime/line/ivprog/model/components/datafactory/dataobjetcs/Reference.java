@@ -1,6 +1,6 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
-import usp.ime.line.ivprog.model.ModelConstants;
+import usp.ime.line.ivprog.model.IVPConstants;
 
 public abstract class Reference extends CodeComponent {
 
@@ -28,7 +28,7 @@ public abstract class Reference extends CodeComponent {
 	/**
 	 * Return the reference type. It might be int, double, string or boolean.
 	 * 
-	 * @see ModelConstants
+	 * @see IVPConstants
 	 * @return the referenceType
 	 */
 	public short getReferenceType() {

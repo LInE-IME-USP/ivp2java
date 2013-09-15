@@ -1,5 +1,8 @@
 package usp.ime.line.ivprog.model;
 
+import ilm.framework.assignment.model.AssignmentState;
+import ilm.framework.domain.DomainModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +10,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
-import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
@@ -15,30 +19,29 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposit
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
-import usp.ime.line.ivprog.model.utils.IVPMapping;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-public class IVPProgram extends Observable {
+public class IVPProgram extends DomainModel {
 
 	private HashMap globalVariables = null;
 	private HashMap preDefinedFunctions = null;
-	private HashMap createdFunctions = null;
+	private HashMap functionMap = null;
 	private DataFactory dataFactory = null;
 	private int varCount = 0;
-	
 	private List variableListeners;
+	private List functionListeners;
 
 	public IVPProgram() {
 		globalVariables = new HashMap();
 		preDefinedFunctions = new HashMap();
-		createdFunctions = new HashMap();
+		functionMap = new HashMap();
 		dataFactory = new DataFactory();
 		variableListeners = new Vector();
+		functionListeners = new Vector();
 	}
 
 	public void initializeModel() {
-		createFunction(ResourceBundleIVP.getString("mainFunctionName"),
-				ModelConstants.FUNC_RETURN_VOID);
+		createFunction(ResourceBundleIVP.getString("mainFunctionName"), IVPConstants.FUNC_RETURN_VOID);
 	}
 
 	// Program actions
@@ -46,73 +49,79 @@ public class IVPProgram extends Observable {
 		Function f = (Function) dataFactory.createFunction();
 		f.setFunctionName(name);
 		f.setReturnType(functionType);
-		createdFunctions.put(name, f);
-		notifyCodeCompositeCreated(f);
+		functionMap.put(name, f);
+		Services.getService().getModelMapping().put(f.getUniqueID(), f);
+		for(int i = 0; i < functionListeners.size(); i++){
+			IFunctionListener listener = (IFunctionListener) functionListeners.get(i);
+			listener.functionCreated(f.getUniqueID());
+		}
 	}
 
 	public void removeFunction(String name) {
-		createdFunctions.remove(name);
+		functionMap.remove(name);
 	}
 
 	// Composite actions
-	public void addChild(CodeComposite target, CodeComponent child, int index) {
-		//target.addChildToIndex(child, index);
+	public void addChild() {
 	}
 
-	public void removeChild(CodeComposite target, int index) {
-		target.removeChildFromIndex(index);
+	public void removeChild() {
 	}
 
 	// Function actions
-	public void createParameter(String name, short type) {
+	public void createParameter(String scopeID) {
 
 	}
 
-	public void removeParameter(String name) {
+	public void removeParameter(String scopeID, String parameterID) {
 
 	}
 
-	public void createVariable(Function f) {
+	public String createVariable(String scopeID) {
+		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
 		Variable newVar = (Variable) dataFactory.createVariable();
-		newVar.setVariableName("newVar" + f.getVariableID());
-		newVar.setVariableType(ModelConstants.VAR_INT_TYPE);
+		newVar.setVariableName("newVar" + f.getVariableCount());
+		newVar.setVariableType(IVPConstants.VAR_INT_TYPE);
 		newVar.setEscopeID(f.getUniqueID());
-		
 		Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
-		
 		f.addLocalVariable(newVar.getUniqueID());
-		
-		
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.addedVariable(newVar.getUniqueID());
 		}
+		return newVar.getUniqueID();
 	}
 
-	public void removeVariable(String scopeID, String varID) {
+	public void removeVariable(String scopeID, String variableID) {
 		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
-		Variable v = (Variable) Services.getService().getModelMapping().get(varID);
-		f.removeLocalVariable(varID);
-		
+		f.removeLocalVariable(variableID);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
-			listener.removedVariable(v.getUniqueID());
+			listener.removedVariable(variableID);
+		}
+	}
+	
+	public void restoreVariable(String scopeID, String variableID){
+		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
+		f.addLocalVariable(variableID);
+		for(int i=0; i<variableListeners.size(); i++){
+			IVariableListener listener = (IVariableListener) variableListeners.get(i);
+			listener.addedVariable(variableID);
 		}
 	}
 
-	private void notifyCodeCompositeCreated(DataObject dataObject) {
-		Services.getService().getModelMapping().put(dataObject.getUniqueID(), dataObject);
-		setChanged();
-		notifyObservers(dataObject.getUniqueID());
-	}
-	
 	public void addVariableListener(IVariableListener listener){
 		variableListeners.add(listener);
 	}
+	
+	public void addFunctionListener(IFunctionListener listener){
+		functionListeners.add(listener);
+	}
+	
 	public void changeVariableName(String id, String name){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		v.setVariableName(name);
-		
+		System.out.println("Chegou aqui.");
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableName(id, name);
@@ -122,11 +131,18 @@ public class IVPProgram extends Observable {
 	public void changeVariableInitialValue(String id, String value){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		v.setVariableValue(value);
-		
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableValue(id, value);
 		}
+	}
+
+	public AssignmentState getNewAssignmentState() {
+		return new AssignmentState();
+	}
+
+	public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
+		return 0;
 	}
 
 }

@@ -2,8 +2,8 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import java.util.Vector;
 
-import usp.ime.line.ivprog.controller.Services;
-import usp.ime.line.ivprog.model.ModelConstants;
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.IVPConstants;
 
 public class Variable extends Expression {
 
@@ -35,7 +35,7 @@ public class Variable extends Expression {
 
 	/**
 	 * Return the variable type.
-	 * @see ModelConstants
+	 * @see IVPConstants
 	 * @return type
 	 */
 	public short getVariableType() {
@@ -44,7 +44,7 @@ public class Variable extends Expression {
 
 	/**
 	 * Set the variable type
-	 * @see ModelConstants
+	 * @see IVPConstants
 	 * @param varIntType
 	 */
 	public void setVariableType(short varIntType) {

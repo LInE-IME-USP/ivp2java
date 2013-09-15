@@ -1,23 +1,31 @@
 package usp.ime.line.ivprog.view.domaingui;
 
+import ilm.framework.domain.DomainGUI;
+import ilm.framework.domain.DomainModel;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import javax.swing.JTabbedPane;
 
-import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.IVPRenderer;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
 
 import javax.swing.border.EmptyBorder;
 
-public class IVPDomainGUI extends JPanel implements Observer {
+public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 
 	private static final long serialVersionUID = 4725912646391705263L;
 	private JPanel workspaceContainer;
@@ -26,6 +34,7 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	public IVPDomainGUI() {
 		setPreferredSize(new Dimension(800, 600));
 		setLayout(new BorderLayout(0, 0));
+		Services.getService().getController().getProgram().addFunctionListener(this);
 		initTabbedPane();
 	}
 
@@ -39,12 +48,7 @@ public class IVPDomainGUI extends JPanel implements Observer {
 	}
 
 	public void update(Observable model, Object o) {
-		Object domainObject = Services.getService().getRenderer().paint(o);
-		if (domainObject instanceof IVPFunctionBody) {
-			updateFunction((IVPFunctionBody) domainObject);
-		}
-		revalidate();
-		repaint();
+		//Not going to be used anymore
 	}
 
 	// update function tabs
@@ -67,6 +71,19 @@ public class IVPDomainGUI extends JPanel implements Observer {
 				tabbedPane.add(function, i);
 			}
 		}
+	}
+
+	protected void initDomainGUI() {
+
+	}
+
+	public Vector getSelectedObjects() {
+		return null;
+	}
+
+	public void functionCreated(String id) {
+		System.out.println(id);
+		updateFunction((IVPFunctionBody) Services.getService().getRenderer().paint(id));
 	}
 
 }

@@ -2,7 +2,7 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import java.awt.Point;
 
-import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.Services;
 
 public class IVPMatrix extends Collection {
 

@@ -2,23 +2,23 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import java.util.Vector;
 
-import usp.ime.line.ivprog.controller.Services;
-import usp.ime.line.ivprog.model.ModelConstants;
-import usp.ime.line.ivprog.model.utils.IVPObservableMap;
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 
 public class Function extends CodeComposite {
 
 	private String functionName = "";
 	private short returnType = -1;
-	private IVPObservableMap parameters;
-	private IVPObservableMap localVariables;
+	private IVPVariableMap parameters;
+	private IVPVariableMap localVariables;
 	private int variableCount = 0;
 	private Vector references;
 	private boolean isMainFunction = false;
 
 	public Function() {
-		parameters = new IVPObservableMap(false);
-		localVariables = new IVPObservableMap(true);
+		parameters = new IVPVariableMap(false);
+		localVariables = new IVPVariableMap(true);
 		references = new Vector();
 	}
 
@@ -42,7 +42,7 @@ public class Function extends CodeComposite {
 	 * Return the parameters map for this function.
 	 * @return the parameters map
 	 */
-	public IVPObservableMap getParameterMap() {
+	public IVPVariableMap getParameterMap() {
 		return parameters;
 	}
 
@@ -50,7 +50,7 @@ public class Function extends CodeComposite {
 	 * Set the parameters list for this function.
 	 * @param paramMap the parameter map to set
 	 */
-	public void setParameterMap(IVPObservableMap paramMap) {
+	public void setParameterMap(IVPVariableMap paramMap) {
 		parameters = paramMap;
 	}
 
@@ -58,7 +58,7 @@ public class Function extends CodeComposite {
 	 * Return the local variables list.
 	 * @return the localVariableList
 	 */
-	public IVPObservableMap getLocalVariableMap() {
+	public IVPVariableMap getLocalVariableMap() {
 		return localVariables;
 	}
 
@@ -66,7 +66,7 @@ public class Function extends CodeComposite {
 	 * Set the local variables list.
 	 * @param localVarMap the localVariableList to set
 	 */
-	public void setLocalVariableMap(IVPObservableMap localVarMap) {
+	public void setLocalVariableMap(IVPVariableMap localVarMap) {
 		localVariables = localVarMap;
 	}
 
@@ -86,7 +86,7 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Return the return type of this function.
-	 * @see ModelConstants
+	 * @see IVPConstants
 	 * @return the returnType
 	 */
 	public short getReturnType() {
@@ -95,7 +95,7 @@ public class Function extends CodeComposite {
 
 	/**
 	 * Set the return type of this function.
-	 * @see ModelConstants
+	 * @see IVPConstants
 	 * @param rType
 	 *            the returnType to set
 	 */
@@ -208,7 +208,7 @@ public class Function extends CodeComposite {
 	}
 
 	// Used when a new variable is generated
-	public int getVariableID() {
+	public int getVariableCount() {
 		return variableCount;
 	}
 

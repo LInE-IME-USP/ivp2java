@@ -18,13 +18,13 @@ import javax.swing.JButton;
 
 import com.l2fprod.common.demo.TaskPaneMain;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.controller.IVPController;
-import usp.ime.line.ivprog.controller.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
-import usp.ime.line.ivprog.model.utils.IVPObservableMap;
-import usp.ime.line.ivprog.view.domaingui.IVPFunctionBody;
+import usp.ime.line.ivprog.model.utils.IVPVariableMap;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -45,18 +45,14 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	private static final long serialVersionUID = -2214975678822644250L;
 	private JPanel container;
 	private JButton addVarBtn;
-	private PanelObserver varPanel;
+	private RoundedJPanel varPanel;
 	private JButton addParamBtn;
-	private PanelObserver paramPanel;
-	private Function f;
+	private RoundedJPanel paramPanel;
+	private String scopeID;
 
-	public IVPVariablePanel(Function function, boolean isMain) {
-		f = function;
+	public IVPVariablePanel(String scopeID, boolean isMain) {
+		this.scopeID = scopeID;
 		initialization(isMain);
-		f.getLocalVariableMap().addObserver(varPanel);
-		if (paramPanel != null)
-			f.getParameterMap().addObserver(paramPanel);
-		
 		Services.getService().getController().getProgram().addVariableListener(this);
 	}
 
@@ -77,7 +73,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initParamPanel() {
-		paramPanel = new PanelObserver();
+		paramPanel = new RoundedJPanel();
 		paramPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, paramPanel,
 				paramPanel.getClass(), 1));
 		GridBagConstraints gbc_paramPanel = new GridBagConstraints();
@@ -92,7 +88,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		Action action = new AbstractAction(
 				ResourceBundleIVP.getString("addParamBtn")) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().addParameter(f);
+				Services.getService().getController().addParameter(scopeID);
 			}
 		};
 		action.putValue(
@@ -115,7 +111,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initVarPanel() {
-		varPanel = new PanelObserver();
+		varPanel = new RoundedJPanel();
 		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel,
 				varPanel.getClass(), 1));
 		GridBagConstraints gbc_varPanel = new GridBagConstraints();
@@ -130,7 +126,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		Action action = new AbstractAction(
 				ResourceBundleIVP.getString("addVarBtn")) {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().addVariable(f);
+				Services.getService().getController().addVariable(scopeID);
 			}
 		};
 		action.putValue(
@@ -163,65 +159,35 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		container.setLayout(gbl_container);
 	}
 
-	private class PanelObserver extends RoundedJPanel implements Observer {
-
-		public void update(Observable arg0, Object arg1) {
-			Vector v = ((IVPObservableMap) arg0).toVector();
-			if (((IVPObservableMap) arg0).isLocalVarMap()) {
-				/*varPanel.removeAll();
-				for (int i = 0; i < v.size(); i++) {
-					varPanel.add(Services.getService().getRenderer()
-							.paint(((String) v.get(i))));
-					
-				}
-				varPanel.revalidate();
-				varPanel.repaint();*/
-			} else {
-				paramPanel.removeAll();
-				for (int i = 0; i < v.size(); i++) {
-					paramPanel.add(Services.getService().getRenderer()
-							.paint(((String) v.get(i))));
-				}
-				paramPanel.revalidate();
-				paramPanel.repaint();
-			}
-
-		}
-	}
-
-	@Override
 	public void addedVariable(String id) {
-		varPanel.add(Services.getService().getRenderer()
-				.paint(id));
+		varPanel.add(Services.getService().getRenderer().paint(id));
 		varPanel.revalidate();
 		varPanel.repaint();
 	}
 
-	@Override
 	public void changeVariable(String id) {
 		System.out.println("variavel alterada");
-		
 	}
 
-	@Override
 	public void removedVariable(String id) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		if(variable!=null){
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService()
+				.getViewMapping().get(id);
+		if (variable != null) {
 			varPanel.remove(variable);
 		}
 		varPanel.revalidate();
 		varPanel.repaint();
 	}
 
-	@Override
 	public void changeVariableName(String id, String name) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		if(variable!=null){
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService()
+				.getViewMapping().get(id);
+		if (variable != null) {
 			variable.setVariableName(name);
 		}
+
 	}
 
-	@Override
 	public void changeVariableValue(String id, String value) {
 		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if(variable!=null){

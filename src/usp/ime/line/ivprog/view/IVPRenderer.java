@@ -2,13 +2,12 @@ package usp.ime.line.ivprog.view;
 
 import javax.swing.JComponent;
 
-import usp.ime.line.ivprog.controller.Services;
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
-import usp.ime.line.ivprog.model.utils.IVPMapping;
-import usp.ime.line.ivprog.view.domaingui.IVPFunctionBody;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPRenderer {
@@ -16,6 +15,7 @@ public class IVPRenderer {
 	public JComponent paint(Object objectKey) {
 		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
 		if (object instanceof Function) {
+			System.out.println("DEVERIA TER IDENTIFICADO UMA FUNÇÃO");
 			return renderFunction((Function) object);
 		} else if (object instanceof Variable) {
 			return renderVariable((Variable) object);
@@ -27,9 +27,9 @@ public class IVPRenderer {
 		IVPFunctionBody function;
 		if (f.getFunctionName().equals(
 				ResourceBundleIVP.getString("mainFunctionName"))) {
-			function = new IVPFunctionBody(f, true);
+			function = new IVPFunctionBody(f.getUniqueID(), true);
 		} else
-			function = new IVPFunctionBody(f, false);
+			function = new IVPFunctionBody(f.getUniqueID(), false);
 		// parameters and variables need to be rendered
 		function.setName(f.getFunctionName());
 		function.setType(f.getReturnType());
