@@ -118,14 +118,16 @@ public class IVPProgram extends DomainModel {
 		functionListeners.add(listener);
 	}
 	
-	public void changeVariableName(String id, String name){
+	public String changeVariableName(String id, String name){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
+		String lastName = v.getVariableName();
 		v.setVariableName(name);
 		System.out.println("Chegou aqui.");
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableName(id, name);
 		}
+		return lastName;
 	}
 	
 	public void changeVariableInitialValue(String id, String value){

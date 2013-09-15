@@ -7,6 +7,7 @@ import java.util.HashMap;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
@@ -77,7 +78,10 @@ public class IVPController {
 	
 	//TODO: DomainAction
 	public void changeVariableName(String id, String name){
-		program.changeVariableName(id, name);
+		ChangeVariableName changeVarName = (ChangeVariableName) actionList.get("changeVarName");
+		changeVarName.setVariableID(id);
+		changeVarName.setNewName(name);
+		changeVarName.execute();
 	}
 	
 	//TODO: DomainAction
@@ -92,6 +96,10 @@ public class IVPController {
 		DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
 		delVar.setDomainModel(model);
 		actionList.put("delvar", delVar);
+		ChangeVariableName changeVarName = new ChangeVariableName("changeVarName", "changeVarName");
+		changeVarName.setDomainModel(model);
+		actionList.put("changeVarName", changeVarName);
 	}
 
 }
+;
