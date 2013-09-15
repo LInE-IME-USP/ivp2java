@@ -1,21 +1,28 @@
 package usp.ime.line.ivprog.model.components.datafactory.editinplace;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
 
 import java.awt.FlowLayout;
 
 public class EditInPlace extends JPanel {
+	
 	private JLabel nameLabel;
 	private JPanel nameContainer;
 	private JTextField nameField;
@@ -63,10 +70,22 @@ public class EditInPlace extends JPanel {
 			}
 		});
 		nameField.setVisible(false);
+		initInputMap();
 		add(nameField);
-		
 	}
 	
+	private void initInputMap() {
+		AbstractAction editDone = new AbstractAction(){
+			public void actionPerformed(ActionEvent ae) {
+				nameField.setFocusable(false);
+				nameField.setFocusable(true);
+			}
+		};
+		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER), editDone);
+		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ESCAPE), editDone);
+		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_TAB), editDone);
+	}
+
 	public void setValueListener(IValueListener listener){
 		valueListener = listener;
 	}
@@ -93,6 +112,7 @@ public class EditInPlace extends JPanel {
 			}
 		}	
 	}
+	
 	public void setValue(String name){
 		nameField.setText(name);
 		nameLabel.setText(name);
