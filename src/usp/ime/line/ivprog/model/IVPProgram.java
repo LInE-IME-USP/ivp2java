@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposit
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPProgram extends DomainModel {
@@ -27,7 +28,6 @@ public class IVPProgram extends DomainModel {
 	private HashMap preDefinedFunctions = null;
 	private HashMap functionMap = null;
 	private DataFactory dataFactory = null;
-	private int varCount = 0;
 	private List variableListeners;
 	private List functionListeners;
 
@@ -61,8 +61,16 @@ public class IVPProgram extends DomainModel {
 		functionMap.remove(name);
 	}
 
-	// Composite actions
-	public void addChild() {
+	public String newChild(String containerID, short classID) {
+		CodeComposite codeBlock = null;
+		if(classID == IVPConstants.MODEL_WHILE){
+			codeBlock = new While();
+		}
+		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
+		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		container.addChild(codeBlock.getUniqueID());
+		System.out.println("O While foi criado e colocado no lugar certo. Só preciso atualizar a UI");
+		return codeBlock.getUniqueID();
 	}
 
 	public void removeChild() {

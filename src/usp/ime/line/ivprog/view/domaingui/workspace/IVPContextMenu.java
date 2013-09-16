@@ -75,16 +75,10 @@ public class IVPContextMenu extends JPanel {
 		writeBtn = new JButton("Escreva");
 		writeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Services.getService()
-						.getController()
-						.addChild(container.getCodeComposite(),
-								IVPConstants.MODEL_WRITE);
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WRITE);
 				hideMenu();
 			}
 		});
-		// writeBtn.setIcon(new
-		// ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
-		// writeBtn.setUI(new IconButtonUI());
 		buttonsContainer.add(writeBtn);
 	}
 
@@ -92,16 +86,10 @@ public class IVPContextMenu extends JPanel {
 		forBtn = new JButton("Faça N vezes");
 		forBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Services.getService()
-						.getController()
-						.addChild(container.getCodeComposite(),
-								IVPConstants.MODEL_FOR);
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_FOR);
 				hideMenu();
 			}
 		});
-		// forBtn.setIcon(new
-		// ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
-		// forBtn.setUI(new IconButtonUI());
 		buttonsContainer.add(forBtn);
 	}
 
@@ -109,16 +97,10 @@ public class IVPContextMenu extends JPanel {
 		ifElseBtn = new JButton("Se/Senão");
 		ifElseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Services.getService()
-						.getController()
-						.addChild(container.getCodeComposite(),
-								IVPConstants.MODEL_IFELSE);
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_IFELSE);
 				hideMenu();
 			}
 		});
-		// ifElseBtn.setIcon(new
-		// ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
-		// ifElseBtn.setUI(new IconButtonUI());
 		buttonsContainer.add(ifElseBtn);
 	}
 
@@ -126,16 +108,10 @@ public class IVPContextMenu extends JPanel {
 		whileBtn = new JButton("Enquanto");
 		whileBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Services.getService()
-						.getController()
-						.addChild(container.getCodeComposite(),
-								IVPConstants.MODEL_WHILE);
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WHILE);
 				hideMenu();
 			}
 		});
-		// plusBtn.setIcon(new
-		// ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
-		// plusBtn.setUI(new IconButtonUI());
 		buttonsContainer.add(whileBtn);
 	}
 

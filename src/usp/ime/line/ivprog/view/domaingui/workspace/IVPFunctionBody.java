@@ -27,8 +27,6 @@ public class IVPFunctionBody extends JPanel {
 		add(variablesPanel, BorderLayout.NORTH);
 		canvas = new IVPContainer(false, functionID);
 		add(canvas, BorderLayout.CENTER);
-		
-		
 	}
 
 	public String getName() {

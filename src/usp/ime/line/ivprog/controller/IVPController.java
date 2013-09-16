@@ -4,11 +4,13 @@ import ilm.framework.domain.DomainModel;
 
 import java.util.HashMap;
 
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
+import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
@@ -18,9 +20,13 @@ public class IVPController {
 	private IVPProgram program = null;
 	private IVPDomainGUI gui = null;
 	private HashMap actionList;
+
+	//sera que eh aqui mesmo?
+	private HashMap codeListener;
 	
 	public IVPController(){
 		actionList = new HashMap();
+		codeListener = new HashMap();
 	}
 
 	public HashMap getActionList(){
@@ -55,8 +61,12 @@ public class IVPController {
 	
 	}
 
-	public void addChild(String scopeID, short childType) {
-	
+	public void addChild(String containerID, short childType) {
+		NewChild newChild = (NewChild) actionList.get("newchild");
+		newChild.setClassID(childType);
+		newChild.setContainerID(containerID);
+		newChild.execute();
+		
 	}
 
 	public void addParameter(String scopeID) {
@@ -76,7 +86,6 @@ public class IVPController {
 		delVar.execute();
 	}
 	
-	//TODO: DomainAction
 	public void changeVariableName(String id, String name){
 		ChangeVariableName changeVarName = (ChangeVariableName) actionList.get("changeVarName");
 		changeVarName.setVariableID(id);
@@ -99,6 +108,13 @@ public class IVPController {
 		ChangeVariableName changeVarName = new ChangeVariableName("changeVarName", "changeVarName");
 		changeVarName.setDomainModel(model);
 		actionList.put("changeVarName", changeVarName);
+		NewChild newChild = new NewChild("newchild", "newchild");
+		newChild.setDomainModel(model);
+		actionList.put("newchild", newChild);
+	}
+	
+	public void addComponentListener(ICodeListener listener, String id){
+		
 	}
 
 }

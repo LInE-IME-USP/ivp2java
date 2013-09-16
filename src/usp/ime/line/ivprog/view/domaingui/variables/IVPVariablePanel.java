@@ -180,8 +180,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	public void changeVariableName(String id, String name) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService()
-				.getViewMapping().get(id);
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if (variable != null) {
 			variable.setVariableName(name);
 		}
