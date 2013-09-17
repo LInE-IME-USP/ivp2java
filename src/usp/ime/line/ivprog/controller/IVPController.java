@@ -2,8 +2,10 @@ package usp.ime.line.ivprog.controller;
 
 import ilm.framework.domain.DomainModel;
 
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
@@ -66,7 +68,8 @@ public class IVPController {
 		newChild.setClassID(childType);
 		newChild.setContainerID(containerID);
 		newChild.execute();
-		
+		ICodeListener listener = (ICodeListener) codeListener.get(containerID);
+		listener.childAdded(newChild.getObjectID());
 	}
 
 	public void addParameter(String scopeID) {
@@ -114,6 +117,10 @@ public class IVPController {
 	}
 	
 	public void addComponentListener(ICodeListener listener, String id){
+		codeListener.put(id, listener);
+	}
+
+	public void removeChild(String containerID, String childID) {
 		
 	}
 

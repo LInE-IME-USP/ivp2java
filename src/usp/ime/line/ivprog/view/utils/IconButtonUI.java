@@ -1,8 +1,12 @@
 package usp.ime.line.ivprog.view.utils;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
@@ -21,6 +25,7 @@ import javax.swing.plaf.IconUIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 public class IconButtonUI extends BasicButtonUI {
+	
 	private Icon baseIcon;
 	private Icon darkerIcon;
 	private Icon brighterIcon;
@@ -45,6 +50,7 @@ public class IconButtonUI extends BasicButtonUI {
 		b.setBorderPainted(false);
 		b.setRolloverEnabled(true);
 		b.setBorder(new EmptyBorder(0, 0, 0, 0));
+		b.addMouseListener(new HandCursor());
 		prepareIcons(b);
 	}
 
@@ -164,6 +170,17 @@ public class IconButtonUI extends BasicButtonUI {
 		};
 		ImageProducer prod = new FilteredImageSource(img.getSource(), filter);
 		return Toolkit.getDefaultToolkit().createImage(prod);
+	}
+
+	static class HandCursor extends MouseAdapter {
+		public void mouseEntered(MouseEvent e) {
+			e.getComponent().setCursor(
+					Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
+
+		public void mouseExited(MouseEvent e) {
+			e.getComponent().setCursor(Cursor.getDefaultCursor());
+		}
 	}
 
 }

@@ -6,21 +6,31 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPWhile;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPRenderer {
 
 	public JComponent paint(Object objectKey) {
 		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
+		System.out.println("DataObject "+object);
+		
 		if (object instanceof Function) {
 			System.out.println("DEVERIA TER IDENTIFICADO UMA FUNÇÃO");
 			return renderFunction((Function) object);
 		} else if (object instanceof Variable) {
 			return renderVariable((Variable) object);
+		} else if (object instanceof While){
+			return renderWhile((While)object);
 		}
 		return null;
+	}
+
+	private JComponent renderWhile(While object) {
+		return new IVPWhile();
 	}
 
 	public IVPFunctionBody renderFunction(Function f) {

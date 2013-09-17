@@ -62,14 +62,15 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public String newChild(String containerID, short classID) {
+		
+		
 		CodeComposite codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
-			codeBlock = new While();
+			codeBlock = (CodeComposite) dataFactory.createWhile();
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		container.addChild(codeBlock.getUniqueID());
-		System.out.println("O While foi criado e colocado no lugar certo. Só preciso atualizar a UI");
 		return codeBlock.getUniqueID();
 	}
 

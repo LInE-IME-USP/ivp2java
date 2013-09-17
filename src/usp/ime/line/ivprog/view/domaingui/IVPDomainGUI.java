@@ -82,7 +82,6 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 	}
 
 	public void functionCreated(String id) {
-		System.out.println(id);
 		updateFunction((IVPFunctionBody) Services.getService().getRenderer().paint(id));
 	}
 
