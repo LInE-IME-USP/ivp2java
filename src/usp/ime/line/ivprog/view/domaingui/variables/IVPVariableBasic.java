@@ -3,7 +3,9 @@ package usp.ime.line.ivprog.view.domaingui.variables;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 import java.awt.FlowLayout;
@@ -12,6 +14,7 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -22,6 +25,7 @@ import javax.swing.JButton;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
@@ -33,19 +37,22 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private JPanel valueContainer;
 	private JLabel equalLabel;
-	
+
 	private EditInPlace name;
 	private EditInPlace value;
-	
+
 	private JLabel valueLabel;
-	
-	
+
 	private JPanel optionsContainer;
 	private JButton configBtn;
 	private JButton excludeBtn;
 	private String escopeID;
 	private String id;
+
+	private JPopupMenu configMenu;
 	
+	private Variable variable; 
+
 	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
 
 	public IVPVariableBasic() {
@@ -60,6 +67,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 		initValueContainer();
 		initOptionsContainer();
 		initBtns();
+		initConfigMenu();
 	}
 
 	private void initLayout() {
@@ -88,7 +96,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private void initDeleteBtn() {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().deleteVariable(escopeID, id);
+				Services.getService().getController()
+						.deleteVariable(escopeID, id);
 			}
 		};
 		action.putValue(
@@ -117,7 +126,33 @@ public class IVPVariableBasic extends RoundedJPanel {
 				"Adiciona um novo parâmetro à função:" + "Principal");
 		configBtn = new JButton(action);
 		configBtn.setUI(new IconButtonUI());
+		configBtn.addActionListener(new ConfigBtnActionListener());
+
 		optionsContainer.add(configBtn);
+	}
+
+	private void initConfigMenu() {
+		configMenu = new JPopupMenu();
+		ActionListener al = new ConfigTypeActionListener();
+		
+		JMenuItem menuItemInteira = new JMenuItem("Inteira");
+		configMenu.add(menuItemInteira);
+		menuItemInteira.addActionListener(al);
+		
+		
+		JMenuItem menuItemReal = new JMenuItem("Real");
+		configMenu.add(menuItemReal);
+		menuItemReal.addActionListener(al);
+		
+		JMenuItem menuItemBoolean = new JMenuItem("Verdadeiro/Falsa");
+		configMenu.add(menuItemBoolean);
+		menuItemBoolean.addActionListener(al);
+		
+		configMenu.addSeparator();
+		
+		JMenuItem menuItemVetor = new JMenuItem("Vetor");
+		configMenu.add(menuItemVetor);
+		menuItemVetor.addActionListener(al);
 	}
 
 	private void initValueContainer() {
@@ -126,42 +161,90 @@ public class IVPVariableBasic extends RoundedJPanel {
 		value.setValueListener(new IValueListener() {
 			@Override
 			public void valueChanged(String value) {
-				Services.getService().getController().changeVariableInitialValue(id, value);
+				Services.getService().getController()
+						.changeVariableInitialValue(id, value);
 			}
 		});
 		add(value);
-		
+
 	}
 
-	private void initName(){
+	private void initName() {
 		name = new EditInPlace();
 		name.setValueListener(new IValueListener() {
 			@Override
 			public void valueChanged(String value) {
-				Services.getService().getController().changeVariableName(id, value);
+				Services.getService().getController()
+						.changeVariableName(id, value);
 			}
 		});
 		add(name);
 	}
-	
+
 	private void initEqualLabel() {
 		equalLabel = new JLabel("=");
 		add(equalLabel);
+	}
+
+	public void setVariableType(short type){
+		variable.setVariableType(type);
+		changeVariableType();
 	}
 	
 	public void setVariableName(String name) {
 		this.name.setValue(name);
 	}
-	public void setVariableValue(String value){
+
+	public void setVariableValue(String value) {
 		this.value.setValue(value);
 	}
-	
+
 	public void setEscope(String escope) {
 		escopeID = escope;
 	}
-	
+
 	public void setID(String uniqueID) {
 		id = uniqueID;
+		variable = (Variable) Services.getService().getModelMapping().get(uniqueID);
+		changeVariableType();
+	}
+	
+	private void changeVariableType(){
+		if(variable.getVariableType()==Variable.TYPE_INTEGER){
+			value.setVisible(true);
+		}else if(variable.getVariableType()==Variable.TYPE_DOUBLE){
+			
+		}else if(variable.getVariableType()==Variable.TYPE_STRING){
+			
+		}else if(variable.getVariableType()==Variable.TYPE_BOOLEAN){
+			value.setVisible(false);
+		}
 	}
 
+	private class ConfigBtnActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			configMenu.show(configBtn, 0, configBtn.getHeight());
+			configMenu.requestFocus();
+		}
+
+	}
+	private class ConfigTypeActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Popup menu item ["
+		            + e.getActionCommand() + "] was pressed.");
+			
+			String command = e.getActionCommand();
+			if (command.equals("Inteira")) {
+				System.out.println("set inteira");
+			}else if(command.equals("Verdadeiro/Falsa")){
+				Services.getService().getController().changeVariableType(id, Variable.TYPE_BOOLEAN);
+			}else if(command.equals("")){
+				
+			}
+		}
+		
+	}
 }

@@ -11,6 +11,7 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
+import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
@@ -96,6 +97,13 @@ public class IVPController {
 		changeVarName.execute();
 	}
 	
+	public void changeVariableType(String id, short type){
+		ChangeVariableType changeVarType = (ChangeVariableType) actionList.get("changeVarType");
+		changeVarType.setVariableID(id);
+		changeVarType.setNewType(type);
+		changeVarType.execute();
+	}
+	
 	//TODO: DomainAction
 	public void changeVariableInitialValue(String id, String value){
 		program.changeVariableInitialValue(id, value);
@@ -108,9 +116,15 @@ public class IVPController {
 		DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
 		delVar.setDomainModel(model);
 		actionList.put("delvar", delVar);
+		
 		ChangeVariableName changeVarName = new ChangeVariableName("changeVarName", "changeVarName");
 		changeVarName.setDomainModel(model);
 		actionList.put("changeVarName", changeVarName);
+		
+		ChangeVariableType changeVarType = new ChangeVariableType("changeVarType", "changeVarType");
+		changeVarType.setDomainModel(model);
+		actionList.put("changeVarType", changeVarType);
+		
 		NewChild newChild = new NewChild("newchild", "newchild");
 		newChild.setDomainModel(model);
 		actionList.put("newchild", newChild);
