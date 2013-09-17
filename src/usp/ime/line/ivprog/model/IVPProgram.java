@@ -89,7 +89,8 @@ public class IVPProgram extends DomainModel {
 		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
 		Variable newVar = (Variable) dataFactory.createVariable();
 		newVar.setVariableName("newVar" + f.getVariableCount());
-		newVar.setVariableType(IVPConstants.VAR_INT_TYPE);
+		//newVar.setVariableType(IVPConstants.VAR_INT_TYPE);
+		newVar.setVariableType(Variable.TYPE_INTEGER);
 		newVar.setEscopeID(f.getUniqueID());
 		Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
 		f.addLocalVariable(newVar.getUniqueID());
@@ -137,7 +138,17 @@ public class IVPProgram extends DomainModel {
 		}
 		return lastName;
 	}
-	
+	public short changeVariableType(String id, short type){
+		Variable v = (Variable) Services.getService().getModelMapping().get(id);
+		short lastType = v.getVariableType();
+		v.setVariableType(type);
+		
+		for(int i=0; i<variableListeners.size(); i++){
+			IVariableListener listener = (IVariableListener) variableListeners.get(i);
+			listener.changeVariableType(id, type);
+		}
+		return lastType;
+	}
 	public void changeVariableInitialValue(String id, String value){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		v.setVariableValue(value);

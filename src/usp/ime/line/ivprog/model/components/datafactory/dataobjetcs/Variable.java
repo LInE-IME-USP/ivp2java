@@ -13,6 +13,11 @@ public class Variable extends Expression {
 	private Vector variableReferenceList;
 	private String escopeID;
 
+	public static short TYPE_INTEGER = 0;
+	public static short TYPE_DOUBLE = 1;
+	public static short TYPE_STRING = 2;
+	public static short TYPE_BOOLEAN = 3;
+	
 	public Variable(){
 		variableReferenceList = new Vector();
 	}

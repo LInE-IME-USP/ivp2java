@@ -194,4 +194,12 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 	}
 
+	@Override
+	public void changeVariableType(String id, short type) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		if(variable!=null){
+			variable.setVariableType(type);
+		}
+	}
+
 }
