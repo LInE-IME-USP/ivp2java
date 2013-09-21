@@ -13,7 +13,6 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPWhile;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPRenderer {
-	//teste
 	public JComponent paint(Object objectKey) {
 		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
 		System.out.println("DataObject "+object);
