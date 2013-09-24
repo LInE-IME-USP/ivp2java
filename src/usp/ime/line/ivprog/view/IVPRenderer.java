@@ -15,10 +15,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class IVPRenderer {
 	public JComponent paint(Object objectKey) {
 		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
-		System.out.println("DataObject "+object);
-		
 		if (object instanceof Function) {
-			System.out.println("DEVERIA TER IDENTIFICADO UMA FUNÇÃO");
 			return renderFunction((Function) object);
 		} else if (object instanceof Variable) {
 			return renderVariable((Variable) object);
@@ -29,19 +26,22 @@ public class IVPRenderer {
 	}
 
 	private JComponent renderWhile(While object) {
-		return new IVPWhile();
+		IVPWhile w = new IVPWhile();
+		w.setThisID(object.getUniqueID());
+		w.setParentID(object.getEscope());
+		return w;
 	}
 
 	public IVPFunctionBody renderFunction(Function f) {
 		IVPFunctionBody function;
-		if (f.getFunctionName().equals(
-				ResourceBundleIVP.getString("mainFunctionName"))) {
+		if (f.getFunctionName().equals(ResourceBundleIVP.getString("mainFunctionName"))) {
 			function = new IVPFunctionBody(f.getUniqueID(), true);
 		} else
 			function = new IVPFunctionBody(f.getUniqueID(), false);
 		// parameters and variables need to be rendered
 		function.setName(f.getFunctionName());
 		function.setType(f.getReturnType());
+		Services.getService().getViewMapping().put(f.getUniqueID(), function);
 		return function;
 	}
 

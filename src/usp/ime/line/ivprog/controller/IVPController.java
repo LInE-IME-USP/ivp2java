@@ -15,6 +15,7 @@ import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
+import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
 
@@ -30,6 +31,10 @@ public class IVPController {
 	public IVPController(){
 		actionList = new HashMap();
 		codeListener = new HashMap();
+	}
+	
+	public HashMap getCodeListener(){
+		return codeListener;
 	}
 
 	public HashMap getActionList(){
@@ -113,6 +118,7 @@ public class IVPController {
 		NewVariable newVar = new NewVariable("newvar","newvar");
 		newVar.setDomainModel(model);
 		actionList.put("newvar", newVar);
+		
 		DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
 		delVar.setDomainModel(model);
 		actionList.put("delvar", delVar);
@@ -128,6 +134,10 @@ public class IVPController {
 		NewChild newChild = new NewChild("newchild", "newchild");
 		newChild.setDomainModel(model);
 		actionList.put("newchild", newChild);
+		
+		RemoveChild removeChild = new RemoveChild("removechild", "removechild");
+		removeChild.setDomainModel(model);
+		actionList.put("removechild", removeChild);
 	}
 	
 	public void addComponentListener(ICodeListener listener, String id){
@@ -135,7 +145,7 @@ public class IVPController {
 	}
 
 	public void removeChild(String containerID, String childID) {
-		
+		RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
 	}
 
 }

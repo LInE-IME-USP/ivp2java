@@ -103,4 +103,9 @@ public class IVPContainer extends JPanel implements ICodeListener {
 		addChild(c);
 	}
 
+	public void childRemoved(String childID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

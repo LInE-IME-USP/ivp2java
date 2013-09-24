@@ -36,9 +36,10 @@ public abstract class CodeComposite extends CodeComponent {
 	 * Remove the specified child from the children vector and return it.
 	 * @param child
 	 */
-	public String removeChild(String childID) {
+	public int removeChild(String childID) {
+		int index = children.indexOf(childID);
 		children.remove(childID);
-		return childID;
+		return index;
 	}
 
 	/**

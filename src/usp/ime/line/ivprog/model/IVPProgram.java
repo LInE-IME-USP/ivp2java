@@ -11,6 +11,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
@@ -62,19 +63,25 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public String newChild(String containerID, short classID) {
-		
-		
 		CodeComposite codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
 			codeBlock = (CodeComposite) dataFactory.createWhile();
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		codeBlock.setEscopeID(containerID);
 		container.addChild(codeBlock.getUniqueID());
 		return codeBlock.getUniqueID();
 	}
 
-	public void removeChild() {
+	public int removeChild(String containerID, String childID) {
+		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		int index = 0;
+		index = parent.removeChild(childID);
+		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
+		
+		codeListener.childAdded(childID);
+		return index;
 	}
 
 	// Function actions
@@ -132,7 +139,6 @@ public class IVPProgram extends DomainModel {
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		String lastName = v.getVariableName();
 		v.setVariableName(name);
-		System.out.println("Chegou aqui.");
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableName(id, name);

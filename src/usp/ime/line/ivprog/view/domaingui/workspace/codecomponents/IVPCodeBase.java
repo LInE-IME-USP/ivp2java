@@ -1,11 +1,13 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -42,7 +44,9 @@ public class IVPCodeBase extends RoundedJPanel{
 
 	private void initMainPanel() {
 		mainPanel = new JPanel();
+		mainPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		mainPanel.setOpaque(false);
+		mainPanel.setVisible(false);
 		add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 	}
@@ -101,6 +105,17 @@ public class IVPCodeBase extends RoundedJPanel{
 	
 	protected void addHeader(JComponent head){
 		header.add(head, BorderLayout.CENTER);
+	}
+	
+	protected void addMainPanel(JComponent contentPanel){
+		if(contentPanel instanceof IVPContainer){
+			contentPanel.setPreferredSize(new Dimension(100,35));
+		}
+		mainPanel.add(contentPanel, BorderLayout.CENTER);
+	}
+	
+	protected void mainPanelSetVisible(boolean b){
+		mainPanel.setVisible(b);
 	}
 
 	public String getID() {
