@@ -26,6 +26,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditBoolean;
 import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
@@ -40,6 +41,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	private EditInPlace name;
 	private EditInPlace value;
+	private EditBoolean booleanValue;
 
 	private JLabel valueLabel;
 
@@ -65,9 +67,11 @@ public class IVPVariableBasic extends RoundedJPanel {
 		initName();
 		initEqualLabel();
 		initValueContainer();
+		initBooleanValueContainer();
 		initOptionsContainer();
 		initBtns();
 		initConfigMenu();
+		changeVariableType();
 	}
 
 	private void initLayout() {
@@ -166,9 +170,21 @@ public class IVPVariableBasic extends RoundedJPanel {
 			}
 		});
 		add(value);
-
 	}
 
+	private void initBooleanValueContainer() {
+		booleanValue = new EditBoolean();
+		booleanValue.setValue("0");
+		booleanValue.setValueListener(new IValueListener() {
+			@Override
+			public void valueChanged(String value) {
+				Services.getService().getController()
+						.changeVariableInitialValue(id, value);
+			}
+		});
+		add(booleanValue);
+	}
+	
 	private void initName() {
 		name = new EditInPlace();
 		name.setValueListener(new IValueListener() {
@@ -178,6 +194,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 						.changeVariableName(id, value);
 			}
 		});
+		name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);
 		add(name);
 	}
 
@@ -210,14 +227,21 @@ public class IVPVariableBasic extends RoundedJPanel {
 	}
 	
 	private void changeVariableType(){
-		if(variable.getVariableType()==Variable.TYPE_INTEGER){
-			value.setVisible(true);
-		}else if(variable.getVariableType()==Variable.TYPE_DOUBLE){
-			
-		}else if(variable.getVariableType()==Variable.TYPE_STRING){
-			
-		}else if(variable.getVariableType()==Variable.TYPE_BOOLEAN){
-			value.setVisible(false);
+		if(variable!=null){
+			if(variable.getVariableType()==Variable.TYPE_INTEGER){
+				value.setVisible(true);
+				booleanValue.setVisible(false);
+			}else if(variable.getVariableType()==Variable.TYPE_DOUBLE){
+				value.setVisible(true);
+				booleanValue.setVisible(false);
+			}else if(variable.getVariableType()==Variable.TYPE_STRING){
+				value.setVisible(true);
+				booleanValue.setVisible(false);
+			}else if(variable.getVariableType()==Variable.TYPE_BOOLEAN){
+				value.setVisible(false);
+				booleanValue.setVisible(true);
+				
+			}
 		}
 	}
 
@@ -241,6 +265,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 				System.out.println("set inteira");
 			}else if(command.equals("Verdadeiro/Falsa")){
 				Services.getService().getController().changeVariableType(id, Variable.TYPE_BOOLEAN);
+				Services.getService().getController().changeVariableInitialValue(id, "1");
+				changeVariableType();
 			}else if(command.equals("")){
 				
 			}
