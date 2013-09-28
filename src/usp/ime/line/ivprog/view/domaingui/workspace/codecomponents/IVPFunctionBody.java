@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog.view.domaingui.workspace;
+package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.JPanel;
 
@@ -6,12 +6,13 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposit
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
+import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class IVPFunctionBody extends JPanel {
+public class IVPFunctionBody extends JPanel implements IDomainObjectUI{
 
 	private static final long serialVersionUID = -1559611466195605109L;
 	private String name = null;
@@ -51,6 +52,12 @@ public class IVPFunctionBody extends JPanel {
 
 	public void setDataFunction(String function) {
 		this.functionID = function;
+	}
+
+	public void repaintDomainObject() {
+		canvas.repaintDomainObject();
+		revalidate();
+		repaint();
 	}
 
 }

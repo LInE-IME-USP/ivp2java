@@ -2,13 +2,13 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 public abstract class CodeComponent extends DataObject {
 
-	private Expression escopeID;
+	private String escopeID;
 
-	public Expression getEscope() {
+	public String getEscope() {
 		return escopeID;
 	}
 
-	public void setEscopeID(Expression fID) {
+	public void setEscopeID(String fID) {
 		escopeID = fID;
 	}
 

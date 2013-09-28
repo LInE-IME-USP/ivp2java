@@ -9,6 +9,7 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -59,8 +60,12 @@ public class IVPContextMenu extends JPanel {
 		menuPanel.setLayout(new BorderLayout());
 		add(menuPanel, BorderLayout.CENTER);
 		buttonsContainer = new JPanel();
+		buttonsContainer.setVisible(false);
 		buttonsContainer.setBackground(new Color(210, 245, 215));
 		buttonsContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
+		menuPanel.revalidate();
+		menuPanel.repaint();
+		menuPanel.add(buttonsContainer);
 	}
 
 	private void initButtons() {
@@ -119,21 +124,21 @@ public class IVPContextMenu extends JPanel {
 		plusBtn = new JButton();
 		plusBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				menuPanel.add(buttonsContainer);
-				menuPanel.revalidate();
-				menuPanel.repaint();
+				movePanel(new Point(-menuPanel.getWidth(), 0));
 				Runnable r = new Runnable() {
 					public void run() {
 						int delay = 1;
+						buttonsContainer.setVisible(true);
+						((JComponent) getParent()).revalidate();
+						((JComponent) getParent()).repaint();
 						for (int i = 0; i < menuPanel.getWidth(); i++) {
 							try {
-								Thread.sleep(delay);
 								movePanel(new Point(i - menuPanel.getWidth(), 0));
+								Thread.sleep(delay);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 						}
-
 					}
 				};
 				Thread t = new Thread(r);
@@ -141,8 +146,7 @@ public class IVPContextMenu extends JPanel {
 				plusBtn.setEnabled(false);
 			}
 		});
-		plusBtn.setIcon(new ImageIcon(IVPContextMenu.class
-				.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
+		plusBtn.setIcon(new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
 		plusBtn.setUI(new IconButtonUI());
 		btnPanel.add(plusBtn);
 	}
@@ -151,6 +155,8 @@ public class IVPContextMenu extends JPanel {
 		Runnable r = new Runnable() {
 			public void run() {
 				int delay = 1;
+				((JComponent) getParent()).revalidate();
+				((JComponent) getParent()).repaint();
 				for (int i = 0; i > -menuPanel.getWidth(); i--) {
 					try {
 						Thread.sleep(delay);
@@ -159,12 +165,9 @@ public class IVPContextMenu extends JPanel {
 						e.printStackTrace();
 					}
 				}
-				menuPanel.removeAll();
-				menuPanel.revalidate();
-				menuPanel.repaint();
+				buttonsContainer.setVisible(false);
 				plusBtn.setEnabled(true);
 			}
-
 		};
 		Thread t = new Thread(r);
 		t.start();

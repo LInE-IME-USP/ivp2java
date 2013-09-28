@@ -11,6 +11,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
@@ -62,18 +63,27 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public String newChild(String containerID, short classID) {
-		CodeComposite codeBlock = null;
+		CodeComponent codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
-			codeBlock = new While();
+			codeBlock = (CodeComposite) dataFactory.createWhile();
+		} else if( classID == IVPConstants.MODEL_WRITE){
+			codeBlock = (CodeComponent) dataFactory.createPrint();
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		codeBlock.setEscopeID(containerID);
 		container.addChild(codeBlock.getUniqueID());
-		System.out.println("O While foi criado e colocado no lugar certo. Só preciso atualizar a UI");
 		return codeBlock.getUniqueID();
 	}
 
-	public void removeChild() {
+	public int removeChild(String containerID, String childID) {
+		System.out.println("no domínio + "+containerID);
+		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		int index = 0;
+		index = parent.removeChild(childID);
+		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
+		codeListener.childRemoved(childID);
+		return index;
 	}
 
 	// Function actions
@@ -131,7 +141,6 @@ public class IVPProgram extends DomainModel {
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		String lastName = v.getVariableName();
 		v.setVariableName(name);
-		System.out.println("Chegou aqui.");
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableName(id, name);

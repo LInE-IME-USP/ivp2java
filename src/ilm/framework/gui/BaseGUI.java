@@ -5,10 +5,12 @@ import ilm.framework.assignment.IAssignment;
 import ilm.framework.config.SystemConfig;
 import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
+
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Observer;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,7 +46,7 @@ public abstract class BaseGUI extends JPanel implements Observer {
     protected abstract void initToolbar(Collection moduleList);
 
     public void startDesktop() {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.getContentPane().add(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);

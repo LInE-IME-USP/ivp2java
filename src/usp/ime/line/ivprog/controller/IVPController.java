@@ -2,8 +2,10 @@ package usp.ime.line.ivprog.controller;
 
 import ilm.framework.domain.DomainModel;
 
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
@@ -13,8 +15,9 @@ import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
+import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
 
 public class IVPController {
 
@@ -28,6 +31,10 @@ public class IVPController {
 	public IVPController(){
 		actionList = new HashMap();
 		codeListener = new HashMap();
+	}
+	
+	public HashMap getCodeListener(){
+		return codeListener;
 	}
 
 	public HashMap getActionList(){
@@ -67,7 +74,8 @@ public class IVPController {
 		newChild.setClassID(childType);
 		newChild.setContainerID(containerID);
 		newChild.execute();
-		
+		ICodeListener listener = (ICodeListener) codeListener.get(containerID);
+		listener.childAdded(newChild.getObjectID());
 	}
 
 	public void addParameter(String scopeID) {
@@ -110,6 +118,7 @@ public class IVPController {
 		NewVariable newVar = new NewVariable("newvar","newvar");
 		newVar.setDomainModel(model);
 		actionList.put("newvar", newVar);
+		
 		DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
 		delVar.setDomainModel(model);
 		actionList.put("delvar", delVar);
@@ -125,10 +134,21 @@ public class IVPController {
 		NewChild newChild = new NewChild("newchild", "newchild");
 		newChild.setDomainModel(model);
 		actionList.put("newchild", newChild);
+		
+		RemoveChild removeChild = new RemoveChild("removechild", "removechild");
+		removeChild.setDomainModel(model);
+		actionList.put("removechild", removeChild);
 	}
 	
 	public void addComponentListener(ICodeListener listener, String id){
-		
+		codeListener.put(id, listener);
+	}
+
+	public void removeChild(String containerID, String childID) {
+		RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
+		removeChild.setChildID(childID);
+		removeChild.setContainerID(containerID);
+		removeChild.execute();
 	}
 
 }

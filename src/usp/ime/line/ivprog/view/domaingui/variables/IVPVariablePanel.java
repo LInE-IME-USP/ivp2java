@@ -24,7 +24,7 @@ import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
-import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -85,19 +85,13 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initParamBtn() {
-		Action action = new AbstractAction(
-				ResourceBundleIVP.getString("addParamBtn")) {
+		Action action = new AbstractAction(ResourceBundleIVP.getString("addParamBtn")) {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().addParameter(scopeID);
 			}
 		};
-		action.putValue(
-				Action.SMALL_ICON,
-				new ImageIcon(
-						IVPVariablePanel.class
-								.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,
-				"Adiciona um novo parâmetro à função:" + "Principal");
+		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+		action.putValue(Action.SHORT_DESCRIPTION,"Adiciona um novo parâmetro à função:" + "Principal");
 		addParamBtn = new JButton(action);
 		addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
 		addParamBtn.setUI(new BlueishButtonUI());
@@ -123,19 +117,13 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initAddVarBtn() {
-		Action action = new AbstractAction(
-				ResourceBundleIVP.getString("addVarBtn")) {
+		Action action = new AbstractAction(ResourceBundleIVP.getString("addVarBtn")) {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().addVariable(scopeID);
 			}
 		};
-		action.putValue(
-				Action.SMALL_ICON,
-				new ImageIcon(
-						IVPVariablePanel.class
-								.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,
-				"Adiciona um novo parâmetro à função:" + "Principal");
+		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+		action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
 		addVarBtn = new JButton(action);
 		addVarBtn.setHorizontalAlignment(SwingConstants.LEFT);
 		addVarBtn.setUI(new BlueishButtonUI());
@@ -166,7 +154,6 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	public void changeVariable(String id) {
-		System.out.println("variavel alterada");
 	}
 
 	public void removedVariable(String id) {
@@ -194,7 +181,6 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 	}
 
-	@Override
 	public void changeVariableType(String id, short type) {
 		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if(variable!=null){
