@@ -1,6 +1,10 @@
 package usp.ime.line.ivprog.view.utils;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JPanel;
 
 public class GripArea extends JPanel {
@@ -16,6 +20,17 @@ public class GripArea extends JPanel {
         setMaximumSize(new java.awt.Dimension(12, Integer.MAX_VALUE));
         setPreferredSize(new java.awt.Dimension(12, 0));
         setOpaque(false);
+        addMouseListener(new MouseListener(){
+			public void mouseClicked(MouseEvent arg0) {}
+			public void mouseEntered(MouseEvent e) { 
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)); 
+			}
+			public void mouseExited(MouseEvent e) {
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
+        });
     }
 
     protected void paintComponent(Graphics g) {

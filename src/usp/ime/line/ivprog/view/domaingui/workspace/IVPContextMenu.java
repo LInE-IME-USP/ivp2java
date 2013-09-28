@@ -9,6 +9,7 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -128,6 +129,8 @@ public class IVPContextMenu extends JPanel {
 					public void run() {
 						int delay = 1;
 						buttonsContainer.setVisible(true);
+						((JComponent) getParent()).revalidate();
+						((JComponent) getParent()).repaint();
 						for (int i = 0; i < menuPanel.getWidth(); i++) {
 							try {
 								movePanel(new Point(i - menuPanel.getWidth(), 0));
@@ -152,6 +155,8 @@ public class IVPContextMenu extends JPanel {
 		Runnable r = new Runnable() {
 			public void run() {
 				int delay = 1;
+				((JComponent) getParent()).revalidate();
+				((JComponent) getParent()).repaint();
 				for (int i = 0; i > -menuPanel.getWidth(); i--) {
 					try {
 						Thread.sleep(delay);

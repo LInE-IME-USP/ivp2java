@@ -20,10 +20,13 @@ public class RemoveChild extends DomainAction {
 	}
 
 	protected void executeAction() {
+		System.out.println("Preparando para remover...");
 		index = model.removeChild(containerID, childID);
+		System.out.println("Removido do indice "+index);
 	}
 
 	protected void undoAction() {
+		
 	}
 
 	public boolean equals(DomainAction a) {

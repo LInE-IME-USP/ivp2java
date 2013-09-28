@@ -63,9 +63,11 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public String newChild(String containerID, short classID) {
-		CodeComposite codeBlock = null;
+		CodeComponent codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
 			codeBlock = (CodeComposite) dataFactory.createWhile();
+		} else if( classID == IVPConstants.MODEL_WRITE){
+			codeBlock = (CodeComponent) dataFactory.createPrint();
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
@@ -75,12 +77,12 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public int removeChild(String containerID, String childID) {
+		System.out.println("no domínio + "+containerID);
 		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		int index = 0;
 		index = parent.removeChild(childID);
 		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
-		
-		codeListener.childAdded(childID);
+		codeListener.childRemoved(childID);
 		return index;
 	}
 

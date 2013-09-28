@@ -174,8 +174,7 @@ public class IconButtonUI extends BasicButtonUI {
 
 	static class HandCursor extends MouseAdapter {
 		public void mouseEntered(MouseEvent e) {
-			e.getComponent().setCursor(
-					Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
 		public void mouseExited(MouseEvent e) {

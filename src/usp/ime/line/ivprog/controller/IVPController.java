@@ -17,7 +17,7 @@ import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
 
 public class IVPController {
 
@@ -146,6 +146,9 @@ public class IVPController {
 
 	public void removeChild(String containerID, String childID) {
 		RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
+		removeChild.setChildID(childID);
+		removeChild.setContainerID(containerID);
+		removeChild.execute();
 	}
 
 }

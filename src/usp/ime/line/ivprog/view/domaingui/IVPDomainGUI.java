@@ -21,7 +21,7 @@ import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.IVPRenderer;
-import usp.ime.line.ivprog.view.domaingui.workspace.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
 
 import javax.swing.border.EmptyBorder;
 
