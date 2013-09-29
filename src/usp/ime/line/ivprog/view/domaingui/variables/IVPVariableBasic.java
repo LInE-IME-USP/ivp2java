@@ -184,6 +184,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 			}
 		});
 		name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);
+		name.setValue("teste");
 		add(name);
 	}
 

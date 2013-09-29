@@ -63,7 +63,7 @@ public class EditInPlace extends JPanel implements KeyListener {
 	}
 
 	private void initNameLabel() {
-		nameLabel = new JLabel("teste");
+		nameLabel = new JLabel("");
 		nameLabel.addMouseListener(new VariableMouseListener());
 		nameContainer.add(nameLabel);
 	}
