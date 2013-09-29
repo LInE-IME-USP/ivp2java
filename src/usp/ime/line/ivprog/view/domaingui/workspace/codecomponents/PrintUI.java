@@ -11,7 +11,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class PrintUI extends CodeBaseUI {
 
 	private JPanel contentPanel;
-	private JPanel expressionHolder;
+	private ExpressionBase expressionHolder;
 	private JLabel codeBlockName;
 	
 	private static Color bgColor = new Color(159, 165, 169);
@@ -23,8 +23,7 @@ public class PrintUI extends CodeBaseUI {
 	}
 	
 	private void initialization(){
-		expressionHolder = new JPanel();
-		expressionHolder.setBackground(Color.black);
+		expressionHolder = new ExpressionBase();
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("printTitle"));
 		setBackground(bgColor);

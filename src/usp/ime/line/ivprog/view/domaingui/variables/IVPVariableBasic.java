@@ -121,13 +121,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		};
-		action.putValue(
-				Action.SMALL_ICON,
-				new ImageIcon(
-						IVPVariableBasic.class
-								.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,
-				"Adiciona um novo parâmetro à função:" + "Principal");
+		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
+		action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
 		configBtn = new JButton(action);
 		configBtn.setUI(new IconButtonUI());
 		configBtn.addActionListener(new ConfigBtnActionListener());
@@ -163,10 +158,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 		value = new EditInPlace();
 		value.setValue("0");
 		value.setValueListener(new IValueListener() {
-			@Override
 			public void valueChanged(String value) {
-				Services.getService().getController()
-						.changeVariableInitialValue(id, value);
+				Services.getService().getController().changeVariableInitialValue(id, value);
 			}
 		});
 		add(value);
@@ -176,10 +169,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 		booleanValue = new EditBoolean();
 		booleanValue.setValue("0");
 		booleanValue.setValueListener(new IValueListener() {
-			@Override
 			public void valueChanged(String value) {
-				Services.getService().getController()
-						.changeVariableInitialValue(id, value);
+				Services.getService().getController().changeVariableInitialValue(id, value);
 			}
 		});
 		add(booleanValue);
@@ -188,10 +179,8 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private void initName() {
 		name = new EditInPlace();
 		name.setValueListener(new IValueListener() {
-			@Override
 			public void valueChanged(String value) {
-				Services.getService().getController()
-						.changeVariableName(id, value);
+				Services.getService().getController().changeVariableName(id, value);
 			}
 		});
 		name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);

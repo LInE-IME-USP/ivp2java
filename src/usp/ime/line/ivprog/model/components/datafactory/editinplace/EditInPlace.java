@@ -43,7 +43,8 @@ public class EditInPlace extends JPanel implements KeyListener {
 	};
 	//private String pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$";
 
-	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
+	public static final Color bgColor = new Color(204, 255, 204);
+	public static final Color hoverColor = new Color(241, 196, 15);
 
 	public EditInPlace() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
@@ -57,7 +58,7 @@ public class EditInPlace extends JPanel implements KeyListener {
 
 	private void initNameContainer() {
 		nameContainer = new JPanel();
-		nameContainer.setBackground(BACKGROUND_COLOR);
+		nameContainer.setBackground(bgColor);
 		add(nameContainer);
 	}
 
@@ -119,11 +120,11 @@ public class EditInPlace extends JPanel implements KeyListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			nameContainer.setBackground(Color.yellow);
+			nameContainer.setBackground(hoverColor);
 		}
 
 		public void mouseExited(MouseEvent arg0) {
-			nameContainer.setBackground(BACKGROUND_COLOR);
+			nameContainer.setBackground(bgColor);
 		}
 
 		public void mousePressed(MouseEvent arg0) {
@@ -189,6 +190,4 @@ public class EditInPlace extends JPanel implements KeyListener {
 		this.currentPattern = currentPattern;
 	}
 	
-	
-
 }

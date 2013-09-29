@@ -129,7 +129,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		addVarBtn.setUI(new BlueishButtonUI());
 		addVarBtn.setPreferredSize(new Dimension(95, 25));
 		GridBagConstraints gbc_addVarBtn = new GridBagConstraints();
-		gbc_addVarBtn.anchor = GridBagConstraints.WEST;
+		gbc_addVarBtn.anchor = GridBagConstraints.NORTHWEST;
 		gbc_addVarBtn.insets = new Insets(3, 3, 3, 3);
 		gbc_addVarBtn.gridy = 0;
 		container.add(addVarBtn, gbc_addVarBtn);
