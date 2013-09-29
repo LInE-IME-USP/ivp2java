@@ -46,7 +46,8 @@ public class DataFactory implements IDataFactory {
 	 */
 	public DataObject createVariable() {
 		Variable variable = new Variable();
-		variable.setUniqueID(""+objectID++);
+		variable.setUniqueID(""+objectID);
+		objectID++;
 		return variable;
 	}
 

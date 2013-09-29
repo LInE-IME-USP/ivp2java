@@ -1,6 +1,8 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
@@ -19,14 +21,22 @@ public class NewVariable extends DomainAction{
 	}
 
 	protected void executeAction() {
-		System.out.println(varID);
-		if(varID == null)
+		// TODO o problema está aqui. de onde vem o varID?
+		System.out.println("Execute action: "+varID);
+		if(varID!=null){
+			Variable v = (Variable) Services.getService().getModelMapping().get(varID);
+			System.out.println("VARIABLE "+v);
+		}
+		/*if(varID == null)
 			varID = model.createVariable(scopeID);
 		else
-			model.restoreVariable(scopeID, varID);
+			model.restoreVariable(scopeID, varID);*/
+		//System.out.println("IDDDDD: "+);
+		varID = model.createVariable(scopeID);
 	}
 
 	protected void undoAction() {
+		System.out.println("undoAction: "+varID);
 		model.removeVariable(scopeID, varID);
 	}
 
