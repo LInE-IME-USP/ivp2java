@@ -1,12 +1,18 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPVector extends Collection {
 
 	private int vectorSize = 0;
 	private String[] elements = null;
+	public static final String STRING_CLASS = "vector";
 
+	public IVPVector(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Put the specified object into the specified array position. If there's a
 	 * variable at that position it will be overwritten.
@@ -71,6 +77,12 @@ public class IVPVector extends Collection {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Vector;
 import java.util.Observable;
 
-public final class AssignmentState extends Observable implements Serializable {
+public final class AssignmentState extends Observable {
 
     private Vector _objectList;
 
@@ -74,5 +74,10 @@ public final class AssignmentState extends Observable implements Serializable {
             }
         }
         return true;
+    }
+    
+    public void updateState(DomainObject o){
+        setChanged();
+        notifyObservers(o);
     }
 }

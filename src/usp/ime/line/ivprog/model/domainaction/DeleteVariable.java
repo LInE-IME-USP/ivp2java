@@ -19,11 +19,11 @@ public class DeleteVariable extends DomainAction {
 	}
 
 	protected void executeAction() {
-		model.removeVariable(scopeID, variableID);
+		model.removeVariable(scopeID, variableID, _currentState);
 	}
 
 	protected void undoAction() {
-		model.restoreVariable(scopeID, variableID);
+		model.restoreVariable(scopeID, variableID, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

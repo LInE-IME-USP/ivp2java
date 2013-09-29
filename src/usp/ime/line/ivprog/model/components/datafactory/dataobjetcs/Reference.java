@@ -7,6 +7,9 @@ public abstract class Reference extends CodeComponent {
 	protected String referencedName = "";
 	protected short referenceType = -1;
 
+	public Reference(String name, String description) {
+		super(name, description);
+	}
 	/**
 	 * Get the object referenced.
 	 * 

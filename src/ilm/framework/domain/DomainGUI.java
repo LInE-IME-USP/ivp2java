@@ -21,7 +21,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
      * @attribute serial version due to javax.swing specification
      * @attribute the proposition of the assignment shown by this user interface
      * @attribute the state of the assignment shown by this user interface
-     * @attrubute the list of possible domain actions the user can do
+     * @attribute the list of possible domain actions the user can do
      */
     private static final long serialVersionUID = 1L;
     protected String _proposition;
@@ -58,7 +58,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
         }
         initDomainGUI();
     }
-
+    
     /**
      * Initialization method to the user interface features (widgets) that
      * depend on the assignment to be defined. It is called at the method

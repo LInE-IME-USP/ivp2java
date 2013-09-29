@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
@@ -8,7 +10,11 @@ public class FunctionReference extends Reference {
 
 	private String referencedFunctionID = null;
 	private Vector parameterList = new Vector();
+	public static final String STRING_CLASS = "functionreference";
 
+	public FunctionReference(String name, String description) {
+		super(name, description);
+	}
 	/**
 	 * Set the referenced function.
 	 * @param f
@@ -90,5 +96,11 @@ public class FunctionReference extends Reference {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
@@ -7,6 +9,7 @@ import usp.ime.line.ivprog.model.IVPConstants;
 
 public class Variable extends Expression {
 
+	public static final String STRING_CLASS = "variable";
 	private String variableName = "";
 	private short variableType = -1;
 	private String variableValue = "";
@@ -18,7 +21,8 @@ public class Variable extends Expression {
 	public static short TYPE_STRING = 2;
 	public static short TYPE_BOOLEAN = 3;
 	
-	public Variable(){
+	public Variable(String name, String description){
+		super(name, description);
 		variableReferenceList = new Vector();
 	}
 	
@@ -129,6 +133,12 @@ public class Variable extends Expression {
 	
 	public String getEscopeID(){
 		return escopeID;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

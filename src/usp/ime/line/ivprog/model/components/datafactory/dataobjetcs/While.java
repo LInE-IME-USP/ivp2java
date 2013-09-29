@@ -1,10 +1,16 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class While extends CodeComposite {
 
 	private String conditionID = null;
+	public static final String STRING_CLASS = "while";
+
+	public While(String name, String description) {
+		super(name, description);
+	}
 
 	/**
 	 * Return the loop condition.
@@ -37,5 +43,9 @@ public class While extends CodeComposite {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	public boolean equals(DomainObject o) {
+		return false;
 	}
 }

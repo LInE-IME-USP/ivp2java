@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Operation extends Expression {
@@ -7,7 +8,12 @@ public class Operation extends Expression {
 	private String expressionAID = null;
 	private String expressionBID = null;
 	private short operationType = -1;
+	public static final String STRING_CLASS = "operation";
 
+	public Operation(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * An expression is formed by two other expressions, A and B -> (A
 	 * "operator" B). Observation: a variable is also an expression (a terminal
@@ -86,6 +92,12 @@ public class Operation extends Expression {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

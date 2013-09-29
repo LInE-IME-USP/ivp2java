@@ -20,11 +20,11 @@ public class ChangeVariableType extends DomainAction {
 	}
 
 	protected void executeAction() {
-		lastType = model.changeVariableType(variableID, newType);
+		lastType = model.changeVariableType(variableID, newType, _currentState);
 	}
 
 	protected void undoAction() {
-		model.changeVariableType(variableID, lastType);
+		model.changeVariableType(variableID, lastType, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

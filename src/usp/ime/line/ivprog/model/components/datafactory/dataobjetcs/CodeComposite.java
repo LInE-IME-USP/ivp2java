@@ -6,6 +6,10 @@ public abstract class CodeComposite extends CodeComponent {
 
 	private Vector children = new Vector();
 
+	public CodeComposite(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Append a child at the end of children's vector.
 	 * @param aChild

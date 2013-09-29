@@ -20,11 +20,11 @@ public class ChangeVariableName extends DomainAction {
 	}
 
 	protected void executeAction() {
-		lastName = model.changeVariableName(variableID, newName);
+		lastName = model.changeVariableName(variableID, newName, _currentState);
 	}
 
 	protected void undoAction() {
-		model.changeVariableName(variableID, lastName);
+		model.changeVariableName(variableID, lastName, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

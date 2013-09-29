@@ -1,12 +1,17 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPVectorReference extends Reference {
 
 	private String referencedVectorID = null;
 	private String positionExpID = null;
+	public static final String STRING_CLASS = "vectorreference";
 
+	public IVPVectorReference(String name, String description) {
+		super(name, description);
+	}
 	/**
 	 * Return the referenced vector.
 	 * @return the referencedVector
@@ -53,5 +58,11 @@ public class IVPVectorReference extends Reference {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

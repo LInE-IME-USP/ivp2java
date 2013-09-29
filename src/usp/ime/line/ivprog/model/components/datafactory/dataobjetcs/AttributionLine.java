@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class AttributionLine extends CodeComponent {
@@ -7,7 +8,12 @@ public class AttributionLine extends CodeComponent {
 	private String leftVariable = null;
 	private String rightExpression = null;
 	private short leftVariableType = -1;
+	public static final String STRING_CLASS = "attline";
 
+	public AttributionLine(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * @return the leftVariable
 	 */
@@ -74,6 +80,12 @@ public class AttributionLine extends CodeComponent {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

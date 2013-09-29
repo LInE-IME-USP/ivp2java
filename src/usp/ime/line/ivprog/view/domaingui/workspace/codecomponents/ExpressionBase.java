@@ -69,13 +69,20 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		setVarAction.putValue(Action.SHORT_DESCRIPTION,"Escolhe uma variável dentre as possíveis.");
 		setVarAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertVariable"));
-		Action setConstantAction = new AbstractAction() {
+		Action setIntegerAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		setConstantAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número.");
-		setConstantAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertConstant"));
+		setIntegerAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número inteiro.");
+		setIntegerAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertInteger"));
+		Action setDoubleAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		setDoubleAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número real.");
+		setDoubleAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
 		Action setTextAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -84,7 +91,8 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 		setTextAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um texto qualquer.");
 		setTextAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertText"));
 		configMenu.add(setVarAction);
-		configMenu.add(setConstantAction);
+		configMenu.add(setIntegerAction);
+		configMenu.add(setDoubleAction);
 		configMenu.add(setTextAction);
 		
 	}

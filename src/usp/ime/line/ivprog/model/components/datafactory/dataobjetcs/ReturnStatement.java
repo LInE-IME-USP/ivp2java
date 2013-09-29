@@ -1,12 +1,18 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class ReturnStatement extends CodeComponent {
 
 	private String expressionToBeReturnedID = null;
 	private short type = -1;
+	public static final String STRING_CLASS = "returnstatement";
 
+	public ReturnStatement(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Return the expression to be returned by the return statement.
 	 * @return
@@ -50,6 +56,12 @@ public class ReturnStatement extends CodeComponent {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

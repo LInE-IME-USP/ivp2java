@@ -1,6 +1,12 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
-public abstract class DataObject {
+import ilm.framework.assignment.model.DomainObject;
+
+public abstract class DataObject extends DomainObject {
+
+	public DataObject(String name, String description) {
+		super(name, description);
+	}
 
 	private String uniqueID;
 

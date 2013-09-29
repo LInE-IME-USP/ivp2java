@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
@@ -9,7 +11,12 @@ public class For extends CodeComposite {
 	private String indexInitialValue = null;
 	private String upperBound = null;
 	private String increment = null;
+	public static final String STRING_CLASS = "for";
 
+	public For(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Returns the expression containing index initial value.
 	 * @return
@@ -79,6 +86,12 @@ public class For extends CodeComposite {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
  

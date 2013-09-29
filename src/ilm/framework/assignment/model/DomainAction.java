@@ -1,6 +1,7 @@
 package ilm.framework.assignment.model;
 
 import ilm.framework.domain.DomainModel;
+
 import java.io.Serializable;
 import java.util.Vector;
 import java.util.Observable;

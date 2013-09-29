@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
@@ -15,8 +17,10 @@ public class Function extends CodeComposite {
 	private int variableCount = 0;
 	private Vector references;
 	private boolean isMainFunction = false;
+	public static final String STRING_CLASS = "function";
 
-	public Function() {
+	public Function(String name, String description) {
+		super(name, description);
 		parameters = new IVPVariableMap(false);
 		localVariables = new IVPVariableMap(true);
 		references = new Vector();
@@ -109,6 +113,7 @@ public class Function extends CodeComposite {
 	 */
 	public void addLocalVariable(String varID) {
 		variableCount++;
+		System.out.println("Incrementando a contagem: ");
 		localVariables.put(varID, varID);
 	}
 
@@ -209,7 +214,14 @@ public class Function extends CodeComposite {
 
 	// Used when a new variable is generated
 	public int getVariableCount() {
+		System.out.println("Retornando contador: "+variableCount);
 		return variableCount;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

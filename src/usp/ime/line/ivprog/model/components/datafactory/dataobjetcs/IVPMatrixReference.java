@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPMatrixReference extends Reference {
@@ -7,6 +8,11 @@ public class IVPMatrixReference extends Reference {
 	private String referencedMatrixID = null;
 	private String lineExpID = null;
 	private String columnExpID = null;
+	public static final String STRING_CLASS = "matrixreference";
+	
+	public IVPMatrixReference(String name, String description) {
+		super(name, description);
+	}
 
 	/**
 	 * Return the referenced matrix.
@@ -73,5 +79,11 @@ public class IVPMatrixReference extends Reference {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

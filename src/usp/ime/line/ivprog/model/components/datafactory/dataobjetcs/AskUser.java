@@ -1,10 +1,17 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 public class AskUser extends CodeComponent {
 
 	private String message = "";
 	private short dataType = -1;
+	public static final String STRING_CLASS = "askuser";
 
+	public AskUser(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Return the message that will be shown to user.
 	 * 
@@ -50,5 +57,11 @@ public class AskUser extends CodeComponent {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -8,9 +8,12 @@ public abstract class Collection extends DataObject {
 	private Vector referenceList = new Vector();
 	private short collectionType = -1;
 
+	public Collection(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * This methods returns the collection name in the system.
-	 * 
 	 * @return collectionName
 	 */
 	public String getCollectionName() {
@@ -19,7 +22,6 @@ public abstract class Collection extends DataObject {
 
 	/**
 	 * This method sets the collection name in the system.
-	 * 
 	 * @param name
 	 */
 	public void setCollectionName(String name) {
@@ -29,7 +31,6 @@ public abstract class Collection extends DataObject {
 	/**
 	 * This method gets the collection type. It might be int, double, String or
 	 * boolean.
-	 * 
 	 * @return collectionType
 	 */
 	public short getCollectionType() {

@@ -20,7 +20,7 @@ public class NewChild extends DomainAction {
 	}
 
 	protected void executeAction() {
-		objectID = model.newChild(containerID, classID);
+		objectID = model.newChild(containerID, classID, _currentState);
 	}
 
 	protected void undoAction() {

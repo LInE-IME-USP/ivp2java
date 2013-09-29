@@ -25,7 +25,6 @@ public class IVPController {
 	private IVPDomainGUI gui = null;
 	private HashMap actionList;
 
-	//sera que eh aqui mesmo?
 	private HashMap codeListener;
 	
 	public IVPController(){
@@ -83,6 +82,7 @@ public class IVPController {
 	}
 
 	public void addVariable(String scopeID) {
+		System.out.println("No controller > CRIAR NOVA VARIAVEL");
 		NewVariable newVar = (NewVariable) actionList.get("newvar");
 		newVar.setScopeID(scopeID);
 		newVar.execute();
@@ -111,7 +111,7 @@ public class IVPController {
 	
 	//TODO: DomainAction
 	public void changeVariableInitialValue(String id, String value){
-		program.changeVariableInitialValue(id, value);
+		//program.changeVariableInitialValue(id, value);
 	}
 	
 	public void initDomainActionList(DomainModel model) {

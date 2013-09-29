@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
@@ -8,7 +10,12 @@ public class IfElse extends CodeComposite {
 
 	private Vector elseChildren = new Vector();
 	private String comparisonID = null;
+	public static final String STRING_CLASS = "ifelse";
 
+	public IfElse(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Append a child at the specified position of elseChildren's vector.
 	 * @param aChild
@@ -74,5 +81,11 @@ public class IfElse extends CodeComposite {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
@@ -9,7 +10,7 @@ public class NewVariable extends DomainAction{
 	private IVPProgram model;
 	private String scopeID;
 	private String varID;
-
+	
 	public NewVariable(String name, String description) {
 		super(name, description);
 	}
@@ -19,15 +20,11 @@ public class NewVariable extends DomainAction{
 	}
 
 	protected void executeAction() {
-		System.out.println(varID);
-		if(varID == null)
-			varID = model.createVariable(scopeID);
-		else
-			model.restoreVariable(scopeID, varID);
+		varID = model.createVariable(scopeID, _currentState);
 	}
 
 	protected void undoAction() {
-		model.removeVariable(scopeID, varID);
+		model.removeVariable(scopeID, varID, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

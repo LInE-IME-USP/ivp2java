@@ -1,11 +1,17 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Print extends CodeComponent {
 
 	private String printableObjectID = null;
+	public static final String STRING_CLASS = "print";
 
+	public Print(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Return the printable object.
 	 * @return the printableObject
@@ -40,5 +46,11 @@ public class Print extends CodeComponent {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

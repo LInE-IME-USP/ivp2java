@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.model;
 
 import ilm.framework.assignment.model.AssignmentState;
+import ilm.framework.assignment.model.DomainObject;
 import ilm.framework.domain.DomainModel;
 
 import java.util.ArrayList;
@@ -42,11 +43,11 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public void initializeModel() {
-		createFunction(ResourceBundleIVP.getString("mainFunctionName"), IVPConstants.FUNC_RETURN_VOID);
+		createFunction(ResourceBundleIVP.getString("mainFunctionName"), IVPConstants.FUNC_RETURN_VOID, null);
 	}
 
 	// Program actions
-	public void createFunction(String name, short functionType) {
+	public void createFunction(String name, short functionType, AssignmentState state) {
 		Function f = (Function) dataFactory.createFunction();
 		f.setFunctionName(name);
 		f.setReturnType(functionType);
@@ -56,13 +57,16 @@ public class IVPProgram extends DomainModel {
 			IFunctionListener listener = (IFunctionListener) functionListeners.get(i);
 			listener.functionCreated(f.getUniqueID());
 		}
+		if(state!=null) state.add(f);
 	}
 
-	public void removeFunction(String name) {
+	public void removeFunction(String name, AssignmentState state) {
+		//Framework
+		state.remove((DomainObject) functionMap.get(name));
 		functionMap.remove(name);
 	}
 
-	public String newChild(String containerID, short classID) {
+	public String newChild(String containerID, short classID, AssignmentState state) {
 		CodeComponent codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
 			codeBlock = (CodeComposite) dataFactory.createWhile();
@@ -73,16 +77,20 @@ public class IVPProgram extends DomainModel {
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		codeBlock.setEscopeID(containerID);
 		container.addChild(codeBlock.getUniqueID());
+		//Framework
+		state.add(codeBlock);
 		return codeBlock.getUniqueID();
 	}
 
-	public int removeChild(String containerID, String childID) {
+	public int removeChild(String containerID, String childID, AssignmentState state) {
 		System.out.println("no domínio + "+containerID);
 		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		int index = 0;
 		index = parent.removeChild(childID);
 		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
 		codeListener.childRemoved(childID);
+		//Framework
+		state.remove((DomainObject) Services.getService().getModelMapping().get(childID));
 		return index;
 	}
 
@@ -95,11 +103,10 @@ public class IVPProgram extends DomainModel {
 
 	}
 
-	public String createVariable(String scopeID) {
+	public String createVariable(String scopeID, AssignmentState state) {
 		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
 		Variable newVar = (Variable) dataFactory.createVariable();
 		newVar.setVariableName("newVar" + f.getVariableCount());
-		//newVar.setVariableType(IVPConstants.VAR_INT_TYPE);
 		newVar.setVariableType(Variable.TYPE_INTEGER);
 		newVar.setEscopeID(f.getUniqueID());
 		Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
@@ -108,25 +115,28 @@ public class IVPProgram extends DomainModel {
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.addedVariable(newVar.getUniqueID());
 		}
+		state.add(newVar);
 		return newVar.getUniqueID();
 	}
 
-	public void removeVariable(String scopeID, String variableID) {
+	public void removeVariable(String scopeID, String variableID, AssignmentState state) {
 		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
 		f.removeLocalVariable(variableID);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.removedVariable(variableID);
 		}
+		state.remove((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
 	
-	public void restoreVariable(String scopeID, String variableID){
+	public void restoreVariable(String scopeID, String variableID, AssignmentState state){
 		Function f = (Function) Services.getService().getModelMapping().get(scopeID);
 		f.addLocalVariable(variableID);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.addedVariable(variableID);
 		}
+		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
 
 	public void addVariableListener(IVariableListener listener){
@@ -137,7 +147,7 @@ public class IVPProgram extends DomainModel {
 		functionListeners.add(listener);
 	}
 	
-	public String changeVariableName(String id, String name){
+	public String changeVariableName(String id, String name, AssignmentState state){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		String lastName = v.getVariableName();
 		v.setVariableName(name);
@@ -145,26 +155,29 @@ public class IVPProgram extends DomainModel {
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableName(id, name);
 		}
+		state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
 		return lastName;
 	}
-	public short changeVariableType(String id, short type){
+	public short changeVariableType(String id, short type, AssignmentState state){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		short lastType = v.getVariableType();
 		v.setVariableType(type);
-		
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableType(id, type);
 		}
+		state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
 		return lastType;
 	}
-	public void changeVariableInitialValue(String id, String value){
+	
+	public void changeVariableInitialValue(String id, String value, AssignmentState state){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		v.setVariableValue(value);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
 			listener.changeVariableValue(id, value);
 		}
+		state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
 	}
 
 	public AssignmentState getNewAssignmentState() {

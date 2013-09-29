@@ -1,12 +1,18 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 public class Comment extends CodeComponent {
 
 	private String comment = "";
+	public static final String STRING_CLASS = "comment";
 
+	public Comment(String name, String description) {
+		super(name, description);
+	}
+	
 	/**
 	 * Return the string containing the comment.
-	 * 
 	 * @return
 	 */
 	public String getComment() {
@@ -15,7 +21,6 @@ public class Comment extends CodeComponent {
 
 	/**
 	 * Set the comment text of this object.
-	 * 
 	 * @param comment
 	 */
 	public void setComment(String comment) {
@@ -31,5 +36,11 @@ public class Comment extends CodeComponent {
 
 	public String toJavaString() {
 		return null;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

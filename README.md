@@ -1,4 +1,4 @@
 ivp2java
 ========
 
-Reposit√≥rio de trabalho do iVProg2, vers√£o Java.
+RepositÛrio de trabalho do IVProg 2 na vers„o Java.

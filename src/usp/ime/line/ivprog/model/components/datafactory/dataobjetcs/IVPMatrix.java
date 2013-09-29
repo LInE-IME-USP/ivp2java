@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import ilm.framework.assignment.model.DomainObject;
+
 import java.awt.Point;
 
 import usp.ime.line.ivprog.Services;
@@ -10,7 +12,13 @@ public class IVPMatrix extends Collection {
 	private String[][] elements = null;
 	private int nLines = -1;
 	private int nColumns = -1;
+	public static final String STRING_CLASS = "matrix";
 
+	public IVPMatrix(String name, String description) {
+		super(name, description);
+		// TODO Auto-generated constructor stub
+	}
+	
 	/**
 	 * Set the matrix dimensions number of columns (nC) and number of lines
 	 * (nL).
@@ -101,6 +109,12 @@ public class IVPMatrix extends Collection {
 	 */
 	public void setDimension(Point dimension) {
 		this.dimension = dimension;
+	}
+
+	@Override
+	public boolean equals(DomainObject o) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
