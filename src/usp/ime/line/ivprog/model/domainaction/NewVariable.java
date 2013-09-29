@@ -21,18 +21,10 @@ public class NewVariable extends DomainAction{
 	}
 
 	protected void executeAction() {
-		// TODO o problema está aqui. de onde vem o varID?
-		System.out.println("Execute action: "+varID);
-		if(varID!=null){
-			Variable v = (Variable) Services.getService().getModelMapping().get(varID);
-			System.out.println("VARIABLE "+v);
-		}
-		/*if(varID == null)
+		if(varID == null)
 			varID = model.createVariable(scopeID);
 		else
-			model.restoreVariable(scopeID, varID);*/
-		//System.out.println("IDDDDD: "+);
-		varID = model.createVariable(scopeID);
+			model.restoreVariable(scopeID, varID);
 	}
 
 	protected void undoAction() {
