@@ -21,6 +21,7 @@ public class CodeBaseUI extends RoundedJPanel {
 	
 	private String parentID;
 	private String thisID;
+	private String scopeID;
 	private JPanel contentPanel;
 	private JPanel gripArea;
 	private JPanel trashCanPanel;
@@ -37,8 +38,6 @@ public class CodeBaseUI extends RoundedJPanel {
 		trashCanPanel = new JPanel(new BorderLayout());
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("deleção "+parentID+" "+thisID);
-				
 				Services.getService().getController().removeChild(parentID, thisID);
 			}
 		};
@@ -86,6 +85,14 @@ public class CodeBaseUI extends RoundedJPanel {
 		this.thisID = thisID;
 	}
 	
+	public String getScopeID() {
+		return scopeID;
+	}
+
+	public void setScopeID(String scopeID) {
+		this.scopeID = scopeID;
+	}
+
 	protected void addContentPanel(JPanel panel){
 		contentPanel.add(panel);
 	}

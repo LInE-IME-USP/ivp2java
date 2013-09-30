@@ -18,12 +18,12 @@ public class PrintUI extends CodeBaseUI {
 	
 	public PrintUI(String id){
 		setThisID(id);
-		initialization();
+		initialization(id);
 		addComponents();
 	}
 	
-	private void initialization(){
-		expressionHolder = new ExpressionBase();
+	private void initialization(String id){
+		expressionHolder = new ExpressionBase(id);
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("printTitle"));
 		setBackground(bgColor);

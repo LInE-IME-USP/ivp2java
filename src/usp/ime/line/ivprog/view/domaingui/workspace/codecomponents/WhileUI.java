@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 
-public class IVPWhile extends CodeBaseUI {
+public class WhileUI extends CodeBaseUI {
 	
 	private JPanel contentPanel;
 	private JPanel header;
@@ -33,7 +33,7 @@ public class IVPWhile extends CodeBaseUI {
 	
 	private static Color bgColor = new Color(189, 195, 199);
 	
-	public IVPWhile(String id) {
+	public WhileUI(String id) {
 		setThisID(id);
 		initContentPanel();
 		initExpandButtonIcon();

@@ -7,8 +7,8 @@ import ilm.framework.domain.DomainModel;
 public class ChangeVariableInitValue extends DomainAction {
 
 	private IVPProgram model;
-	private Object lastValue;
-	private Object newValue;
+	private String lastValue;
+	private String newValue;
 	
 	public ChangeVariableInitValue(String name, String description) {
 		super(name, description);

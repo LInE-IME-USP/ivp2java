@@ -28,5 +28,6 @@ public final class IVPConstants {
 	public static final short MODEL_IFELSE = 22;
 	public static final short MODEL_WRITE = 23;
 	public static final short MODEL_READ = 24;
+	public static final short MODEL_ATTLINE = 25;
 
 }

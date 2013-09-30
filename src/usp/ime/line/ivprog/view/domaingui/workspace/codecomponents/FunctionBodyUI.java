@@ -12,7 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class IVPFunctionBody extends JPanel implements IDomainObjectUI{
+public class FunctionBodyUI extends JPanel {
 
 	private static final long serialVersionUID = -1559611466195605109L;
 	private String name = null;
@@ -21,7 +21,7 @@ public class IVPFunctionBody extends JPanel implements IDomainObjectUI{
 	private IVPContainer canvas;
 	private String functionID = null;
 
-	public IVPFunctionBody(String functionID, boolean isMain) {
+	public FunctionBodyUI(String functionID, boolean isMain) {
 		this.functionID = functionID;
 		setLayout(new BorderLayout(0, 0));
 		variablesPanel = new IVPVariablePanel(functionID, isMain);
@@ -54,10 +54,5 @@ public class IVPFunctionBody extends JPanel implements IDomainObjectUI{
 		this.functionID = function;
 	}
 
-	public void repaintDomainObject() {
-		canvas.repaintDomainObject();
-		revalidate();
-		repaint();
-	}
 
 }

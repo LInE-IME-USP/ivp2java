@@ -24,7 +24,7 @@ import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;

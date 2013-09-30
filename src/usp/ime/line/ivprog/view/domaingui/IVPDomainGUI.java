@@ -21,7 +21,7 @@ import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.view.IVPRenderer;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
 import javax.swing.border.EmptyBorder;
 
@@ -52,7 +52,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 	}
 
 	// update function tabs
-	public void addTab(String tabName, IVPFunctionBody function) {
+	public void addTab(String tabName, FunctionBodyUI function) {
 		tabbedPane.add(tabName, function);
 	}
 
@@ -60,7 +60,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 		tabbedPane.remove(index);
 	}
 
-	public void updateFunction(IVPFunctionBody function) {
+	public void updateFunction(FunctionBodyUI function) {
 		if (tabbedPane.getTabCount() == 0) {
 			tabbedPane.add(function.getName(), function);
 			return;
@@ -82,7 +82,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 	}
 
 	public void functionCreated(String id) {
-		updateFunction((IVPFunctionBody) Services.getService().getRenderer().paint(id));
+		updateFunction((FunctionBodyUI) Services.getService().getRenderer().paint(id));
 	}
 
 	public void initDomainActionList(DomainModel model) {

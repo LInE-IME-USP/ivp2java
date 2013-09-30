@@ -2,44 +2,44 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
-import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
-import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-public class ExpressionBase extends JPanel implements IVariableListener {
+public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
 	
-	private JPopupMenu configMenu;
+	private JComboBox configMenu;
 	private JLabel initialLabel;
+	private String parent;
 	
-	String parent;
-	
-	private EditInPlace integerEdit;
-	
-	public ExpressionBase(String parent){
+	public VariableSelectorUI(String parent){
 		this.parent = parent;
 		initialization();
 		initComponents();
@@ -61,53 +61,41 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 	}
 
 	private void initLabel() {
-		initialLabel = new JLabel(ResourceBundleIVP.getString("expressionBaseInitialLabel"));
+		initialLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
 		initialLabel.setFont(new Font("Arial", Font.ITALIC, 12));
 		add(initialLabel);
 	}
 	
 	private void initConfigMenu() {
-		configMenu = new JPopupMenu();
-		Action setVarAction = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				initialLabel.setVisible(false);
-				setOpaque(false);
-				add(new VariableSelectorUI(parent));
+		configMenu = new JComboBox();
+		configMenu.setVisible(false);
+		initValues();
+		configMenu.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent evt) {
+				JComboBox cb = (JComboBox) evt.getSource();
+			    Object item = evt.getItem();
+			    if (evt.getStateChange() == ItemEvent.SELECTED) {
+			    	configMenu.setVisible(false);
+			    	initialLabel.setText((String) item);
+			    	initialLabel.setVisible(true);
+			    } 
 			}
-		};
-		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		setVarAction.putValue(Action.SHORT_DESCRIPTION,"Escolhe uma variável dentre as possíveis.");
-		setVarAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertVariable"));
-		Action setIntegerAction = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		setIntegerAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número inteiro.");
-		setIntegerAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertInteger"));
-		Action setDoubleAction = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		setDoubleAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número real.");
-		setDoubleAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
-		Action setTextAction = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		setTextAction.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um texto qualquer.");
-		setTextAction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertText"));
-		configMenu.add(setVarAction);
-		configMenu.add(setIntegerAction);
-		configMenu.add(setDoubleAction);
-		configMenu.add(setTextAction);
+		});
 		
+		add(configMenu);
+	}
+
+	private void initValues() {
+		CodeComponent component = (CodeComponent) Services.getService().getModelMapping().get(parent);
+		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
+		Vector variables = f.getLocalVariableMap().toVector();
+		for(int i = 0; i < variables.size(); i++){
+			String name = ((Variable) Services.getService().getModelMapping().get(variables.get(i))).getVariableName();
+			configMenu.addItem(name);
+		}
 	}
 
 	//END: initialization methods
-	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(borderColor);
@@ -136,7 +124,7 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 			e.getComponent().setCursor(Cursor.getDefaultCursor());
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			configMenu.show(container, 0, container.getHeight());
+			selectVariableAction();
 			configMenu.requestFocus();
 		}
 		
@@ -146,8 +134,17 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 	}
 	//END: Mouse listener
 	
+	public void selectVariableAction() {
+		configMenu.setVisible(true);
+		initialLabel.setVisible(false);
+		revalidate();
+		repaint();
+	}
+	
 	//BEGIN: Variable listener methods
-	public void addedVariable(String id) { }
+	public void addedVariable(String id) { 
+		
+	}
 	public void changeVariable(String id) { }
 	public void removedVariable(String id) { }
 	public void changeVariableName(String id, String name) { }

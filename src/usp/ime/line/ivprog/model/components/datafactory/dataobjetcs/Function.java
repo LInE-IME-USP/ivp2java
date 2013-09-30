@@ -113,7 +113,6 @@ public class Function extends CodeComposite {
 	 */
 	public void addLocalVariable(String varID) {
 		variableCount++;
-		System.out.println("Incrementando a contagem: ");
 		localVariables.put(varID, varID);
 	}
 
@@ -214,14 +213,15 @@ public class Function extends CodeComposite {
 
 	// Used when a new variable is generated
 	public int getVariableCount() {
-		System.out.println("Retornando contador: "+variableCount);
 		return variableCount;
 	}
 
-	@Override
 	public boolean equals(DomainObject o) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public String getScopeID(){
+		return getUniqueID();
 	}
 
 }

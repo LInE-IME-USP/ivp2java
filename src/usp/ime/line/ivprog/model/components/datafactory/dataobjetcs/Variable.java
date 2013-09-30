@@ -14,7 +14,7 @@ public class Variable extends Expression {
 	private short variableType = -1;
 	private String variableValue = "";
 	private Vector variableReferenceList;
-	private String escopeID;
+	private String scopeID;
 
 	public static short TYPE_INTEGER = 0;
 	public static short TYPE_DOUBLE = 1;
@@ -127,17 +127,15 @@ public class Variable extends Expression {
 		return null;
 	}
 	
-	public void setEscopeID(String uniqueID) {
-		escopeID = uniqueID;
+	public void setScopeID(String uniqueID) {
+		scopeID = uniqueID;
 	}
 	
-	public String getEscopeID(){
-		return escopeID;
+	public String getScopeID(){
+		return scopeID;
 	}
 
-	@Override
 	public boolean equals(DomainObject o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

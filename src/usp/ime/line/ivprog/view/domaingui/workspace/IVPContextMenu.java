@@ -36,7 +36,8 @@ public class IVPContextMenu extends JPanel {
 	private JButton ifElseBtn;
 	private JButton forBtn;
 	private JButton writeBtn;
-
+	private JButton attBtn;
+	
 	public IVPContextMenu(IVPContainer c) {
 		container = c;
 		initialization();
@@ -74,6 +75,18 @@ public class IVPContextMenu extends JPanel {
 		initIfElseBtn();
 		initForBtn();
 		initWriteBtn();
+		initAttBtn();
+	}
+
+	private void initAttBtn() {
+		attBtn = new JButton("Atribuição");
+		attBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_ATTLINE);
+				hideMenu();
+			}
+		});
+		buttonsContainer.add(attBtn);
 	}
 
 	private void initWriteBtn() {

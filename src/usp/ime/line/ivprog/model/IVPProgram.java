@@ -32,6 +32,8 @@ public class IVPProgram extends DomainModel {
 	private DataFactory dataFactory = null;
 	private List variableListeners;
 	private List functionListeners;
+	
+	private String currentScope = "0";
 
 	public IVPProgram() {
 		globalVariables = new HashMap();
@@ -72,10 +74,13 @@ public class IVPProgram extends DomainModel {
 			codeBlock = (CodeComposite) dataFactory.createWhile();
 		} else if( classID == IVPConstants.MODEL_WRITE){
 			codeBlock = (CodeComponent) dataFactory.createPrint();
+		} else if( classID == IVPConstants.MODEL_ATTLINE){
+			codeBlock = (CodeComponent) dataFactory.createAttributionLine();
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-		codeBlock.setEscopeID(containerID);
+		codeBlock.setParentID(containerID);
+		codeBlock.setScopeID(currentScope);
 		container.addChild(codeBlock.getUniqueID());
 		//Framework
 		state.add(codeBlock);
@@ -83,7 +88,6 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public int removeChild(String containerID, String childID, AssignmentState state) {
-		System.out.println("no domínio + "+containerID);
 		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		int index = 0;
 		index = parent.removeChild(childID);
@@ -108,7 +112,7 @@ public class IVPProgram extends DomainModel {
 		Variable newVar = (Variable) dataFactory.createVariable();
 		newVar.setVariableName("newVar" + f.getVariableCount());
 		newVar.setVariableType(Variable.TYPE_INTEGER);
-		newVar.setEscopeID(f.getUniqueID());
+		newVar.setScopeID(currentScope);
 		Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
 		f.addLocalVariable(newVar.getUniqueID());
 		for(int i=0; i<variableListeners.size(); i++){

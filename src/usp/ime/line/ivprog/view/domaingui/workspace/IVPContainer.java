@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Color;
@@ -26,7 +25,7 @@ import java.util.Vector;
 
 import javax.swing.border.BevelBorder;
 
-public class IVPContainer extends JPanel implements ICodeListener, IDomainObjectUI {
+public class IVPContainer extends JPanel implements ICodeListener {
 	
 	private static final long serialVersionUID = 1L;
     private Vector children; 
@@ -144,7 +143,6 @@ public class IVPContainer extends JPanel implements ICodeListener, IDomainObject
 
 	public void childAdded(String childID) {
 		JComponent child = Services.getService().getRenderer().paint(childID);
-		System.out.println("Children size "+children.size()+" Child ID "+childID+" child from mapping "+child);
 		children.add(children.size()-1, child);
 		relayout();
 	}
@@ -165,10 +163,6 @@ public class IVPContainer extends JPanel implements ICodeListener, IDomainObject
 		repaint();
 	}
 	
-	public void repaintDomainObject() {
-		 for (int i = 0; i < children.size(); i++) {
-			 ((IDomainObjectUI) children.get(i)).repaintDomainObject();
-		 }
-	}
+	
 	
 }

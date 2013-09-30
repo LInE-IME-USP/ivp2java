@@ -17,7 +17,7 @@ import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IVPFunctionBody;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
 public class IVPController {
 
@@ -82,7 +82,6 @@ public class IVPController {
 	}
 
 	public void addVariable(String scopeID) {
-		System.out.println("No controller > CRIAR NOVA VARIAVEL");
 		NewVariable newVar = (NewVariable) actionList.get("newvar");
 		newVar.setScopeID(scopeID);
 		newVar.execute();

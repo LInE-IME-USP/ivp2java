@@ -2,18 +2,27 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 public abstract class CodeComponent extends DataObject {
 
+	private String parentID;
+	private String scopeID;
+
 	public CodeComponent(String name, String description) {
 		super(name, description);
 	}
-
-	private String escopeID;
-
-	public String getEscope() {
-		return escopeID;
+	
+	public String getParentID() {
+		return parentID;
 	}
 
-	public void setEscopeID(String fID) {
-		escopeID = fID;
+	public void setParentID(String fID) {
+		parentID = fID;
+	}
+
+	public String getScopeID() {
+		return scopeID;
+	}
+
+	public void setScopeID(String scopeID) {
+		this.scopeID = scopeID;
 	}
 
 }

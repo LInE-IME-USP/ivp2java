@@ -124,14 +124,11 @@ public class EditBoolean extends JPanel {
 	}
 	
 	public void setValue(String name){
-		System.out.println("setValue"+name);
-		
 		if(value){
 			nameLabel.setText("Verdadeiro");
 		}else{
 			nameLabel.setText("Falso");
 		}
-		
 		//nameField.setText(name);
 		//nameLabel.setText(name);
 		revalidate();
