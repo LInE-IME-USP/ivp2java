@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,14 +36,22 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
 	
-	private JComboBox configMenu;
+	private JComboBox variableList;
 	private JLabel initialLabel;
+	private JLabel icon; 
 	private String parent;
+	private Vector itemVector;
+	private boolean isUpdate = true;
+	private boolean warningState = false;
+	private JLabel iconLabel;
+	
 	
 	public VariableSelectorUI(String parent){
 		this.parent = parent;
 		initialization();
 		initComponents();
+		//Starts listening to variable changes
+		Services.getService().getController().getProgram().addVariableListener(this);
 	}
 
 	//BEGIN: initialization methods
@@ -56,8 +65,21 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	}
 	
 	private void initComponents() {
+		initVector();
 		initLabel();
 		initConfigMenu();
+		initIconLabel();
+	}
+
+	private void initIconLabel() {
+		iconLabel = new JLabel();
+		iconLabel.setIcon(new ImageIcon(VariableSelectorUI.class.getResource("/usp/ime/line/resources/icons/attention.png")));
+		add(iconLabel);
+		iconLabel.setVisible(false);
+	}
+
+	private void initVector() {
+		itemVector = new Vector();
 	}
 
 	private void initLabel() {
@@ -67,22 +89,28 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	}
 	
 	private void initConfigMenu() {
-		configMenu = new JComboBox();
-		configMenu.setVisible(false);
+		variableList = new JComboBox();
+		variableList.setVisible(false);
 		initValues();
-		configMenu.addItemListener(new ItemListener(){
-			public void itemStateChanged(ItemEvent evt) {
-				JComboBox cb = (JComboBox) evt.getSource();
-			    Object item = evt.getItem();
-			    if (evt.getStateChange() == ItemEvent.SELECTED) {
-			    	configMenu.setVisible(false);
-			    	initialLabel.setText((String) item);
-			    	initialLabel.setVisible(true);
-			    } 
+		variableList.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				System.out.println(evt);
+			    if(!isUpdate){
+					JComboBox cb = (JComboBox) evt.getSource();
+				    Object item = cb.getSelectedItem();
+			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
+			    		variableList.setVisible(false);
+			    		initialLabel.setText((String) item);
+			    		initialLabel.setVisible(true);
+			    		if(warningState){
+			    			turnWaningStateOFF();
+			    		}
+			    	} 
+			    }
 			}
 		});
 		
-		add(configMenu);
+		add(variableList);
 	}
 
 	private void initValues() {
@@ -91,7 +119,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 		Vector variables = f.getLocalVariableMap().toVector();
 		for(int i = 0; i < variables.size(); i++){
 			String name = ((Variable) Services.getService().getModelMapping().get(variables.get(i))).getVariableName();
-			configMenu.addItem(name);
+			itemVector.add(name);
+			variableList.addItem(name);
 		}
 	}
 
@@ -125,7 +154,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 		}
 		public void mouseClicked(MouseEvent arg0) {
 			selectVariableAction();
-			configMenu.requestFocus();
+			variableList.requestFocus();
 		}
 		
 		public void mousePressed(MouseEvent arg0) { }
@@ -135,7 +164,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	//END: Mouse listener
 	
 	public void selectVariableAction() {
-		configMenu.setVisible(true);
+		variableList.setVisible(true);
 		initialLabel.setVisible(false);
 		revalidate();
 		repaint();
@@ -143,12 +172,66 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	//BEGIN: Variable listener methods
 	public void addedVariable(String id) { 
-		
+		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+		itemVector.add(name);
+		isUpdate = true;
+		updateVariableList();
+		isUpdate = false;
 	}
+	
 	public void changeVariable(String id) { }
-	public void removedVariable(String id) { }
-	public void changeVariableName(String id, String name) { }
+	public void removedVariable(String id) { 
+		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+		itemVector.remove(name);
+		isUpdate = true;
+		updateVariableList();
+		isUpdate = false;
+		if(initialLabel.isVisible()||itemVector.size()==0){
+			if(name.equals(initialLabel.getText())){
+				turnWaningStateON();
+			}
+		}
+	}
+
+	public void changeVariableName(String id, String name, String lastName) {
+		int index = itemVector.indexOf(lastName);
+		initialLabel.setText(name);
+		initialLabel.revalidate();
+		initialLabel.repaint();
+		itemVector.remove(lastName);
+		itemVector.add(index, name);
+		isUpdate = true;
+		updateVariableList();
+		isUpdate = false;
+	}
 	public void changeVariableValue(String id, String value) { }
 	public void changeVariableType(String id, short type) { }
 	//END: Variable listener methods
+	
+	//BEGIN: support methods
+	private void turnWaningStateON() {
+		iconLabel.setVisible(true);
+		selectVariableAction();
+		warningState = true;
+	}
+	
+	private void turnWaningStateOFF() {
+		iconLabel.setVisible(false);
+		warningState = false;
+	}
+	
+	
+	private void updateVariableList(){
+		variableList.removeAllItems();
+		for(int i = 0; i < itemVector.size(); i++){
+			variableList.addItem(itemVector.get(i));
+		}
+	}
+
+	@Override
+	public void variableRestored(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

@@ -49,6 +49,8 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	private JButton addParamBtn;
 	private RoundedJPanel paramPanel;
 	private String scopeID;
+	private Vector variableList;
+	private Vector paramList;
 
 	public IVPVariablePanel(String scopeID, boolean isMain) {
 		this.scopeID = scopeID;
@@ -57,6 +59,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initialization(boolean isMain) {
+		initVectors();
 		initLayout();
 		initContainer();
 		if (!isMain) {
@@ -65,6 +68,11 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 		initAddVarBtn();
 		initVarPanel();
+	}
+
+	private void initVectors() {
+		variableList = new Vector();
+		paramList = new Vector();
 	}
 
 	private void initLayout() {
@@ -157,16 +165,16 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	public void removedVariable(String id) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService()
-				.getViewMapping().get(id);
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if (variable != null) {
 			varPanel.remove(variable);
 		}
 		varPanel.revalidate();
 		varPanel.repaint();
+		
 	}
 
-	public void changeVariableName(String id, String name) {
+	public void changeVariableName(String id, String name, String lastName) {
 		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if (variable != null) {
 			variable.setVariableName(name);
@@ -186,6 +194,13 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		if(variable!=null){
 			variable.setVariableType(type);
 		}
+	}
+
+	public void variableRestored(String id) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		variable.setVisible(true);
+		varPanel.revalidate();
+		varPanel.repaint();
 	}
 
 }
