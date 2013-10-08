@@ -138,7 +138,7 @@ public class IVPProgram extends DomainModel {
 		f.addLocalVariable(variableID);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
-			listener.addedVariable(variableID);
+			listener.variableRestored(variableID);
 		}
 		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
@@ -157,7 +157,7 @@ public class IVPProgram extends DomainModel {
 		v.setVariableName(name);
 		for(int i=0; i<variableListeners.size(); i++){
 			IVariableListener listener = (IVariableListener) variableListeners.get(i);
-			listener.changeVariableName(id, name);
+			listener.changeVariableName(id, name, lastName);
 		}
 		state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
 		return lastName;

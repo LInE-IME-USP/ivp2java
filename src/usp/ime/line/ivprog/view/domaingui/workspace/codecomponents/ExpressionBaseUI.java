@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ExpressionBase extends JPanel implements IVariableListener {
+public class ExpressionBaseUI extends JPanel implements IVariableListener {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
@@ -39,7 +39,7 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 	
 	private EditInPlace integerEdit;
 	
-	public ExpressionBase(String parent){
+	public ExpressionBaseUI(String parent){
 		this.parent = parent;
 		initialization();
 		initComponents();
@@ -150,8 +150,14 @@ public class ExpressionBase extends JPanel implements IVariableListener {
 	public void addedVariable(String id) { }
 	public void changeVariable(String id) { }
 	public void removedVariable(String id) { }
-	public void changeVariableName(String id, String name) { }
+	public void changeVariableName(String id, String name, String lastName) { }
 	public void changeVariableValue(String id, String value) { }
 	public void changeVariableType(String id, short type) { }
 	//END: Variable listener methods
+
+	@Override
+	public void variableRestored(String id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
