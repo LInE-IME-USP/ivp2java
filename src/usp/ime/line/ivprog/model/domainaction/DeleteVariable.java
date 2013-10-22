@@ -9,6 +9,7 @@ public class DeleteVariable extends DomainAction {
 	private IVPProgram model;
 	private String scopeID;
 	private String variableID;
+	private int index;
 
 	public DeleteVariable(String name, String description) {
 		super(name, description);
