@@ -20,7 +20,11 @@ public class NewVariable extends DomainAction{
 	}
 
 	protected void executeAction() {
-		varID = model.createVariable(scopeID, _currentState);
+		if(isRedo()){
+			model.restoreVariable(scopeID, varID, _currentState);
+		} else {
+			varID = model.createVariable(scopeID, _currentState);
+		}
 	}
 
 	protected void undoAction() {

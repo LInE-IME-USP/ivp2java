@@ -43,9 +43,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	private JLabel initialLabel;
 	private JLabel icon; 
 	private String parent;
-	//private Vector itemVector;
 	private boolean isUpdate = true;
 	private boolean warningState = false;
+	private boolean isOnlyOneElement = false;
 	private JLabel iconLabel;
 	
 	public VariableSelectorUI(String parent){
@@ -81,7 +81,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	}
 
 	private void initVector() {
-		//itemVector = new Vector();
 		indexMap = new TreeMap();
 	}
 
@@ -93,38 +92,42 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	private void initConfigMenu() {
 		varList = new JComboBox();
-		
 		varList.setVisible(false);
 		initValues();
 		varList.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
-				System.out.println(evt);
-			    if(!isUpdate || varList.getItemCount() == 1){
-					JComboBox cb = (JComboBox) evt.getSource();
+			    if(!isUpdate){
+			    	System.out.println("inside > "+isUpdate+" isOnlyOne "+isOnlyOneElement);
+			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		varList.setVisible(false);
-			    		initialLabel.setText((String) item);
-			    		initialLabel.setVisible(true);
+			    		setLabelState((String)item);
 			    		if(warningState){
 			    			turnWaningStateOFF();
 			    		}
 			    	} 
 			    }
 			}
+
+			
 		});
 		add(varList);
 	}
 
+	
+	
 	private void initValues() {
 		CodeComponent component = (CodeComponent) Services.getService().getModelMapping().get(parent);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
 		for(int i = 0; i < variables.size(); i++){
-			String name = ((Variable) Services.getService().getModelMapping().get(variables.get(i))).getVariableName();
-			indexMap.put(name, name);
-			varList.addItem(name);
+			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
+			String name = (var).getVariableName();
+			indexMap.put(var.getUniqueID(), name);
 		}
+		isUpdate = true;
+		updateVariableList();
+		isUpdate = false;
 	}
 
 	//END: initialization methods
@@ -199,12 +202,20 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 		updateVariableList();
 		isUpdate = false;
 	}
+	
 	public void changeVariableValue(String id, String value) { }
 	public void changeVariableType(String id, short type) { }
 	
 	public void variableRestored(String id) { 
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id,name);
+		if(initialLabel.getText().equals((name))){
+			turnWaningStateOFF();
+			isUpdate = true;
+			updateVariableList();
+			isUpdate = false;
+			setLabelState(name);
+		}
 		isUpdate = true;
 		updateVariableList();
 		isUpdate = false;
@@ -216,6 +227,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	public void selectVariableAction() {
 		varList.setVisible(true);
 		initialLabel.setVisible(false);
+		revalidate();
+		repaint();
+	}
+	
+	private void setLabelState(String item) {
+		varList.setVisible(false);
+		initialLabel.setText(item);
+		initialLabel.setVisible(true);
 		revalidate();
 		repaint();
 	}
@@ -234,10 +253,19 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	private void updateVariableList(){
 		varList.removeAllItems();
 		Object[] keySetArray = indexMap.keySet().toArray();
+		int count = 0;
 		for(int i = 0; i < keySetArray.length; i++){
 			String variableName = (String) indexMap.get(keySetArray[i]);
-			if(variableName != null)
+			if(variableName != null){
+				count++;
+			}
+		}
+		isOnlyOneElement = count == 1? true: false;
+		for(int i = 0; i < keySetArray.length; i++){
+			String variableName = (String) indexMap.get(keySetArray[i]);
+			if(variableName != null){
 				varList.addItem(variableName);
+			}
 		}
 	}
 	
