@@ -34,6 +34,12 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
+	/*
+	 * TODO: tenho que olhar qual variável to atualizando... 
+	 * caso contrário quando mudo o nome de uma ele joga 
+	 * todos os VariableSelectorUI pra variável que mexi.
+	 */
+	
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);

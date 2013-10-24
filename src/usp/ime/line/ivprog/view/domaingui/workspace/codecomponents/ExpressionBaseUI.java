@@ -18,6 +18,8 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
+import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
+import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Font;
@@ -35,6 +37,8 @@ public class ExpressionBaseUI extends JPanel implements IVariableListener {
 	private boolean drawBorder = true;
 	
 	private JPopupMenu chooseContent;
+	private JPopupMenu changeContent;
+	
 	private JLabel selectLabel;
 	
 	private String parent;
@@ -59,6 +63,66 @@ public class ExpressionBaseUI extends JPanel implements IVariableListener {
 	private void initComponents() {
 		initLabel();
 		initChooseContentMenu();
+		initChangeContentBtn();
+		initChangeContentMenu();
+	}
+	
+	
+	private void initChangeContentMenu() {
+		changeContent = new JPopupMenu();
+		Action createAddition = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		createAddition.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition"));
+		createAddition.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
+		Action createSubtraction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		createSubtraction.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.createSubtraction"));
+		createSubtraction.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
+		Action createMultiplication = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		createMultiplication.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.createMultiplication"));
+		createMultiplication.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
+		Action createDivision = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		createDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision"));
+		createDivision.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
+		Action cleanContent = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		cleanContent.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent"));
+		cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
+		
+	}
+
+	private void initChangeContentBtn() {
+		Action action = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
+		btnChangeContent = new JButton(action);
+		btnChangeContent.setUI(new IconButtonUI());
+		add(btnChangeContent);		
 	}
 
 	private void initLabel() {
@@ -73,33 +137,34 @@ public class ExpressionBaseUI extends JPanel implements IVariableListener {
 			public void actionPerformed(ActionEvent e) {
 				selectLabel.setVisible(false);
 				setOpaque(false);
-				add(new VariableSelectorUI(parent));
+				//deixa o botao de mudar conteudo/criar operacao em segundo lugar
+				add(new VariableSelectorUI(parent),0);
 				drawBorder = false;
 			}
 		};
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,"Escolhe uma variável dentre as possíveis.");
+		variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen"));
 		variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertVariable"));
 		Action integerHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		integerHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número inteiro.");
+		integerHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.integerHasBeenChosen"));
 		integerHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertInteger"));
 		Action doubleHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		doubleHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um número real.");
+		doubleHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.doubleHasBeenChosen"));
 		doubleHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertDouble"));
 		Action textHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		textHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,"Você poderá inserir um texto qualquer.");
+		textHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen"));
 		textHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("expBaseInsertText"));
 		chooseContent.add(variableHasBeenChosen);
 		chooseContent.add(integerHasBeenChosen);
