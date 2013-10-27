@@ -2,12 +2,8 @@ package usp.ime.line.ivprog.model;
 
 public final class IVPConstants {
 
-	public static final short OPERATION_ADDITION = 0;
-	public static final short OPERATION_SUBTRACTION = 1;
-	public static final short OPERATION_DIVISION = 2;
-	public static final short OPERATION_MULTIPLICATION = 3;
-	public static final short OPERATION_AND = 4;
-	public static final short OPERATION_OR = 5;
+
+	
 	public static final short COMPARISON_GREATER = 6;
 	public static final short COMPARISON_GREATEROREQUAL = 7;
 	public static final short COMPARISON_EQUAL = 8;

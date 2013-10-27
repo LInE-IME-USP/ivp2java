@@ -2,7 +2,7 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import usp.ime.line.ivprog.model.IVPConstants;
 
-public abstract class Reference extends CodeComponent {
+public abstract class Reference extends Expression {
 
 	protected String referencedName = "";
 	protected short referenceType = -1;

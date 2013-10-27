@@ -5,13 +5,19 @@ import javax.swing.JComponent;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.WhileUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.PrintUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -29,7 +35,31 @@ public class IVPRenderer {
 			return renderWrite((Print) object);
 		} else if (object instanceof AttributionLine){
 			return renderAttributionLine((AttributionLine) object);
+		} else if (object instanceof Expression){
+			return renderExpresion((Expression) object);
+		} else if (object instanceof Reference){
+			return renderReference((Reference)object);
 		}
+		return null;
+	}
+
+	private JComponent renderReference(Reference object) {
+		return null;
+	}
+
+	private JComponent renderExpresion(Expression object) {
+		VariableSelectorUI var;
+		ExpressionUI exp;
+		
+		if(object.getExpressionType() == Expression.EXPRESSION_VARIABLE){
+			var = new VariableSelectorUI(object.getParentID()); 
+		}else{ // It's an operation
+			exp = new ExpressionUI();
+			exp.setExpressionBaseUI_1((ExpressionHolderUI) paint(((Operation)object).getExpressionA()));
+			//exp.setExpressionBaseUI_2(new ExpressionHolderUI(object.getUniqueID()));
+			return exp;
+		}
+		
 		return null;
 	}
 

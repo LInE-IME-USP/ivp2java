@@ -9,6 +9,7 @@ public abstract class DataObject extends DomainObject {
 	}
 
 	private String uniqueID;
+	private String parentID;
 
 	/**
 	 * This method returns the uniqueID of a DomainObject.
@@ -40,5 +41,19 @@ public abstract class DataObject extends DomainObject {
 	 * @return
 	 */
 	public abstract String toJavaString();
+			
+	/**
+	 * Returns the container of this element.
+	 */
+	public String getParentID() {
+		return parentID;
+	}
+	/**
+	 * Set this element container.
+	 * @param parent
+	 */
+	public void setParentID(String fID) {
+		parentID = fID;
+	}
 
 }

@@ -12,6 +12,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposit
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
+import usp.ime.line.ivprog.model.domainaction.CreateExpression;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.NewChild;
 import usp.ime.line.ivprog.model.domainaction.NewVariable;
@@ -24,7 +25,6 @@ public class IVPController {
 	private IVPProgram program = null;
 	private IVPDomainGUI gui = null;
 	private HashMap actionList;
-
 	private HashMap codeListener;
 	
 	public IVPController(){
@@ -113,6 +113,14 @@ public class IVPController {
 		//program.changeVariableInitialValue(id, value);
 	}
 	
+	public void createExpression(String leftExpID, String holder, short expressionType){
+		CreateExpression createExpression = (CreateExpression) actionList.get("createexpression");
+		createExpression.setExp1(leftExpID);
+		createExpression.setHolder(holder);
+		createExpression.setExpressionType(expressionType);
+		createExpression.execute();
+	}
+	
 	public void initDomainActionList(DomainModel model) {
 		NewVariable newVar = new NewVariable("newvar","newvar");
 		newVar.setDomainModel(model);
@@ -137,6 +145,10 @@ public class IVPController {
 		RemoveChild removeChild = new RemoveChild("removechild", "removechild");
 		removeChild.setDomainModel(model);
 		actionList.put("removechild", removeChild);
+		
+		CreateExpression createExpression = new CreateExpression("createexpression","createexpression");
+		createExpression.setDomainModel(model);
+		actionList.put("createexpression", createExpression);
 	}
 	
 	public void addComponentListener(ICodeListener listener, String id){

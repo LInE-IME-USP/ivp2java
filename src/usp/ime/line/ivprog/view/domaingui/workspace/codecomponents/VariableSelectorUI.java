@@ -46,7 +46,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	private JComboBox varList;
 	private TreeMap indexMap;
-	private JLabel initialLabel;
+	private JLabel nameLabel;
 	private JLabel icon; 
 	private String parent;
 	private boolean isUpdate = true;
@@ -91,9 +91,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	}
 
 	private void initLabel() {
-		initialLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-		initialLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-		add(initialLabel);
+		nameLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+		nameLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+		add(nameLabel);
 	}
 	
 	private void initConfigMenu() {
@@ -103,7 +103,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 		varList.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 			    if(!isUpdate){
-			    	System.out.println("inside > "+isUpdate+" isOnlyOne "+isOnlyOneElement);
 			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
@@ -114,8 +113,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 			    	} 
 			    }
 			}
-
-			
 		});
 		add(varList);
 	}
@@ -192,21 +189,23 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 		isUpdate = true;
 		updateVariableList();
 		isUpdate = false;
-		if(initialLabel.isVisible()||varList.getItemCount()==0){
-			if(name.equals(initialLabel.getText())){
+		if(nameLabel.isVisible()||varList.getItemCount()==0){
+			if(name.equals(nameLabel.getText())){
 				turnWaningStateON();
 			}
 		}
 	}
 
 	public void changeVariableName(String id, String name, String lastName) {
-		initialLabel.setText(name);
-		initialLabel.revalidate();
-		initialLabel.repaint();
-		indexMap.put(id,name);
-		isUpdate = true;
-		updateVariableList();
-		isUpdate = false;
+		if(nameLabel.isVisible() && nameLabel.getText().equals(lastName)){
+			nameLabel.setText(name);
+			nameLabel.revalidate();
+			nameLabel.repaint();
+			indexMap.put(id,name);
+			isUpdate = true;
+			updateVariableList();
+			isUpdate = false;
+		}
 	}
 	
 	public void changeVariableValue(String id, String value) { }
@@ -215,7 +214,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	public void variableRestored(String id) { 
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id,name);
-		if(initialLabel.getText().equals((name))){
+		if(nameLabel.getText().equals((name))){
 			turnWaningStateOFF();
 			isUpdate = true;
 			updateVariableList();
@@ -232,15 +231,15 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	public void selectVariableAction() {
 		varList.setVisible(true);
-		initialLabel.setVisible(false);
+		nameLabel.setVisible(false);
 		revalidate();
 		repaint();
 	}
 	
 	private void setLabelState(String item) {
 		varList.setVisible(false);
-		initialLabel.setText(item);
-		initialLabel.setVisible(true);
+		nameLabel.setText(item);
+		nameLabel.setVisible(true);
 		revalidate();
 		repaint();
 	}

@@ -13,13 +13,16 @@ import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
+import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -32,6 +35,7 @@ public class IVPProgram extends DomainModel {
 	private DataFactory dataFactory = null;
 	private List variableListeners;
 	private List functionListeners;
+	private HashMap expressionListeners;
 	
 	private String currentScope = "0";
 
@@ -39,6 +43,7 @@ public class IVPProgram extends DomainModel {
 		globalVariables = new HashMap();
 		preDefinedFunctions = new HashMap();
 		functionMap = new HashMap();
+		expressionListeners = new HashMap();
 		dataFactory = new DataFactory();
 		variableListeners = new Vector();
 		functionListeners = new Vector();
@@ -142,6 +147,30 @@ public class IVPProgram extends DomainModel {
 		}
 		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
+	
+	public String createExpression(String leftExpID, String holder, short operationType, AssignmentState state){
+		// new expression ->    (leftExp SIGN newExp)
+		Expression exp = null;
+		if(operationType == Expression.EXPRESSION_VARIABLE){
+			exp = (Expression) dataFactory.createVarReference();
+		}else {
+			exp = (Expression) dataFactory.createOperation();
+			exp.setExpressionType(operationType);
+			((Operation) exp).setExpressionA(leftExpID);
+		}
+		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
+		IExpressionListener listener = (IExpressionListener) expressionListeners.get(holder);
+		listener.expressionCreated(exp.getUniqueID());
+		return exp.getUniqueID();
+	}
+	
+	public void cleanExpressionField(String expressionID, AssignmentState state){
+		
+	}
+	
+	public void addExpressionListener(String id, IExpressionListener listener){
+		expressionListeners.put(id, listener);
+	}
 
 	public void addVariableListener(IVariableListener listener){
 		variableListeners.add(listener);
@@ -162,6 +191,7 @@ public class IVPProgram extends DomainModel {
 		state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
 		return lastName;
 	}
+	
 	public short changeVariableType(String id, short type, AssignmentState state){
 		Variable v = (Variable) Services.getService().getModelMapping().get(id);
 		short lastType = v.getVariableType();

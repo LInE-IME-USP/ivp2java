@@ -8,9 +8,9 @@ import javax.swing.JButton;
 public class ExpressionUI extends JPanel {
 	
 	private JLabel leftPar;
-	private ExpressionBaseUI expressionBaseUI_1;
+	private ExpressionHolderUI expressionBaseUI_1;
 	private JLabel expSignal;
-	private ExpressionBaseUI expressionBaseUI_2;
+	private ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
 	private JButton optionsBtn;
 
@@ -35,22 +35,22 @@ public class ExpressionUI extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 	}
 
-	public ExpressionBaseUI getExpressionBaseUI_1() {
+	public ExpressionHolderUI getExpressionBaseUI_1() {
 		return expressionBaseUI_1;
 	}
 
-	public void setExpressionBaseUI_1(ExpressionBaseUI expressionBaseUI_1) {
+	public void setExpressionBaseUI_1(ExpressionHolderUI expressionBaseUI_1) {
 		this.expressionBaseUI_1 = expressionBaseUI_1;
 		add(expressionBaseUI_1 , 1);
 		revalidate();
 		repaint();
 	}
 
-	public ExpressionBaseUI getExpressionBaseUI_2() {
+	public ExpressionHolderUI getExpressionBaseUI_2() {
 		return expressionBaseUI_2;
 	}
 
-	public void setExpressionBaseUI_2(ExpressionBaseUI expressionBaseUI_2) {
+	public void setExpressionBaseUI_2(ExpressionHolderUI expressionBaseUI_2) {
 		this.expressionBaseUI_2 = expressionBaseUI_2;
 		if(expressionBaseUI_1 != null){
 			 add(expressionBaseUI_2,3);
@@ -62,7 +62,7 @@ public class ExpressionUI extends JPanel {
 	}
 	
 	public void setSignal(String sig){
-		//TODO: colocar o sinal do cara
+	
 	}
 
 }
