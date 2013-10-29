@@ -1,15 +1,21 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import java.util.HashMap;
+
+import com.sun.tracing.dtrace.DependencyClass;
+
 import ilm.framework.assignment.model.DomainObject;
 
 public abstract class DataObject extends DomainObject {
 
-	public DataObject(String name, String description) {
-		super(name, description);
-	}
-
+	private HashMap dependencies;
 	private String uniqueID;
 	private String parentID;
+	
+	public DataObject(String name, String description) {
+		super(name, description);
+		dependencies = new HashMap();
+	}
 
 	/**
 	 * This method returns the uniqueID of a DomainObject.
@@ -55,5 +61,20 @@ public abstract class DataObject extends DomainObject {
 	public void setParentID(String fID) {
 		parentID = fID;
 	}
+	
+	/**
+	 * Add a dependency to be removed when this object is deleted.
+	 */
+	public void addDependency(String key, Object o){
+		dependencies.put(key, o);
+	}
+	
+	/**
+	 * Add a dependency to be removed when this object is deleted.
+	 */
+	public void removeDependency(String key, Object o){
+		dependencies.remove(key);
+	}
+			
 
 }

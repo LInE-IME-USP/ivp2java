@@ -86,6 +86,7 @@ public class IVPProgram extends DomainModel {
 			VariableReference varRef = (VariableReference) dataFactory.createVarReference();
 			((AttributionLine)codeBlock).setLeftVariableID(varRef.getUniqueID());
 			Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
+			codeBlock.addDependency(varRef.getUniqueID(), varRef);
 			state.add(varRef);
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);

@@ -44,8 +44,8 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	
 	private JLabel selectLabel;
 	
-	private String parent;
-	private String scopeID;
+	private String parentModelID;
+	private String scopeModelID;
 	
 	private EditInPlace integerEdit;
 	private JButton btnChangeContent;
@@ -53,8 +53,8 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	private JComponent expression;
 	
 	public ExpressionHolderUI(String parent, String scopeID){
-		this.parent = parent;
-		this.scopeID = scopeID;
+		parentModelID = parent;
+		scopeModelID = scopeID;
 		initialization();
 		initComponents();
 		Services.getService().getController().getProgram().addExpressionListener(parent, this);
@@ -156,7 +156,7 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 				add(new VariableSelectorUI(parent),0);
 				drawBorder = false;
 				*/
-				Services.getService().getController().createExpression(null,parent,scopeID,Expression.EXPRESSION_VARIABLE);
+				Services.getService().getController().createExpression(null,parentModelID,scopeModelID,Expression.EXPRESSION_VARIABLE);
 			}
 		};
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));

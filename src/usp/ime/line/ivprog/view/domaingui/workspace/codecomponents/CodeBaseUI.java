@@ -17,11 +17,11 @@ import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-public class CodeBaseUI extends RoundedJPanel {
+public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectUI {
 	
-	private String parentID;
-	private String thisID;
-	private String scopeID;
+	private String parentModelID;
+	private String thisModelID;
+	private String scopeModelID;
 	private JPanel contentPanel;
 	private JPanel gripArea;
 	private JPanel trashCanPanel;
@@ -38,7 +38,7 @@ public class CodeBaseUI extends RoundedJPanel {
 		trashCanPanel = new JPanel(new BorderLayout());
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().removeChild(parentID, thisID);
+				Services.getService().getController().removeChild(parentModelID, thisModelID);
 			}
 		};
 		action.putValue(Action.SMALL_ICON,new ImageIcon(CodeBaseUI.class.getResource("/usp/ime/line/resources/icons/trash16x16.png")));
@@ -69,28 +69,29 @@ public class CodeBaseUI extends RoundedJPanel {
         add(gripArea, BorderLayout.WEST);
 	}
 
-	public String getParentID() {
-		return parentID;
-	}
 
-	public void setParentID(String parentID) {
-		this.parentID = parentID;
-	}
-
-	public String getThisID() {
-		return thisID;
-	}
-
-	public void setThisID(String thisID) {
-		this.thisID = thisID;
+	public String getModelID() {
+		return thisModelID;
 	}
 	
-	public String getScopeID() {
-		return scopeID;
+	public String getModelParent() {
+		return parentModelID;
 	}
 
-	public void setScopeID(String scopeID) {
-		this.scopeID = scopeID;
+	public String getModelScope() {
+		return scopeModelID;
+	}
+
+	public void setModelID(String id) {
+		thisModelID = id;
+	}
+
+	public void setModelParent(String id) {
+		parentModelID = id;
+	}
+
+	public void setModelScope(String id) {
+		scopeModelID = id;
 	}
 
 	protected void addContentPanel(JPanel panel){

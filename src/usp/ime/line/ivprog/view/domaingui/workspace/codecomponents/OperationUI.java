@@ -7,7 +7,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-public class ExpressionUI extends JPanel {
+public class OperationUI extends JPanel implements IDomainObjectUI {
 	
 	private JLabel leftPar;
 	private ExpressionHolderUI expressionBaseUI_1;
@@ -15,12 +15,13 @@ public class ExpressionUI extends JPanel {
 	private ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
 	private JButton optionsBtn;
-	private String parentID;
-	private String scopeID;
+	private String currentModelID;
+	private String parentModelID;
+	private String scopeModelID;
 
-	public ExpressionUI(String parent, String scope) {
-		parentID = parent;
-		scopeID = scope;
+	public OperationUI(String parent, String scope) {
+		parentModelID = parent;
+		scopeModelID = scope;
 		initLayout();
 		initComponents();
 	}
@@ -70,5 +71,31 @@ public class ExpressionUI extends JPanel {
 	public void setSignal(String sig){
 	
 	}
+
+	public String getModelID() {
+		return currentModelID;
+	}
+	
+	public String getModelParent() {
+		return parentModelID;
+	}
+
+	public String getModelScope() {
+		return scopeModelID;
+	}
+
+	public void setModelID(String id) {
+		currentModelID = id;
+	}
+
+	public void setModelParent(String id) {
+		parentModelID = id;
+	}
+
+	public void setModelScope(String id) {
+		scopeModelID = id;
+	}
+
+
 
 }

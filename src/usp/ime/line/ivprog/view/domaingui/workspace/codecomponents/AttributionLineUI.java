@@ -17,18 +17,18 @@ public class AttributionLineUI extends CodeBaseUI {
 	private static Color bgColor = new Color(199, 215, 219);
 	
 	public AttributionLineUI(String id, String scope, String parent){
-		setThisID(id);
-		setParentID(parent);
-		setScopeID(scope);
+		setModelID(id);
+		setModelParent(parent);
+		setModelScope(scope);
 		initialization();
 		addComponents();
 	}
 	
 	private void initialization(){
-		expression = new ExpressionHolderUI(getThisID(), getScopeID());
+		expression = new ExpressionHolderUI(getModelID(), getModelScope());
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
-		varSelector = new VariableSelectorUI(getParentID());
+		varSelector = new VariableSelectorUI(getModelParent());
 		setBackground(bgColor);
 	}
 	

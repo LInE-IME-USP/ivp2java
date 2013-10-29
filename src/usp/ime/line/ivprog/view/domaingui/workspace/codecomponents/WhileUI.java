@@ -34,7 +34,7 @@ public class WhileUI extends CodeBaseUI {
 	private static Color bgColor = new Color(189, 195, 199);
 	
 	public WhileUI(String id) {
-		setThisID(id);
+		setModelID(id);
 		initContentPanel();
 		initExpandButtonIcon();
 		initHeader();
@@ -44,7 +44,7 @@ public class WhileUI extends CodeBaseUI {
 	}
 
 	private void initContainer() {
-		container = new IVPContainer(true, getThisID());
+		container = new IVPContainer(true, getModelID());
 		container.setContainerBackground(bgColor);
 		container.setVisible(false);
 		contentPanel.add(container, BorderLayout.CENTER);

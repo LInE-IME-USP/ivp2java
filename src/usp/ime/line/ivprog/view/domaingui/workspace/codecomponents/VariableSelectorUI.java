@@ -32,13 +32,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-public class VariableSelectorUI extends JPanel implements IVariableListener {
-	
-	/*
-	 * TODO: tenho que olhar qual variável to atualizando... 
-	 * caso contrário quando mudo o nome de uma ele joga 
-	 * todos os VariableSelectorUI pra variável que mexi.
-	 */
+public class VariableSelectorUI extends JPanel implements IVariableListener, IDomainObjectUI {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
@@ -48,14 +42,17 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	private TreeMap indexMap;
 	private JLabel nameLabel;
 	private JLabel icon; 
-	private String parent;
 	private boolean isUpdate = true;
 	private boolean warningState = false;
 	private boolean isOnlyOneElement = false;
 	private JLabel iconLabel;
 	
+	private String currentModelID;
+	private String parentModelID;
+	private String scopeModelID;
+	
 	public VariableSelectorUI(String parent){
-		this.parent = parent;
+		this.parentModelID = parent;
 		initialization();
 		initComponents();
 		//Starts listening to variable changes
@@ -120,7 +117,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 	
 	
 	private void initValues() {
-		CodeComponent component = (CodeComponent) Services.getService().getModelMapping().get(parent);
+		CodeComponent component = (CodeComponent) Services.getService().getModelMapping().get(parentModelID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
 		for(int i = 0; i < variables.size(); i++){
@@ -272,6 +269,48 @@ public class VariableSelectorUI extends JPanel implements IVariableListener {
 				varList.addItem(variableName);
 			}
 		}
+	}
+
+
+	public String getScopeID() {
+		return scopeModelID;
+	}
+
+	public void setScopeID(String scopeID) {
+		this.scopeModelID = scopeID;
+	}
+
+	public String getCurrentModelID() {
+		return currentModelID;
+	}
+
+	public void setCurrentModelID(String currentModelID) {
+		this.currentModelID = currentModelID;
+	}
+
+
+	public String getModelID() {
+		return currentModelID;
+	}
+	
+	public String getModelParent() {
+		return parentModelID;
+	}
+
+	public String getModelScope() {
+		return scopeModelID;
+	}
+
+	public void setModelID(String id) {
+		currentModelID = id;
+	}
+
+	public void setModelParent(String id) {
+		parentModelID = id;
+	}
+
+	public void setModelScope(String id) {
+		scopeModelID = id;
 	}
 	
 }

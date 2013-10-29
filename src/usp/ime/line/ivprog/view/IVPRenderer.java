@@ -15,7 +15,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.WhileUI;
@@ -54,7 +54,7 @@ public class IVPRenderer {
 
 	private JComponent renderExpresion(Expression expressionModel) {
 		VariableSelectorUI var;
-		ExpressionUI exp;
+		OperationUI exp;
 		System.out.println(expressionModel.getExpressionType());
 		if(expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE){
 			System.out.println("Expression Type == variable");
@@ -62,7 +62,7 @@ public class IVPRenderer {
 			return var;
 		}else{ // It's an operation
 			System.out.println("Expression Type == operation");
-			exp = new ExpressionUI(expressionModel.getParentID(), expressionModel.getScopeID());
+			exp = new OperationUI(expressionModel.getParentID(), expressionModel.getScopeID());
 			exp.setExpressionBaseUI_1((ExpressionHolderUI) paint(((Operation)expressionModel).getExpressionA()));
 			//exp.setExpressionBaseUI_2(new ExpressionHolderUI(object.getUniqueID()));
 			return exp;
@@ -71,16 +71,16 @@ public class IVPRenderer {
 
 	private JComponent renderAttributionLine(AttributionLine attLineModel) {
 		AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
-		attLine.setParentID(attLineModel.getParentID());
-		attLine.setScopeID(attLineModel.getScopeID());
+		attLine.setModelParent(attLineModel.getParentID());
+		attLine.setModelScope(attLineModel.getScopeID());
 		Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
 		return attLine;
 	}
 
 	private JComponent renderWhile(While object) {
 		WhileUI w = new WhileUI(object.getUniqueID());
-		w.setParentID(object.getParentID());
-		w.setScopeID(object.getScopeID());
+		w.setModelParent(object.getParentID());
+		w.setModelScope(object.getScopeID());
 		Services.getService().getViewMapping().put(object.getUniqueID(), w);
 		return w;
 	}
@@ -100,8 +100,8 @@ public class IVPRenderer {
 	
 	private JComponent renderWrite(Print p){
 		PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
-		print.setParentID(p.getParentID());
-		print.setScopeID(p.getScopeID());
+		print.setModelParent(p.getParentID());
+		print.setModelScope(p.getScopeID());
 		Services.getService().getViewMapping().put(p.getUniqueID(), print);
 		return print;
 	}

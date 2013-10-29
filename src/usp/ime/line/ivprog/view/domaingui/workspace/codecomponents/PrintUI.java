@@ -17,15 +17,15 @@ public class PrintUI extends CodeBaseUI {
 	private static Color bgColor = new Color(159, 165, 169);
 	
 	public PrintUI(String id, String parentID, String scopeID){
-		setParentID(parentID);
-		setScopeID(scopeID);
-		setThisID(id);
+		setModelParent(parentID);
+		setModelScope(scopeID);
+		setModelID(id);
 		initialization(id);
 		addComponents();
 	}
 	
 	private void initialization(String id){
-		expressionHolder = new ExpressionHolderUI(getThisID(), getScopeID());
+		expressionHolder = new ExpressionHolderUI(getModelID(), getModelScope());
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("printTitle"));
 		setBackground(bgColor);
