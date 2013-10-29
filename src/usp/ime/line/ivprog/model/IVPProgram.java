@@ -17,6 +17,7 @@ import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
@@ -24,6 +25,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -81,6 +83,10 @@ public class IVPProgram extends DomainModel {
 			codeBlock = (CodeComponent) dataFactory.createPrint();
 		} else if( classID == IVPConstants.MODEL_ATTLINE){
 			codeBlock = (CodeComponent) dataFactory.createAttributionLine();
+			VariableReference varRef = (VariableReference) dataFactory.createVarReference();
+			((AttributionLine)codeBlock).setLeftVariableID(varRef.getUniqueID());
+			Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
+			state.add(varRef);
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
 		CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
