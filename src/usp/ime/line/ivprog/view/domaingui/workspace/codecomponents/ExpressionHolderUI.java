@@ -45,14 +45,16 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	private JLabel selectLabel;
 	
 	private String parent;
+	private String scopeID;
 	
 	private EditInPlace integerEdit;
 	private JButton btnChangeContent;
 	
 	private JComponent expression;
 	
-	public ExpressionHolderUI(String parent){
+	public ExpressionHolderUI(String parent, String scopeID){
 		this.parent = parent;
+		this.scopeID = scopeID;
 		initialization();
 		initComponents();
 		Services.getService().getController().getProgram().addExpressionListener(parent, this);
@@ -86,7 +88,7 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 		createAddition.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition.text"));
 		Action createSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				//Services.getService().getController().createExpression(, ,);
+				//Services.getService().getController().createExpression(,parent,scopeID,Expression.EXPRESSION_OPERATION_ADDITION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -154,7 +156,7 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 				add(new VariableSelectorUI(parent),0);
 				drawBorder = false;
 				*/
-				Services.getService().getController().createExpression(null,parent,Expression.EXPRESSION_VARIABLE);
+				Services.getService().getController().createExpression(null,parent,scopeID,Expression.EXPRESSION_VARIABLE);
 			}
 		};
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -250,14 +252,17 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	//BEGIN: Expression listener methods
 	public void cleanExpressionField() { }
 	public void expressionCreated(String id) {
-		JComponent exp = Services.getService().getRenderer().paint(id);
-		Services.getService().getViewMapping().put(id, exp);
-		expression = exp;
+		expression = Services.getService().getRenderer().paint(id);
+		Services.getService().getViewMapping().put(id, expression);
 		selectLabel.setVisible(false);
 		setOpaque(false);
 		//deixa o botao de mudar conteudo/criar operacao em segundo lugar
+		if(expression instanceof VariableSelectorUI)
+			((VariableSelectorUI) expression).selectVariableAction();
 		add(expression,0);
 		drawBorder = false;
+		revalidate();
+		repaint();
 	}
 	//END: Expression listener methods
 

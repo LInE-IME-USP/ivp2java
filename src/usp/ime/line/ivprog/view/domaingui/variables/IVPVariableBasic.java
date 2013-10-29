@@ -57,9 +57,12 @@ public class IVPVariableBasic extends RoundedJPanel {
 
 	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
 
-	public IVPVariableBasic() {
+	public IVPVariableBasic(String id, String scope) {
+		
+		this.escopeID = scope;
 		setBackground(BACKGROUND_COLOR);
 		initialization();
+		setID(id);
 	}
 
 	private void initialization() {
@@ -236,16 +239,12 @@ public class IVPVariableBasic extends RoundedJPanel {
 	}
 
 	private class ConfigBtnActionListener implements ActionListener {
-
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			configMenu.show(configBtn, 0, configBtn.getHeight());
 			configMenu.requestFocus();
 		}
-
 	}
 	private class ConfigTypeActionListener implements ActionListener{
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Popup menu item ["
 		            + e.getActionCommand() + "] was pressed.");

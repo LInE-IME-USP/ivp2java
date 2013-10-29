@@ -24,50 +24,56 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPRenderer {
 	public JComponent paint(Object objectKey) {
-		DataObject object = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
-		if (object instanceof Function) {
-			return renderFunction((Function) object);
-		} else if (object instanceof Variable) {
-			return renderVariable((Variable) object);
-		} else if (object instanceof While){
-			return renderWhile((While)object);
-		} else if (object instanceof Print){
-			return renderWrite((Print) object);
-		} else if (object instanceof AttributionLine){
-			return renderAttributionLine((AttributionLine) object);
-		} else if (object instanceof Expression){
-			return renderExpresion((Expression) object);
-		} else if (object instanceof Reference){
-			return renderReference((Reference)object);
+		DataObject codeElementModel = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
+		if (codeElementModel instanceof Function) {
+			return renderFunction((Function) codeElementModel);
+		} else if (codeElementModel instanceof Variable) {
+			return renderVariable((Variable) codeElementModel);
+		} else if (codeElementModel instanceof While){
+			return renderWhile((While)codeElementModel);
+		} else if (codeElementModel instanceof Print){
+			return renderWrite((Print) codeElementModel);
+		} else if (codeElementModel instanceof AttributionLine){
+			return renderAttributionLine((AttributionLine) codeElementModel);
+		} else if (codeElementModel instanceof Expression){
+			System.out.println("Expression >");
+			return renderExpresion((Expression) codeElementModel);
+			
+		} else if (codeElementModel instanceof Reference){
+			System.out.println("Reference > ");
+			return renderReference((Reference)codeElementModel);
 		}
 		return null;
 	}
 
-	private JComponent renderReference(Reference object) {
+	private JComponent renderReference(Reference referenceModel) {
+		//acho que isso aqui poderia renderizar uma label com o nome da variável...
+		//seria a label que vai 
 		return null;
 	}
 
-	private JComponent renderExpresion(Expression object) {
+	private JComponent renderExpresion(Expression expressionModel) {
 		VariableSelectorUI var;
 		ExpressionUI exp;
-		
-		if(object.getExpressionType() == Expression.EXPRESSION_VARIABLE){
-			var = new VariableSelectorUI(object.getParentID()); 
+		System.out.println(expressionModel.getExpressionType());
+		if(expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE){
+			System.out.println("Expression Type == variable");
+			var = new VariableSelectorUI(expressionModel.getParentID());
+			return var;
 		}else{ // It's an operation
-			exp = new ExpressionUI();
-			exp.setExpressionBaseUI_1((ExpressionHolderUI) paint(((Operation)object).getExpressionA()));
+			System.out.println("Expression Type == operation");
+			exp = new ExpressionUI(expressionModel.getParentID(), expressionModel.getScopeID());
+			exp.setExpressionBaseUI_1((ExpressionHolderUI) paint(((Operation)expressionModel).getExpressionA()));
 			//exp.setExpressionBaseUI_2(new ExpressionHolderUI(object.getUniqueID()));
 			return exp;
 		}
-		
-		return null;
 	}
 
-	private JComponent renderAttributionLine(AttributionLine object) {
-		AttributionLineUI attLine = new AttributionLineUI(object.getUniqueID(), object.getParentID());
-		attLine.setParentID(object.getParentID());
-		attLine.setScopeID(object.getScopeID());
-		Services.getService().getViewMapping().put(object.getUniqueID(), attLine);
+	private JComponent renderAttributionLine(AttributionLine attLineModel) {
+		AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
+		attLine.setParentID(attLineModel.getParentID());
+		attLine.setScopeID(attLineModel.getScopeID());
+		Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
 		return attLine;
 	}
 
@@ -93,7 +99,7 @@ public class IVPRenderer {
 	}
 	
 	private JComponent renderWrite(Print p){
-		PrintUI print = new PrintUI(p.getUniqueID());
+		PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
 		print.setParentID(p.getParentID());
 		print.setScopeID(p.getScopeID());
 		Services.getService().getViewMapping().put(p.getUniqueID(), print);
@@ -101,10 +107,8 @@ public class IVPRenderer {
 	}
 
 	private JComponent renderVariable(Variable object) {
-		IVPVariableBasic variable = new IVPVariableBasic();
+		IVPVariableBasic variable = new IVPVariableBasic(object.getUniqueID(), object.getScopeID());
 		variable.setVariableName(object.getVariableName());
-		variable.setID(object.getUniqueID());
-		variable.setEscope(object.getScopeID());
 		Services.getService().getViewMapping().put(object.getUniqueID(), variable);
 		return variable;
 	}

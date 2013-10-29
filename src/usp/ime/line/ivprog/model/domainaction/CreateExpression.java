@@ -10,6 +10,7 @@ public class CreateExpression extends DomainAction{
 	private String holder;
 	private String exp1;
 	private String newExpression;
+	private String scopeID;
 	/*
 	 * New expressions are like (exp1+ SIGN expSpace+)+
 	 */
@@ -24,7 +25,7 @@ public class CreateExpression extends DomainAction{
 	}
 
 	protected void executeAction() {
-		model.createExpression(exp1, holder, expressionType, _currentState);
+		model.createExpression(exp1, holder, scopeID, expressionType, _currentState);
 	}
 
 	protected void undoAction() {
@@ -57,6 +58,14 @@ public class CreateExpression extends DomainAction{
 
 	public void setExpressionType(short expressionType) {
 		this.expressionType = expressionType;
+	}
+
+	public String getScopeID() {
+		return scopeID;
+	}
+
+	public void setScopeID(String scopeID) {
+		this.scopeID = scopeID;
 	}
 
 }

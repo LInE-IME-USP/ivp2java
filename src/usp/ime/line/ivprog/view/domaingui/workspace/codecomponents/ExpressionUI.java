@@ -1,7 +1,9 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.JPanel;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
@@ -13,8 +15,12 @@ public class ExpressionUI extends JPanel {
 	private ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
 	private JButton optionsBtn;
+	private String parentID;
+	private String scopeID;
 
-	public ExpressionUI() {
+	public ExpressionUI(String parent, String scope) {
+		parentID = parent;
+		scopeID = scope;
 		initLayout();
 		initComponents();
 	}

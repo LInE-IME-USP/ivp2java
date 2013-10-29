@@ -16,15 +16,16 @@ public class AttributionLineUI extends CodeBaseUI {
 	private ExpressionHolderUI expression;
 	private static Color bgColor = new Color(199, 215, 219);
 	
-	public AttributionLineUI(String id, String scope){
+	public AttributionLineUI(String id, String scope, String parent){
 		setThisID(id);
-		setParentID(scope);
+		setParentID(parent);
+		setScopeID(scope);
 		initialization();
 		addComponents();
 	}
 	
 	private void initialization(){
-		expression = new ExpressionHolderUI(getParentID());
+		expression = new ExpressionHolderUI(getThisID(), getScopeID());
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
 		varSelector = new VariableSelectorUI(getParentID());

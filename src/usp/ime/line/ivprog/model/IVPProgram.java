@@ -148,16 +148,19 @@ public class IVPProgram extends DomainModel {
 		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
 	
-	public String createExpression(String leftExpID, String holder, short operationType, AssignmentState state){
+	public String createExpression(String leftExpID, String holder, String scope, short expressionType, AssignmentState state){
 		// new expression ->    (leftExp SIGN newExp)
 		Expression exp = null;
-		if(operationType == Expression.EXPRESSION_VARIABLE){
+		if(expressionType == Expression.EXPRESSION_VARIABLE){
 			exp = (Expression) dataFactory.createVarReference();
+			exp.setExpressionType(expressionType);
 		}else {
 			exp = (Expression) dataFactory.createOperation();
-			exp.setExpressionType(operationType);
+			exp.setExpressionType(expressionType);
 			((Operation) exp).setExpressionA(leftExpID);
 		}
+		exp.setParentID(holder);
+		exp.setScopeID(currentScope);
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
 		IExpressionListener listener = (IExpressionListener) expressionListeners.get(holder);
 		listener.expressionCreated(exp.getUniqueID());
