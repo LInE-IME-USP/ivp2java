@@ -48,4 +48,5 @@ public class While extends CodeComposite {
 	public boolean equals(DomainObject o) {
 		return false;
 	}
+
 }

@@ -288,7 +288,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		this.currentModelID = currentModelID;
 	}
 
-
 	public String getModelID() {
 		return currentModelID;
 	}

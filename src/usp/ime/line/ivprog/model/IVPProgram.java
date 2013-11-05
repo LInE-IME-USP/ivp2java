@@ -37,7 +37,7 @@ public class IVPProgram extends DomainModel {
 	private DataFactory dataFactory = null;
 	private List variableListeners;
 	private List functionListeners;
-	private HashMap expressionListeners;
+	private List expressionListeners;
 	
 	private String currentScope = "0";
 
@@ -45,10 +45,10 @@ public class IVPProgram extends DomainModel {
 		globalVariables = new HashMap();
 		preDefinedFunctions = new HashMap();
 		functionMap = new HashMap();
-		expressionListeners = new HashMap();
 		dataFactory = new DataFactory();
 		variableListeners = new Vector();
 		functionListeners = new Vector();
+		expressionListeners = new Vector();
 	}
 
 	public void initializeModel() {
@@ -86,7 +86,6 @@ public class IVPProgram extends DomainModel {
 			VariableReference varRef = (VariableReference) dataFactory.createVarReference();
 			((AttributionLine)codeBlock).setLeftVariableID(varRef.getUniqueID());
 			Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
-			codeBlock.addDependency(varRef.getUniqueID(), varRef);
 			state.add(varRef);
 		}
 		Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
@@ -161,16 +160,18 @@ public class IVPProgram extends DomainModel {
 		if(expressionType == Expression.EXPRESSION_VARIABLE){
 			exp = (Expression) dataFactory.createVarReference();
 			exp.setExpressionType(expressionType);
-		}else {
+		} else {
 			exp = (Expression) dataFactory.createOperation();
 			exp.setExpressionType(expressionType);
+			((Expression)Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
 			((Operation) exp).setExpressionA(leftExpID);
 		}
 		exp.setParentID(holder);
 		exp.setScopeID(currentScope);
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
-		IExpressionListener listener = (IExpressionListener) expressionListeners.get(holder);
-		listener.expressionCreated(exp.getUniqueID());
+		for(int i = 0; i < expressionListeners.size(); i++)
+			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID());
+		state.add(exp);
 		return exp.getUniqueID();
 	}
 	
@@ -178,8 +179,8 @@ public class IVPProgram extends DomainModel {
 		
 	}
 	
-	public void addExpressionListener(String id, IExpressionListener listener){
-		expressionListeners.put(id, listener);
+	public void addExpressionListener(IExpressionListener listener){
+		expressionListeners.add(listener);
 	}
 
 	public void addVariableListener(IVariableListener listener){

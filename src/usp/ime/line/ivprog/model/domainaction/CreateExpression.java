@@ -25,7 +25,7 @@ public class CreateExpression extends DomainAction{
 	}
 
 	protected void executeAction() {
-		model.createExpression(exp1, holder, scopeID, expressionType, _currentState);
+		newExpression = model.createExpression(exp1, holder, scopeID, expressionType, _currentState);
 	}
 
 	protected void undoAction() {

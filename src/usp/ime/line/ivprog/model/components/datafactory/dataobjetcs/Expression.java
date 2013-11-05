@@ -10,7 +10,7 @@ public abstract class Expression extends DataObject {
 	public static final short EXPRESSION_OPERATION_AND = 4;
 	public static final short EXPRESSION_OPERATION_OR = 5;
 	
-	protected short operationType = -1;
+	protected short expressionType = -1;
 	protected String scopeID;
 
 	public String getScopeID() {
@@ -26,11 +26,11 @@ public abstract class Expression extends DataObject {
 	}
 	
 	public short getExpressionType(){
-		return operationType;
+		return expressionType;
 	}
 	
 	public void setExpressionType(short type){
-		operationType = type;
+		expressionType = type;
 	}
 	
 }

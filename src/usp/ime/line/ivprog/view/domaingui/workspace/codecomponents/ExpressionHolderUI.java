@@ -18,6 +18,7 @@ import javax.swing.JPopupMenu;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
@@ -31,11 +32,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ExpressionHolderUI extends JPanel implements IVariableListener, IExpressionListener {
+public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
+	public static int a = 0;
+	private int Locala;
 	
 	private boolean drawBorder = true;
 	
@@ -52,12 +55,14 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	
 	private JComponent expression;
 	
+
 	public ExpressionHolderUI(String parent, String scopeID){
 		parentModelID = parent;
 		scopeModelID = scopeID;
+		Locala = a++;
 		initialization();
 		initComponents();
-		Services.getService().getController().getProgram().addExpressionListener(parent, this);
+		Services.getService().getController().getProgram().addExpressionListener(this);
 	}
 
 	//BEGIN: initialization methods
@@ -80,7 +85,8 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 		changeContent = new JPopupMenu();
 		Action createAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_ADDITION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -88,7 +94,7 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 		createAddition.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition.text"));
 		Action createSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				//Services.getService().getController().createExpression(,parent,scopeID,Expression.EXPRESSION_OPERATION_ADDITION);
+				
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -112,7 +118,8 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 		createDivision.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision.text"));
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				System.out.println("ExpressionHolderUI MEU NUMERO> "+Locala+" expression "+ expressionID);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -149,13 +156,6 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 		chooseContent = new JPopupMenu();
 		Action variableHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				/* Isso ta errado... precisa passar pelo processo de criação de expressão
-				selectLabel.setVisible(false);
-				setOpaque(false);
-				//deixa o botao de mudar conteudo/criar operacao em segundo lugar
-				add(new VariableSelectorUI(parent),0);
-				drawBorder = false;
-				*/
 				Services.getService().getController().createExpression(null,parentModelID,scopeModelID,Expression.EXPRESSION_VARIABLE);
 			}
 		};
@@ -239,35 +239,44 @@ public class ExpressionHolderUI extends JPanel implements IVariableListener, IEx
 	}
 	//END: Mouse listener
 	
-	//BEGIN: Variable listener methods
-	public void addedVariable(String id) { }
-	public void changeVariable(String id) { }
-	public void removedVariable(String id) { }
-	public void changeVariableName(String id, String name, String lastName) { }
-	public void changeVariableValue(String id, String value) { }
-	public void changeVariableType(String id, short type) { }
-	public void variableRestored(String id) { }
-	//END: Variable listener methods
-
 	//BEGIN: Expression listener methods
 	public void cleanExpressionField() { }
-	public void expressionCreated(String id) {
-		expression = Services.getService().getRenderer().paint(id);
-		Services.getService().getViewMapping().put(id, expression);
-		selectLabel.setVisible(false);
-		setOpaque(false);
-		//deixa o botao de mudar conteudo/criar operacao em segundo lugar
-		if(expression instanceof VariableSelectorUI)
-			((VariableSelectorUI) expression).selectVariableAction();
-		add(expression,0);
-		drawBorder = false;
-		revalidate();
-		repaint();
+	
+	public void expressionCreated(String holder, String id) {
+		if(holder == parentModelID){//significa que é comigo mesmo
+			System.out.println("É comigo mesmo!!!");
+			JComponent lastExpression = expression;
+			if(expression != null)
+				remove(expression);
+			expression = Services.getService().getRenderer().paint(id);
+			selectLabel.setVisible(false);
+			setOpaque(false);
+			if(expression instanceof VariableSelectorUI){
+				((VariableSelectorUI) expression).selectVariableAction();
+			} else { 
+				((OperationUI)expression).setExpressionBaseUI_1(lastExpression);
+			}
+			add(expression,0);
+			drawBorder = false;
+			revalidate();
+			repaint();
+		} else
+			System.out.println("Não é comigo!!!");
 	}
 	//END: Expression listener methods
 
-	
-	
+	public JComponent getExpression() {
+		return expression;
+	}
 
-	
+	public void setExpression(JComponent expression) {
+		
+		String expressionID = ((IDomainObjectUI)expression).getModelID();
+		System.out.println("Deveria colocar a variável aqui "+expressionID+" "+parentModelID);
+		this.expression = expression;
+		if(this.expression instanceof VariableSelectorUI)
+			((VariableSelectorUI) this.expression).selectVariableAction();
+	}
+
+
 }

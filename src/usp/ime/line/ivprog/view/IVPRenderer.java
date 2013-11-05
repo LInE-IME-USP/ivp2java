@@ -36,11 +36,8 @@ public class IVPRenderer {
 		} else if (codeElementModel instanceof AttributionLine){
 			return renderAttributionLine((AttributionLine) codeElementModel);
 		} else if (codeElementModel instanceof Expression){
-			System.out.println("Expression >");
 			return renderExpresion((Expression) codeElementModel);
-			
 		} else if (codeElementModel instanceof Reference){
-			System.out.println("Reference > ");
 			return renderReference((Reference)codeElementModel);
 		}
 		return null;
@@ -55,16 +52,15 @@ public class IVPRenderer {
 	private JComponent renderExpresion(Expression expressionModel) {
 		VariableSelectorUI var;
 		OperationUI exp;
-		System.out.println(expressionModel.getExpressionType());
 		if(expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE){
-			System.out.println("Expression Type == variable");
 			var = new VariableSelectorUI(expressionModel.getParentID());
+			var.setModelID(expressionModel.getUniqueID());
+			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
 			return var;
 		}else{ // It's an operation
-			System.out.println("Expression Type == operation");
-			exp = new OperationUI(expressionModel.getParentID(), expressionModel.getScopeID());
-			exp.setExpressionBaseUI_1((ExpressionHolderUI) paint(((Operation)expressionModel).getExpressionA()));
-			//exp.setExpressionBaseUI_2(new ExpressionHolderUI(object.getUniqueID()));
+			exp = new OperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+			exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
+			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
 			return exp;
 		}
 	}
