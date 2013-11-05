@@ -54,5 +54,4 @@ public class FunctionBodyUI extends JPanel {
 		this.functionID = function;
 	}
 
-
 }

@@ -42,7 +42,6 @@ public class VariableReference extends Reference {
 		return null;
 	}
 
-	@Override
 	public boolean equals(DomainObject o) {
 		// TODO Auto-generated method stub
 		return false;

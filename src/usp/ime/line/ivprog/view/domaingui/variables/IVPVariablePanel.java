@@ -34,8 +34,11 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.SwingConstants;
@@ -49,7 +52,12 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	private JButton addParamBtn;
 	private RoundedJPanel paramPanel;
 	private String scopeID;
-
+	private Vector variableList;
+	private Vector paramList;
+	
+	private TreeMap varMap;
+	private TreeMap paramMap;
+	
 	public IVPVariablePanel(String scopeID, boolean isMain) {
 		this.scopeID = scopeID;
 		initialization(isMain);
@@ -57,6 +65,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initialization(boolean isMain) {
+		initVectors();
 		initLayout();
 		initContainer();
 		if (!isMain) {
@@ -65,6 +74,13 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 		initAddVarBtn();
 		initVarPanel();
+	}
+
+	private void initVectors() {
+		variableList = new Vector();
+		paramList = new Vector();
+		varMap = new TreeMap();
+		paramMap = new TreeMap();
 	}
 
 	private void initLayout() {
@@ -106,8 +122,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 
 	private void initVarPanel() {
 		varPanel = new RoundedJPanel();
-		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel,
-				varPanel.getClass(), 1));
+		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel, varPanel.getClass(), 1));
 		GridBagConstraints gbc_varPanel = new GridBagConstraints();
 		gbc_varPanel.insets = new Insets(2, 0, 2, 0);
 		gbc_varPanel.fill = GridBagConstraints.BOTH;
@@ -146,27 +161,47 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		gbl_container.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		container.setLayout(gbl_container);
 	}
-
-	public void addedVariable(String id) {
-		varPanel.add(Services.getService().getRenderer().paint(id));
-		varPanel.revalidate();
-		varPanel.repaint();
-	}
-
-	public void changeVariable(String id) {
-	}
-
-	public void removedVariable(String id) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService()
-				.getViewMapping().get(id);
-		if (variable != null) {
-			varPanel.remove(variable);
+	
+	public void repaintVarPanel(){
+		varPanel.removeAll();
+		Object[] keySetArray = varMap.keySet().toArray();
+		for(int i = 0; i < keySetArray.length; i++){
+			Component variableUI = (Component) varMap.get(keySetArray[i]);
+			if(variableUI != null)
+				varPanel.add(variableUI);
 		}
 		varPanel.revalidate();
 		varPanel.repaint();
 	}
+	
+	public void repaintParamPanel(){
+		paramPanel.removeAll();
+		String[] keySetArray =  (String[]) paramMap.keySet().toArray();
+		for(int i = 0; i < keySetArray.length; i++){
+			Component variableUI = (Component) paramMap.get(keySetArray[i]);
+			if(variableUI != null)
+				paramPanel.add(variableUI);
+		}
+		paramPanel.revalidate();
+		paramPanel.repaint();
+	}
 
-	public void changeVariableName(String id, String name) {
+	public void addedVariable(String id) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
+		varMap.put(id, variable);
+		repaintVarPanel();
+	}
+
+	public void changeVariable(String id) {
+		
+	}
+
+	public void removedVariable(String id) {
+		varMap.put(id, null);
+		repaintVarPanel();
+	}
+
+	public void changeVariableName(String id, String name, String lastName) {
 		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if (variable != null) {
 			variable.setVariableName(name);
@@ -188,4 +223,10 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 	}
 
+	public void variableRestored(String id) {
+		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+		varMap.put(id, variable);
+		repaintVarPanel();
+	}
+	
 }

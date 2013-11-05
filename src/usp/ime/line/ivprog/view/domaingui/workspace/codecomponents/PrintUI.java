@@ -11,19 +11,21 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class PrintUI extends CodeBaseUI {
 
 	private JPanel contentPanel;
-	private ExpressionBase expressionHolder;
+	private ExpressionHolderUI expressionHolder;
 	private JLabel codeBlockName;
 	
 	private static Color bgColor = new Color(159, 165, 169);
 	
-	public PrintUI(String id){
-		setThisID(id);
+	public PrintUI(String id, String parentID, String scopeID){
+		setModelParent(parentID);
+		setModelScope(scopeID);
+		setModelID(id);
 		initialization(id);
 		addComponents();
 	}
 	
 	private void initialization(String id){
-		expressionHolder = new ExpressionBase(id);
+		expressionHolder = new ExpressionHolderUI(getModelID(), getModelScope());
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("printTitle"));
 		setBackground(bgColor);

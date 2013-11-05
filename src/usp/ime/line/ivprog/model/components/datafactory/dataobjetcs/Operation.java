@@ -7,7 +7,6 @@ public class Operation extends Expression {
 
 	private String expressionAID = null;
 	private String expressionBID = null;
-	private short operationType = -1;
 	public static final String STRING_CLASS = "operation";
 
 	public Operation(String name, String description) {
@@ -66,24 +65,14 @@ public class Operation extends Expression {
 	 * @return expressionType
 	 */
 	public short getOperationType() {
-		return operationType;
-	}
-
-	/**
-	 * This method sets the operation type. An operation might be arithmetical
-	 * or logical.
-	 * @see {@literal} BuilderConstant for more information.
-	 * @param oType
-	 */
-	public void setOperationType(short oType) {
-		operationType = oType;
+		return expressionType;
 	}
 
 	public String toXML() {
 		Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
 		Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
 		String str = "<dataobject class=\"operation\"><id>" + getUniqueID()
-				+ "</id>" + "<operationtype>" + operationType
+				+ "</id>" + "<operationtype>" + expressionType
 				+ "<operationtype>" + "<expressionA>" + expA.toXML()
 				+ "</expressionA>" + "<expressionB>" + expB.toXML()
 				+ "</expressionB>" + "</dataobject>";
@@ -94,9 +83,7 @@ public class Operation extends Expression {
 		return null;
 	}
 
-	@Override
 	public boolean equals(DomainObject o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

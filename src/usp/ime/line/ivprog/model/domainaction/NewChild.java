@@ -8,6 +8,7 @@ public class NewChild extends DomainAction {
 	
 	private IVPProgram model;
 	private String containerID;
+	private String scopeID;
 	private String objectID;
 	private short classID;
 

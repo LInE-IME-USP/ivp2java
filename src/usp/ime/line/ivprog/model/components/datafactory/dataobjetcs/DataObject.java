@@ -1,15 +1,19 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 import ilm.framework.assignment.model.DomainObject;
 
 public abstract class DataObject extends DomainObject {
 
+	private String uniqueID;
+	private String parentID;
+	
 	public DataObject(String name, String description) {
 		super(name, description);
 	}
-
-	private String uniqueID;
-
+	
 	/**
 	 * This method returns the uniqueID of a DomainObject.
 	 * @return uniqueID
@@ -40,5 +44,19 @@ public abstract class DataObject extends DomainObject {
 	 * @return
 	 */
 	public abstract String toJavaString();
-
+			
+	/**
+	 * Returns the container of this element.
+	 */
+	public String getParentID() {
+		return parentID;
+	}
+	/**
+	 * Set this element container.
+	 * @param parent
+	 */
+	public void setParentID(String fID) {
+		parentID = fID;
+	}
+	
 }

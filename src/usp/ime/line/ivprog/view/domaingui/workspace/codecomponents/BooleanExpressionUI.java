@@ -1,5 +1,5 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
-public class BooleanExpression {
+public class BooleanExpressionUI {
 
 }
