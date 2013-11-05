@@ -68,6 +68,15 @@ public class EditInPlace extends JPanel implements KeyListener {
 		nameContainer.add(nameLabel);
 	}
 
+	private void hasFocusLost(){
+		nameContainer.setVisible(true);
+		nameField.setVisible(false);
+		if (valueListener != null) {
+			valueListener.valueChanged(nameField.getText());
+		}
+		nameField.setBorder(BorderFactory.createEtchedBorder());
+	}
+	
 	private void initNameField() {
 		nameField = new JTextField(5);
 		nameField.addKeyListener(this);
@@ -75,12 +84,7 @@ public class EditInPlace extends JPanel implements KeyListener {
 			public void focusLost(FocusEvent arg0) {
 				String value = nameField.getText();
 				if(value.matches(patterns[currentPattern])){
-					nameContainer.setVisible(true);
-					nameField.setVisible(false);
-					if (valueListener != null) {
-						valueListener.valueChanged(nameField.getText());
-					}
-					nameField.setBorder(BorderFactory.createEtchedBorder());
+					hasFocusLost();
 				}else{
 					nameField.setBorder(BorderFactory.createLineBorder(Color.red));
 				}
@@ -175,6 +179,9 @@ public class EditInPlace extends JPanel implements KeyListener {
 		if (!value.matches(patternsTyping[currentPattern])) {
 			getToolkit().beep();
 			e.consume();
+		}
+		if(e.getKeyCode()==13){
+			
 		}
 	}
 
