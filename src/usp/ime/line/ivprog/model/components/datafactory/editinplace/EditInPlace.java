@@ -30,16 +30,22 @@ public class EditInPlace extends JPanel implements KeyListener {
 	
 	public static int PATTERN_VARIABLE_NAME = 0;
 	public static int PATTERN_VARIABLE_VALUE_DOUBLE = 1;
+	public static int PATTERN_VARIABLE_VALUE_INTEGER = 2;
+	public static int PATTERN_VARIABLE_VALUE_STRING = 2;
 	
 	private int currentPattern = 0;
 	
 	private String[] patternsTyping = {
 			"^[a-zA-Z_][a-zA-Z0-9_]*$",
-			"^[0-9]*$"
+			"^[0-9]*$",
+			"^[0-9]*$",
+			".*"
 	};
 	private String[] patterns = {
 			"^[a-zA-Z_][a-zA-Z0-9_]*$",
-			"\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b"
+			"\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b",
+			"\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b",
+			".*"
 	};
 	//private String pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$";
 
@@ -68,6 +74,15 @@ public class EditInPlace extends JPanel implements KeyListener {
 		nameContainer.add(nameLabel);
 	}
 
+	private void hasFocusLost(){
+		nameContainer.setVisible(true);
+		nameField.setVisible(false);
+		if (valueListener != null) {
+			valueListener.valueChanged(nameField.getText());
+		}
+		nameField.setBorder(BorderFactory.createEtchedBorder());
+	}
+	
 	private void initNameField() {
 		nameField = new JTextField(5);
 		nameField.addKeyListener(this);
@@ -75,19 +90,14 @@ public class EditInPlace extends JPanel implements KeyListener {
 			public void focusLost(FocusEvent arg0) {
 				String value = nameField.getText();
 				if(value.matches(patterns[currentPattern])){
-					nameContainer.setVisible(true);
-					nameField.setVisible(false);
-					if (valueListener != null) {
-						valueListener.valueChanged(nameField.getText());
-					}
-					nameField.setBorder(BorderFactory.createEtchedBorder());
+					hasFocusLost();
 				}else{
 					nameField.setBorder(BorderFactory.createLineBorder(Color.red));
 				}
 			}
 
 			public void focusGained(FocusEvent arg0) {
-				System.out.println("FOCUS");
+				System.out.println("FOCUS11122");
 			}
 		});
 		nameField.setVisible(false);
@@ -100,6 +110,7 @@ public class EditInPlace extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent ae) {
 				nameField.setFocusable(false);
 				nameField.setFocusable(true);
+				System.out.println("FOCUSABLE!");
 			}
 		};
 		nameField.getInputMap().put(
@@ -151,18 +162,22 @@ public class EditInPlace extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// System.out.println(e);
-
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// System.out.println(e);
-
+		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// enter é 13... verificar pq esta funfando com 10
+		if(((int)e.getKeyChar())==10){
+			hasFocusLost();
+		}
 		String value = nameField.getText();
 		if(nameField.getSelectionStart()==0){
 			value = e.getKeyChar()+value;
@@ -171,11 +186,14 @@ public class EditInPlace extends JPanel implements KeyListener {
 		}else{
 			value = value.substring(0,nameField.getSelectionStart())+e.getKeyChar()+value.substring(nameField.getSelectionEnd());
 		}
-		
 		if (!value.matches(patternsTyping[currentPattern])) {
-			getToolkit().beep();
-			e.consume();
+			int c = ((int)e.getKeyChar());
+			if((c!=8)&&(c!=127)){
+				getToolkit().beep();
+				e.consume();
+			}
 		}
+		
 	}
 
 	public boolean isValidValue(KeyEvent e) {

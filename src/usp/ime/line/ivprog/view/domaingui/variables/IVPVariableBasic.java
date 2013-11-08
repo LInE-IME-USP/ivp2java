@@ -223,9 +223,11 @@ public class IVPVariableBasic extends RoundedJPanel {
 		if(variable!=null){
 			if(variable.getVariableType()==Variable.TYPE_INTEGER){
 				value.setVisible(true);
+				value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
 				booleanValue.setVisible(false);
 			}else if(variable.getVariableType()==Variable.TYPE_DOUBLE){
 				value.setVisible(true);
+				value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_DOUBLE);
 				booleanValue.setVisible(false);
 			}else if(variable.getVariableType()==Variable.TYPE_STRING){
 				value.setVisible(true);
@@ -252,6 +254,9 @@ public class IVPVariableBasic extends RoundedJPanel {
 			String command = e.getActionCommand();
 			if (command.equals("Inteira")) {
 				System.out.println("set inteira");
+				Services.getService().getController().changeVariableType(id, Variable.TYPE_INTEGER);
+				Services.getService().getController().changeVariableInitialValue(id, "1");
+				changeVariableType();
 			}else if(command.equals("Verdadeiro/Falsa")){
 				Services.getService().getController().changeVariableType(id, Variable.TYPE_BOOLEAN);
 				Services.getService().getController().changeVariableInitialValue(id, "1");
