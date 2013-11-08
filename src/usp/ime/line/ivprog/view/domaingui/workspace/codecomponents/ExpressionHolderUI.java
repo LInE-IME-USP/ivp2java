@@ -37,8 +37,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
-	public static int a = 0;
-	private int Locala;
 	
 	private boolean drawBorder = true;
 	
@@ -49,8 +47,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	private String parentModelID;
 	private String scopeModelID;
+	private String currentModelID;
 	
 	private EditInPlace integerEdit;
+	
 	private JButton btnChangeContent;
 	
 	private JComponent expression;
@@ -59,7 +59,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public ExpressionHolderUI(String parent, String scopeID){
 		parentModelID = parent;
 		scopeModelID = scopeID;
-		Locala = a++;
 		initialization();
 		initComponents();
 		Services.getService().getController().getProgram().addExpressionListener(this);
@@ -119,7 +118,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				System.out.println("ExpressionHolderUI MEU NUMERO> "+Locala+" expression "+ expressionID);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -243,16 +241,16 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void cleanExpressionField() { }
 	
 	public void expressionCreated(String holder, String id) {
-		if(holder == parentModelID){//significa que é comigo mesmo
-			System.out.println("É comigo mesmo!!!");
+		if(holder == parentModelID){
 			JComponent lastExpression = expression;
 			if(expression != null)
 				remove(expression);
+			currentModelID = id;
 			expression = Services.getService().getRenderer().paint(id);
 			selectLabel.setVisible(false);
 			setOpaque(false);
 			if(expression instanceof VariableSelectorUI){
-				((VariableSelectorUI) expression).selectVariableAction();
+				//((VariableSelectorUI) expression).selectVariableAction();
 			} else { 
 				((OperationUI)expression).setExpressionBaseUI_1(lastExpression);
 			}
@@ -260,8 +258,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			drawBorder = false;
 			revalidate();
 			repaint();
-		} else
-			System.out.println("Não é comigo!!!");
+		} 
 	}
 	//END: Expression listener methods
 
@@ -270,12 +267,23 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	}
 
 	public void setExpression(JComponent expression) {
-		
 		String expressionID = ((IDomainObjectUI)expression).getModelID();
-		System.out.println("Deveria colocar a variável aqui "+expressionID+" "+parentModelID);
+		currentModelID = expressionID;
 		this.expression = expression;
-		if(this.expression instanceof VariableSelectorUI)
-			((VariableSelectorUI) this.expression).selectVariableAction();
+		selectLabel.setVisible(false);
+		drawBorder = false;
+		setOpaque(false);
+		add(expression,0);
+		revalidate();
+		repaint();
+	}
+
+	public String getCurrentModelID() {
+		return currentModelID;
+	}
+
+	public void setCurrentModelID(String currentModelID) {
+		this.currentModelID = currentModelID;
 	}
 
 
