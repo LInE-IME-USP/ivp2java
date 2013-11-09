@@ -8,12 +8,8 @@ public class CreateExpression extends DomainAction{
 	
 	private IVPProgram model;
 	private String holder;
-	private String exp1;
+	private String lastExpression;
 	private String newExpression;
-	private String scopeID;
-	/*
-	 * New expressions are like (exp1+ SIGN expSpace+)+
-	 */
 	private short expressionType;
 
 	public CreateExpression(String name, String description) {
@@ -25,11 +21,15 @@ public class CreateExpression extends DomainAction{
 	}
 
 	protected void executeAction() {
-		newExpression = model.createExpression(exp1, holder, scopeID, expressionType, _currentState);
+		if(isRedo()){
+			model.restoreExpression(newExpression, holder, _currentState);
+		}else{
+			newExpression = model.createExpression(lastExpression, holder, expressionType, _currentState);
+		}
 	}
 
 	protected void undoAction() {
-		
+		model.deleteExpression(newExpression, holder, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {
@@ -45,11 +45,11 @@ public class CreateExpression extends DomainAction{
 	}
 
 	public String getExp1() {
-		return exp1;
+		return lastExpression;
 	}
 
 	public void setExp1(String exp1) {
-		this.exp1 = exp1;
+		this.lastExpression = exp1;
 	}
 	
 	public short getExpressionType() {
@@ -58,14 +58,6 @@ public class CreateExpression extends DomainAction{
 
 	public void setExpressionType(short expressionType) {
 		this.expressionType = expressionType;
-	}
-
-	public String getScopeID() {
-		return scopeID;
-	}
-
-	public void setScopeID(String scopeID) {
-		this.scopeID = scopeID;
 	}
 
 }

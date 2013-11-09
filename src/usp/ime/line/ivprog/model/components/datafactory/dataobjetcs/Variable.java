@@ -14,8 +14,6 @@ public class Variable extends Expression {
 	private short variableType = -1;
 	private String variableValue = "";
 	private Vector variableReferenceList;
-	private String scopeID;
-
 	public static short TYPE_INTEGER = 0;
 	public static short TYPE_DOUBLE = 1;
 	public static short TYPE_STRING = 2;
@@ -127,14 +125,6 @@ public class Variable extends Expression {
 		return null;
 	}
 	
-	public void setScopeID(String uniqueID) {
-		scopeID = uniqueID;
-	}
-	
-	public String getScopeID(){
-		return scopeID;
-	}
-
 	public boolean equals(DomainObject o) {
 		return false;
 	}

@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AttributionLineUI extends CodeBaseUI {
@@ -26,7 +27,7 @@ public class AttributionLineUI extends CodeBaseUI {
 	
 	private void initialization(){
 		expression = new ExpressionHolderUI(getModelID(), getModelScope());
-		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		contentPanel = new JPanel(new DynamicFlowLayout(FlowLayout.LEFT, this, this.getClass(),1));
 		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
 		varSelector = new VariableSelectorUI(getModelParent());
 		setBackground(bgColor);

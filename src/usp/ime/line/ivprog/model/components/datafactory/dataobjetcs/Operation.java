@@ -87,4 +87,12 @@ public class Operation extends Expression {
 		return false;
 	}
 
+	public void removeExpression(String expression) {
+		if(expressionAID.equals(expression)){
+			expressionAID = null;
+		}else{
+			expressionBID = null;
+		}
+	}
+
 }

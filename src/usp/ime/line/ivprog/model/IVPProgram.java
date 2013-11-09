@@ -18,12 +18,12 @@ import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
@@ -76,13 +76,13 @@ public class IVPProgram extends DomainModel {
 	}
 
 	public String newChild(String containerID, short classID, AssignmentState state) {
-		CodeComponent codeBlock = null;
+		DataObject codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
 			codeBlock = (CodeComposite) dataFactory.createWhile();
 		} else if( classID == IVPConstants.MODEL_WRITE){
-			codeBlock = (CodeComponent) dataFactory.createPrint();
+			codeBlock = (DataObject) dataFactory.createPrint();
 		} else if( classID == IVPConstants.MODEL_ATTLINE){
-			codeBlock = (CodeComponent) dataFactory.createAttributionLine();
+			codeBlock = (DataObject) dataFactory.createAttributionLine();
 			VariableReference varRef = (VariableReference) dataFactory.createVarReference();
 			((AttributionLine)codeBlock).setLeftVariableID(varRef.getUniqueID());
 			Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
@@ -154,7 +154,7 @@ public class IVPProgram extends DomainModel {
 		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
 	
-	public String createExpression(String leftExpID, String holder, String scope, short expressionType, AssignmentState state){
+	public String createExpression(String leftExpID, String holder, short expressionType, AssignmentState state){
 		// new expression ->    (leftExp SIGN newExp)
 		Expression exp = null;
 		if(expressionType == Expression.EXPRESSION_VARIABLE){
@@ -171,9 +171,33 @@ public class IVPProgram extends DomainModel {
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
 		for(int i = 0; i < expressionListeners.size(); i++)
 			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID());
+			
 		state.add(exp);
 		return exp.getUniqueID();
 	}
+	
+	public void deleteExpression(String expression, String holder, AssignmentState state) {
+		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
+		DataObject dataHolder = (DataObject)Services.getService().getModelMapping().get(holder);
+		if(dataHolder instanceof AttributionLine){
+			((AttributionLine)dataHolder).setRightExpression(null);
+		} else if(dataHolder instanceof Print){
+		
+		} else if(dataHolder instanceof Operation){
+			((Operation)dataHolder).removeExpression(expression);
+		}
+		for(int i = 0; i < expressionListeners.size(); i++)
+			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression);
+		state.remove(exp);
+	}
+	
+	public void restoreExpression(String expression, String holder, AssignmentState state) {
+		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
+		for(int i = 0; i < expressionListeners.size(); i++)
+			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID());
+		state.add(exp);
+	}
+
 	
 	public void cleanExpressionField(String expressionID, AssignmentState state){
 		
@@ -232,5 +256,8 @@ public class IVPProgram extends DomainModel {
 	public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
 		return 0;
 	}
+
+	
+
 
 }

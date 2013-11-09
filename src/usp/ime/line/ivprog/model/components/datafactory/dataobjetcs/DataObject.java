@@ -9,6 +9,7 @@ public abstract class DataObject extends DomainObject {
 
 	private String uniqueID;
 	private String parentID;
+	private String scopeID;
 	
 	public DataObject(String name, String description) {
 		super(name, description);
@@ -57,6 +58,22 @@ public abstract class DataObject extends DomainObject {
 	 */
 	public void setParentID(String fID) {
 		parentID = fID;
+	}
+
+	/**
+	 * Get the scope of this object
+	 * @return
+	 */
+	public String getScopeID() {
+		return scopeID;
+	}
+	
+	/**
+	 * Set the scope of this object
+	 * @return
+	 */
+	public void setScopeID(String scopeID) {
+		this.scopeID = scopeID;
 	}
 	
 }

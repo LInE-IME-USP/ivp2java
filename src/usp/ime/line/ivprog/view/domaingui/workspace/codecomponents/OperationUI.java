@@ -66,7 +66,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	}
 
 	private void initExpressionHolder2() {
-		expressionBaseUI_2 = new ExpressionHolderUI(currentModelID, scopeModelID);
+		expressionBaseUI_2 = new ExpressionHolderUI(currentModelID+"_left", scopeModelID);
 		add(expressionBaseUI_2);
 	}
 
@@ -77,7 +77,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	}
 
 	private void initExpressionHolder1() {
-		expressionBaseUI_1 = new ExpressionHolderUI(currentModelID, scopeModelID);
+		expressionBaseUI_1 = new ExpressionHolderUI(currentModelID+"_right", scopeModelID);
 		add(expressionBaseUI_1);
 	}
 

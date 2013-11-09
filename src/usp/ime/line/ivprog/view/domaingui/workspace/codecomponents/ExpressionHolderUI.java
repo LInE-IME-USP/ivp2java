@@ -54,6 +54,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private JButton btnChangeContent;
 	
 	private JComponent expression;
+	//talvez não use
+	private JComponent lastExpression;
 	
 
 	public ExpressionHolderUI(String parent, String scopeID){
@@ -68,6 +70,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private void initialization() {
 		setBackground(bgColor);
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+		flowLayout.setHgap(3);
+		flowLayout.setVgap(0);
 		setLayout(flowLayout);
 		addMouseListener(new ExpressionMouseListener(this));
 	}
@@ -141,6 +145,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
 		btnChangeContent = new JButton(action);
 		btnChangeContent.setUI(new IconButtonUI());
+		btnChangeContent.setEnabled(false);
 		add(btnChangeContent);		
 	}
 
@@ -192,6 +197,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(drawBorder){
+			FlowLayout layout = (FlowLayout) getLayout();
+			layout.setVgap(3);
+			layout.setHgap(3);
+			revalidate();
 			g.setColor(borderColor);
 			java.awt.Rectangle bounds = getBounds();
 			for (int i = 0; i < bounds.width; i += 6) {
@@ -202,10 +211,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				g.drawLine(0, i, 0, i + 3);
 				g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
 			}
-			FlowLayout layout = (FlowLayout) getLayout();
-			layout.setVgap(3);
-			layout.setHgap(3);
+			System.out.println("pedi pra tirar POR gap");
 		}else{
+			System.out.println("pedi pra tirar o gap");
 			FlowLayout layout = (FlowLayout) getLayout();
 			layout.setVgap(0);
 			layout.setHgap(0);
@@ -238,11 +246,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	//END: Mouse listener
 	
 	//BEGIN: Expression listener methods
-	public void cleanExpressionField() { }
 	
 	public void expressionCreated(String holder, String id) {
 		if(holder == parentModelID){
 			JComponent lastExpression = expression;
+			drawBorder = false;
 			if(expression != null)
 				remove(expression);
 			currentModelID = id;
@@ -250,12 +258,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			selectLabel.setVisible(false);
 			setOpaque(false);
 			if(expression instanceof VariableSelectorUI){
-				//((VariableSelectorUI) expression).selectVariableAction();
-			} else { 
+				((VariableSelectorUI)expression).selectVariableAction();
+			}else{
 				((OperationUI)expression).setExpressionBaseUI_1(lastExpression);
 			}
 			add(expression,0);
-			drawBorder = false;
+			if(expression!=null)
+				btnChangeContent.setEnabled(true);
 			revalidate();
 			repaint();
 		} 
@@ -274,6 +283,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		drawBorder = false;
 		setOpaque(false);
 		add(expression,0);
+		if(expression!=null)
+			btnChangeContent.setEnabled(true);
 		revalidate();
 		repaint();
 	}
@@ -286,5 +297,31 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		this.currentModelID = currentModelID;
 	}
 
+	public void expressionDeleted(String id) {
+		if(expression!=null){
+			String expressionID = ((IDomainObjectUI)expression).getModelID();
+			if(expressionID.equals(id)){
+				remove(expression);
+				if(expression instanceof OperationUI){
+					expression = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
+					setExpression(expression);
+				}else{
+					selectLabel.setVisible(true);
+					setOpaque(true);
+					drawBorder = true;
+				}
+				revalidate();
+				repaint();
+			}
+		}
+	}
+
+	public void cleanExpressionField() {
+		
+	}
+
+	public void expressionRestored(String holder, String id) {
+		setExpression((JComponent) Services.getService().getViewMapping().get(id));
+	}
 
 }

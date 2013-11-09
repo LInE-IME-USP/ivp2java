@@ -5,13 +5,13 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
-public class NewVariable extends DomainAction{
+public class CreateVariable extends DomainAction{
 	
 	private IVPProgram model;
 	private String scopeID;
 	private String varID;
 	
-	public NewVariable(String name, String description) {
+	public CreateVariable(String name, String description) {
 		super(name, description);
 	}
 

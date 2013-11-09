@@ -11,16 +11,7 @@ public abstract class Expression extends DataObject {
 	public static final short EXPRESSION_OPERATION_OR = 5;
 	
 	protected short expressionType = -1;
-	protected String scopeID;
-
-	public String getScopeID() {
-		return scopeID;
-	}
-
-	public void setScopeID(String scopeID) {
-		this.scopeID = scopeID;
-	}
-
+	
 	public Expression(String name, String description) {
 		super(name, description);
 	}

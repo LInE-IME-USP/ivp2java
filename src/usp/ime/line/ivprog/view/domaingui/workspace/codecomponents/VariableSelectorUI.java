@@ -26,7 +26,7 @@ import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
@@ -117,7 +117,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	
 	private void initValues() {
-		CodeComponent component = (CodeComponent) Services.getService().getModelMapping().get(parentModelID);
+		String parentID = parentModelID;
+		if(parentID.contains("_"))
+			parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
+		System.out.println("VariableSelectorUI "+parentID);
+		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
 		for(int i = 0; i < variables.size(); i++){
@@ -194,15 +198,20 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	}
 
 	public void changeVariableName(String id, String name, String lastName) {
+		isUpdate = true;
+		indexMap.put(id, name);
+		updateVariableList();
+		isUpdate = false;
+		
+		
 		if(nameLabel.isVisible() && nameLabel.getText().equals(lastName)){
 			nameLabel.setText(name);
 			nameLabel.revalidate();
 			nameLabel.repaint();
-			indexMap.put(id,name);
 			isUpdate = true;
-			updateVariableList();
 			isUpdate = false;
 		}
+		
 	}
 	
 	public void changeVariableValue(String id, String value) { }

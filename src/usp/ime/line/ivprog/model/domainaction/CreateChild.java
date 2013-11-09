@@ -4,7 +4,7 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
-public class NewChild extends DomainAction {
+public class CreateChild extends DomainAction {
 	
 	private IVPProgram model;
 	private String containerID;
@@ -12,7 +12,7 @@ public class NewChild extends DomainAction {
 	private String objectID;
 	private short classID;
 
-	public NewChild(String name, String description) {
+	public CreateChild(String name, String description) {
 		super(name, description);
 	}
 

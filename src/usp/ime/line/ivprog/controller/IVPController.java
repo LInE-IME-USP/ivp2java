@@ -14,8 +14,8 @@ import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
 import usp.ime.line.ivprog.model.domainaction.CreateExpression;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
-import usp.ime.line.ivprog.model.domainaction.NewChild;
-import usp.ime.line.ivprog.model.domainaction.NewVariable;
+import usp.ime.line.ivprog.model.domainaction.CreateChild;
+import usp.ime.line.ivprog.model.domainaction.CreateVariable;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
@@ -69,7 +69,7 @@ public class IVPController {
 	}
 
 	public void addChild(String containerID, short childType) {
-		NewChild newChild = (NewChild) actionList.get("newchild");
+		CreateChild newChild = (CreateChild) actionList.get("newchild");
 		newChild.setClassID(childType);
 		newChild.setContainerID(containerID);
 		newChild.execute();
@@ -82,7 +82,7 @@ public class IVPController {
 	}
 
 	public void addVariable(String scopeID) {
-		NewVariable newVar = (NewVariable) actionList.get("newvar");
+		CreateVariable newVar = (CreateVariable) actionList.get("newvar");
 		newVar.setScopeID(scopeID);
 		newVar.execute();
 	}
@@ -122,7 +122,7 @@ public class IVPController {
 	}
 	
 	public void initDomainActionList(DomainModel model) {
-		NewVariable newVar = new NewVariable("newvar","newvar");
+		CreateVariable newVar = new CreateVariable("newvar","newvar");
 		newVar.setDomainModel(model);
 		actionList.put("newvar", newVar);
 		
@@ -138,7 +138,7 @@ public class IVPController {
 		changeVarType.setDomainModel(model);
 		actionList.put("changeVarType", changeVarType);
 		
-		NewChild newChild = new NewChild("newchild", "newchild");
+		CreateChild newChild = new CreateChild("newchild", "newchild");
 		newChild.setDomainModel(model);
 		actionList.put("newchild", newChild);
 		
