@@ -55,7 +55,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	private JComponent expression;
 	//talvez não use
-	private JComponent lastExpression;
+	private JComponent expToBeRestored;
 	
 
 	public ExpressionHolderUI(String parent, String scopeID){
@@ -97,7 +97,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		createAddition.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition.text"));
 		Action createSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -105,7 +106,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		createSubtraction.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createSubtraction.text"));
 		Action createMultiplication = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -113,7 +115,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		createMultiplication.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createMultiplication.text"));
 		Action createDivision = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_DIVISION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -122,6 +125,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -211,9 +215,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				g.drawLine(0, i, 0, i + 3);
 				g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
 			}
-			System.out.println("pedi pra tirar POR gap");
 		}else{
-			System.out.println("pedi pra tirar o gap");
 			FlowLayout layout = (FlowLayout) getLayout();
 			layout.setVgap(0);
 			layout.setHgap(0);
@@ -249,7 +251,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	public void expressionCreated(String holder, String id) {
 		if(holder == parentModelID){
-			JComponent lastExpression = expression;
+			JComponent lastExp = expression;
 			drawBorder = false;
 			if(expression != null)
 				remove(expression);
@@ -260,9 +262,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			if(expression instanceof VariableSelectorUI){
 				((VariableSelectorUI)expression).selectVariableAction();
 			}else{
-				((OperationUI)expression).setExpressionBaseUI_1(lastExpression);
+				((OperationUI)expression).setExpressionBaseUI_1(lastExp);
 			}
 			add(expression,0);
+			expToBeRestored = expression;
 			if(expression!=null)
 				btnChangeContent.setEnabled(true);
 			revalidate();
@@ -321,7 +324,17 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	}
 
 	public void expressionRestored(String holder, String id) {
-		setExpression((JComponent) Services.getService().getViewMapping().get(id));
+		String lastExpID = null;
+		if(expToBeRestored != null){
+			lastExpID = ((IDomainObjectUI)expToBeRestored).getModelID();
+			System.out.println("lastExpID > "+lastExpID+" id"+id+" result "+lastExpID.equals(id));
+			if(lastExpID.equals(id)){
+				JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
+				if(restoredExp instanceof OperationUI)
+					((OperationUI)restoredExp).setExpressionBaseUI_1(expression);
+				setExpression(restoredExp);
+			}
+		} 
 	}
 
 }

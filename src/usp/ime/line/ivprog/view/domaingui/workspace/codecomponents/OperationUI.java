@@ -143,6 +143,4 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		scopeModelID = id;
 	}
 
-
-
 }
