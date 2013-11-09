@@ -57,7 +57,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	//talvez não use
 	private JComponent expToBeRestored;
 	
-
+	//TODO: VERIFICAR LEFT RIGHT !!! É O QUE ESTÁ DANDO PROBLEMA AGORA. RESOLVENDO ISSO, ACABOU A PARTE DE EXPRESSÃO.
 	public ExpressionHolderUI(String parent, String scopeID){
 		parentModelID = parent;
 		scopeModelID = scopeID;
@@ -89,7 +89,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_ADDITION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_ADDITION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -98,7 +98,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_SUBTRACTION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -107,7 +107,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createMultiplication = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_MULTIPLICATION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -116,7 +116,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createDivision = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID, scopeModelID, Expression.EXPRESSION_OPERATION_DIVISION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_DIVISION);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -163,7 +163,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		chooseContent = new JPopupMenu();
 		Action variableHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().createExpression(null,parentModelID,scopeModelID,Expression.EXPRESSION_VARIABLE);
+				Services.getService().getController().createExpression(null,parentModelID,Expression.EXPRESSION_VARIABLE);
 			}
 		};
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
