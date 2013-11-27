@@ -114,18 +114,20 @@ public class IVPController {
 		//program.changeVariableInitialValue(id, value);
 	}
 	
-	public void createExpression(String leftExpID, String holder, short expressionType){
+	public void createExpression(String leftExpID, String holder, short expressionType, String context){
 		CreateExpression createExpression = (CreateExpression) actionList.get("createexpression");
 		createExpression.setExp1(leftExpID);
 		createExpression.setHolder(holder);
 		createExpression.setExpressionType(expressionType);
+		createExpression.setContext(context);
 		createExpression.execute();
 	}
 	
-	public void deleteExpression(String id, String holder){
+	public void deleteExpression(String id, String holder, String context){
 		DeleteExpression deleteExpression = (DeleteExpression) actionList.get("deleteexpression");
 		deleteExpression.setExpression(id);
 		deleteExpression.setHolder(holder);
+		deleteExpression.setContext(context);
 		deleteExpression.execute();
 	}
 	

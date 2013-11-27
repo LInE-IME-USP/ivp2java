@@ -30,6 +30,7 @@ public class WhileUI extends CodeBaseUI {
 	private JButton expandBtnDOWN;
 	private Icon up;
 	private Icon down;
+	private String context;
 	
 	private static Color bgColor = new Color(189, 195, 199);
 	
@@ -113,6 +114,14 @@ public class WhileUI extends CodeBaseUI {
 	private void initCodeBlockLabel() {
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("whileTitle"));
 		header.add(codeBlockName);
+	}
+	
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
 	}
 
 }

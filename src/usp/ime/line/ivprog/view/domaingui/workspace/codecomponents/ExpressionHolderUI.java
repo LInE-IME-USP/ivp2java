@@ -54,15 +54,17 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private JButton btnChangeContent;
 	
 	private JComponent expression;
-	//talvez não use
-	private JComponent expToBeRestored;
+	private static int count = 0;
+	private int myId = 0;
+	private String operationContext;
 	
-	//TODO: VERIFICAR LEFT RIGHT !!! É O QUE ESTÁ DANDO PROBLEMA AGORA. RESOLVENDO ISSO, ACABOU A PARTE DE EXPRESSÃO.
 	public ExpressionHolderUI(String parent, String scopeID){
 		parentModelID = parent;
 		scopeModelID = scopeID;
 		initialization();
 		initComponents();
+		myId = count++;
+		setOperationContext("");
 		Services.getService().getController().getProgram().addExpressionListener(this);
 	}
 
@@ -89,7 +91,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_ADDITION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_ADDITION, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -98,7 +100,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_SUBTRACTION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_SUBTRACTION, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -107,7 +109,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createMultiplication = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_MULTIPLICATION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_MULTIPLICATION, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -116,7 +118,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action createDivision = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_DIVISION);
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_DIVISION, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -125,7 +127,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				
+				System.out.println("currentID "+currentModelID + " parentModel "+parentModelID+ " myID "+myId);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -163,7 +165,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		chooseContent = new JPopupMenu();
 		Action variableHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().createExpression(null,parentModelID,Expression.EXPRESSION_VARIABLE);
+				Services.getService().getController().createExpression(null,parentModelID,Expression.EXPRESSION_VARIABLE, operationContext);
 			}
 		};
 		//setVarAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -248,9 +250,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	//END: Mouse listener
 	
 	//BEGIN: Expression listener methods
-	
-	public void expressionCreated(String holder, String id) {
-		if(holder == parentModelID){
+	public void expressionCreated(String holder, String id,String context) {
+		if(holder == parentModelID && operationContext.equals(context)){
 			JComponent lastExp = expression;
 			drawBorder = false;
 			if(expression != null)
@@ -265,7 +266,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				((OperationUI)expression).setExpressionBaseUI_1(lastExp);
 			}
 			add(expression,0);
-			expToBeRestored = expression;
 			if(expression!=null)
 				btnChangeContent.setEnabled(true);
 			revalidate();
@@ -278,15 +278,15 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		return expression;
 	}
 
-	public void setExpression(JComponent expression) {
-		String expressionID = ((IDomainObjectUI)expression).getModelID();
-		currentModelID = expressionID;
-		this.expression = expression;
+	public void setExpression(JComponent exp) {
+		System.out.println("pedi pra setar essa exp > "+((IDomainObjectUI) exp).getModelID()+" no treco de id "+myId);
+		currentModelID = ((IDomainObjectUI)exp).getModelID();;
+		this.expression = exp;
 		selectLabel.setVisible(false);
 		drawBorder = false;
 		setOpaque(false);
-		add(expression,0);
-		if(expression!=null)
+		add(this.expression, 0);
+		if(this.expression != null)
 			btnChangeContent.setEnabled(true);
 		revalidate();
 		repaint();
@@ -300,14 +300,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		this.currentModelID = currentModelID;
 	}
 
-	public void expressionDeleted(String id) {
-		if(expression!=null){
-			String expressionID = ((IDomainObjectUI)expression).getModelID();
-			if(expressionID.equals(id)){
+	public void expressionDeleted(String id, String context) {
+		if(expression != null){
+			if(currentModelID.equals(id) && operationContext.equals(context)){
+				System.out.println("IDENTIFICOU O CARA!!! quero tirar o "+id+" do "+myId);
 				remove(expression);
 				if(expression instanceof OperationUI){
-					expression = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
-					setExpression(expression);
+					JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
+					setExpression(exp);
 				}else{
 					selectLabel.setVisible(true);
 					setOpaque(true);
@@ -323,18 +323,24 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		
 	}
 
-	public void expressionRestored(String holder, String id) {
+	public void expressionRestored(String holder, String id, String context) {
 		String lastExpID = null;
-		if(expToBeRestored != null){
-			lastExpID = ((IDomainObjectUI)expToBeRestored).getModelID();
-			System.out.println("lastExpID > "+lastExpID+" id"+id+" result "+lastExpID.equals(id));
-			if(lastExpID.equals(id)){
-				JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
-				if(restoredExp instanceof OperationUI)
-					((OperationUI)restoredExp).setExpressionBaseUI_1(expression);
-				setExpression(restoredExp);
-			}
-		} 
+		if (holder.equals(parentModelID) && operationContext.equals(context)) {
+			JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
+			if (restoredExp instanceof OperationUI)
+				((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
+			setExpression(restoredExp);
+		}
+		revalidate();
+		repaint();
+	}
+
+	public String getOperationContext() {
+		return operationContext;
+	}
+
+	public void setOperationContext(String operationContext) {
+		this.operationContext = operationContext;
 	}
 
 }

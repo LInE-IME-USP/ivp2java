@@ -50,6 +50,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private String currentModelID;
 	private String parentModelID;
 	private String scopeModelID;
+	private String context;
 	
 	public VariableSelectorUI(String parent){
 		this.parentModelID = parent;
@@ -118,9 +119,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	private void initValues() {
 		String parentID = parentModelID;
-		if(parentID.contains("_"))
-			parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
-		System.out.println("VariableSelectorUI "+parentID);
+		if(parentID.contains("_")) parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
 		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
@@ -319,6 +318,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	public void setModelScope(String id) {
 		scopeModelID = id;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
 	}
 	
 }

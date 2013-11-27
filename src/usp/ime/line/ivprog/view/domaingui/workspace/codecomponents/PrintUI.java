@@ -13,6 +13,7 @@ public class PrintUI extends CodeBaseUI {
 	private JPanel contentPanel;
 	private ExpressionHolderUI expressionHolder;
 	private JLabel codeBlockName;
+	private String context;
 	
 	private static Color bgColor = new Color(159, 165, 169);
 	
@@ -38,4 +39,11 @@ public class PrintUI extends CodeBaseUI {
 		addContentPanel(contentPanel);
 	}
 	
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
+	}
 }

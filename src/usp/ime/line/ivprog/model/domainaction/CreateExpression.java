@@ -10,6 +10,8 @@ public class CreateExpression extends DomainAction{
 	private String holder;
 	private String lastExpression;
 	private String newExpression;
+	private String removedExpression;
+	private String context;
 	private short expressionType;
 
 	public CreateExpression(String name, String description) {
@@ -22,14 +24,14 @@ public class CreateExpression extends DomainAction{
 
 	protected void executeAction() {
 		if(isRedo()){
-			model.restoreExpression(newExpression, holder, _currentState);
+			model.restoreExpression(removedExpression, holder, context, _currentState);
 		}else{
-			newExpression = model.createExpression(lastExpression, holder, expressionType, _currentState);
+			newExpression = model.createExpression(lastExpression, holder, expressionType, context, _currentState);
 		}
 	}
 
 	protected void undoAction() {
-		model.deleteExpression(newExpression, holder, _currentState);
+		removedExpression = model.deleteExpression(newExpression, holder, context, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {
@@ -58,6 +60,14 @@ public class CreateExpression extends DomainAction{
 
 	public void setExpressionType(short expressionType) {
 		this.expressionType = expressionType;
+	}
+	
+	public void setContext(String ctx){
+		context = ctx;
+	}
+	
+	public String getContext(){
+		return context;
 	}
 
 }

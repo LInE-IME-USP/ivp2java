@@ -16,6 +16,7 @@ public class AttributionLineUI extends CodeBaseUI {
 	private VariableSelectorUI varSelector;
 	private ExpressionHolderUI expression;
 	private static Color bgColor = new Color(199, 215, 219);
+	private String context;
 	
 	public AttributionLineUI(String id, String scope, String parent){
 		setModelID(id);
@@ -39,6 +40,14 @@ public class AttributionLineUI extends CodeBaseUI {
 		contentPanel.add(codeLabel);
 		contentPanel.add(expression);
 		addContentPanel(contentPanel);
+	}
+	
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
 	}
 	
 }

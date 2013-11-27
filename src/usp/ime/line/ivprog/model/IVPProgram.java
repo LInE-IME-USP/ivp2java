@@ -154,7 +154,7 @@ public class IVPProgram extends DomainModel {
 		state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
 	}
 	
-	public String createExpression(String leftExpID, String holder, short expressionType, AssignmentState state){
+	public String createExpression(String leftExpID, String holder, short expressionType, String context,AssignmentState state){
 		// new expression ->    (leftExp SIGN newExp)
 		Expression exp = null;
 		if(expressionType == Expression.EXPRESSION_VARIABLE){
@@ -170,31 +170,38 @@ public class IVPProgram extends DomainModel {
 		exp.setScopeID(currentScope);
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
 		for(int i = 0; i < expressionListeners.size(); i++)
-			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID());
+			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID(), context);
 			
 		state.add(exp);
 		return exp.getUniqueID();
 	}
 	
-	public void deleteExpression(String expression, String holder, AssignmentState state) {
+	public String deleteExpression(String expression, String holder, String context, AssignmentState state) {
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
 		DataObject dataHolder = (DataObject)Services.getService().getModelMapping().get(holder);
+		String lastExpressionID;
 		if(dataHolder instanceof AttributionLine){
 			((AttributionLine)dataHolder).setRightExpression(null);
+			lastExpressionID = null;
 		} else if(dataHolder instanceof Print){
-		
+			lastExpressionID = null;
 		} else if(dataHolder instanceof Operation){
 			((Operation)dataHolder).removeExpression(expression);
+			lastExpressionID = ((Operation)dataHolder).getExpressionA();
 		}
-		for(int i = 0; i < expressionListeners.size(); i++)
-			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression);
+		for(int i = 0; i < expressionListeners.size(); i++){
+			System.out.println("estou avisando o > "+(IExpressionListener)expressionListeners.get(i));
+			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression, context);
+		}
 		state.remove(exp);
+		return expression;
 	}
 	
-	public void restoreExpression(String expression, String holder, AssignmentState state) {
+	public void restoreExpression(String expression, String holder, String context, AssignmentState state) {
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
-		for(int i = 0; i < expressionListeners.size(); i++)
-			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID());
+		for(int i = 0; i < expressionListeners.size(); i++){
+			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
+		}
 		state.add(exp);
 	}
 
@@ -204,7 +211,9 @@ public class IVPProgram extends DomainModel {
 	}
 	
 	public void addExpressionListener(IExpressionListener listener){
-		expressionListeners.add(listener);
+		if(!expressionListeners.contains(listener)){
+			expressionListeners.add(listener);
+		}
 	}
 
 	public void addVariableListener(IVariableListener listener){

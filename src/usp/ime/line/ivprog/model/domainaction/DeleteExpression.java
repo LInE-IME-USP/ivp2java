@@ -9,6 +9,7 @@ public class DeleteExpression extends DomainAction {
 	private String holder;
 	private String expression;
 	private IVPProgram model;
+	private String context;
 
 	public DeleteExpression(String name, String description) {
 		super(name, description);
@@ -19,11 +20,11 @@ public class DeleteExpression extends DomainAction {
 	}
 
 	protected void executeAction() {
-		model.deleteExpression(expression, holder, _currentState);
+		model.deleteExpression(expression, holder, context, _currentState);
 	}
 
 	protected void undoAction() {
-		model.restoreExpression(expression, holder, _currentState);
+		model.restoreExpression(expression, holder, context, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {
@@ -45,5 +46,14 @@ public class DeleteExpression extends DomainAction {
 	public void setExpression(String expression) {
 		this.expression = expression;
 	}
+	
+	public void setContext(String ctx){
+		context = ctx;
+	}
+	
+	public String getContext(){
+		return context;
+	}
+
 	
 }

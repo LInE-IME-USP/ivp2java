@@ -21,9 +21,11 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	private JLabel expSign;
 	private ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
+	
 	private String currentModelID;
 	private String parentModelID;
 	private String scopeModelID;
+	private String context; 
 
 	public OperationUI(String parent, String scope, String id) {
 		parentModelID = parent;
@@ -66,7 +68,8 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	}
 
 	private void initExpressionHolder2() {
-		expressionBaseUI_2 = new ExpressionHolderUI(currentModelID+"_left", scopeModelID);
+		expressionBaseUI_2 = new ExpressionHolderUI(currentModelID, scopeModelID);
+		expressionBaseUI_2.setOperationContext("right");
 		add(expressionBaseUI_2);
 	}
 
@@ -77,7 +80,8 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	}
 
 	private void initExpressionHolder1() {
-		expressionBaseUI_1 = new ExpressionHolderUI(currentModelID+"_right", scopeModelID);
+		expressionBaseUI_1 = new ExpressionHolderUI(currentModelID, scopeModelID);
+		expressionBaseUI_1.setOperationContext("left");
 		add(expressionBaseUI_1);
 	}
 
@@ -141,6 +145,14 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 
 	public void setModelScope(String id) {
 		scopeModelID = id;
+	}
+	
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
 	}
 
 }

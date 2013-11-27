@@ -81,7 +81,7 @@ public class DataFactory implements IDataFactory {
 	 * createOperation()
 	 */
 	public DataObject createOperation() {
-		Operation op = new Operation(Operation.STRING_CLASS, Operation.STRING_CLASS);
+		Operation op = new Operation(Operation.STRING_CLASS, Operation.STRING_CLASS+" "+objectID);
 		op.setUniqueID(""+objectID++);
 		return op;
 	}
@@ -202,7 +202,7 @@ public class DataFactory implements IDataFactory {
 	 * createVarReference()
 	 */
 	public DataObject createVarReference() {
-		VariableReference varRef = new VariableReference(VariableReference.STRING_CLASS, VariableReference.STRING_CLASS);
+		VariableReference varRef = new VariableReference(VariableReference.STRING_CLASS, VariableReference.STRING_CLASS+" "+objectID);
 		varRef.setUniqueID(""+objectID++);
 		return varRef;
 	}
