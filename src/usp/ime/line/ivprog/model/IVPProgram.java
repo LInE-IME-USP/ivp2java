@@ -190,7 +190,6 @@ public class IVPProgram extends DomainModel {
 			lastExpressionID = ((Operation)dataHolder).getExpressionA();
 		}
 		for(int i = 0; i < expressionListeners.size(); i++){
-			System.out.println("estou avisando o > "+(IExpressionListener)expressionListeners.get(i));
 			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression, context);
 		}
 		state.remove(exp);

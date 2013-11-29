@@ -48,7 +48,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		}else if (type == Expression.EXPRESSION_OPERATION_MULTIPLICATION){
 			sign = "\u00D7";
 		}else if (type == Expression.EXPRESSION_OPERATION_SUBTRACTION){
-			sign = "\u00D7";
+			sign = "\u002D";
 		}
 		expSign.setText(sign);
 	}

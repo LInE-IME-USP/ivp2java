@@ -279,7 +279,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	}
 
 	public void setExpression(JComponent exp) {
-		System.out.println("pedi pra setar essa exp > "+((IDomainObjectUI) exp).getModelID()+" no treco de id "+myId);
 		currentModelID = ((IDomainObjectUI)exp).getModelID();;
 		this.expression = exp;
 		selectLabel.setVisible(false);
@@ -303,7 +302,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void expressionDeleted(String id, String context) {
 		if(expression != null){
 			if(currentModelID.equals(id) && operationContext.equals(context)){
-				System.out.println("IDENTIFICOU O CARA!!! quero tirar o "+id+" do "+myId);
 				remove(expression);
 				if(expression instanceof OperationUI){
 					JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
