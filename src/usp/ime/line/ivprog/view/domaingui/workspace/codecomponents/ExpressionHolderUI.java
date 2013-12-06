@@ -37,38 +37,31 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
-	
 	private boolean drawBorder = true;
-	
-	private JPopupMenu chooseContent;
-	private JPopupMenu changeContent;
-	
+	private JPopupMenu contentMenu;
+	private JPopupMenu operationMenu;
 	private JLabel selectLabel;
-	
 	private String parentModelID;
 	private String scopeModelID;
 	private String currentModelID;
-	
-	private EditInPlace integerEdit;
-	
-	private JButton btnChangeContent;
-	
+	private JButton operationsBtn;
 	private JComponent expression;
-	private static int count = 0;
-	private int myId = 0;
 	private String operationContext;
 	
 	public ExpressionHolderUI(String parent, String scopeID){
-		parentModelID = parent;
-		scopeModelID = scopeID;
+		init(parent, scopeID);
 		initialization();
 		initComponents();
-		myId = count++;
+	}
+
+	//BEGIN: initialization methods
+	private void init(String parent, String scopeID) {
+		parentModelID = parent;
+		scopeModelID = scopeID;
 		setOperationContext("");
 		Services.getService().getController().getProgram().addExpressionListener(this);
 	}
 
-	//BEGIN: initialization methods
 	private void initialization() {
 		setBackground(bgColor);
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
@@ -87,7 +80,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	
 	private void initChangeContentMenu() {
-		changeContent = new JPopupMenu();
+		operationMenu = new JPopupMenu();
 		Action createAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
@@ -127,32 +120,31 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				System.out.println("currentID "+currentModelID + " parentModel "+parentModelID+ " myID "+myId);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		cleanContent.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.tip"));
 		cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
 		
-		changeContent.add(createAddition);
-		changeContent.add(createSubtraction);
-		changeContent.add(createDivision);
-		changeContent.add(createMultiplication);
-		changeContent.add(cleanContent);
+		operationMenu.add(createAddition);
+		operationMenu.add(createSubtraction);
+		operationMenu.add(createDivision);
+		operationMenu.add(createMultiplication);
+		operationMenu.add(cleanContent);
 		
 	}
 
 	private void initChangeContentBtn() {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				changeContent.show(btnChangeContent, btnChangeContent.getWidth(), btnChangeContent.getHeight());
+				operationMenu.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
 			}
 		};
 		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
-		btnChangeContent = new JButton(action);
-		btnChangeContent.setUI(new IconButtonUI());
-		btnChangeContent.setEnabled(false);
-		add(btnChangeContent);		
+		operationsBtn = new JButton(action);
+		operationsBtn.setUI(new IconButtonUI());
+		operationsBtn.setVisible(false);
+		add(operationsBtn);		
 	}
 
 	private void initLabel() {
@@ -162,7 +154,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	}
 	
 	private void initChooseContentMenu() {
-		chooseContent = new JPopupMenu();
+		contentMenu = new JPopupMenu();
 		Action variableHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().createExpression(null,parentModelID,Expression.EXPRESSION_VARIABLE, operationContext);
@@ -192,10 +184,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		textHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.tip"));
 		textHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.text"));
-		chooseContent.add(variableHasBeenChosen);
-		chooseContent.add(integerHasBeenChosen);
-		chooseContent.add(doubleHasBeenChosen);
-		chooseContent.add(textHasBeenChosen);
+		contentMenu.add(variableHasBeenChosen);
+		contentMenu.add(integerHasBeenChosen);
+		contentMenu.add(doubleHasBeenChosen);
+		contentMenu.add(textHasBeenChosen);
 	}
 
 	//END: initialization methods
@@ -239,8 +231,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			e.getComponent().setCursor(Cursor.getDefaultCursor());
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			chooseContent.show(container, 0, container.getHeight());
-			chooseContent.requestFocus();
+			contentMenu.show(container, 0, container.getHeight());
+			contentMenu.requestFocus();
 		}
 		
 		public void mousePressed(MouseEvent arg0) { }
@@ -253,27 +245,79 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void expressionCreated(String holder, String id,String context) {
 		if(holder == parentModelID && operationContext.equals(context)){
 			JComponent lastExp = expression;
-			drawBorder = false;
 			if(expression != null)
 				remove(expression);
 			currentModelID = id;
 			expression = Services.getService().getRenderer().paint(id);
-			selectLabel.setVisible(false);
-			setOpaque(false);
+			populatedExpressionHolder();
+			add(expression,0);
 			if(expression instanceof VariableSelectorUI){
-				((VariableSelectorUI)expression).selectVariableAction();
+				((VariableSelectorUI)expression).editStateOn();
 			}else{
 				((OperationUI)expression).setExpressionBaseUI_1(lastExp);
+				if(lastExp instanceof VariableSelectorUI)
+					((VariableSelectorUI)lastExp).editStateOn();
 			}
-			add(expression,0);
-			if(expression!=null)
-				btnChangeContent.setEnabled(true);
 			revalidate();
 			repaint();
 		} 
 	}
+	
+	public void expressionDeleted(String id, String context) {
+		if(expression != null){
+			if(currentModelID.equals(id) && operationContext.equals(context)){
+				remove(expression);
+				if(expression instanceof OperationUI){
+					JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
+					setExpression(exp);
+				}else{
+					emptyExpressionHolder();
+				}
+				revalidate();
+				repaint();
+			}
+		}
+	}
+	
+	public void cleanExpressionField() {
+		
+	}
+
+	public void expressionRestored(String holder, String id, String context) {
+		String lastExpID = null;
+		if (holder.equals(parentModelID) && operationContext.equals(context)) {
+			JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
+			if (restoredExp instanceof OperationUI){
+				((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
+			} else {
+				if(((VariableSelectorUI) restoredExp).isEditState()){
+					editStateOn();
+				}else{
+					editStateOff();
+				}
+			}
+			
+			setExpression(restoredExp);
+		}
+		revalidate();
+		repaint();
+	}
+
 	//END: Expression listener methods
 
+	private void emptyExpressionHolder(){
+		selectLabel.setVisible(true);
+		setOpaque(true);
+		drawBorder = true;
+		editStateOff();
+	}
+	
+	private void populatedExpressionHolder(){
+		selectLabel.setVisible(false);
+		setOpaque(false);
+		drawBorder = false;
+	}
+	
 	public JComponent getExpression() {
 		return expression;
 	}
@@ -281,14 +325,19 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void setExpression(JComponent exp) {
 		currentModelID = ((IDomainObjectUI)exp).getModelID();;
 		this.expression = exp;
-		selectLabel.setVisible(false);
-		drawBorder = false;
-		setOpaque(false);
+		populatedExpressionHolder();
+			editStateOn();
 		add(this.expression, 0);
-		if(this.expression != null)
-			btnChangeContent.setEnabled(true);
+		
 		revalidate();
 		repaint();
+	}
+	
+	private boolean isEditing(){
+		if(expression instanceof VariableSelectorUI)
+			return ((VariableSelectorUI)expression).isEditState();
+		else
+			return true;
 	}
 
 	public String getCurrentModelID() {
@@ -298,41 +347,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void setCurrentModelID(String currentModelID) {
 		this.currentModelID = currentModelID;
 	}
-
-	public void expressionDeleted(String id, String context) {
-		if(expression != null){
-			if(currentModelID.equals(id) && operationContext.equals(context)){
-				remove(expression);
-				if(expression instanceof OperationUI){
-					JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
-					setExpression(exp);
-				}else{
-					selectLabel.setVisible(true);
-					setOpaque(true);
-					drawBorder = true;
-				}
-				revalidate();
-				repaint();
-			}
-		}
-	}
-
-	public void cleanExpressionField() {
-		
-	}
-
-	public void expressionRestored(String holder, String id, String context) {
-		String lastExpID = null;
-		if (holder.equals(parentModelID) && operationContext.equals(context)) {
-			JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
-			if (restoredExp instanceof OperationUI)
-				((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
-			setExpression(restoredExp);
-		}
-		revalidate();
-		repaint();
-	}
-
+	
 	public String getOperationContext() {
 		return operationContext;
 	}
@@ -340,5 +355,19 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public void setOperationContext(String operationContext) {
 		this.operationContext = operationContext;
 	}
+	
+	//Teste 
+	public void editStateOff(){
+		operationsBtn.setVisible(false);
+		revalidate();
+		repaint();
+	}
+	
+	public void editStateOn(){
+		operationsBtn.setVisible(true);
+		revalidate();
+		repaint();
+	}
+	
 
 }

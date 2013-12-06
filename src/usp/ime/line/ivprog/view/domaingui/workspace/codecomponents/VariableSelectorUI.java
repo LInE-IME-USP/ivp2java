@@ -35,7 +35,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class VariableSelectorUI extends JPanel implements IVariableListener, IDomainObjectUI {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
-	public static final Color bgColor = new Color(236, 240, 241);
+	public static final Color bgColor = new Color(255, 255, 255);
 	public static final Color hoverColor = new Color(241, 196, 15);
 	
 	private JComboBox varList;
@@ -51,6 +51,10 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private String parentModelID;
 	private String scopeModelID;
 	private String context;
+	
+	private boolean drawBorder = true;
+	
+	private boolean editState = false;
 	
 	public VariableSelectorUI(String parent){
 		this.parentModelID = parent;
@@ -104,7 +108,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		setLabelState((String)item);
+			    		editStateOff((String)item);
 			    		if(warningState){
 			    			turnWaningStateOFF();
 			    		}
@@ -115,8 +119,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		add(varList);
 	}
 
-	
-	
 	private void initValues() {
 		String parentID = parentModelID;
 		if(parentID.contains("_")) parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
@@ -136,21 +138,32 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	//END: initialization methods
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(borderColor);
-		java.awt.Rectangle bounds = getBounds();
-		for (int i = 0; i < bounds.width; i += 6) {
-			g.drawLine(i, 0, i + 3, 0);
-			g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
-		}
-		for (int i = 0; i < bounds.height; i += 6) {
-			g.drawLine(0, i, 0, i + 3);
-			g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
+		if(drawBorder){
+			FlowLayout layout = (FlowLayout) getLayout();
+			layout.setVgap(3);
+			layout.setHgap(3);
+			revalidate();
+			g.setColor(borderColor);
+			java.awt.Rectangle bounds = getBounds();
+			for (int i = 0; i < bounds.width; i += 6) {
+				g.drawLine(i, 0, i + 3, 0);
+				g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
+			}
+			for (int i = 0; i < bounds.height; i += 6) {
+				g.drawLine(0, i, 0, i + 3);
+				g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
+			}
+		}else{
+			FlowLayout layout = (FlowLayout) getLayout();
+			layout.setVgap(0);
+			layout.setHgap(0);
 		}
 	}
 	
 	//BEGIN: Mouse listener
 	private class ExpressionMouseListener implements MouseListener {
 		private JPanel container;
+		private int clickCounter = 0;
 		public ExpressionMouseListener(JPanel c){ container = c; }
 
 		public void mouseEntered(MouseEvent e) {
@@ -163,7 +176,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			e.getComponent().setCursor(Cursor.getDefaultCursor());
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			selectVariableAction();
+			editStateOn();
 			varList.requestFocus();
 		}
 		
@@ -201,8 +214,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		indexMap.put(id, name);
 		updateVariableList();
 		isUpdate = false;
-		
-		
 		if(nameLabel.isVisible() && nameLabel.getText().equals(lastName)){
 			nameLabel.setText(name);
 			nameLabel.revalidate();
@@ -210,7 +221,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			isUpdate = true;
 			isUpdate = false;
 		}
-		
 	}
 	
 	public void changeVariableValue(String id, String value) { }
@@ -224,7 +234,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			isUpdate = true;
 			updateVariableList();
 			isUpdate = false;
-			setLabelState(name);
+			editStateOff(name);
 		}
 		isUpdate = true;
 		updateVariableList();
@@ -233,31 +243,39 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	//END: Variable listener methods
 	
 	//BEGIN: support methods
-	
-	public void selectVariableAction() {
+	public void editStateOn() {
 		varList.setVisible(true);
 		nameLabel.setVisible(false);
+		drawBorder = false;
+		if(getParent() instanceof ExpressionHolderUI)
+			((ExpressionHolderUI) getParent()).editStateOn();
+		editState = true;
 		revalidate();
 		repaint();
 	}
 	
-	private void setLabelState(String item) {
+	private void editStateOff(String item) {
 		varList.setVisible(false);
-		nameLabel.setText(item);
+		if(item != null)
+			nameLabel.setText(item);
 		nameLabel.setVisible(true);
+		if(getParent() instanceof ExpressionHolderUI)
+			((ExpressionHolderUI) getParent()).editStateOff();
+		editState = false;
 		revalidate();
 		repaint();
 	}
 	
 	private void turnWaningStateON() {
 		iconLabel.setVisible(true);
-		selectVariableAction();
 		warningState = true;
+		editStateOn();
 	}
 	
 	private void turnWaningStateOFF() {
 		iconLabel.setVisible(false);
 		warningState = false;
+		editStateOff(null);
 	}
 	
 	private void updateVariableList(){
@@ -326,6 +344,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	public String getContext() {
 		return context;
+	}
+
+	public boolean isEditState() {
+		return editState;
+	}
+
+	public void setEditState(boolean editState) {
+		this.editState = editState;
 	}
 	
 }

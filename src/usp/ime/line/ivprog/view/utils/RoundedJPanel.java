@@ -12,7 +12,7 @@ public class RoundedJPanel extends JPanel {
 
 	public RoundedJPanel() {
 		super();
-		// setOpaque(false);
+		setOpaque(false);
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -28,16 +28,11 @@ public class RoundedJPanel extends JPanel {
 		}
 		java.awt.Rectangle bounds = getBounds();
 		g.setColor(getBackground());
-		g.fillRoundRect(0, 0, bounds.width, bounds.height, arcs.width,
-				arcs.height);
+		g.fillRoundRect(0, 0, bounds.width, bounds.height, arcs.width,arcs.height);
 		g.setColor(borderColor);
-		g.drawRoundRect(0, 0, bounds.width - 1, bounds.height - 1, arcs.width,
-				arcs.height);
+		g.drawRoundRect(0, 0, bounds.width - 1, bounds.height - 1, arcs.width,arcs.height);
 		if (g instanceof java.awt.Graphics2D) {
-			((java.awt.Graphics2D) g)
-					.addRenderingHints(new java.awt.RenderingHints(
-							java.awt.RenderingHints.KEY_ANTIALIASING,
-							oldAntialiasing));
+			((java.awt.Graphics2D) g).addRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING,oldAntialiasing));
 		}
 	}
 

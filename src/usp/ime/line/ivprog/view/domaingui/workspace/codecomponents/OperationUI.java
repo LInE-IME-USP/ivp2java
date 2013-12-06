@@ -2,17 +2,22 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class OperationUI extends JPanel implements IDomainObjectUI {
 	
@@ -26,6 +31,9 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	private String parentModelID;
 	private String scopeModelID;
 	private String context; 
+	private JPanel expPanel;
+	
+	private boolean drawBorder = false;
 
 	public OperationUI(String parent, String scope, String id) {
 		parentModelID = parent;
@@ -36,7 +44,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		initComponents();
 		initSignal();
 	}
-
+	
 	private void initSignal() {
 		String sign = null;
 		Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
@@ -74,9 +82,15 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	}
 
 	private void initExpressionSign() {
+		expPanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) expPanel.getLayout();
+		flowLayout.setHgap(3);
+		flowLayout.setVgap(0);
+		expPanel.addMouseListener(new OperationMouseListener(expPanel));
+		add(expPanel);
 		expSign = new JLabel();
+		expPanel.add(expSign);
 		expSign.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		add(expSign);
 	}
 
 	private void initExpressionHolder1() {
@@ -154,5 +168,18 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	public String getContext() {
 		return context;
 	}
+	
+	private class OperationMouseListener implements MouseListener {
+		private JPanel panel;
+		public OperationMouseListener(JPanel p){ panel = p; }
+		public void mouseClicked(MouseEvent arg0) { }
+		public void mouseEntered(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.hoverColor);}
+		public void mouseExited(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.bgColor); }
+		public void mousePressed(MouseEvent arg0) { }
+		public void mouseReleased(MouseEvent arg0) { }
+	}
+	
+	
+
 
 }

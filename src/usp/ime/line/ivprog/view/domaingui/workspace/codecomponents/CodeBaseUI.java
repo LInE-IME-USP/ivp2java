@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -29,6 +30,7 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
 	
 	public CodeBaseUI(){
 		setLayout(new BorderLayout());
+		setArcs(new Dimension(15,15));
 		initGripArea();
 		initCompositePanel();
 		initTrashCan();
