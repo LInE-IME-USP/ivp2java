@@ -296,11 +296,16 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 					editStateOff();
 				}
 			}
-			
 			setExpression(restoredExp);
 		}
 		revalidate();
 		repaint();
+	}
+	
+	public void expressionTypeChanged(String id, String context) {
+		if (currentModelID.equals(id) && operationContext.equals(context)) {
+			
+		}
 	}
 
 	//END: Expression listener methods
@@ -368,6 +373,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		revalidate();
 		repaint();
 	}
+
+	
 	
 
 }

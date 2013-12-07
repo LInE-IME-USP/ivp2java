@@ -10,6 +10,7 @@ import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
 import usp.ime.line.ivprog.model.domainaction.CreateExpression;
@@ -131,6 +132,14 @@ public class IVPController {
 		deleteExpression.execute();
 	}
 	
+	public void changeExpressionSign(String id, short expressionType, String context){
+		ChangeExpressionSign changeExpression = (ChangeExpressionSign) actionList.get("changeexpressionsign");
+		changeExpression.setExpressionID(id);
+		changeExpression.setContext(context);
+		changeExpression.setNewType(expressionType);
+		changeExpression.execute();
+	}
+	
 	public void initDomainActionList(DomainModel model) {
 		CreateVariable newVar = new CreateVariable("newvar","newvar");
 		newVar.setDomainModel(model);
@@ -163,6 +172,11 @@ public class IVPController {
 		DeleteExpression deleteExpression = new DeleteExpression("deleteexpression", "deleteexpression");
 		deleteExpression.setDomainModel(model);
 		actionList.put("deleteexpression", deleteExpression);
+		
+		ChangeExpressionSign changeExpressionSign = new ChangeExpressionSign("changeexpressionsign","changeexpressionsign");
+		changeExpressionSign.setDomainModel(model);
+		actionList.put("changeexpressionsign", changeExpressionSign);
+		
 	}
 	
 	public void addComponentListener(ICodeListener listener, String id){

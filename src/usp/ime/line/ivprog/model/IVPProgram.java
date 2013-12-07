@@ -203,6 +203,16 @@ public class IVPProgram extends DomainModel {
 		}
 		state.add(exp);
 	}
+	
+	public short changeExpressionSign(String expression, String context, short newType, AssignmentState state){
+		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
+		short lastType = exp.getExpressionType();
+		exp.setExpressionType(newType);
+		for(int i = 0; i < expressionListeners.size(); i++){
+			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
+		}
+		return lastType;
+	}
 
 	
 	public void cleanExpressionField(String expressionID, AssignmentState state){

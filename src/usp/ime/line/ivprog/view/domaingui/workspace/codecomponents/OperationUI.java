@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -14,8 +16,10 @@ import javax.swing.JPopupMenu;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -34,6 +38,8 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	private JPanel expPanel;
 	
 	private boolean drawBorder = false;
+	
+	private JPopupMenu operationSignMenu;
 
 	public OperationUI(String parent, String scope, String id) {
 		parentModelID = parent;
@@ -43,8 +49,49 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		initLayout();
 		initComponents();
 		initSignal();
+		initOperationSignMenu();
 	}
 	
+	private void initOperationSignMenu() {
+		operationSignMenu = new JPopupMenu();
+		Action changeToAddition = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToAddition.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToAddition.putValue(Action.NAME, "\u002B");
+		Action changeToDivision = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToDivision.putValue(Action.NAME, "\u00F7");
+		Action changeToMultiplication = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToMultiplication.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToMultiplication.putValue(Action.NAME, "\u00D7");
+		Action changeToSubtraction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToSubtraction.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToSubtraction.putValue(Action.NAME, "\u002D");
+		operationSignMenu.add(changeToAddition);
+		operationSignMenu.add(changeToDivision);
+		operationSignMenu.add(changeToMultiplication);
+		operationSignMenu.add(changeToSubtraction);
+	}
+
 	private void initSignal() {
 		String sign = null;
 		Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
@@ -132,10 +179,6 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		repaint();
 	}
 	
-	public void setSignal(String sig){
-	
-	}
-
 	public String getModelID() {
 		return currentModelID;
 	}
@@ -172,7 +215,10 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	private class OperationMouseListener implements MouseListener {
 		private JPanel panel;
 		public OperationMouseListener(JPanel p){ panel = p; }
-		public void mouseClicked(MouseEvent arg0) { }
+		public void mouseClicked(MouseEvent arg0) { 
+			operationSignMenu.show(panel, 0, panel.getHeight());
+			operationSignMenu.requestFocus(); 
+		}
 		public void mouseEntered(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.hoverColor);}
 		public void mouseExited(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.bgColor); }
 		public void mousePressed(MouseEvent arg0) { }
