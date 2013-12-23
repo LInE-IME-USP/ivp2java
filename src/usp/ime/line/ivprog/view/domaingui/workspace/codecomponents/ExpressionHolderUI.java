@@ -58,6 +58,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private void init(String parent, String scopeID) {
 		parentModelID = parent;
 		scopeModelID = scopeID;
+		currentModelID = "";
 		setOperationContext("");
 		Services.getService().getController().getProgram().addExpressionListener(this);
 	}
@@ -304,7 +305,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	public void expressionTypeChanged(String id, String context) {
 		if (currentModelID.equals(id) && operationContext.equals(context)) {
-			
+			if(expression instanceof OperationUI){
+				((OperationUI)expression).setModelID(id);
+			}
 		}
 	}
 
@@ -361,7 +364,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		this.operationContext = operationContext;
 	}
 	
-	//Teste 
 	public void editStateOff(){
 		operationsBtn.setVisible(false);
 		revalidate();
@@ -373,8 +375,5 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		revalidate();
 		repaint();
 	}
-
-	
-	
 
 }

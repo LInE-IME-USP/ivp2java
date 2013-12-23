@@ -24,7 +24,7 @@ public class RemoveChild extends DomainAction {
 	}
 
 	protected void undoAction() {
-		
+		model.res
 	}
 
 	public boolean equals(DomainAction a) {

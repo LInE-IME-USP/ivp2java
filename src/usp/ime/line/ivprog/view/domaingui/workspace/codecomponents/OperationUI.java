@@ -45,6 +45,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		parentModelID = parent;
 		scopeModelID = scope;
 		currentModelID = id;
+		context = "";
 		setOpaque(false);
 		initLayout();
 		initComponents();
@@ -56,7 +57,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		operationSignMenu = new JPopupMenu();
 		Action changeToAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_ADDITION, context);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -64,7 +65,8 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		changeToAddition.putValue(Action.NAME, "\u002B");
 		Action changeToDivision = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				System.out.println("called");
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_DIVISION, context);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -72,7 +74,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		changeToDivision.putValue(Action.NAME, "\u00F7");
 		Action changeToMultiplication = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, context);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -80,7 +82,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		changeToMultiplication.putValue(Action.NAME, "\u00D7");
 		Action changeToSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, context);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));

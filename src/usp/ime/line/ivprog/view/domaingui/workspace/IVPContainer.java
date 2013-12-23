@@ -141,6 +141,19 @@ public class IVPContainer extends JPanel implements ICodeListener {
         return isInternalCanvas;
     }
 
+	
+
+	public String getCodeComposite(){
+		return codeCompositeID;
+	}
+	
+	public void setContainerBackground(Color bgColor){
+		setBackground(bgColor);
+		revalidate();
+		repaint();
+	}
+
+	//Listener methods
 	public void childAdded(String childID) {
 		JComponent child = Services.getService().getRenderer().paint(childID);
 		children.add(children.size()-1, child);
@@ -152,15 +165,11 @@ public class IVPContainer extends JPanel implements ICodeListener {
 		children.remove(c);
 		relayout();
 	}
-
-	public String getCodeComposite(){
-		return codeCompositeID;
-	}
 	
-	public void setContainerBackground(Color bgColor){
-		setBackground(bgColor);
-		revalidate();
-		repaint();
+	public void restoreChild(String childID, int index) {
+		JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
+		children.add(index, child);
+		relayout();
 	}
 	
 	

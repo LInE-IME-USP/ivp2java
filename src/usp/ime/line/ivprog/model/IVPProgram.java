@@ -108,6 +108,13 @@ public class IVPProgram extends DomainModel {
 		state.remove((DomainObject) Services.getService().getModelMapping().get(childID));
 		return index;
 	}
+	
+	public void restoreChild(String containerID, String childID, int index, AssignmentState state){
+		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
+		parent.addChildToIndex(childID, index);
+		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
+		codeListener.restoreChild(childID, index);
+	}
 
 	// Function actions
 	public void createParameter(String scopeID) {
@@ -209,7 +216,7 @@ public class IVPProgram extends DomainModel {
 		short lastType = exp.getExpressionType();
 		exp.setExpressionType(newType);
 		for(int i = 0; i < expressionListeners.size(); i++){
-			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
+			((IExpressionListener)expressionListeners.get(i)).expressionTypeChanged(expression, context);
 		}
 		return lastType;
 	}
