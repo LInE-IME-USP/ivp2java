@@ -15,8 +15,9 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.WhileUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.PrintUI;
@@ -58,7 +59,7 @@ public class IVPRenderer {
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
 			return var;
 		}else{ // It's an operation
-			exp = new OperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+			exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
 			exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
 			return exp;

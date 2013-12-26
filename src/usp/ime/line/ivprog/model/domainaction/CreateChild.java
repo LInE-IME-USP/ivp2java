@@ -11,6 +11,7 @@ public class CreateChild extends DomainAction {
 	private String scopeID;
 	private String objectID;
 	private short classID;
+	private int index = 0;
 
 	public CreateChild(String name, String description) {
 		super(name, description);
@@ -21,11 +22,15 @@ public class CreateChild extends DomainAction {
 	}
 
 	protected void executeAction() {
-		objectID = model.newChild(containerID, classID, _currentState);
+		if(isRedo()){
+			model.restoreChild(containerID, objectID, index, _currentState);
+		}else{
+			objectID = model.newChild(containerID, classID, _currentState);
+		}
 	}
 
 	protected void undoAction() {
-		
+		index = model.removeChild(containerID, objectID, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

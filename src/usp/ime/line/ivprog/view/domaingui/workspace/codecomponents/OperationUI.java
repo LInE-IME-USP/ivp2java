@@ -1,50 +1,39 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
-import javax.swing.JPanel;
-
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
-import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+public abstract class OperationUI extends JPanel {
 
-public class OperationUI extends JPanel implements IDomainObjectUI {
-	
 	private JLabel leftPar;
 	private ExpressionHolderUI expressionBaseUI_1;
-	private JLabel expSign;
+	protected JLabel expSign;
 	private ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
-	
-	private String currentModelID;
-	private String parentModelID;
-	private String scopeModelID;
-	private String context; 
+	protected String currentModelID;
+	protected String parentModelID;
+	protected String scopeModelID;
+	protected String context;
 	private JPanel expPanel;
-	
 	private boolean drawBorder = false;
-	
-	private JPopupMenu operationSignMenu;
+	protected JPopupMenu operationSignMenu;
 
 	public OperationUI(String parent, String scope, String id) {
-		parentModelID = parent;
-		scopeModelID = scope;
 		currentModelID = id;
+		scopeModelID = scope;
+		parentModelID = parent;
 		context = "";
 		setOpaque(false);
 		initLayout();
@@ -53,64 +42,10 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		initOperationSignMenu();
 	}
 	
-	private void initOperationSignMenu() {
-		operationSignMenu = new JPopupMenu();
-		Action changeToAddition = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_ADDITION, context);
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToAddition.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
-		changeToAddition.putValue(Action.NAME, "\u002B");
-		Action changeToDivision = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("called");
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_DIVISION, context);
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
-		changeToDivision.putValue(Action.NAME, "\u00F7");
-		Action changeToMultiplication = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, context);
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToMultiplication.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
-		changeToMultiplication.putValue(Action.NAME, "\u00D7");
-		Action changeToSubtraction = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, context);
-			}
-		};
-		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToSubtraction.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
-		changeToSubtraction.putValue(Action.NAME, "\u002D");
-		operationSignMenu.add(changeToAddition);
-		operationSignMenu.add(changeToDivision);
-		operationSignMenu.add(changeToMultiplication);
-		operationSignMenu.add(changeToSubtraction);
-	}
+	public abstract void initOperationSignMenu();
+	public abstract void initSignal(); 
 
-	private void initSignal() {
-		String sign = null;
-		Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
-		short type = op.getOperationType();
-		if(type == Expression.EXPRESSION_OPERATION_ADDITION){
-			sign = "\u002B";
-		}else if (type == Expression.EXPRESSION_OPERATION_DIVISION){
-			sign = "\u00F7";
-		}else if (type == Expression.EXPRESSION_OPERATION_MULTIPLICATION){
-			sign = "\u00D7";
-		}else if (type == Expression.EXPRESSION_OPERATION_SUBTRACTION){
-			sign = "\u002D";
-		}
-		expSign.setText(sign);
-	}
-
-	private void initComponents() {
+	protected void initComponents() {
 		initLeftParenthesis();
 		initExpressionHolder1();
 		initExpressionSign();
@@ -154,7 +89,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		add(leftPar);
 	}
 
-	private void initLayout() {
+	protected void initLayout() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setHgap(3);
 		flowLayout.setVgap(0);
@@ -180,11 +115,11 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		revalidate();
 		repaint();
 	}
-	
+
 	public String getModelID() {
 		return currentModelID;
 	}
-	
+
 	public String getModelParent() {
 		return parentModelID;
 	}
@@ -205,7 +140,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 	public void setModelScope(String id) {
 		scopeModelID = id;
 	}
-	
+
 	public void setContext(String context) {
 		this.context = context;
 	}
@@ -214,7 +149,7 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		return context;
 	}
 	
-	private class OperationMouseListener implements MouseListener {
+	class OperationMouseListener implements MouseListener {
 		private JPanel panel;
 		public OperationMouseListener(JPanel p){ panel = p; }
 		public void mouseClicked(MouseEvent arg0) { 
@@ -226,8 +161,5 @@ public class OperationUI extends JPanel implements IDomainObjectUI {
 		public void mousePressed(MouseEvent arg0) { }
 		public void mouseReleased(MouseEvent arg0) { }
 	}
-	
-	
-
 
 }
