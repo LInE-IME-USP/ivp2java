@@ -2,13 +2,19 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 public abstract class Expression extends DataObject {
 		
-	public static final short EXPRESSION_VARIABLE = 5;
-	public static final short EXPRESSION_OPERATION_ADDITION = 0;
-	public static final short EXPRESSION_OPERATION_SUBTRACTION = 1;
-	public static final short EXPRESSION_OPERATION_DIVISION = 2;
-	public static final short EXPRESSION_OPERATION_MULTIPLICATION = 3;
-	public static final short EXPRESSION_OPERATION_AND = 4;
-	public static final short EXPRESSION_OPERATION_OR = 5;
+	public static final short EXPRESSION_VARIABLE = 0;
+	public static final short EXPRESSION_OPERATION_ADDITION = 1;
+	public static final short EXPRESSION_OPERATION_SUBTRACTION = 2;
+	public static final short EXPRESSION_OPERATION_DIVISION = 3;
+	public static final short EXPRESSION_OPERATION_MULTIPLICATION = 4;
+	public static final short EXPRESSION_OPERATION_AND = 5;
+	public static final short EXPRESSION_OPERATION_OR = 6;
+	public static final short EXPRESSION_OPERATION_LEQ = 7;
+	public static final short EXPRESSION_OPERATION_LES = 8;
+	public static final short EXPRESSION_OPERATION_EQU = 9;
+	public static final short EXPRESSION_OPERATION_NEQ = 10;
+	public static final short EXPRESSION_OPERATION_GEQ = 11;
+	public static final short EXPRESSION_OPERATION_GRE = 12;
 	
 	protected short expressionType = -1;
 	

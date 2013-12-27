@@ -21,11 +21,11 @@ public class ChangeExpressionSign extends DomainAction{
 	}
 
 	protected void executeAction() {
-		lastType = model.changeExpressionSign(expressionID, context, newType, _currentState);
+		lastType = model.changeOperationSign(expressionID, context, newType, _currentState);
 	}
 
 	protected void undoAction() {
-		model.changeExpressionSign(expressionID, context, lastType, _currentState);
+		model.changeOperationSign(expressionID, context, lastType, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

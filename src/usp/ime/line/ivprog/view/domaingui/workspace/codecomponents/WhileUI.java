@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -18,6 +20,8 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
+
+import javax.swing.JToolBar;
 
 public class WhileUI extends CodeBaseUI {
 	
@@ -33,6 +37,7 @@ public class WhileUI extends CodeBaseUI {
 	private String context;
 	
 	private static Color bgColor = new Color(189, 195, 199);
+	private BooleanOperationUI booleanOperationUI;
 	
 	public WhileUI(String id) {
 		setModelID(id);
@@ -68,8 +73,15 @@ public class WhileUI extends CodeBaseUI {
 		initExpandBtnUP();
 		initExpandBtnDOWN();
 		initCodeBlockLabel();
+		initExpression();
 	}
 	
+	private void initExpression() {
+		String condition = ((While)Services.getService().getModelMapping().get(getModelID())).getCondition();
+		booleanOperationUI = new BooleanOperationUI(getModelID(), getModelScope(), condition);
+		header.add(booleanOperationUI);
+	}
+
 	private void initExpandBtnUP() {
 		expandBtnUP = new JButton();
 		expandBtnUP.setIcon(up);

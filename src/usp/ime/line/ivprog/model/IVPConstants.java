@@ -1,15 +1,6 @@
 package usp.ime.line.ivprog.model;
 
 public final class IVPConstants {
-
-
-	
-	public static final short COMPARISON_GREATER = 6;
-	public static final short COMPARISON_GREATEROREQUAL = 7;
-	public static final short COMPARISON_EQUAL = 8;
-	public static final short COMPARISON_SMALLEROREQUAL = 9;
-	public static final short COMPARISON_SMALLER = 10;
-	public static final short COMPARISON_DIFFERENT = 11;
 	public static final short VAR_INT_TYPE = 12;
 	public static final short VAR_DOUBLE_TYPE = 13;
 	public static final short VAR_STRING_TYPE = 14;
@@ -25,5 +16,4 @@ public final class IVPConstants {
 	public static final short MODEL_WRITE = 23;
 	public static final short MODEL_READ = 24;
 	public static final short MODEL_ATTLINE = 25;
-
 }

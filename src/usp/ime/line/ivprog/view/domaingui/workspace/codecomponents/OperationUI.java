@@ -1,8 +1,8 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,10 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
+import usp.ime.line.ivprog.listeners.IOperationListener;
 
-public abstract class OperationUI extends JPanel {
+public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
 
 	private JLabel leftPar;
 	private ExpressionHolderUI expressionBaseUI_1;
@@ -40,6 +39,7 @@ public abstract class OperationUI extends JPanel {
 		initComponents();
 		initSignal();
 		initOperationSignMenu();
+		Services.getService().getController().getProgram().addOperationListener(this);
 	}
 	
 	public abstract void initOperationSignMenu();
@@ -156,8 +156,14 @@ public abstract class OperationUI extends JPanel {
 			operationSignMenu.show(panel, 0, panel.getHeight());
 			operationSignMenu.requestFocus(); 
 		}
-		public void mouseEntered(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.hoverColor);}
-		public void mouseExited(MouseEvent arg0) { panel.setBackground(ExpressionHolderUI.bgColor); }
+		public void mouseEntered(MouseEvent e) {
+			panel.setBackground(ExpressionHolderUI.hoverColor);
+			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+		}
+		public void mouseExited(MouseEvent e) {
+			panel.setBackground(ExpressionHolderUI.bgColor);
+			e.getComponent().setCursor(Cursor.getDefaultCursor());
+		}
 		public void mousePressed(MouseEvent arg0) { }
 		public void mouseReleased(MouseEvent arg0) { }
 	}

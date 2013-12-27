@@ -15,6 +15,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
+import usp.ime.line.ivprog.listeners.IOperationListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
@@ -38,6 +39,7 @@ public class IVPProgram extends DomainModel {
 	private List variableListeners;
 	private List functionListeners;
 	private List expressionListeners;
+	private List operationListeners;
 	
 	private String currentScope = "0";
 
@@ -49,6 +51,7 @@ public class IVPProgram extends DomainModel {
 		variableListeners = new Vector();
 		functionListeners = new Vector();
 		expressionListeners = new Vector();
+		operationListeners = new Vector();
 	}
 
 	public void initializeModel() {
@@ -79,11 +82,18 @@ public class IVPProgram extends DomainModel {
 		DataObject codeBlock = null;
 		if(classID == IVPConstants.MODEL_WHILE){
 			codeBlock = (CodeComposite) dataFactory.createWhile();
+			Operation exp = (Operation) dataFactory.createOperation();
+			exp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
+			exp.setScopeID(currentScope);
+			((While)codeBlock).setCondition(exp.getUniqueID());
+			Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
+			state.add(exp);
 		} else if( classID == IVPConstants.MODEL_WRITE){
 			codeBlock = (DataObject) dataFactory.createPrint();
 		} else if( classID == IVPConstants.MODEL_ATTLINE){
 			codeBlock = (DataObject) dataFactory.createAttributionLine();
 			VariableReference varRef = (VariableReference) dataFactory.createVarReference();
+			varRef.setScopeID(currentScope);
 			((AttributionLine)codeBlock).setLeftVariableID(varRef.getUniqueID());
 			Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
 			state.add(varRef);
@@ -211,12 +221,12 @@ public class IVPProgram extends DomainModel {
 		state.add(exp);
 	}
 	
-	public short changeExpressionSign(String expression, String context, short newType, AssignmentState state){
+	public short changeOperationSign(String expression, String context, short newType, AssignmentState state){
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
 		short lastType = exp.getExpressionType();
 		exp.setExpressionType(newType);
-		for(int i = 0; i < expressionListeners.size(); i++){
-			((IExpressionListener)expressionListeners.get(i)).expressionTypeChanged(expression, context);
+		for(int i = 0; i < operationListeners.size(); i++){
+			((IOperationListener)operationListeners.get(i)).operationTypeChanged(expression, context);
 		}
 		return lastType;
 	}
@@ -229,6 +239,12 @@ public class IVPProgram extends DomainModel {
 	public void addExpressionListener(IExpressionListener listener){
 		if(!expressionListeners.contains(listener)){
 			expressionListeners.add(listener);
+		}
+	}
+	
+	public void addOperationListener(IOperationListener listener){
+		if(!operationListeners.contains(listener)){
+			operationListeners.add(listener);
 		}
 	}
 

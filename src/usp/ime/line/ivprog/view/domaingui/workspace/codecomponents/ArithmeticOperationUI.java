@@ -19,12 +19,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ArithmeticOperationUI extends OperationUI implements IDomainObjectUI {
+public class ArithmeticOperationUI extends OperationUI {
 	
 	public ArithmeticOperationUI(String parent, String scope, String id) {
 		super(parent, scope, id);
 	}
-	
 	public void initOperationSignMenu() {
 		operationSignMenu = new JPopupMenu();
 		Action changeToAddition = new AbstractAction() {
@@ -33,7 +32,7 @@ public class ArithmeticOperationUI extends OperationUI implements IDomainObjectU
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToAddition.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToAddition.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
 		changeToAddition.putValue(Action.NAME, "\u002B");
 		Action changeToDivision = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -41,7 +40,7 @@ public class ArithmeticOperationUI extends OperationUI implements IDomainObjectU
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
 		changeToDivision.putValue(Action.NAME, "\u00F7");
 		Action changeToMultiplication = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +48,7 @@ public class ArithmeticOperationUI extends OperationUI implements IDomainObjectU
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToMultiplication.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToMultiplication.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
 		changeToMultiplication.putValue(Action.NAME, "\u00D7");
 		Action changeToSubtraction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -57,7 +56,7 @@ public class ArithmeticOperationUI extends OperationUI implements IDomainObjectU
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		changeToSubtraction.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("OperationUI.changeSignPanel.tip"));
+		changeToSubtraction.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
 		changeToSubtraction.putValue(Action.NAME, "\u002D");
 		operationSignMenu.add(changeToAddition);
 		operationSignMenu.add(changeToDivision);
@@ -79,6 +78,12 @@ public class ArithmeticOperationUI extends OperationUI implements IDomainObjectU
 			sign = "\u002D";
 		}
 		expSign.setText(sign);
+	}
+
+	public void operationTypeChanged(String id, String context) {
+		if (currentModelID.equals(id) && this.context.equals(context)) {
+			setModelID(id);
+		}
 	}
 
 }

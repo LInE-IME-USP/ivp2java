@@ -303,14 +303,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		repaint();
 	}
 	
-	public void expressionTypeChanged(String id, String context) {
-		if (currentModelID.equals(id) && operationContext.equals(context)) {
-			if(expression instanceof OperationUI){
-				((OperationUI)expression).setModelID(id);
-			}
-		}
-	}
-
 	//END: Expression listener methods
 
 	private void emptyExpressionHolder(){
