@@ -101,22 +101,40 @@ public class BooleanOperationUI extends OperationUI {
 		short type = op.getOperationType();
 		if(type == Expression.EXPRESSION_OPERATION_AND){
 			sign = ResourceBundleIVP.getString("BooleanOperationUI.AND.text");
+			enableComparison();
 		}else if (type == Expression.EXPRESSION_OPERATION_OR){
 			sign = ResourceBundleIVP.getString("BooleanOperationUI.OR.text");
+			enableComparison();
 		}else if (type == Expression.EXPRESSION_OPERATION_LEQ){
+			disableComparison();
 			sign = "\u2264";
 		}else if (type == Expression.EXPRESSION_OPERATION_LES){
+			disableComparison();
 			sign = "\u003C";
 		}else if (type == Expression.EXPRESSION_OPERATION_EQU){
+			disableComparison();
 			sign = "\u003D";
 		}else if (type == Expression.EXPRESSION_OPERATION_NEQ){
+			disableComparison();
 			sign = "\u2260";
 		}else if (type == Expression.EXPRESSION_OPERATION_GEQ){
+			disableComparison();
 			sign = "\u2265";
 		}else if (type == Expression.EXPRESSION_OPERATION_GRE){
+			disableComparison();
 			sign = "\u003E";
 		}
 		expSign.setText(sign);
+	}
+
+	private void enableComparison() {
+		expressionBaseUI_1.enableComparison();
+		expressionBaseUI_2.enableComparison();
+	}
+	
+	private void disableComparison() {
+		expressionBaseUI_1.disableComparison();
+		expressionBaseUI_2.disableComparison();
 	}
 
 	public void operationTypeChanged(String id, String context) {

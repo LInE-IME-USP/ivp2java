@@ -124,7 +124,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		if(parentID.contains("_")) parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
 		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
-		System.out.println("f "+f+" component "+ component);
 		Vector variables = f.getLocalVariableMap().toVector();
 		for(int i = 0; i < variables.size(); i++){
 			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));

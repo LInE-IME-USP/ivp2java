@@ -17,9 +17,9 @@ import usp.ime.line.ivprog.listeners.IOperationListener;
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
 
 	private JLabel leftPar;
-	private ExpressionHolderUI expressionBaseUI_1;
+	protected ExpressionHolderUI expressionBaseUI_1;
 	protected JLabel expSign;
-	private ExpressionHolderUI expressionBaseUI_2;
+	protected ExpressionHolderUI expressionBaseUI_2;
 	private JLabel rightPar;
 	protected String currentModelID;
 	protected String parentModelID;
@@ -149,6 +149,20 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		return context;
 	}
 	
+	public void hideParenthesis(){
+		rightPar.setVisible(false);
+		leftPar.setVisible(false);
+		revalidate();
+		repaint();
+	}
+	
+	public void showParenthesis(){
+		rightPar.setVisible(true);
+		leftPar.setVisible(true);
+		revalidate();
+		repaint();
+	}
+	
 	class OperationMouseListener implements MouseListener {
 		private JPanel panel;
 		public OperationMouseListener(JPanel p){ panel = p; }
@@ -167,5 +181,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		public void mousePressed(MouseEvent arg0) { }
 		public void mouseReleased(MouseEvent arg0) { }
 	}
+	
+	
 
 }

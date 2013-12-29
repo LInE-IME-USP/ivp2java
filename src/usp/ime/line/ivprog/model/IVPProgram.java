@@ -172,7 +172,7 @@ public class IVPProgram extends DomainModel {
 	}
 	
 	public String createExpression(String leftExpID, String holder, short expressionType, String context,AssignmentState state){
-		// new expression ->    (leftExp SIGN newExp)
+		// new expression ->    (leftExp SIGN newExpField)
 		Expression exp = null;
 		if(expressionType == Expression.EXPRESSION_VARIABLE){
 			exp = (Expression) dataFactory.createVarReference();
@@ -188,7 +188,6 @@ public class IVPProgram extends DomainModel {
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
 		for(int i = 0; i < expressionListeners.size(); i++)
 			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID(), context);
-			
 		state.add(exp);
 		return exp.getUniqueID();
 	}
@@ -297,8 +296,5 @@ public class IVPProgram extends DomainModel {
 	public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
 		return 0;
 	}
-
-	
-
 
 }

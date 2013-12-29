@@ -14,6 +14,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.BooleanOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
@@ -58,8 +59,12 @@ public class IVPRenderer {
 			var.setModelID(expressionModel.getUniqueID());
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
 			return var;
-		}else{ // It's an operation
-			exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+		}else{ // It's an operation 
+			if(expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND){
+				exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+			}else{
+				exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());	
+			}
 			exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
 			return exp;

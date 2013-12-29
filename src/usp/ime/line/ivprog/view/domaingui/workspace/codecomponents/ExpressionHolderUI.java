@@ -2,9 +2,12 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -17,20 +20,10 @@ import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
-import usp.ime.line.ivprog.listeners.IVariableListener;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
-import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
-import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
@@ -38,8 +31,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
 	private boolean drawBorder = true;
+	private boolean isComparisonEnabled = false;
 	private JPopupMenu contentMenu;
-	private JPopupMenu operationMenu;
+	private JPopupMenu operationMenuWithoutComparison;
+	private JPopupMenu operationMenuWithComparison;
 	private JLabel selectLabel;
 	private String parentModelID;
 	private String scopeModelID;
@@ -76,12 +71,33 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		initLabel();
 		initChooseContentMenu();
 		initChangeContentBtn();
-		initChangeContentMenu();
+		initOperationsMenu();
 	}
 	
 	
-	private void initChangeContentMenu() {
-		operationMenu = new JPopupMenu();
+	private void initOperationsMenu() {
+		operationMenuWithoutComparison = new JPopupMenu();
+		operationMenuWithComparison = new JPopupMenu();
+		addArithmeticOperations(operationMenuWithComparison);
+		addArithmeticOperations(operationMenuWithoutComparison);
+		addComparison(operationMenuWithComparison);
+		addCleanContent(operationMenuWithComparison);
+		addCleanContent(operationMenuWithoutComparison);
+	}
+	
+	private void addCleanContent(JPopupMenu menu){
+		Action cleanContent = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		cleanContent.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.tip"));
+		cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
+		menu.add(cleanContent);
+	}
+	
+	private void addArithmeticOperations(JPopupMenu menu){
 		Action createAddition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
@@ -118,40 +134,75 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		createDivision.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision.tip"));
 		createDivision.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision.text"));
-		Action cleanContent = new AbstractAction() {
+		menu.add(createAddition);
+		menu.add(createSubtraction);
+		menu.add(createDivision);
+		menu.add(createMultiplication);
+		menu.addSeparator();
+	}
+	
+	private void addComparison(JPopupMenu menu){
+		Action changeToLEQ = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-		cleanContent.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.tip"));
-		cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
-		
-		operationMenu.add(createAddition);
-		operationMenu.add(createSubtraction);
-		operationMenu.add(createDivision);
-		operationMenu.add(createMultiplication);
-		operationMenu.add(cleanContent);
-		
-	}
-
-	private void initChangeContentBtn() {
-		Action action = new AbstractAction() {
+		changeToLEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LEQ.tip"));
+		changeToLEQ.putValue(Action.NAME, "\u2264");
+		Action changeToLES = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				operationMenu.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES, operationContext);
 			}
 		};
-		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
-		operationsBtn = new JButton(action);
-		operationsBtn.setUI(new IconButtonUI());
-		operationsBtn.setVisible(false);
-		add(operationsBtn);		
-	}
-
-	private void initLabel() {
-		selectLabel = new JLabel(ResourceBundleIVP.getString("ExpressionBaseUI.selectLabel.text"));
-		selectLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-		add(selectLabel);
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToLES.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LES.tip"));
+		changeToLES.putValue(Action.NAME, "\u003C");
+		Action changeToEQU = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToEQU.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.EQU.tip"));
+		changeToEQU.putValue(Action.NAME, "=");
+		Action changeToNEQ = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToNEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.NEQ.tip"));
+		changeToNEQ.putValue(Action.NAME, "\u2260");
+		Action changeToGEQ = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToGEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GEQ.tip"));
+		changeToGEQ.putValue(Action.NAME, "\u2265");
+		Action changeToGRE = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToGRE.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GRE.tip"));
+		changeToGRE.putValue(Action.NAME, "\u003E");
+		menu.add(changeToLEQ);
+		menu.add(changeToLES);
+		menu.add(changeToEQU);
+		menu.add(changeToNEQ);
+		menu.add(changeToGEQ);
+		menu.add(changeToGRE);
+		menu.addSeparator();
 	}
 	
 	private void initChooseContentMenu() {
@@ -190,6 +241,31 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		contentMenu.add(doubleHasBeenChosen);
 		contentMenu.add(textHasBeenChosen);
 	}
+	
+	private void initChangeContentBtn() {
+		Action action = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(isComparisonEnabled){
+					operationMenuWithComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+				}else{
+					operationMenuWithoutComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+				}
+			}
+		};
+		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
+		operationsBtn = new JButton(action);
+		operationsBtn.setUI(new IconButtonUI());
+		operationsBtn.setVisible(false);
+		add(operationsBtn);		
+	}
+
+	private void initLabel() {
+		selectLabel = new JLabel(ResourceBundleIVP.getString("ExpressionBaseUI.selectLabel.text"));
+		selectLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+		add(selectLabel);
+	}
+	
+
 
 	//END: initialization methods
 	
@@ -328,7 +404,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		populatedExpressionHolder();
 			editStateOn();
 		add(this.expression, 0);
-		
 		revalidate();
 		repaint();
 	}
@@ -367,5 +442,15 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		revalidate();
 		repaint();
 	}
+	
+	public void enableComparison(){
+		isComparisonEnabled = true;
+	}
+	
+	public void disableComparison(){
+		isComparisonEnabled = false;
+	}
+	
+	
 
 }
