@@ -200,7 +200,7 @@ public class IVPProgram extends DomainModel {
 		return exp.getUniqueID();
 	}
 	
-	public String deleteExpression(String expression, String holder, String context, AssignmentState state) {
+	public String deleteExpression(String expression, String holder, String context, boolean isClean, AssignmentState state) {
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
 		DataObject dataHolder = (DataObject)Services.getService().getModelMapping().get(holder);
 		String lastExpressionID;
@@ -214,7 +214,19 @@ public class IVPProgram extends DomainModel {
 			lastExpressionID = ((Operation)dataHolder).getExpressionA();
 		}
 		for(int i = 0; i < expressionListeners.size(); i++){
-			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression, context);
+			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression, context, isClean);
+		}
+		if(isClean){
+			Expression newExp = (Expression) dataFactory.createVarReference();
+			newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
+			newExp.setParentID(holder);
+			newExp.setScopeID(currentScope);
+			Services.getService().getModelMapping().put(newExp.getUniqueID(), newExp);
+			for(int i = 0; i < expressionListeners.size(); i++){
+				((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, newExp.getUniqueID(), context);
+			}
+
+			state.add(newExp);
 		}
 		state.remove(exp);
 		return expression;
@@ -236,11 +248,6 @@ public class IVPProgram extends DomainModel {
 			((IOperationListener)operationListeners.get(i)).operationTypeChanged(expression, context);
 		}
 		return lastType;
-	}
-
-	
-	public void cleanExpressionField(String expressionID, AssignmentState state){
-		
 	}
 	
 	public void addExpressionListener(IExpressionListener listener){

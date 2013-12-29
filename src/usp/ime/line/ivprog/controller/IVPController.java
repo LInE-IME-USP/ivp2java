@@ -124,11 +124,12 @@ public class IVPController {
 		createExpression.execute();
 	}
 	
-	public void deleteExpression(String id, String holder, String context){
+	public void deleteExpression(String id, String holder, String context, boolean isClean){
 		DeleteExpression deleteExpression = (DeleteExpression) actionList.get("deleteexpression");
 		deleteExpression.setExpression(id);
 		deleteExpression.setHolder(holder);
 		deleteExpression.setContext(context);
+		deleteExpression.setClean(isClean);
 		deleteExpression.execute();
 	}
 	

@@ -33,6 +33,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private boolean drawBorder = true;
 	private boolean isComparisonEnabled = false;
 	private boolean isEditing = false;
+	private boolean isContentSet = false;
 	private JPopupMenu contentMenu;
 	private JPopupMenu operationMenuWithoutComparison;
 	private JPopupMenu operationMenuWithComparison;
@@ -90,6 +91,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				System.out.println(">>> "+Services.getService().getModelMapping().get(parentModelID)+" "+operationContext+" "+expressionID);
+				Services.getService().getController().deleteExpression(expressionID, parentModelID, operationContext, true);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -300,20 +303,20 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		public ExpressionMouseListener(JPanel c){ container = c; }
 
 		public void mouseEntered(MouseEvent e) {
-			if(isEditing){
+			if(isEditing && !isContentSet){
 				setBackground(hoverColor);
 				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		}
 		
 		public void mouseExited(MouseEvent e) {
-			if(isEditing){
+			if(isEditing && !isContentSet){
 				setBackground(bgColor);
 				e.getComponent().setCursor(Cursor.getDefaultCursor());
 			}
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			if(isEditing){
+			if(isEditing && !isContentSet){
 				contentMenu.show(container, 0, container.getHeight());
 				contentMenu.requestFocus();
 			}
@@ -324,7 +327,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	//END: Mouse listener
 	
 	//BEGIN: Expression listener methods
-	public void expressionCreated(String holder, String id,String context) {
+	public void expressionCreated(String holder, String id, String context) {
 		if(holder == parentModelID && operationContext.equals(context)){
 			JComponent lastExp = expression;
 			if(expression != null)
@@ -347,25 +350,29 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 					((OperationUI)expression).disableEdition();
 				}
 			}
+			isContentSet = true;
 			revalidate();
 			repaint();
 		} 
 	}
 	
-	public void expressionDeleted(String id, String context) {
+	public void expressionDeleted(String id, String context, boolean isClean) {
 		if(expression != null){
 			if(currentModelID.equals(id) && operationContext.equals(context)){
 				remove(expression);
-				if(expression instanceof OperationUI){
-					JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
-					setExpression(exp);
-				}else{
-					emptyExpressionHolder();
+				if(!isClean){
+					if(expression instanceof OperationUI){
+						JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
+						setExpression(exp);
+					}else{
+						emptyExpressionHolder();
+					}
 				}
 				revalidate();
 				repaint();
 			}
 		}
+		isContentSet = false;
 	}
 	
 	public void cleanExpressionField() {
@@ -387,6 +394,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			}
 			setExpression(restoredExp);
 		}
+		isContentSet = true;
 		revalidate();
 		repaint();
 	}
@@ -412,6 +420,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 
 	public void setExpression(JComponent exp) {
 		currentModelID = ((IDomainObjectUI)exp).getModelID();;
+		if(expression!=null) remove(expression);
 		this.expression = exp;
 		populatedExpressionHolder();
 		editStateOn();
@@ -463,6 +472,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				((VariableSelectorUI)expression).editStateOn();
 			}else{
 				((OperationUI)expression).enableEdition();
+				editStateOn();
 			}
 		}
 	}
@@ -475,6 +485,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				((VariableSelectorUI)expression).editStateOff(item);
 			}else{
 				((OperationUI)expression).disableEdition();
+				editStateOff();
 			}
 		}
 	}

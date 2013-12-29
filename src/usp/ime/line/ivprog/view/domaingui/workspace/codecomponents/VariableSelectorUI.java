@@ -45,8 +45,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private boolean isUpdate = true;
 	private boolean warningState = false;
 	private boolean isOnlyOneElement = false;
+	private boolean isIsolated = false;
+
 	private JLabel iconLabel;
-	
 	private String currentModelID;
 	private String parentModelID;
 	private String scopeModelID;
@@ -108,7 +109,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		editStateOff((String)item);
+			    		// Verifies the context. If it's an isolated variable selector then editStateOff behavior is sustained.
+			    		if(isIsolated) 
+			    			editStateOff((String) item);
 			    		if(warningState){
 			    			turnWaningStateOFF();
 			    		}
@@ -255,7 +258,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		drawBorder = false;
 		if(getParent() instanceof ExpressionHolderUI)
 			((ExpressionHolderUI) getParent()).editStateOn();
-		editState = true;
+		if(!isIsolated) editState = true;
 		revalidate();
 		repaint();
 	}
@@ -269,7 +272,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		nameLabel.setVisible(true);
 		if(getParent() instanceof ExpressionHolderUI)
 			((ExpressionHolderUI) getParent()).editStateOff();
-		editState = false;
+		if(!isIsolated) editState = false;
 		revalidate();
 		repaint();
 	}
@@ -366,4 +369,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		return (String) varList.getSelectedItem();
 	}
 	
+	public void setIsolationMode(boolean isIso){
+		isIsolated = isIso;
+	}
+	
+	public boolean isIsolated(){
+		return isIsolated;
+	}
 }
