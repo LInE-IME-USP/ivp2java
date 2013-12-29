@@ -13,7 +13,7 @@ public class ExpressionField extends JPanel {
 	
 	private JButton btnEdit;
 	private ExpressionHolderUI expressionHolderUI;
-	private boolean isEditing = true;
+	private boolean isEditing = false;
 
 	public ExpressionField(String parent, String scope) {
 		initLayout();
@@ -26,14 +26,15 @@ public class ExpressionField extends JPanel {
 		Action edition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(isEditing){
-					expressionHolderUI.editStateOff();
+					expressionHolderUI.disableEdition();
 					isEditing = false;
 				}else{
-					expressionHolderUI.editStateOn();
+					expressionHolderUI.enableEdition();
 					isEditing = true;
 				}
 			}
 		};
+		btnEdit.setAction(edition);
 		add(btnEdit);
 	}
 

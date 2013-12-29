@@ -32,6 +32,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	public static final Color hoverColor = new Color(241, 196, 15);
 	private boolean drawBorder = true;
 	private boolean isComparisonEnabled = false;
+	private boolean isEditing = false;
 	private JPopupMenu contentMenu;
 	private JPopupMenu operationMenuWithoutComparison;
 	private JPopupMenu operationMenuWithComparison;
@@ -299,22 +300,26 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		public ExpressionMouseListener(JPanel c){ container = c; }
 
 		public void mouseEntered(MouseEvent e) {
-			setBackground(hoverColor);
-			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+			if(isEditing){
+				setBackground(hoverColor);
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
 		}
 		
 		public void mouseExited(MouseEvent e) {
-			setBackground(bgColor);
-			e.getComponent().setCursor(Cursor.getDefaultCursor());
+			if(isEditing){
+				setBackground(bgColor);
+				e.getComponent().setCursor(Cursor.getDefaultCursor());
+			}
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			contentMenu.show(container, 0, container.getHeight());
-			contentMenu.requestFocus();
+			if(isEditing){
+				contentMenu.show(container, 0, container.getHeight());
+				contentMenu.requestFocus();
+			}
 		}
-		
 		public void mousePressed(MouseEvent arg0) { }
 		public void mouseReleased(MouseEvent arg0) { }
-		
 	}
 	//END: Mouse listener
 	
@@ -329,11 +334,18 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			populatedExpressionHolder();
 			add(expression,0);
 			if(expression instanceof VariableSelectorUI){
-				((VariableSelectorUI)expression).editStateOn();
+				if(isEditing)
+					((VariableSelectorUI)expression).editStateOn();
+				else{
+					((VariableSelectorUI)expression).editStateOff("");
+				}
 			}else{
 				((OperationUI)expression).setExpressionBaseUI_1(lastExp);
-				if(lastExp instanceof VariableSelectorUI)
-					((VariableSelectorUI)lastExp).editStateOn();
+				if(isEditing){
+					((OperationUI)expression).enableEdition();
+				}else{
+					((OperationUI)expression).disableEdition();
+				}
 			}
 			revalidate();
 			repaint();
@@ -402,19 +414,12 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		currentModelID = ((IDomainObjectUI)exp).getModelID();;
 		this.expression = exp;
 		populatedExpressionHolder();
-			editStateOn();
+		editStateOn();
 		add(this.expression, 0);
 		revalidate();
 		repaint();
 	}
 	
-	private boolean isEditing(){
-		if(expression instanceof VariableSelectorUI)
-			return ((VariableSelectorUI)expression).isEditState();
-		else
-			return true;
-	}
-
 	public String getCurrentModelID() {
 		return currentModelID;
 	}
@@ -451,6 +456,27 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		isComparisonEnabled = false;
 	}
 	
+	public void enableEdition(){
+		isEditing = true;
+		if(expression != null){
+			if(expression instanceof VariableSelectorUI){
+				((VariableSelectorUI)expression).editStateOn();
+			}else{
+				((OperationUI)expression).enableEdition();
+			}
+		}
+	}
 	
+	public void disableEdition(){
+		isEditing = false;
+		if(expression != null){
+			if(expression instanceof VariableSelectorUI){
+				String item = ((VariableSelectorUI)expression).getVarListSelectedItem();
+				((VariableSelectorUI)expression).editStateOff(item);
+			}else{
+				((OperationUI)expression).disableEdition();
+			}
+		}
+	}
 
 }

@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.listeners.IOperationListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComponent;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
@@ -114,6 +115,13 @@ public class IVPProgram extends DomainModel {
 		index = parent.removeChild(childID);
 		ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
 		codeListener.childRemoved(childID);
+		//Check child dependencies and remove them
+		CodeComponent child = (CodeComponent) Services.getService().getModelMapping().get(childID);
+		if(child instanceof AttributionLine){
+			state.remove((DomainObject) Services.getService().getModelMapping().get(((AttributionLine)child).getLeftVariableID()));
+		}else if(child instanceof CodeComposite){
+			//remove children recursively
+		}
 		//Framework
 		state.remove((DomainObject) Services.getService().getModelMapping().get(childID));
 		return index;

@@ -14,7 +14,7 @@ public class AttributionLineUI extends CodeBaseUI {
 	private JPanel contentPanel;
 	private JLabel codeLabel;
 	private VariableSelectorUI varSelector;
-	private ExpressionHolderUI expression;
+	private ExpressionField expression;
 	private static Color bgColor = new Color(199, 215, 219);
 	private String context;
 	
@@ -27,7 +27,7 @@ public class AttributionLineUI extends CodeBaseUI {
 	}
 	
 	private void initialization(){
-		expression = new ExpressionHolderUI(getModelID(), getModelScope());
+		expression = new ExpressionField(getModelID(), getModelScope());
 		contentPanel = new JPanel(new DynamicFlowLayout(FlowLayout.LEFT, this, this.getClass(),1));
 		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
 		varSelector = new VariableSelectorUI(getModelParent());

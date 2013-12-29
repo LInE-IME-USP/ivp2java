@@ -27,6 +27,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 	protected String context;
 	private JPanel expPanel;
 	private boolean drawBorder = false;
+	private boolean isEditing = false;
 	protected JPopupMenu operationSignMenu;
 
 	public OperationUI(String parent, String scope, String id) {
@@ -62,6 +63,11 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 	private void initExpressionHolder2() {
 		expressionBaseUI_2 = new ExpressionHolderUI(currentModelID, scopeModelID);
 		expressionBaseUI_2.setOperationContext("right");
+		if(isEditing){
+			expressionBaseUI_2.enableEdition();
+		}else{
+			expressionBaseUI_2.disableEdition();
+		}
 		add(expressionBaseUI_2);
 	}
 
@@ -80,6 +86,11 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 	private void initExpressionHolder1() {
 		expressionBaseUI_1 = new ExpressionHolderUI(currentModelID, scopeModelID);
 		expressionBaseUI_1.setOperationContext("left");
+		if(isEditing){
+			expressionBaseUI_1.enableEdition();
+		}else{
+			expressionBaseUI_1.disableEdition();
+		}
 		add(expressionBaseUI_1);
 	}
 
@@ -167,21 +178,37 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		private JPanel panel;
 		public OperationMouseListener(JPanel p){ panel = p; }
 		public void mouseClicked(MouseEvent arg0) { 
-			operationSignMenu.show(panel, 0, panel.getHeight());
-			operationSignMenu.requestFocus(); 
+			if(isEditing){
+				operationSignMenu.show(panel, 0, panel.getHeight());
+				operationSignMenu.requestFocus();
+			}
 		}
 		public void mouseEntered(MouseEvent e) {
-			panel.setBackground(ExpressionHolderUI.hoverColor);
-			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+			if(isEditing){
+				panel.setBackground(ExpressionHolderUI.hoverColor);
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
 		}
 		public void mouseExited(MouseEvent e) {
-			panel.setBackground(ExpressionHolderUI.bgColor);
-			e.getComponent().setCursor(Cursor.getDefaultCursor());
+			if(isEditing){
+				panel.setBackground(ExpressionHolderUI.bgColor);
+				e.getComponent().setCursor(Cursor.getDefaultCursor());
+			}
 		}
 		public void mousePressed(MouseEvent arg0) { }
 		public void mouseReleased(MouseEvent arg0) { }
 	}
 	
+	public void enableEdition(){
+		isEditing = true;
+		expressionBaseUI_1.enableEdition();
+		expressionBaseUI_2.enableEdition();
+	}
 	
+	public void disableEdition(){
+		isEditing = false;
+		expressionBaseUI_1.disableEdition();
+		expressionBaseUI_2.disableEdition();
+	}
 
 }

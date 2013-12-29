@@ -54,7 +54,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	private boolean drawBorder = true;
 	
-	private boolean editState = false;
+	private boolean editState = true;
 	
 	public VariableSelectorUI(String parent){
 		this.parentModelID = parent;
@@ -167,17 +167,23 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		public ExpressionMouseListener(JPanel c){ container = c; }
 
 		public void mouseEntered(MouseEvent e) {
-			setBackground(hoverColor);
-			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		
+			if(editState){
+				setBackground(hoverColor);
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
 		}
 		
 		public void mouseExited(MouseEvent e) {
-			setBackground(bgColor);
-			e.getComponent().setCursor(Cursor.getDefaultCursor());
+			if(editState){
+				setBackground(bgColor);
+				e.getComponent().setCursor(Cursor.getDefaultCursor());
+			}
 		}
 		public void mouseClicked(MouseEvent arg0) {
-			editStateOn();
-			varList.requestFocus();
+			if(editState){
+				editStateOn();
+				varList.requestFocus();
+			}
 		}
 		
 		public void mousePressed(MouseEvent arg0) { }
@@ -254,10 +260,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		repaint();
 	}
 	
-	private void editStateOff(String item) {
+	public void editStateOff(String item) {
 		varList.setVisible(false);
-		if(item != null)
+		if(item != null && item != "")
 			nameLabel.setText(item);
+		else
+			nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
 		nameLabel.setVisible(true);
 		if(getParent() instanceof ExpressionHolderUI)
 			((ExpressionHolderUI) getParent()).editStateOff();
@@ -352,6 +360,10 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	public void setEditState(boolean editState) {
 		this.editState = editState;
+	}
+
+	public String getVarListSelectedItem() {
+		return (String) varList.getSelectedItem();
 	}
 	
 }
