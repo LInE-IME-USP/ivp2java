@@ -28,7 +28,7 @@ public class WhileUI extends CodeBaseUI {
 	private JPanel contentPanel;
 	private JPanel header;
 	private IVPContainer container;
-	private JPanel expressionHolder;
+	private ExpressionField expressionField;
 	private JLabel codeBlockName;
 	private JButton expandBtnUP;
 	private JButton expandBtnDOWN;
@@ -44,10 +44,13 @@ public class WhileUI extends CodeBaseUI {
 		initContentPanel();
 		initExpandButtonIcon();
 		initHeader();
+		initExpressionHolder();
 		initContainer();
 		addContentPanel(contentPanel);
 		setBackground(bgColor);
 	}
+
+	
 
 	private void initContainer() {
 		container = new IVPContainer(true, getModelID());
@@ -76,10 +79,17 @@ public class WhileUI extends CodeBaseUI {
 		initExpression();
 	}
 	
+	private void initExpressionHolder() {
+		
+	}
+
 	private void initExpression() {
 		String condition = ((While)Services.getService().getModelMapping().get(getModelID())).getCondition();
 		booleanOperationUI = new BooleanOperationUI(getModelID(), getModelScope(), condition);
-		header.add(booleanOperationUI);
+		expressionField = new ExpressionField(this.getModelID(), this.getModelScope());
+		expressionField.setHolderContent(booleanOperationUI);
+		expressionField.setComparison(true);
+		header.add(expressionField);
 	}
 
 	private void initExpandBtnUP() {

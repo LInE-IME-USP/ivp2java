@@ -65,7 +65,9 @@ public class IVPRenderer {
 			}else{
 				exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());	
 			}
-			exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
+			if(((Operation)expressionModel).getExpressionA() != null){
+				exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
+			}
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
 			return exp;
 		}

@@ -31,7 +31,7 @@ public class CreateExpression extends DomainAction{
 	}
 
 	protected void undoAction() {
-		removedExpression = model.deleteExpression(newExpression, holder, context, false, _currentState);
+		removedExpression = model.deleteExpression(newExpression, holder, context, false, false,_currentState);
 	}
 
 	public boolean equals(DomainAction a) {

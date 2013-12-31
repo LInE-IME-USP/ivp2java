@@ -34,9 +34,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private boolean isComparisonEnabled = false;
 	private boolean isEditing = false;
 	private boolean isContentSet = false;
+	private boolean isComparison = false;
 	private JPopupMenu contentMenu;
 	private JPopupMenu operationMenuWithoutComparison;
 	private JPopupMenu operationMenuWithComparison;
+	private JPopupMenu operationMenuComparison;
 	private JLabel selectLabel;
 	private String parentModelID;
 	private String scopeModelID;
@@ -80,19 +82,55 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private void initOperationsMenu() {
 		operationMenuWithoutComparison = new JPopupMenu();
 		operationMenuWithComparison = new JPopupMenu();
+		operationMenuComparison = new JPopupMenu();
+		addBooleanOperators(operationMenuComparison);
 		addArithmeticOperations(operationMenuWithComparison);
 		addArithmeticOperations(operationMenuWithoutComparison);
 		addComparison(operationMenuWithComparison);
+		addCleanContentForCondition(operationMenuComparison);
 		addCleanContent(operationMenuWithComparison);
 		addCleanContent(operationMenuWithoutComparison);
+	}
+	
+	private void addCleanContentForCondition(JPopupMenu menu) {
+		Action cleanContent = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().deleteExpression(expressionID, parentModelID, operationContext, true, true);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		cleanContent.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.tip"));
+		cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
+		menu.add(cleanContent);
+	}
+
+	private void addBooleanOperators(JPopupMenu menu){
+		Action changeToAND = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_AND, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToAND.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.AND.tip"));
+		changeToAND.putValue(Action.NAME, ResourceBundleIVP.getString("BooleanOperationUI.AND.text"));
+		Action changeToOR = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_OR, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		changeToOR.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("BooleanOperationUI.OR.tip"));
+		changeToOR.putValue(Action.NAME, ResourceBundleIVP.getString("BooleanOperationUI.OR.text"));
+		menu.add(changeToAND);
+		menu.add(changeToOR);
 	}
 	
 	private void addCleanContent(JPopupMenu menu){
 		Action cleanContent = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				String expressionID = ((IDomainObjectUI)expression).getModelID();
-				System.out.println(">>> "+Services.getService().getModelMapping().get(parentModelID)+" "+operationContext+" "+expressionID);
-				Services.getService().getController().deleteExpression(expressionID, parentModelID, operationContext, true);
+				Services.getService().getController().deleteExpression(expressionID, parentModelID, operationContext, true, false);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -249,11 +287,16 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private void initChangeContentBtn() {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(isComparisonEnabled){
-					operationMenuWithComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+				if(!isComparison){
+					if(isComparisonEnabled){
+						operationMenuWithComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+					}else{
+						operationMenuWithoutComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+					}
 				}else{
-					operationMenuWithoutComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
+					operationMenuComparison.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());
 				}
+			
 			}
 		};
 		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/operations.png")));
@@ -269,8 +312,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		add(selectLabel);
 	}
 	
-
-
 	//END: initialization methods
 	
 	protected void paintComponent(Graphics g) {
@@ -343,7 +384,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 					((VariableSelectorUI)expression).editStateOff("");
 				}
 			}else{
-				((OperationUI)expression).setExpressionBaseUI_1(lastExp);
+				if(!isComparison){
+					((OperationUI)expression).setExpressionBaseUI_1(lastExp);
+				}
 				if(isEditing){
 					((OperationUI)expression).enableEdition();
 				}else{
@@ -375,10 +418,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		isContentSet = false;
 	}
 	
-	public void cleanExpressionField() {
-		
-	}
-
 	public void expressionRestored(String holder, String id, String context) {
 		String lastExpID = null;
 		if (holder.equals(parentModelID) && operationContext.equals(context)) {
@@ -420,10 +459,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 
 	public void setExpression(JComponent exp) {
 		currentModelID = ((IDomainObjectUI)exp).getModelID();;
-		if(expression!=null) remove(expression);
+		if(expression != null) remove(expression);
 		this.expression = exp;
 		populatedExpressionHolder();
-		editStateOn();
+		if(isEditing){
+			enableEdition();
+		}else{
+			disableEdition();
+		}
 		add(this.expression, 0);
 		revalidate();
 		repaint();
@@ -488,6 +531,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				editStateOff();
 			}
 		}
+	}
+
+	public boolean isComparison() {
+		return isComparison;
+	}
+
+	public void setComparison(boolean isComparison) {
+		this.isComparison = isComparison;
 	}
 
 }

@@ -2,12 +2,15 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+
+import usp.ime.line.ivprog.Services;
 
 public class ExpressionField extends JPanel {
 	
@@ -51,4 +54,11 @@ public class ExpressionField extends JPanel {
 		flowLayout.setHgap(1);
 	}
 
+	public void setHolderContent(JComponent expression){
+		expressionHolderUI.setExpression(expression);
+	}
+	
+	public void setComparison(boolean isComparison){
+		expressionHolderUI.setComparison(isComparison);
+	}
 }

@@ -10,6 +10,7 @@ public class DeleteExpression extends DomainAction {
 	private String holder;
 	private String expression;
 	private boolean isClean;
+	private boolean isComparison;
 	private IVPProgram model;
 	private String context;
 
@@ -22,7 +23,7 @@ public class DeleteExpression extends DomainAction {
 	}
 
 	protected void executeAction() {
-		model.deleteExpression(expression, holder, context, isClean, _currentState);
+		model.deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
 	}
 
 	protected void undoAction() {
@@ -63,6 +64,14 @@ public class DeleteExpression extends DomainAction {
 
 	public void setClean(boolean isClean) {
 		this.isClean = isClean;
+	}
+
+	public boolean isComparison() {
+		return isComparison;
+	}
+
+	public void setComparison(boolean isComparison) {
+		this.isComparison = isComparison;
 	}
 
 	

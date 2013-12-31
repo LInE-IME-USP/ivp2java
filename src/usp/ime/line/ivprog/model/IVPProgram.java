@@ -200,7 +200,7 @@ public class IVPProgram extends DomainModel {
 		return exp.getUniqueID();
 	}
 	
-	public String deleteExpression(String expression, String holder, String context, boolean isClean, AssignmentState state) {
+	public String deleteExpression(String expression, String holder, String context, boolean isClean, boolean isComparison, AssignmentState state) {
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
 		DataObject dataHolder = (DataObject)Services.getService().getModelMapping().get(holder);
 		String lastExpressionID;
@@ -217,15 +217,20 @@ public class IVPProgram extends DomainModel {
 			((IExpressionListener)expressionListeners.get(i)).expressionDeleted(expression, context, isClean);
 		}
 		if(isClean){
-			Expression newExp = (Expression) dataFactory.createVarReference();
-			newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
+			Expression newExp;
+			if(!isComparison){
+				newExp = (Expression) dataFactory.createVarReference();
+				newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
+			}else{
+				newExp = (Expression) dataFactory.createOperation();
+				newExp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
+			}
 			newExp.setParentID(holder);
 			newExp.setScopeID(currentScope);
 			Services.getService().getModelMapping().put(newExp.getUniqueID(), newExp);
 			for(int i = 0; i < expressionListeners.size(); i++){
 				((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, newExp.getUniqueID(), context);
 			}
-
 			state.add(newExp);
 		}
 		state.remove(exp);
