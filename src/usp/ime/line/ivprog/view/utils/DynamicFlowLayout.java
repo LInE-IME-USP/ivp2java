@@ -8,8 +8,7 @@ public class DynamicFlowLayout extends java.awt.FlowLayout {
 	private int anchorConstant = 0;
 	private Class anchorClass;
 
-	public DynamicFlowLayout(int align, java.awt.Component anchor,
-			Class anchorClass, int anchorConstant) {
+	public DynamicFlowLayout(int align, java.awt.Component anchor, Class anchorClass, int anchorConstant) {
 		super(align);
 		this.anchorComponent = anchor;
 		this.anchorClass = anchorClass;

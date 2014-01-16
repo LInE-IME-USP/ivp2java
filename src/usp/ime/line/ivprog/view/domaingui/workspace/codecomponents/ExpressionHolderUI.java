@@ -27,7 +27,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
-	public static final Color borderColor = new Color(230, 126, 34); 
+	public static final Color borderColor = new Color(230, 126, 34);
 	public static final Color bgColor = new Color(236, 240, 241);
 	public static final Color hoverColor = new Color(241, 196, 15);
 	private boolean drawBorder = true;
@@ -43,10 +43,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private String parentModelID;
 	private String scopeModelID;
 	private String currentModelID;
+	private String operationContext;
 	private JButton operationsBtn;
 	private JComponent expression;
-	private String operationContext;
-	
+
 	public ExpressionHolderUI(String parent, String scopeID){
 		init(parent, scopeID);
 		initialization();
@@ -77,7 +77,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		initChangeContentBtn();
 		initOperationsMenu();
 	}
-	
 	
 	private void initOperationsMenu() {
 		operationMenuWithoutComparison = new JPopupMenu();
@@ -259,6 +258,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
 		Action integerHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_INTEGER, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -266,6 +266,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		integerHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.integerHasBeenChosen.text"));
 		Action doubleHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_DOUBLE, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -273,15 +274,25 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		doubleHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.doubleHasBeenChosen.text"));
 		Action textHasBeenChosen = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_STRING, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		textHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.tip"));
 		textHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.text"));
+		Action booleanHasBeenChosen = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_STRING, operationContext);
+			}
+		};
+		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
+		booleanHasBeenChosen.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.tip"));
+		booleanHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.text"));
 		contentMenu.add(variableHasBeenChosen);
 		contentMenu.add(integerHasBeenChosen);
 		contentMenu.add(doubleHasBeenChosen);
 		contentMenu.add(textHasBeenChosen);
+		contentMenu.add(booleanHasBeenChosen);
 	}
 	
 	private void initChangeContentBtn() {
@@ -413,11 +424,23 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				}
 				revalidate();
 				repaint();
+				isContentSet = false;
 			}
 		}
-		isContentSet = false;
+		
 	}
 	
+	public void expressionRestoredFromCleaning(String holder, String id, String context) {
+		String lastExpID = null;
+		if (holder.equals(parentModelID) && operationContext.equals(context)) {
+			JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
+			setExpression(restoredExp);
+			isContentSet = true;
+		}
+		revalidate();
+		repaint();
+	}
+
 	public void expressionRestored(String holder, String id, String context) {
 		String lastExpID = null;
 		if (holder.equals(parentModelID) && operationContext.equals(context)) {
@@ -432,8 +455,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				}
 			}
 			setExpression(restoredExp);
+			isContentSet = true;
 		}
-		isContentSet = true;
+		
 		revalidate();
 		repaint();
 	}
@@ -468,6 +492,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			disableEdition();
 		}
 		add(this.expression, 0);
+		isContentSet = true;
 		revalidate();
 		repaint();
 	}
@@ -541,4 +566,5 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		this.isComparison = isComparison;
 	}
 
+	
 }

@@ -85,7 +85,7 @@ public class WhileUI extends CodeBaseUI {
 
 	private void initExpression() {
 		String condition = ((While)Services.getService().getModelMapping().get(getModelID())).getCondition();
-		booleanOperationUI = new BooleanOperationUI(getModelID(), getModelScope(), condition);
+		booleanOperationUI = (BooleanOperationUI) Services.getService().getRenderer().paint(condition); 
 		expressionField = new ExpressionField(this.getModelID(), this.getModelScope());
 		expressionField.setHolderContent(booleanOperationUI);
 		expressionField.setComparison(true);

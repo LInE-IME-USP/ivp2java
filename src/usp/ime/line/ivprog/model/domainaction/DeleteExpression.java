@@ -23,11 +23,13 @@ public class DeleteExpression extends DomainAction {
 	}
 
 	protected void executeAction() {
+		System.out.println("Pedi pra remover "+expression+" que está no "+holder+" . isClean "+isClean+ " isComparison "+ isComparison );
 		model.deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
 	}
 
 	protected void undoAction() {
-		model.restoreExpression(expression, holder, context, _currentState);
+		System.out.println("Pedi pra restaurar "+expression+ " no "+holder);
+		model.restoreExpression(expression, holder, context, isClean, _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

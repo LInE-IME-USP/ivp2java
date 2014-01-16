@@ -290,7 +290,10 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	}
 	
 	private void updateVariableList(){
+		Object itemSelected = varList.getSelectedItem();
+		
 		varList.removeAllItems();
+		
 		Object[] keySetArray = indexMap.keySet().toArray();
 		int count = 0;
 		for(int i = 0; i < keySetArray.length; i++){
@@ -306,6 +309,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 				varList.addItem(variableName);
 			}
 		}
+		
+		varList.setSelectedItem(itemSelected);
 	}
 
 

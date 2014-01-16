@@ -15,6 +15,9 @@ public abstract class Expression extends DataObject {
 	public static final short EXPRESSION_OPERATION_NEQ = 10;
 	public static final short EXPRESSION_OPERATION_GEQ = 11;
 	public static final short EXPRESSION_OPERATION_GRE = 12;
+	public static final short EXPRESSION_INTEGER = 13;
+	public static final short EXPRESSION_DOUBLE = 14;
+	public static final short EXPRESSION_STRING = 15;
 	
 	protected short expressionType = -1;
 	

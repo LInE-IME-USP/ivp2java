@@ -24,7 +24,7 @@ public class CreateExpression extends DomainAction{
 
 	protected void executeAction() {
 		if(isRedo()){
-			model.restoreExpression(removedExpression, holder, context, _currentState);
+			model.restoreExpression(removedExpression, holder, context, false, _currentState);
 		}else{
 			newExpression = model.createExpression(lastExpression, holder, expressionType, context, _currentState);
 		}

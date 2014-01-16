@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IOperationListener;
+import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
 
@@ -73,9 +74,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initExpressionSign() {
 		expPanel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) expPanel.getLayout();
-		flowLayout.setHgap(3);
-		flowLayout.setVgap(0);
+		expPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, expPanel, expPanel.getClass(), 1));
 		expPanel.addMouseListener(new OperationMouseListener(expPanel));
 		add(expPanel);
 		expSign = new JLabel();

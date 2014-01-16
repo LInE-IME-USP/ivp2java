@@ -237,10 +237,15 @@ public class IVPProgram extends DomainModel {
 		return expression;
 	}
 	
-	public void restoreExpression(String expression, String holder, String context, AssignmentState state) {
+	public void restoreExpression(String expression, String holder, String context, boolean wasClean, AssignmentState state) {
 		Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
 		for(int i = 0; i < expressionListeners.size(); i++){
-			((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
+			if(wasClean){
+				((IExpressionListener)expressionListeners.get(i)).expressionRestoredFromCleaning(holder, exp.getUniqueID(), context);
+			}else{
+				((IExpressionListener)expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);	
+			}
+			
 		}
 		state.add(exp);
 	}
