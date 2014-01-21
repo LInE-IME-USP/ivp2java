@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog.model.components.datafactory.editinplace;
+package usp.ime.line.ivprog.view.domaingui.editinplace;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

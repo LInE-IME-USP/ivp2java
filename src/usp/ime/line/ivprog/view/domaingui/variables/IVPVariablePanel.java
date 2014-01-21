@@ -228,5 +228,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		varMap.put(id, variable);
 		repaintVarPanel();
 	}
+
+	public void updateReference(String id) {}
 	
 }

@@ -107,7 +107,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	private void addBooleanOperators(JPopupMenu menu){
 		Action changeToAND = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_AND, operationContext);
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_AND, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -115,7 +116,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		changeToAND.putValue(Action.NAME, ResourceBundleIVP.getString("BooleanOperationUI.AND.text"));
 		Action changeToOR = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_OR, operationContext);
+				String expressionID = ((IDomainObjectUI)expression).getModelID();
+				Services.getService().getController().createExpression(expressionID, parentModelID,  Expression.EXPRESSION_OPERATION_OR, operationContext);
 			}
 		};
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -396,6 +398,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				}
 			}else{
 				if(!isComparison){
+					if(lastExp!=null)
 					((OperationUI)expression).setExpressionBaseUI_1(lastExp);
 				}
 				if(isEditing){
@@ -566,5 +569,4 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		this.isComparison = isComparison;
 	}
 
-	
 }

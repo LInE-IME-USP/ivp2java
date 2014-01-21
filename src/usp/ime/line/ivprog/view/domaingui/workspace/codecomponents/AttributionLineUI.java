@@ -31,6 +31,7 @@ public class AttributionLineUI extends CodeBaseUI {
 		contentPanel = new JPanel(new DynamicFlowLayout(FlowLayout.LEFT, this, this.getClass(),1));
 		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
 		varSelector = new VariableSelectorUI(getModelParent());
+		varSelector.setModelScope(getModelScope());
 		varSelector.setIsolationMode(true);
 		setBackground(bgColor);
 	}
@@ -49,6 +50,10 @@ public class AttributionLineUI extends CodeBaseUI {
 
 	public String getContext() {
 		return context;
+	}
+
+	public void setLeftVarModelID(String leftVariableID) {
+		varSelector.setModelID(leftVariableID);
 	}
 	
 }

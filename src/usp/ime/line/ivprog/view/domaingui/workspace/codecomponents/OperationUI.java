@@ -39,8 +39,8 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		setOpaque(false);
 		initLayout();
 		initComponents();
-		initSignal();
 		initOperationSignMenu();
+		initSignal();
 		Services.getService().getController().getProgram().addOperationListener(this);
 	}
 	
@@ -57,7 +57,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initRightParenthesis() {
 		rightPar = new JLabel(")");
-		rightPar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		rightPar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		add(rightPar);
 	}
 
@@ -74,12 +74,12 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initExpressionSign() {
 		expPanel = new JPanel();
-		expPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, expPanel, expPanel.getClass(), 1));
+		expPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		expPanel.addMouseListener(new OperationMouseListener(expPanel));
 		add(expPanel);
 		expSign = new JLabel();
 		expPanel.add(expSign);
-		expSign.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		expSign.setFont(new Font("Tahoma", Font.PLAIN, 10));
 	}
 
 	private void initExpressionHolder1() {
@@ -95,7 +95,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initLeftParenthesis() {
 		leftPar = new JLabel("(");
-		leftPar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		leftPar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		add(leftPar);
 	}
 

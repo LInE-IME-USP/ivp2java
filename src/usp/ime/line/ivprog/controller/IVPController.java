@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.CreateChild;
 import usp.ime.line.ivprog.model.domainaction.CreateVariable;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
+import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
@@ -110,6 +111,13 @@ public class IVPController {
 		changeVarType.execute();
 	}
 	
+	public void updateVariableReference(String referenceID, String newReferencedVar){
+		UpdateReferencedVariable upVar = (UpdateReferencedVariable) actionList.get("updateReferencedVar");
+		upVar.setReferenceID(referenceID);
+		upVar.setNewVarID(newReferencedVar);
+		upVar.execute();
+	}
+	
 	//TODO: DomainAction
 	public void changeVariableInitialValue(String id, String value){
 		//program.changeVariableInitialValue(id, value);
@@ -178,6 +186,10 @@ public class IVPController {
 		ChangeExpressionSign changeExpressionSign = new ChangeExpressionSign("changeexpressionsign","changeexpressionsign");
 		changeExpressionSign.setDomainModel(model);
 		actionList.put("changeexpressionsign", changeExpressionSign);
+		
+		UpdateReferencedVariable upVar = new UpdateReferencedVariable("updateReferencedVar", "updateReferencedVar");
+		upVar.setDomainModel(model);
+		actionList.put("updateReferencedVar", upVar);
 		
 	}
 	

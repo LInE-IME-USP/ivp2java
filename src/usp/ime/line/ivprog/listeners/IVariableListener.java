@@ -8,4 +8,5 @@ public interface IVariableListener {
 	public void changeVariableValue(String id, String value);
 	public void changeVariableType(String id, short type);
 	public void variableRestored(String id);
+	public void updateReference(String id);
 }

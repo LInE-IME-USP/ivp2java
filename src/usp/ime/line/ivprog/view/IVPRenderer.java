@@ -57,17 +57,20 @@ public class IVPRenderer {
 		if(expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE){
 			var = new VariableSelectorUI(expressionModel.getParentID());
 			var.setModelID(expressionModel.getUniqueID());
+			var.setScopeID(expressionModel.getScopeID());
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
 			return var;
 		}else{ // It's an operation 
 			if(expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND){
 				exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+				
 			}else{
 				exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());	
 			}
 			if(((Operation)expressionModel).getExpressionA() != null){
 				exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
 			}
+			((OperationUI)exp).setModelScope(expressionModel.getScopeID());
 			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
 			return exp;
 		}
@@ -77,6 +80,7 @@ public class IVPRenderer {
 		AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
 		attLine.setModelParent(attLineModel.getParentID());
 		attLine.setModelScope(attLineModel.getScopeID());
+		attLine.setLeftVarModelID(attLineModel.getLeftVariableID());
 		Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
 		return attLine;
 	}

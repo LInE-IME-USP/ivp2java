@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog.model.components.datafactory.editinplace;
+package usp.ime.line.ivprog.view.domaingui.editinplace;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -97,7 +97,6 @@ public class EditInPlace extends JPanel implements KeyListener {
 			}
 
 			public void focusGained(FocusEvent arg0) {
-				System.out.println("FOCUS11122");
 			}
 		});
 		nameField.setVisible(false);
@@ -110,7 +109,6 @@ public class EditInPlace extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent ae) {
 				nameField.setFocusable(false);
 				nameField.setFocusable(true);
-				System.out.println("FOCUSABLE!");
 			}
 		};
 		nameField.getInputMap().put(

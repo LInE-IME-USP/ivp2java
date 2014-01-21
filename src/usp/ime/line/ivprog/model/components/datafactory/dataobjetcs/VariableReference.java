@@ -26,8 +26,14 @@ public class VariableReference extends Reference {
 	 */
 	public void setReferencedVariable(String referencedVar) {
 		referencedVariableID = referencedVar;
-		Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
-		setReferencedName(var.getVariableName());
+		if(referencedVar != null){
+			Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
+			setReferencedName(var.getVariableName());
+			setReferenceType(var.getVariableType());
+		}else{
+			setReferencedName(null);
+			setReferenceType((short) -1);
+		}
 	}
 
 	public String toXML() {

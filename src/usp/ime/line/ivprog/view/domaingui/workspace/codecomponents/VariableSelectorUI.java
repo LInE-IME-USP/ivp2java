@@ -29,6 +29,7 @@ import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -109,17 +110,38 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		// Verifies the context. If it's an isolated variable selector then editStateOff behavior is sustained.
-			    		if(isIsolated) 
+			    		// Verifies the context. If it's an isolated variable selector (att line leftvar) then editStateOff behavior is sustained.
+			    		if(isIsolated) {
 			    			editStateOff((String) item);
+			    		}
 			    		if(warningState){
 			    			turnWaningStateOFF();
+			    		}
+			    		
+			    		System.out.println("LOL");
+			    		
+			    		String newRefID = getNewVarID();
+			    		if(newRefID != null){
+			    			Services.getService().getController().updateVariableReference(currentModelID, newRefID);
 			    		}
 			    	} 
 			    }
 			}
 		});
 		add(varList);
+	}
+	
+	private String getNewVarID(){
+		Function f = (Function) Services.getService().getModelMapping().get(scopeModelID);
+		Vector variables = f.getLocalVariableMap().toVector();
+	    String item = (String) varList.getSelectedItem();
+	    for(int i = 0; i < variables.size(); i++){
+			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
+			if(var.getVariableName().equals(item)){
+				return var.getUniqueID();
+			}
+		}
+	    return null;
 	}
 
 	private void initValues() {
@@ -128,6 +150,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
+		
 		for(int i = 0; i < variables.size(); i++){
 			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
 			String name = (var).getVariableName();
@@ -232,6 +255,13 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		}
 	}
 	
+	public void updateReference(String id) {
+		if(id == currentModelID){
+			String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
+			varList.setSelectedItem(name);
+		}
+	}
+	
 	public void changeVariableValue(String id, String value) { }
 	public void changeVariableType(String id, short type) { }
 	
@@ -291,9 +321,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	private void updateVariableList(){
 		Object itemSelected = varList.getSelectedItem();
-		
 		varList.removeAllItems();
-		
 		Object[] keySetArray = indexMap.keySet().toArray();
 		int count = 0;
 		for(int i = 0; i < keySetArray.length; i++){
@@ -309,7 +337,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 				varList.addItem(variableName);
 			}
 		}
-		
 		varList.setSelectedItem(itemSelected);
 	}
 
@@ -381,4 +408,5 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	public boolean isIsolated(){
 		return isIsolated;
 	}
+
 }

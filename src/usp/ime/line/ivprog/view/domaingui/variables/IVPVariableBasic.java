@@ -26,15 +26,16 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
-import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditBoolean;
-import usp.ime.line.ivprog.model.components.datafactory.editinplace.EditInPlace;
+import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
+import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Color;
 
-public class IVPVariableBasic extends RoundedJPanel {
+public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI{
 
 	private JPanel valueContainer;
 	private JLabel equalLabel;
@@ -48,21 +49,21 @@ public class IVPVariableBasic extends RoundedJPanel {
 	private JPanel optionsContainer;
 	private JButton configBtn;
 	private JButton excludeBtn;
-	private String escopeID;
-	private String id;
+	protected String modelScopeID;
+	protected String currentModelID;
+	protected String parentModelID;
+	private String context;
 
 	private JPopupMenu configMenu;
-	
 	private Variable variable; 
 
 	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
 
 	public IVPVariableBasic(String id, String scope) {
-		
-		this.escopeID = scope;
+		this.modelScopeID = scope;
 		setBackground(BACKGROUND_COLOR);
 		initialization();
-		setID(id);
+		setModelID(id);
 	}
 
 	private void initialization() {
@@ -104,7 +105,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController()
-						.deleteVariable(escopeID, id);
+						.deleteVariable(modelScopeID, currentModelID);
 			}
 		};
 		action.putValue(
@@ -162,7 +163,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 		value.setValue("0");
 		value.setValueListener(new IValueListener() {
 			public void valueChanged(String value) {
-				Services.getService().getController().changeVariableInitialValue(id, value);
+				Services.getService().getController().changeVariableInitialValue(currentModelID, value);
 			}
 		});
 		add(value);
@@ -173,7 +174,7 @@ public class IVPVariableBasic extends RoundedJPanel {
 		booleanValue.setValue("0");
 		booleanValue.setValueListener(new IValueListener() {
 			public void valueChanged(String value) {
-				Services.getService().getController().changeVariableInitialValue(id, value);
+				Services.getService().getController().changeVariableInitialValue(currentModelID, value);
 			}
 		});
 		add(booleanValue);
@@ -183,11 +184,10 @@ public class IVPVariableBasic extends RoundedJPanel {
 		name = new EditInPlace();
 		name.setValueListener(new IValueListener() {
 			public void valueChanged(String value) {
-				Services.getService().getController().changeVariableName(id, value);
+				Services.getService().getController().changeVariableName(currentModelID, value);
 			}
 		});
 		name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);
-		name.setValue("teste");
 		add(name);
 	}
 
@@ -209,16 +209,6 @@ public class IVPVariableBasic extends RoundedJPanel {
 		this.value.setValue(value);
 	}
 
-	public void setEscope(String escope) {
-		escopeID = escope;
-	}
-
-	public void setID(String uniqueID) {
-		id = uniqueID;
-		variable = (Variable) Services.getService().getModelMapping().get(uniqueID);
-		changeVariableType();
-	}
-	
 	private void changeVariableType(){
 		if(variable!=null){
 			if(variable.getVariableType()==Variable.TYPE_INTEGER){
@@ -254,12 +244,12 @@ public class IVPVariableBasic extends RoundedJPanel {
 			String command = e.getActionCommand();
 			if (command.equals("Inteira")) {
 				System.out.println("set inteira");
-				Services.getService().getController().changeVariableType(id, Variable.TYPE_INTEGER);
-				Services.getService().getController().changeVariableInitialValue(id, "1");
+				Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_INTEGER);
+				Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
 				changeVariableType();
 			}else if(command.equals("Verdadeiro/Falsa")){
-				Services.getService().getController().changeVariableType(id, Variable.TYPE_BOOLEAN);
-				Services.getService().getController().changeVariableInitialValue(id, "1");
+				Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_BOOLEAN);
+				Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
 				changeVariableType();
 			}else if(command.equals("")){
 				
@@ -267,4 +257,38 @@ public class IVPVariableBasic extends RoundedJPanel {
 		}
 		
 	}
+	public String getModelID() {
+		return currentModelID;
+	}
+
+	public String getModelParent() {
+		return parentModelID;
+	}
+
+	public String getModelScope() {
+		return modelScopeID;
+	}
+
+	public void setModelID(String id) {
+		currentModelID = id;
+		variable = (Variable) Services.getService().getModelMapping().get(id);
+		changeVariableType();
+	}
+
+	public void setModelParent(String id) {
+		parentModelID = id;
+	}
+
+	public void setModelScope(String id) {
+		modelScopeID = id;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
 }

@@ -86,6 +86,7 @@ public class IVPProgram extends DomainModel {
 			Operation exp = (Operation) dataFactory.createOperation();
 			exp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
 			exp.setScopeID(currentScope);
+			exp.setParentID(codeBlock.getUniqueID());
 			((While)codeBlock).setCondition(exp.getUniqueID());
 			Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
 			state.add(exp);
@@ -108,7 +109,21 @@ public class IVPProgram extends DomainModel {
 		state.add(codeBlock);
 		return codeBlock.getUniqueID();
 	}
+	
+	
 
+	public String updateReferencedVariable(String refID, String newVarRef, AssignmentState state){
+		String lastReferencedVariable = "";
+		VariableReference ref = (VariableReference) Services.getService().getModelMapping().get(refID);
+		lastReferencedVariable = ref.getReferencedVariable();
+		ref.setReferencedVariable(newVarRef);
+		for(int i = 0; i < variableListeners.size(); i++){
+			IVariableListener listener = (IVariableListener) variableListeners.get(i);
+			listener.updateReference(refID);
+		}
+		return lastReferencedVariable;
+	}
+	
 	public int removeChild(String containerID, String childID, AssignmentState state) {
 		CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
 		int index = 0;
@@ -194,8 +209,21 @@ public class IVPProgram extends DomainModel {
 		exp.setParentID(holder);
 		exp.setScopeID(currentScope);
 		Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
-		for(int i = 0; i < expressionListeners.size(); i++)
+		for(int i = 0; i < expressionListeners.size(); i++){
 			((IExpressionListener)expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID(), context);
+		}
+		if(expressionType == Expression.EXPRESSION_OPERATION_AND || expressionType == Expression.EXPRESSION_OPERATION_OR){
+			Expression newExp = (Expression) dataFactory.createOperation();
+			newExp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
+			newExp.setParentID(exp.getUniqueID());
+			newExp.setScopeID(currentScope);
+			((Operation)exp).setExpressionB(newExp.getUniqueID());
+			Services.getService().getModelMapping().put(newExp.getUniqueID(), newExp);
+			for(int i = 0; i < expressionListeners.size(); i++){
+				((IExpressionListener)expressionListeners.get(i)).expressionCreated(exp.getUniqueID(), newExp.getUniqueID(), "right");
+			}
+			state.add(newExp);
+		}
 		state.add(exp);
 		return exp.getUniqueID();
 	}

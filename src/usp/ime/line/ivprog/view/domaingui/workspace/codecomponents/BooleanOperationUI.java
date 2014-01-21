@@ -12,13 +12,17 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class BooleanOperationUI extends OperationUI {
+	
+	private JPopupMenu operationAndOrMenu;
+	private JPopupMenu operationComparisonMenu;
 
 	public BooleanOperationUI(String parent, String scope, String id) {
 		super(parent, scope, id);
 	}
 
 	public void initOperationSignMenu() {
-		operationSignMenu = new JPopupMenu();
+		operationComparisonMenu = new JPopupMenu();
+		operationAndOrMenu = new JPopupMenu();
 		Action changeToAND = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_AND, context);
@@ -84,15 +88,17 @@ public class BooleanOperationUI extends OperationUI {
 		//setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
 		changeToGRE.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GRE.tip"));
 		changeToGRE.putValue(Action.NAME, "\u003E");
-		operationSignMenu.add(changeToLEQ);
-		operationSignMenu.add(changeToLES);
-		operationSignMenu.add(changeToEQU);
-		operationSignMenu.add(changeToNEQ);
-		operationSignMenu.add(changeToGEQ);
-		operationSignMenu.add(changeToGRE);
-		operationSignMenu.addSeparator();
-		operationSignMenu.add(changeToAND);
-		operationSignMenu.add(changeToOR);
+		operationComparisonMenu.add(changeToLEQ);
+		operationComparisonMenu.add(changeToLES);
+		operationComparisonMenu.add(changeToEQU);
+		operationComparisonMenu.add(changeToNEQ);
+		operationComparisonMenu.add(changeToGEQ);
+		operationComparisonMenu.add(changeToGRE);
+		operationAndOrMenu.add(changeToAND);
+		operationAndOrMenu.add(changeToOR);
+		
+		operationSignMenu = operationComparisonMenu;
+		
 	}
 
 	public void initSignal() {
@@ -101,27 +107,35 @@ public class BooleanOperationUI extends OperationUI {
 		short type = op.getOperationType();
 		if(type == Expression.EXPRESSION_OPERATION_AND){
 			sign = ResourceBundleIVP.getString("BooleanOperationUI.AND.text");
+			operationSignMenu = operationAndOrMenu;	
 			enableComparison();
 		}else if (type == Expression.EXPRESSION_OPERATION_OR){
 			sign = ResourceBundleIVP.getString("BooleanOperationUI.OR.text");
+			operationSignMenu = operationAndOrMenu;
 			enableComparison();
 		}else if (type == Expression.EXPRESSION_OPERATION_LEQ){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u2264";
 		}else if (type == Expression.EXPRESSION_OPERATION_LES){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u003C";
 		}else if (type == Expression.EXPRESSION_OPERATION_EQU){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u003D";
 		}else if (type == Expression.EXPRESSION_OPERATION_NEQ){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u2260";
 		}else if (type == Expression.EXPRESSION_OPERATION_GEQ){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u2265";
 		}else if (type == Expression.EXPRESSION_OPERATION_GRE){
 			disableComparison();
+			operationSignMenu = operationComparisonMenu;
 			sign = "\u003E";
 		}
 		expSign.setText(sign);
