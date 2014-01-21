@@ -61,4 +61,12 @@ public class ExpressionField extends JPanel {
 	public void setComparison(boolean isComparison){
 		expressionHolderUI.setComparison(isComparison);
 	}
+	
+	public void setEdition(boolean edit){
+		isEditing = edit;
+	}
+	
+	public boolean isEdition(){
+		return isEditing;
+	}
 }

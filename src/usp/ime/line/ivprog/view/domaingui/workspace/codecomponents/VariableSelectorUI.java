@@ -38,6 +38,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	public static final Color borderColor = new Color(230, 126, 34); 
 	public static final Color bgColor = new Color(255, 255, 255);
 	public static final Color hoverColor = new Color(241, 196, 15);
+	private String currentModelID;
+	private String parentModelID;
+	private String scopeModelID;
+	private String context;
+	
 	
 	private JComboBox varList;
 	private TreeMap indexMap;
@@ -49,10 +54,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private boolean isIsolated = false;
 
 	private JLabel iconLabel;
-	private String currentModelID;
-	private String parentModelID;
-	private String scopeModelID;
-	private String context;
+	
 	
 	private boolean drawBorder = true;
 	
@@ -62,7 +64,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		this.parentModelID = parent;
 		initialization();
 		initComponents();
-		//Starts listening to variable changes
 		Services.getService().getController().getProgram().addVariableListener(this);
 	}
 
@@ -110,19 +111,15 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			    	JComboBox cb = (JComboBox) evt.getSource();
 				    Object item = cb.getSelectedItem();
 			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		// Verifies the context. If it's an isolated variable selector (att line leftvar) then editStateOff behavior is sustained.
-			    		if(isIsolated) {
+			    		if(isIsolated) {// Verifies the context. If it's an isolated variable selector (att line leftvar) then editStateOff behavior is sustained.
 			    			editStateOff((String) item);
 			    		}
-			    		if(warningState){
-			    			turnWaningStateOFF();
-			    		}
-			    		
-			    		System.out.println("LOL");
-			    		
 			    		String newRefID = getNewVarID();
 			    		if(newRefID != null){
 			    			Services.getService().getController().updateVariableReference(currentModelID, newRefID);
+			    		}
+			    		if(warningState){
+			    			turnWaningStateOFF();
 			    		}
 			    	} 
 			    }
@@ -228,18 +225,40 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	}
 	
 	public void changeVariable(String id) { }
+	
+	
+	private String lastRemoved= "";
+	
 	public void removedVariable(String id) { 
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id, null);
+		if(isIsolated){
+			if(nameLabel.isVisible()){
+				if(nameLabel.getText().equals(name)){
+					lastRemoved = name;
+					turnWaningStateON();
+				}
+			}
+		}else{
+			if(name.equals(varList.getSelectedItem())){
+				if(isEditState()){
+					lastRemoved = name;
+					turnWaningStateON();
+				}else{
+					if(Services.getService().getModelMapping().get(parentModelID) instanceof ExpressionHolderUI){
+						((ExpressionHolderUI)Services.getService().getModelMapping().get(parentModelID)).warningStateOn();
+					}
+					lastRemoved = name;
+					turnWaningStateON();
+				}
+			}
+		}
 		isUpdate = true;
 		updateVariableList();
 		isUpdate = false;
-		if(nameLabel.isVisible()||varList.getItemCount()==0){
-			if(name.equals(nameLabel.getText())){
-				turnWaningStateON();
-			}
-		}
 	}
+	
+	
 
 	public void changeVariableName(String id, String name, String lastName) {
 		isUpdate = true;
@@ -258,7 +277,10 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	public void updateReference(String id) {
 		if(id == currentModelID){
 			String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
+			isUpdate = true;
 			varList.setSelectedItem(name);
+			isUpdate = false;
+			if(isIsolated) editStateOff(name);
 		}
 	}
 	
@@ -268,16 +290,34 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	public void variableRestored(String id) { 
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id,name);
-		if(nameLabel.getText().equals((name))){
-			turnWaningStateOFF();
-			isUpdate = true;
-			updateVariableList();
-			isUpdate = false;
-			editStateOff(name);
-		}
 		isUpdate = true;
 		updateVariableList();
 		isUpdate = false;
+		if( isIsolated ){
+			if(nameLabel.isVisible()){
+				if(lastRemoved.equals(name)){
+					nameLabel.setText(name);
+					turnWaningStateOFF();
+				}
+			}else{
+				if(lastRemoved.equals(name)){
+					turnWaningStateOFF();
+					isUpdate = true;
+					varList.setSelectedItem(lastRemoved);
+					isUpdate = false;
+				}
+			}
+		} else {
+			if(lastRemoved.equals(name)){
+				turnWaningStateOFF();
+				isUpdate = true;
+				varList.setSelectedItem(lastRemoved);
+				isUpdate = false;
+			}
+		}
+		lastRemoved = "";
+		revalidate();
+		repaint();
 	}
 	//END: Variable listener methods
 	
@@ -311,12 +351,18 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		iconLabel.setVisible(true);
 		warningState = true;
 		editStateOn();
+		if(Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI){
+			((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
+			((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else{
+			editStateOn();
+		}
 	}
 	
 	private void turnWaningStateOFF() {
 		iconLabel.setVisible(false);
 		warningState = false;
-		editStateOff(null);
 	}
 	
 	private void updateVariableList(){

@@ -20,12 +20,10 @@ public class UpdateReferencedVariable extends DomainAction {
 	}
 
 	protected void executeAction() {
-		if(!isRedo())
-			lastVarID = model.updateReferencedVariable(referenceID, newVarID, _currentState);
+		lastVarID = model.updateReferencedVariable(referenceID, newVarID, _currentState);
 	}
 
 	protected void undoAction() {
-		System.out.println("UNDO");
 		newVarID = model.updateReferencedVariable(referenceID, lastVarID, _currentState);
 	}
 

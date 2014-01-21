@@ -159,20 +159,6 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		return context;
 	}
 	
-	public void hideParenthesis(){
-		rightPar.setVisible(false);
-		leftPar.setVisible(false);
-		revalidate();
-		repaint();
-	}
-	
-	public void showParenthesis(){
-		rightPar.setVisible(true);
-		leftPar.setVisible(true);
-		revalidate();
-		repaint();
-	}
-	
 	class OperationMouseListener implements MouseListener {
 		private JPanel panel;
 		public OperationMouseListener(JPanel p){ panel = p; }
@@ -208,6 +194,18 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		isEditing = false;
 		expressionBaseUI_1.disableEdition();
 		expressionBaseUI_2.disableEdition();
+	}
+	
+	public void warningStateOn(){
+		if(Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI){
+			((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
+			((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else if(getParent() instanceof ExpressionHolderUI) {
+			((ExpressionHolderUI)getParent()).warningStateOn();
+		}else{
+			enableEdition();
+		}
 	}
 
 }

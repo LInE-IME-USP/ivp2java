@@ -406,8 +406,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 				}else{
 					((OperationUI)expression).disableEdition();
 				}
+				((IDomainObjectUI)lastExp).setModelParent(currentModelID);
 			}
 			isContentSet = true;
+			
 			revalidate();
 			repaint();
 		} 
@@ -417,17 +419,20 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		if(expression != null){
 			if(currentModelID.equals(id) && operationContext.equals(context)){
 				remove(expression);
+				isContentSet = false;
 				if(!isClean){
 					if(expression instanceof OperationUI){
 						JComponent exp = ((OperationUI)expression).getExpressionBaseUI_1().getExpression();
+						currentModelID = ((IDomainObjectUI)exp).getModelID();
 						setExpression(exp);
 					}else{
 						emptyExpressionHolder();
+						currentModelID = "";
 					}
 				}
 				revalidate();
 				repaint();
-				isContentSet = false;
+				
 			}
 		}
 		
@@ -567,6 +572,17 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 
 	public void setComparison(boolean isComparison) {
 		this.isComparison = isComparison;
+	}
+	
+	public void warningStateOn(){
+		if(Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI){
+			((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
+			((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+		}else if(getParent() instanceof ExpressionField){
+			((ExpressionField) getParent()).setEdition(true);
+			enableEdition();
+		}
 	}
 
 }
