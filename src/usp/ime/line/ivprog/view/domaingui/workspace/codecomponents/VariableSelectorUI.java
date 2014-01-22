@@ -43,7 +43,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private String scopeModelID;
 	private String context;
 	
-	
 	private JComboBox varList;
 	private TreeMap indexMap;
 	private JLabel nameLabel;
@@ -52,9 +51,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	private boolean warningState = false;
 	private boolean isOnlyOneElement = false;
 	private boolean isIsolated = false;
-
 	private JLabel iconLabel;
-	
 	
 	private boolean drawBorder = true;
 	
@@ -269,8 +266,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			nameLabel.setText(name);
 			nameLabel.revalidate();
 			nameLabel.repaint();
-			isUpdate = true;
-			isUpdate = false;
 		}
 	}
 	
@@ -280,7 +275,20 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			isUpdate = true;
 			varList.setSelectedItem(name);
 			isUpdate = false;
-			if(isIsolated) editStateOff(name);
+			if(isIsolated){
+				editStateOff(name);
+			}
+			else{
+				if(nameLabel.isVisible() && "".equals(name)){
+					nameLabel.setText(name);
+					nameLabel.revalidate();
+					nameLabel.repaint();
+				}else if("".equals(name) || name == null){
+					nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+					nameLabel.revalidate();
+					nameLabel.repaint();
+				}
+			}
 		}
 	}
 	
