@@ -2,7 +2,6 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -14,7 +13,6 @@ import javax.swing.JPopupMenu;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IOperationListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
-import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
 
@@ -58,7 +56,6 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initRightParenthesis() {
 		rightPar = new JLabel(")");
-		rightPar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		add(rightPar);
 	}
 
@@ -80,7 +77,6 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		add(expPanel);
 		expSign = new JLabel();
 		expPanel.add(expSign);
-		expSign.setFont(new Font("Tahoma", Font.PLAIN, 10));
 	}
 
 	private void initExpressionHolder1() {
@@ -96,7 +92,6 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 
 	private void initLeftParenthesis() {
 		leftPar = new JLabel("(");
-		leftPar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		add(leftPar);
 	}
 

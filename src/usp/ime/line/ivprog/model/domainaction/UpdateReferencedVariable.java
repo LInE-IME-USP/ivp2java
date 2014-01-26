@@ -24,7 +24,7 @@ public class UpdateReferencedVariable extends DomainAction {
 	}
 
 	protected void undoAction() {
-		newVarID = model.updateReferencedVariable(referenceID, lastVarID, _currentState);
+		newVarID = model.updateReferencedVariable(referenceID, lastVarID,  _currentState);
 	}
 
 	public boolean equals(DomainAction a) {

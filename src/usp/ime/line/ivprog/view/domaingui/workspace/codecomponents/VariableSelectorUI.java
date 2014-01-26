@@ -1,28 +1,20 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
@@ -30,7 +22,6 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
-import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -94,7 +85,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	private void initLabel() {
 		nameLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-		nameLabel.setFont(new Font("Arial", Font.ITALIC, 12));
 		add(nameLabel);
 	}
 	
@@ -151,7 +141,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			indexMap.put(var.getUniqueID(), name);
 		}
 		isUpdate = true;
-		updateVariableList();
+		updateVariableList("","");
 		isUpdate = false;
 	}
 
@@ -195,7 +185,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		
 		public void mouseExited(MouseEvent e) {
 			if(editState||isIsolated){
-				setBackground(FlatUIColors.MAIN_BG);
+				if(drawBorder){
+					setBackground(FlatUIColors.MAIN_BG);
+				} else {
+					setBackground(FlatUIColors.CODE_BG);
+				}
 				e.getComponent().setCursor(Cursor.getDefaultCursor());
 			}
 		}
@@ -217,7 +211,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id, name);
 		isUpdate = true;
-		updateVariableList();
+		updateVariableList("","");
 		isUpdate = false;
 	}
 	
@@ -251,7 +245,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 			}
 		}
 		isUpdate = true;
-		updateVariableList();
+		updateVariableList("","");
 		isUpdate = false;
 	}
 	
@@ -260,7 +254,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	public void changeVariableName(String id, String name, String lastName) {
 		isUpdate = true;
 		indexMap.put(id, name);
-		updateVariableList();
+		updateVariableList(name, lastName);
 		isUpdate = false;
 		if(nameLabel.isVisible() && nameLabel.getText().equals(lastName)){
 			nameLabel.setText(name);
@@ -279,6 +273,16 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 				editStateOff(name);
 			}
 			else{
+				if(nameLabel.isVisible() && !("".equals(name) || name == null)){
+					nameLabel.setText(name);
+					nameLabel.revalidate();
+					nameLabel.repaint();
+				}else{
+					nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+					nameLabel.revalidate();
+					nameLabel.repaint();
+				}
+				/*
 				if(nameLabel.isVisible() && "".equals(name)){
 					nameLabel.setText(name);
 					nameLabel.revalidate();
@@ -288,6 +292,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 					nameLabel.revalidate();
 					nameLabel.repaint();
 				}
+				*/
 			}
 		}
 	}
@@ -299,7 +304,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
 		indexMap.put(id,name);
 		isUpdate = true;
-		updateVariableList();
+		updateVariableList("","");
 		isUpdate = false;
 		if( isIsolated ){
 			if(nameLabel.isVisible()){
@@ -373,7 +378,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		warningState = false;
 	}
 	
-	private void updateVariableList(){
+	private void updateVariableList(String newName, String lastName){
 		Object itemSelected = varList.getSelectedItem();
 		varList.removeAllItems();
 		Object[] keySetArray = indexMap.keySet().toArray();
@@ -391,7 +396,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 				varList.addItem(variableName);
 			}
 		}
-		varList.setSelectedItem(itemSelected);
+		if(lastName.equals(itemSelected)){
+			varList.setSelectedItem(newName);
+		}else{
+			varList.setSelectedItem(itemSelected);
+		}
+		
 	}
 
 

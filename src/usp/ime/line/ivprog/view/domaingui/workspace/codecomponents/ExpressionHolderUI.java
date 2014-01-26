@@ -3,7 +3,6 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -322,7 +321,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 
 	private void initLabel() {
 		selectLabel = new JLabel(ResourceBundleIVP.getString("ExpressionBaseUI.selectLabel.text"));
-		selectLabel.setFont(new Font("Arial", Font.ITALIC, 12));
 		add(selectLabel);
 	}
 	

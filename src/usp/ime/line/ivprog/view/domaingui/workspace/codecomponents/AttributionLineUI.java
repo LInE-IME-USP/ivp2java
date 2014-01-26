@@ -29,7 +29,7 @@ public class AttributionLineUI extends CodeBaseUI {
 	private void initialization(){
 		expression = new ExpressionFieldUI(getModelID(), getModelScope());
 		contentPanel = new JPanel(new DynamicFlowLayout(FlowLayout.LEFT, this, this.getClass(),1));
-		codeLabel = new JLabel(ResourceBundleIVP.getString("attLineText"));
+		codeLabel = new JLabel(ResourceBundleIVP.getString("AttLine.text"));
 		varSelector = new VariableSelectorUI(getModelParent());
 		varSelector.setModelScope(getModelScope());
 		varSelector.setIsolationMode(true);
