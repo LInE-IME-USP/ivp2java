@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.IconUIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import usp.ime.line.ivprog.view.FlatUIColors;
+
 public class IconButtonUI extends BasicButtonUI {
 	
 	private Icon baseIcon;
@@ -46,9 +48,9 @@ public class IconButtonUI extends BasicButtonUI {
 
 	protected void installDefaults(AbstractButton b) {
 		super.installDefaults(b);
-		b.setOpaque(false);
 		b.setBorderPainted(false);
 		b.setRolloverEnabled(true);
+		b.setOpaque(false);
 		b.setBorder(new EmptyBorder(0, 0, 0, 0));
 		b.addMouseListener(new HandCursor());
 		prepareIcons(b);
@@ -77,6 +79,8 @@ public class IconButtonUI extends BasicButtonUI {
 		} else {
 			b.setIcon(baseIcon);
 		}
+		
+		
 		super.paint(g, c);
 	}
 
@@ -104,6 +108,7 @@ public class IconButtonUI extends BasicButtonUI {
 	 * Creates an image from an icon.
 	 */
 	private Image getImage(Icon icon) {
+		if(icon != null)
 		if (icon instanceof ImageIcon) {
 			return ((ImageIcon) icon).getImage();
 		} else {
@@ -114,6 +119,8 @@ public class IconButtonUI extends BasicButtonUI {
 			g.dispose();
 			return buffer;
 		}
+		else
+			return null;
 	}
 
 	/**
@@ -125,12 +132,9 @@ public class IconButtonUI extends BasicButtonUI {
 	}
 
 	/**
-	 * @param img
-	 *            to scale
-	 * @param newWidth
-	 *            desired width
-	 * @param newHeight
-	 *            desired height
+	 * @param img to scale
+	 * @param newWidth desired width
+	 * @param newHeight desired height
 	 * @return a scaled image
 	 */
 	private Image getScaledImage(Image img, int newWidth, int newHeight) {

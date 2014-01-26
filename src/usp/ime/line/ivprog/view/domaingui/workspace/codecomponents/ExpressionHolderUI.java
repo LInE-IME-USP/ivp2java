@@ -21,6 +21,7 @@ import javax.swing.JPopupMenu;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -28,8 +29,8 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	public static final Color borderColor = new Color(230, 126, 34);
-	public static final Color bgColor = new Color(236, 240, 241);
-	public static final Color hoverColor = new Color(241, 196, 15);
+	public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
+	
 	private boolean drawBorder = true;
 	private boolean isComparisonEnabled = false;
 	private boolean isEditing = false;
@@ -63,7 +64,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	}
 
 	private void initialization() {
-		setBackground(bgColor);
+		setBackground(FlatUIColors.MAIN_BG);
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
 		flowLayout.setHgap(3);
 		flowLayout.setVgap(0);
@@ -365,7 +366,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 		
 		public void mouseExited(MouseEvent e) {
 			if(isEditing && !isContentSet){
-				setBackground(bgColor);
+				setBackground(FlatUIColors.MAIN_BG);
 				e.getComponent().setCursor(Cursor.getDefaultCursor());
 			}
 		}
@@ -579,8 +580,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 			((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
 		}else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
 			((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-		}else if(getParent() instanceof ExpressionField){
-			((ExpressionField) getParent()).setEdition(true);
+		}else if(getParent() instanceof ExpressionFieldUI){
+			((ExpressionFieldUI) getParent()).setEdition(true);
 			enableEdition();
 		}
 	}

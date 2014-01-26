@@ -19,6 +19,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.view.FlatUIColors;
 
 public class EditInPlace extends JPanel implements KeyListener {
 
@@ -49,8 +50,8 @@ public class EditInPlace extends JPanel implements KeyListener {
 	};
 	//private String pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$";
 
-	public static final Color bgColor = new Color(204, 255, 204);
-	public static final Color hoverColor = new Color(241, 196, 15);
+	public static final Color bgColor = FlatUIColors.MAIN_BG;
+	public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
 
 	public EditInPlace() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();

@@ -1,14 +1,18 @@
 package usp.ime.line.ivprog.view.utils;
 
 import java.awt.*;
+
 import javax.swing.JPanel;
+
+import usp.ime.line.ivprog.view.FlatUIColors;
 
 public class RoundedJPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	protected Dimension arcs = new Dimension(5, 5);
 	protected static int idCounter = 0;
-	private Color borderColor = java.awt.Color.DARK_GRAY;
+	private Color borderColor = FlatUIColors.CODE_BORDER_BG;
+	private Color bgColor = FlatUIColors.CODE_BG;
 
 	public RoundedJPanel() {
 		super();
@@ -27,7 +31,7 @@ public class RoundedJPanel extends JPanel {
 							java.awt.RenderingHints.VALUE_ANTIALIAS_ON));
 		}
 		java.awt.Rectangle bounds = getBounds();
-		g.setColor(getBackground());
+		g.setColor(bgColor);
 		g.fillRoundRect(0, 0, bounds.width, bounds.height, arcs.width,arcs.height);
 		g.setColor(borderColor);
 		g.drawRoundRect(0, 0, bounds.width - 1, bounds.height - 1, arcs.width,arcs.height);
@@ -40,9 +44,9 @@ public class RoundedJPanel extends JPanel {
 		this.arcs = arcs;
 		repaint();
 	}
-
-	public void setBorderColor(Color borderColor) {
-		this.borderColor = borderColor;
-		repaint();
+	
+	public void setBackgroundColor(Color bgColor){
+		this.bgColor = bgColor;
 	}
+
 }

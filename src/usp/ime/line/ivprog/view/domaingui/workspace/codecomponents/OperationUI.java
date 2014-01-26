@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IOperationListener;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
@@ -170,13 +171,13 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		}
 		public void mouseEntered(MouseEvent e) {
 			if(isEditing){
-				panel.setBackground(ExpressionHolderUI.hoverColor);
+				panel.setBackground(FlatUIColors.HOVER_COLOR);
 				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		}
 		public void mouseExited(MouseEvent e) {
 			if(isEditing){
-				panel.setBackground(ExpressionHolderUI.bgColor);
+				panel.setBackground(FlatUIColors.CODE_BG);
 				e.getComponent().setCursor(Cursor.getDefaultCursor());
 			}
 		}

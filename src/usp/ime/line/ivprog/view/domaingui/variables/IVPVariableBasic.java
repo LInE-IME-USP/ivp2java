@@ -26,6 +26,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
@@ -57,11 +58,9 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI{
 	private JPopupMenu configMenu;
 	private Variable variable; 
 
-	public static Color BACKGROUND_COLOR = new Color(204, 255, 204);
-
 	public IVPVariableBasic(String id, String scope) {
 		this.modelScopeID = scope;
-		setBackground(BACKGROUND_COLOR);
+		setBackgroundColor(FlatUIColors.MAIN_BG);
 		initialization();
 		setModelID(id);
 	}
@@ -289,6 +288,12 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI{
 
 	public String getContext() {
 		return context;
+	}
+	
+	public void setBackgroundColor(Color bg){
+		super.setBackgroundColor(bg);
+		revalidate();
+		repaint();
 	}
 
 }

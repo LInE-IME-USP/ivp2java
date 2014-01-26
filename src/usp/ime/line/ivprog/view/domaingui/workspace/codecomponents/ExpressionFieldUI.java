@@ -2,7 +2,9 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.awt.FlowLayout;
@@ -11,33 +13,48 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
-public class ExpressionField extends JPanel {
+public class ExpressionFieldUI extends JPanel {
 	
 	private JButton btnEdit;
 	private ExpressionHolderUI expressionHolderUI;
 	private boolean isEditing = false;
-
-	public ExpressionField(String parent, String scope) {
+	private ImageIcon open;
+	private ImageIcon closed;
+	
+	
+	public ExpressionFieldUI(String parent, String scope) {
 		initLayout();
 		initExpressionHolder(parent, scope);
 		initEditionBtn();
 	}
 
 	private void initEditionBtn() {
-		btnEdit = new JButton("edit");
+		
+		open = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_opened.png"));
+		closed = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_closed.png"));
+		final JLabel teste = new JLabel();
+		teste.setIcon(closed);
 		Action edition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(isEditing){
 					expressionHolderUI.disableEdition();
 					isEditing = false;
+					teste.setIcon(closed);
+					teste.repaint();
 				}else{
 					expressionHolderUI.enableEdition();
 					isEditing = true;
+					teste.setIcon(open);
+					teste.repaint();
 				}
 			}
 		};
-		btnEdit.setAction(edition);
+		btnEdit = new JButton(edition);
+		btnEdit.add(teste);
+		btnEdit.setIcon(new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/pog.png")));
+		btnEdit.setUI(new IconButtonUI());
 		add(btnEdit);
 	}
 

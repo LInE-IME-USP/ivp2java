@@ -63,9 +63,11 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
 	private void initGripArea() {
 		GripArea grip = new GripArea();
 		gripArea = new JPanel();
-        gripArea.setLayout(new BorderLayout());
+        BorderLayout bl_gripArea = new BorderLayout();
+        bl_gripArea.setHgap(2);
+        gripArea.setLayout(bl_gripArea);
         gripArea.add(grip, BorderLayout.CENTER);
-        gripArea.setBorder(new EmptyBorder(0, 2, 2, 2));
+        gripArea.setBorder(new EmptyBorder(5, 5, 5, 5));
         gripArea.add(grip, BorderLayout.CENTER);
         gripArea.setOpaque(false);
         add(gripArea, BorderLayout.WEST);

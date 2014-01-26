@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class PrintUI extends CodeBaseUI {
@@ -14,8 +15,6 @@ public class PrintUI extends CodeBaseUI {
 	private ExpressionHolderUI expressionHolder;
 	private JLabel codeBlockName;
 	private String context;
-	
-	private static Color bgColor = new Color(159, 165, 169);
 	
 	public PrintUI(String id, String parentID, String scopeID){
 		setModelParent(parentID);
@@ -29,7 +28,7 @@ public class PrintUI extends CodeBaseUI {
 		expressionHolder = new ExpressionHolderUI(getModelID(), getModelScope());
 		contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		codeBlockName = new JLabel(ResourceBundleIVP.getString("printTitle"));
-		setBackground(bgColor);
+		setBackground(FlatUIColors.MAIN_BG);
 	}
 	
 	private void addComponents(){

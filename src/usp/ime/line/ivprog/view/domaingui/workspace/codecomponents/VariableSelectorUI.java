@@ -31,13 +31,14 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class VariableSelectorUI extends JPanel implements IVariableListener, IDomainObjectUI {
 	
 	public static final Color borderColor = new Color(230, 126, 34); 
-	public static final Color bgColor = new Color(255, 255, 255);
-	public static final Color hoverColor = new Color(241, 196, 15);
+	public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
+	
 	private String currentModelID;
 	private String parentModelID;
 	private String scopeModelID;
@@ -66,7 +67,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	//BEGIN: initialization methods
 	private void initialization() {
-		setBackground(bgColor);
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
 		flowLayout.setVgap(3);
 		flowLayout.setHgap(3);
@@ -194,8 +194,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		}
 		
 		public void mouseExited(MouseEvent e) {
-			if(editState){
-				setBackground(bgColor);
+			if(editState||isIsolated){
+				setBackground(FlatUIColors.MAIN_BG);
 				e.getComponent().setCursor(Cursor.getDefaultCursor());
 			}
 		}
@@ -457,6 +457,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	public void setIsolationMode(boolean isIso){
 		isIsolated = isIso;
+		setBackground(FlatUIColors.MAIN_BG);
 	}
 	
 	public boolean isIsolated(){

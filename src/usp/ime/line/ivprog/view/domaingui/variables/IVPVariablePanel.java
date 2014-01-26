@@ -24,6 +24,7 @@ import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
@@ -42,6 +43,8 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.EmptyBorder;
 
 public class IVPVariablePanel extends JPanel implements IVariableListener {
 
@@ -59,6 +62,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	private TreeMap paramMap;
 	
 	public IVPVariablePanel(String scopeID, boolean isMain) {
+		setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
 		this.scopeID = scopeID;
 		initialization(isMain);
 		Services.getService().getController().getProgram().addVariableListener(this);
@@ -84,7 +88,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initLayout() {
-		setBackground(new Color(220, 220, 255));
+		setBackground(FlatUIColors.MAIN_BG);
 		setLayout(new BorderLayout(0, 0));
 	}
 
@@ -101,16 +105,16 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initParamBtn() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("addParamBtn")) {
+		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().addParameter(scopeID);
 			}
 		};
-		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_param.png")));
 		action.putValue(Action.SHORT_DESCRIPTION,"Adiciona um novo parâmetro à função:" + "Principal");
 		addParamBtn = new JButton(action);
 		addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
-		addParamBtn.setUI(new BlueishButtonUI());
+		addParamBtn.setUI(new IconButtonUI());
 		addParamBtn.setPreferredSize(new Dimension(95, 25));
 		GridBagConstraints gbc_addParamBtn = new GridBagConstraints();
 		gbc_addParamBtn.anchor = GridBagConstraints.WEST;
@@ -124,7 +128,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		varPanel = new RoundedJPanel();
 		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel, varPanel.getClass(), 1));
 		GridBagConstraints gbc_varPanel = new GridBagConstraints();
-		gbc_varPanel.insets = new Insets(2, 0, 2, 0);
+		gbc_varPanel.insets = new Insets(5, 5, 5, 5);
 		gbc_varPanel.fill = GridBagConstraints.BOTH;
 		gbc_varPanel.gridx = 1;
 		gbc_varPanel.gridy = 0;
@@ -132,7 +136,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	}
 
 	private void initAddVarBtn() {
-		Action action = new AbstractAction(ResourceBundleIVP.getString("addVarBtn")) {
+		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Services.getService().getController().addVariable(scopeID);
 			}
@@ -140,9 +144,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
 		action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
 		addVarBtn = new JButton(action);
-		addVarBtn.setHorizontalAlignment(SwingConstants.LEFT);
-		addVarBtn.setUI(new BlueishButtonUI());
-		addVarBtn.setPreferredSize(new Dimension(95, 25));
+		addVarBtn.setUI(new IconButtonUI());
 		GridBagConstraints gbc_addVarBtn = new GridBagConstraints();
 		gbc_addVarBtn.anchor = GridBagConstraints.NORTHWEST;
 		gbc_addVarBtn.insets = new Insets(3, 3, 3, 3);
@@ -152,6 +154,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 
 	private void initContainer() {
 		container = new JPanel();
+		container.setBorder(new EmptyBorder(0, 0, 5, 0));
 		container.setOpaque(false);
 		add(container, BorderLayout.CENTER);
 		GridBagLayout gbl_container = new GridBagLayout();

@@ -1,10 +1,13 @@
 package usp.ime.line.ivprog.view.utils;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GripArea extends JPanel {
@@ -31,24 +34,14 @@ public class GripArea extends JPanel {
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
         });
-    }
-
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        java.awt.Dimension size = getSize();
-        g.setColor(highlightColor);
-        for (int x = 0; x < size.width; x += 4) {
-            for (int y = 2; y < size.height; y += 4) {
-                g.drawLine(x, y, x, y);
-                g.drawLine(x + 2, y + 2, x + 2, y + 2);
-            }
-        }
-        g.setColor(shadowColor);
-        for (int x = 0; x < size.width; x += 4) {
-            for (int y = 2; y < size.height; y += 4) {
-                g.drawLine(x + 1, y + 1, x + 1, y + 1);
-                g.drawLine(x + 3, y + 3, x + 3, y + 3);
-            }
+        try{
+        	ImageIcon icon = new ImageIcon(GripArea.class.getResource("/usp/ime/line/resources/icons/up_down_caret.png"));
+        	JLabel label = new JLabel("", icon, JLabel.CENTER);
+        	setLayout(new BorderLayout());
+        	add(label, BorderLayout.CENTER);
+        }catch(Exception e){
+        	e.printStackTrace();
         }
     }
+    
 }

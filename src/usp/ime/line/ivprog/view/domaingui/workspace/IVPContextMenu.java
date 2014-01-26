@@ -7,10 +7,13 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
@@ -22,9 +25,12 @@ import javax.swing.border.EmptyBorder;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
+import usp.ime.line.ivprog.view.utils.RoundedJPanel;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-public class IVPContextMenu extends JPanel {
+public class IVPContextMenu extends RoundedJPanel {
 
 	private static final long serialVersionUID = 3814837809047109772L;
 	private IVPContainer container = null;
@@ -32,131 +38,106 @@ public class IVPContextMenu extends JPanel {
 	private JPanel menuPanel;
 	private JPanel buttonsContainer;
 	private JButton plusBtn;
-	private JButton whileBtn;
-	private JButton ifElseBtn;
-	private JButton forBtn;
-	private JButton writeBtn;
-	private JButton attBtn;
+	private JPopupMenu menu;
+	
+	//começar a transformar em context menu
 	
 	public IVPContextMenu(IVPContainer c) {
 		container = c;
 		initialization();
 		initPanels();
-		initButtons();
+		initPopupMenu();
+		initPlusBtn();
+	}
+
+	private void initPopupMenu() {
+		menu = new JPopupMenu();
+		menu.setBackground(FlatUIColors.MAIN_BG);
+		Action createWhile = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WHILE);
+			}
+		};
+		createWhile.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/loop_while.png")));
+		createWhile.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.while.tip"));
+		createWhile.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.while.text"));
+		Action createfOR = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_FOR);
+			}
+		};
+		createfOR.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/loop-n.png")));
+		createfOR.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.for.tip"));
+		createfOR.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.for.text"));
+		Action createifElse = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_IFELSE);
+			}
+		};
+		createifElse.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/if.png")));
+		createifElse.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.if.tip"));
+		createifElse.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.if.text"));
+		Action createRead = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		createRead.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/incoming.png")));
+		createRead.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.read.tip"));
+		createRead.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.read.text"));
+		Action createPrint = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WRITE);
+			}
+		};
+		createPrint.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/outcoming.png")));
+		createPrint.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.escrita.tip"));
+		createPrint.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.escrita.text"));
+		Action createAtt = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_ATTLINE);
+			}
+		};
+		createAtt.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/att.png")));
+		createAtt.putValue(Action.SHORT_DESCRIPTION,ResourceBundleIVP.getString("IVPContextMenu.for.tip"));
+		createAtt.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.att.text"));
+		menu.add(createAtt);
+		menu.add(createWhile);
+		menu.add(createfOR);
+		menu.add(createifElse);
+		menu.add(createRead);
+		menu.add(createPrint);
 	}
 
 	private void initialization() {
 		setBorder(new EmptyBorder(2, 2, 2, 2));
 		setLayout(new BorderLayout(0, 0));
-		setBackground(new Color(210, 245, 215));
+		setBackground(FlatUIColors.MAIN_BG);
 	}
 
 	private void initPanels() {
 		btnPanel = new JPanel();
-		btnPanel.setBackground(new Color(210, 245, 215));
+		btnPanel.setBackground(FlatUIColors.MAIN_BG);
 		btnPanel.setLayout(new BorderLayout());
 		add(btnPanel, BorderLayout.WEST);
 		menuPanel = new JPanel();
-		menuPanel.setBackground(new Color(210, 245, 215));
+		menuPanel.setBackground(FlatUIColors.MAIN_BG);
 		menuPanel.setLayout(new BorderLayout());
 		add(menuPanel, BorderLayout.CENTER);
 		buttonsContainer = new JPanel();
 		buttonsContainer.setVisible(false);
-		buttonsContainer.setBackground(new Color(210, 245, 215));
+		buttonsContainer.setBackground(FlatUIColors.MAIN_BG);
 		buttonsContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
 		menuPanel.revalidate();
 		menuPanel.repaint();
 		menuPanel.add(buttonsContainer);
 	}
 
-	private void initButtons() {
-		initPlusBtn();
-		initWhileBtn();
-		initIfElseBtn();
-		initForBtn();
-		initWriteBtn();
-		initAttBtn();
-	}
-
-	private void initAttBtn() {
-		attBtn = new JButton("Atribuição");
-		attBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_ATTLINE);
-				hideMenu();
-			}
-		});
-		buttonsContainer.add(attBtn);
-	}
-
-	private void initWriteBtn() {
-		writeBtn = new JButton("Escreva");
-		writeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WRITE);
-				hideMenu();
-			}
-		});
-		buttonsContainer.add(writeBtn);
-	}
-
-	private void initForBtn() {
-		forBtn = new JButton("Faça N vezes");
-		forBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_FOR);
-				hideMenu();
-			}
-		});
-		buttonsContainer.add(forBtn);
-	}
-
-	private void initIfElseBtn() {
-		ifElseBtn = new JButton("Se/Senão");
-		ifElseBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_IFELSE);
-				hideMenu();
-			}
-		});
-		buttonsContainer.add(ifElseBtn);
-	}
-
-	private void initWhileBtn() {
-		whileBtn = new JButton("Enquanto");
-		whileBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WHILE);
-				hideMenu();
-			}
-		});
-		buttonsContainer.add(whileBtn);
-	}
-
 	private void initPlusBtn() {
 		plusBtn = new JButton();
 		plusBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				movePanel(new Point(-menuPanel.getWidth(), 0));
-				Runnable r = new Runnable() {
-					public void run() {
-						int delay = 1;
-						buttonsContainer.setVisible(true);
-						((JComponent) getParent()).revalidate();
-						((JComponent) getParent()).repaint();
-						for (int i = 0; i < menuPanel.getWidth(); i++) {
-							try {
-								movePanel(new Point(i - menuPanel.getWidth(), 0));
-								Thread.sleep(delay);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				};
-				Thread t = new Thread(r);
-				t.start();
-				plusBtn.setEnabled(false);
+				menu.show(plusBtn, 0, plusBtn.getHeight());
 			}
 		});
 		plusBtn.setIcon(new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/plus_btn_icon.png")));
@@ -194,18 +175,6 @@ public class IVPContextMenu extends JPanel {
 		});
 	}
 
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.setColor(new Color(15, 150, 0));
-		java.awt.Rectangle bounds = getBounds();
-		for (int i = 0; i < bounds.width; i += 6) {
-			g.drawLine(i, 0, i + 3, 0);
-			g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
-		}
-		for (int i = 0; i < bounds.height; i += 6) {
-			g.drawLine(0, i, 0, i + 3);
-			g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
-		}
-	}
+	
 
 }

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -28,7 +29,7 @@ public class WhileUI extends CodeBaseUI {
 	private JPanel contentPanel;
 	private JPanel header;
 	private IVPContainer container;
-	private ExpressionField expressionField;
+	private ExpressionFieldUI expressionField;
 	private JLabel codeBlockName;
 	private JButton expandBtnUP;
 	private JButton expandBtnDOWN;
@@ -36,7 +37,6 @@ public class WhileUI extends CodeBaseUI {
 	private Icon down;
 	private String context;
 	
-	private static Color bgColor = new Color(189, 195, 199);
 	private BooleanOperationUI booleanOperationUI;
 	
 	public WhileUI(String id) {
@@ -47,14 +47,14 @@ public class WhileUI extends CodeBaseUI {
 		initExpressionHolder();
 		initContainer();
 		addContentPanel(contentPanel);
-		setBackground(bgColor);
+		setBackground(FlatUIColors.MAIN_BG);
 	}
 
 	
 
 	private void initContainer() {
 		container = new IVPContainer(true, getModelID());
-		container.setContainerBackground(bgColor);
+		container.setContainerBackground(FlatUIColors.MAIN_BG);
 		container.setVisible(false);
 		contentPanel.add(container, BorderLayout.CENTER);
 	}
@@ -86,7 +86,7 @@ public class WhileUI extends CodeBaseUI {
 	private void initExpression() {
 		String condition = ((While)Services.getService().getModelMapping().get(getModelID())).getCondition();
 		booleanOperationUI = (BooleanOperationUI) Services.getService().getRenderer().paint(condition); 
-		expressionField = new ExpressionField(this.getModelID(), this.getModelScope());
+		expressionField = new ExpressionFieldUI(this.getModelID(), this.getModelScope());
 		expressionField.setHolderContent(booleanOperationUI);
 		expressionField.setComparison(true);
 		header.add(expressionField);
@@ -134,7 +134,7 @@ public class WhileUI extends CodeBaseUI {
 	}
 
 	private void initCodeBlockLabel() {
-		codeBlockName = new JLabel(ResourceBundleIVP.getString("whileTitle"));
+		codeBlockName = new JLabel(ResourceBundleIVP.getString("WhileUI.text"));
 		header.add(codeBlockName);
 	}
 	

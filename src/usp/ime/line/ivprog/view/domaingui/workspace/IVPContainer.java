@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Color;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 public class IVPContainer extends JPanel implements ICodeListener {
 	
@@ -35,6 +37,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
 	private IVPContextMenu menu;
 
     public IVPContainer(boolean isInternal, String codeCompositeID) {
+    	setBorder(new EmptyBorder(5, 0, 0, 0));
         isInternalCanvas = isInternal;
         children = new Vector();
         this.codeCompositeID = codeCompositeID;
@@ -61,7 +64,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
 
     private void initLayout() {
         setLayout(new GridBagLayout());
-        setBackground(new Color(235, 235, 245));
+        setBackground(FlatUIColors.MAIN_BG);
         if (isInternalCanvas)
             setPreferredSize(new Dimension(10, 30));
     }
@@ -76,7 +79,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         removeAll();
         gbc.gridy = row++;
-        gbc.insets = new Insets(4, 2, 2, 2);
+        gbc.insets = new Insets(4, 3, 2, 5);
         initCanvasHeight();
         for (int i_i = 0; i_i < children.size(); i_i++) {
             gbc.gridy = row++;
@@ -148,7 +151,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
 	}
 	
 	public void setContainerBackground(Color bgColor){
-		setBackground(bgColor);
+		setBackground(FlatUIColors.MAIN_BG);
 		revalidate();
 		repaint();
 	}
