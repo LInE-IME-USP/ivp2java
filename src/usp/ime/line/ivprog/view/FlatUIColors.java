@@ -8,6 +8,7 @@ public final class FlatUIColors {
 	public final static Color CODE_BG = new Color(239,239,239);
 	public final static Color CODE_BORDER_BG = new Color(174,174,174);
 	public final static Color HOVER_COLOR = new Color(255,255,0);
+	public final static Color CONSOLE_COLOR = new Color(110,110,110);
 	
 	
 	public final static Color BTN_PLUS = new Color(91,192,222);

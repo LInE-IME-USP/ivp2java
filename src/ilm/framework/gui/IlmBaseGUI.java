@@ -4,16 +4,20 @@ import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Observable;
+
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.Assignment;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.gui.BaseGUI;
 import ilm.framework.modules.IlmModule;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -25,10 +29,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import usp.ime.line.ivprog.view.FlatUIColors;
+
+import java.awt.FlowLayout;
+import java.awt.Color;
+
 public class IlmBaseGUI extends BaseGUI {
 
     private static final long serialVersionUID = 1L;
-    private JToolBar toolBar;
+    private JPanel buttonsMenu;
     private JPanel panel;
     private JTabbedPane tabbedPane;
     private JButton authoringBtn;
@@ -40,10 +49,11 @@ public class IlmBaseGUI extends BaseGUI {
 
     public IlmBaseGUI() {
         setLayout(new BorderLayout(0, 0));
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-        add(toolBar, BorderLayout.NORTH);
+        buttonsMenu = new JPanel();
+        buttonsMenu.setBackground(FlatUIColors.MAIN_BG);
+        FlowLayout flowLayout = (FlowLayout) buttonsMenu.getLayout();
+        flowLayout.setAlignment(FlowLayout.LEFT);
+        add(buttonsMenu, BorderLayout.NORTH);
         panel = new JPanel();
         add(panel, BorderLayout.CENTER);
         panel.setLayout(new BorderLayout(0, 0));
@@ -99,7 +109,8 @@ public class IlmBaseGUI extends BaseGUI {
         Iterator moduleIterator = moduleList.iterator();
         while (moduleIterator.hasNext()) {
             IlmModule module = (IlmModule) moduleIterator.next();
-            toolBar.add(module.getGUI());
+            buttonsMenu.add(module.getGUI());
+            buttonsMenu.add(Box.createHorizontalStrut(50));
         }
     }
 
@@ -131,7 +142,7 @@ public class IlmBaseGUI extends BaseGUI {
     protected void setAuthoringButton() {
         authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING",
                 "Open assignment authoring window", "Start authoring");
-        toolBar.add(authoringBtn);
+        buttonsMenu.add(authoringBtn);
         authoringBtn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -147,7 +158,7 @@ public class IlmBaseGUI extends BaseGUI {
     protected void setNewAssignmentButton() {
         newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT",
                 "Open an assignment in a new tab", "Start a new assignment");
-        toolBar.add(newAssBtn);
+        buttonsMenu.add(newAssBtn);
         newAssBtn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -173,7 +184,7 @@ public class IlmBaseGUI extends BaseGUI {
     protected void setCloseAssignmentButton() {
         closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT",
                 "Close the assignment in this tab", "Close this assignment");
-        toolBar.add(closeAssBtn);
+        buttonsMenu.add(closeAssBtn);
         closeAssBtn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -216,7 +227,7 @@ public class IlmBaseGUI extends BaseGUI {
     protected void setOpenAssignmentButton() {
         openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE",
                 "Open an assignment file", "Open an assignment");
-        toolBar.add(openAssBtn);
+        buttonsMenu.add(openAssBtn);
         openAssBtn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -257,7 +268,7 @@ public class IlmBaseGUI extends BaseGUI {
     protected void setSaveAssignmentButton() {
         saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", "Save this assignment in a file",
                 "Save an assignment");
-        toolBar.add(saveAssBtn);
+        buttonsMenu.add(saveAssBtn);
         saveAssBtn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
