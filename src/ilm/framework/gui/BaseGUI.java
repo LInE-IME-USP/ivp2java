@@ -16,7 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.view.utils.IconButtonUI;
+
 public abstract class BaseGUI extends JPanel implements Observer {
+	public BaseGUI() {
+	}
 
     private static final long serialVersionUID = 1L;
     protected SystemConfig _config;
@@ -101,6 +105,7 @@ public abstract class BaseGUI extends JPanel implements Observer {
             System.err.println("Error: image './usp/ime/line/resources/" + imageName
                     + ".png' is missing: ilm/framework/gui/BaseGUI.java");
         }
+        button.setUI(new IconButtonUI());
         return button;
     }
 }

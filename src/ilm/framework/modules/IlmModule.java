@@ -1,5 +1,6 @@
 package ilm.framework.modules;
 
+import java.awt.Component;
 import java.util.Observable;
 
 public abstract class IlmModule extends Observable {
@@ -12,7 +13,7 @@ public abstract class IlmModule extends Observable {
         return _name;
     }
 
-    public IlmModuleToolbar getGUI() {
+    public Component getGUI() {
         addObserver(_gui);
         return _gui;
     }
