@@ -42,7 +42,23 @@ public class While extends CodeComposite {
 	}
 
 	public String toJavaString() {
-		return null;
+		//------------------------------------------------------------ adding while
+		Expression e = ((Expression)Services.getService().getModelMapping().get(conditionID)); 
+		String str = " while (";
+		str += e.toJavaString();
+		str += ") {";
+		
+		for(int i = 0; i < getChildrenList().size(); i++){
+			CodeComponent c = ((CodeComponent)Services.getService().getModelMapping().get(conditionID)); 
+			str += c.toJavaString();
+		}
+		
+		
+		str += "}";
+		
+		//------------------------------------------------------------ converting condition
+		
+		return str;
 	}
 
 	public boolean equals(DomainObject o) {

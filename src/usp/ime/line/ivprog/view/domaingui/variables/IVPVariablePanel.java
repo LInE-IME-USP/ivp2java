@@ -138,7 +138,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 	private void initAddVarBtn() {
 		Action action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().addVariable(scopeID);
+				Services.getService().getController().addVariable(scopeID,"0");
 			}
 		};
 		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
@@ -219,7 +219,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
 		}
 	}
 
-	public void changeVariableType(String id, short type) {
+	public void changeVariableType(String id, String type) {
 		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
 		if(variable!=null){
 			variable.setVariableType(type);

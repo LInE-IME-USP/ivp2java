@@ -5,13 +5,13 @@ import ilm.framework.assignment.model.DomainObject;
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.model.utils.IVPConstants;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 
 public class Function extends CodeComposite {
 
 	private String functionName = "";
-	private short returnType = -1;
+	private String returnType = "-1";
 	private IVPVariableMap parameters;
 	private IVPVariableMap localVariables;
 	private int variableCount = 0;
@@ -93,7 +93,7 @@ public class Function extends CodeComposite {
 	 * @see IVPConstants
 	 * @return the returnType
 	 */
-	public short getReturnType() {
+	public String getReturnType() {
 		return returnType;
 	}
 
@@ -103,7 +103,7 @@ public class Function extends CodeComposite {
 	 * @param rType
 	 *            the returnType to set
 	 */
-	public void setReturnType(short rType) {
+	public void setReturnType(String rType) {
 		returnType = rType;
 	}
 
@@ -208,7 +208,35 @@ public class Function extends CodeComposite {
 	}
 
 	public String toJavaString() {
-		return null;
+		//---------------------------------------------------------- adding header
+		
+		String str = "public "+getReturnType()+" "+getFunctionName()+" ( ";
+		
+		//---------------------------------------------------------- adding parameters
+		
+		Vector paramList = parameters.toVector();
+		for(int i = 0; i < paramList.size(); i++){
+			Variable v =((Variable)Services.getService().getModelMapping().get(paramList.get(i))); 
+			str += v.getVariableType()+" "+v.getVariableName()+", ";
+		}
+		str += ") {";
+		
+		//---------------------------------------------------------- converting local variables
+		
+		Vector varList = localVariables.toVector(); 
+		for (int i = 0; i < varList.size(); i++){
+			Variable v =((Variable)Services.getService().getModelMapping().get(varList.get(i))); 
+			str += v.getVariableType()+" "+v.getVariableName()+" "+" = "+v.getVariableValue()+"; ";
+		}
+		
+		Vector children = getChildrenList();
+		for(int i = 0; i < children.size(); i++){
+			str += ((CodeComponent)Services.getService().getModelMapping().get(children.get(i))).toJavaString();
+		}
+		
+		str += " } ";
+		
+		return str;
 	}
 
 	// Used when a new variable is generated

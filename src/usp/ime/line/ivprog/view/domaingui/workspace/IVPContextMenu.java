@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.controller.IVPController;
-import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.model.utils.IVPConstants;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;

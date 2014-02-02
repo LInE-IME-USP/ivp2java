@@ -6,6 +6,7 @@ import ilm.framework.domain.DomainModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -28,8 +29,11 @@ import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
+
 import java.awt.Component;
+
 import javax.swing.Box;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -41,7 +45,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 	private JPanel consolePanel;
 	private JPanel playAndConsolePanel;
 	private RoundedJPanel consoleContainer;
-	private JTextPane consoleField;
+	private IVPConsoleUI consoleField;
 	private JButton btnPlay;
 	private JLabel lblNewLabel;
 	private Component verticalStrut;
@@ -93,6 +97,13 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 		
 		btnPlay = new JButton(action);
 		btnPlay.setUI(new IconButtonUI());
+		btnPlay.addActionListener(
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						Services.getService().getController().playCode();
+					}
+				}
+		);
 		playAndConsolePanel.add(btnPlay);
 		
 		consoleContainer = new RoundedJPanel();
@@ -101,11 +112,8 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 		consoleContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
 		consolePanel.add(consoleContainer, BorderLayout.CENTER);
 		consoleContainer.setLayout(new BorderLayout(0, 0));
-		
-		consoleField = new JTextPane();
-		consoleField.setFont(new Font("Consolas", Font.BOLD, 12));
-		consoleField.setForeground(Color.WHITE);
-		consoleField.setBackground(FlatUIColors.CONSOLE_COLOR);
+
+		consoleField = new IVPConsoleUI();
 		consoleContainer.add(consoleField);
 	}
 

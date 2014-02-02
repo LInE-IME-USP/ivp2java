@@ -5,19 +5,19 @@ import ilm.framework.assignment.model.DomainObject;
 import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.model.utils.IVPConstants;
 
 public class Variable extends Expression {
 
 	public static final String STRING_CLASS = "variable";
 	private String variableName = "";
-	private short variableType = -1;
+	private String variableType = "-1";
 	private String variableValue = "";
 	private Vector variableReferenceList;
-	public static short TYPE_INTEGER = 0;
-	public static short TYPE_DOUBLE = 1;
-	public static short TYPE_STRING = 2;
-	public static short TYPE_BOOLEAN = 3;
+	public static String TYPE_INTEGER = "int";
+	public static String TYPE_DOUBLE = "double";
+	public static String TYPE_STRING = "String";
+	public static String TYPE_BOOLEAN = "boolean";
 	
 	public Variable(String name, String description){
 		super(name, description);
@@ -45,7 +45,7 @@ public class Variable extends Expression {
 	 * @see IVPConstants
 	 * @return type
 	 */
-	public short getVariableType() {
+	public String getVariableType() {
 		return variableType;
 	}
 
@@ -54,7 +54,7 @@ public class Variable extends Expression {
 	 * @see IVPConstants
 	 * @param varIntType
 	 */
-	public void setVariableType(short varIntType) {
+	public void setVariableType(String varIntType) {
 		variableType = varIntType;
 	}
 

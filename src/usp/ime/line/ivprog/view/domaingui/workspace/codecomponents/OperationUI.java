@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
@@ -76,6 +77,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
 		expPanel.addMouseListener(new OperationMouseListener(expPanel));
 		add(expPanel);
 		expSign = new JLabel();
+		expSign.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
 		expPanel.add(expSign);
 	}
 

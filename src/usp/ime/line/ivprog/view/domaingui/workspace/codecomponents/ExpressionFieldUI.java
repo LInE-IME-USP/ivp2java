@@ -22,6 +22,7 @@ public class ExpressionFieldUI extends JPanel {
 	private boolean isEditing = false;
 	private ImageIcon open;
 	private ImageIcon closed;
+	private JLabel teste;
 	
 	
 	public ExpressionFieldUI(String parent, String scope) {
@@ -34,7 +35,7 @@ public class ExpressionFieldUI extends JPanel {
 		
 		open = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_opened.png"));
 		closed = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_closed.png"));
-		final JLabel teste = new JLabel();
+		teste = new JLabel();
 		teste.setIcon(closed);
 		Action edition = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,10 +81,16 @@ public class ExpressionFieldUI extends JPanel {
 	}
 	
 	public void setEdition(boolean edit){
+		if(edit){
+			teste.setIcon(open);
+		}else{
+			teste.setIcon(closed);
+		}
 		isEditing = edit;
 	}
 	
 	public boolean isEdition(){
 		return isEditing;
 	}
+	
 }

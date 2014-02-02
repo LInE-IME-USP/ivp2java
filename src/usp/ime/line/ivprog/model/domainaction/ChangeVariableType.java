@@ -7,8 +7,8 @@ import ilm.framework.domain.DomainModel;
 public class ChangeVariableType extends DomainAction {
 	
 	private IVPProgram model;
-	private short lastType;
-	private short newType;
+	private String lastType;
+	private String newType;
 	private String variableID;
 	
 	public ChangeVariableType(String name, String description) {
@@ -39,11 +39,11 @@ public class ChangeVariableType extends DomainAction {
 		this.variableID = variableID;
 	}
 
-	public short getNewType() {
+	public String getNewType() {
 		return newType;
 	}
 
-	public void setNewType(short newType) {
+	public void setNewType(String newType) {
 		this.newType = newType;
 	}
 	

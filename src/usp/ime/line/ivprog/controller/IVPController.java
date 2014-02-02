@@ -20,6 +20,7 @@ import usp.ime.line.ivprog.model.domainaction.CreateChild;
 import usp.ime.line.ivprog.model.domainaction.CreateVariable;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
+import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
@@ -70,6 +71,10 @@ public class IVPController {
 	public void showConstructionEnvironment() {
 	
 	}
+	
+	public void playCode(){
+		program.playCode();
+	}
 
 	public void addChild(String containerID, short childType) {
 		CreateChild newChild = (CreateChild) actionList.get("newchild");
@@ -84,9 +89,10 @@ public class IVPController {
 
 	}
 
-	public void addVariable(String scopeID) {
+	public void addVariable(String scopeID, String initValue) {
 		CreateVariable newVar = (CreateVariable) actionList.get("newvar");
 		newVar.setScopeID(scopeID);
+		newVar.setInitValue(initValue);
 		newVar.execute();
 	}
 
@@ -104,7 +110,7 @@ public class IVPController {
 		changeVarName.execute();
 	}
 	
-	public void changeVariableType(String id, short type){
+	public void changeVariableType(String id, String type){
 		ChangeVariableType changeVarType = (ChangeVariableType) actionList.get("changeVarType");
 		changeVarType.setVariableID(id);
 		changeVarType.setNewType(type);
@@ -202,6 +208,10 @@ public class IVPController {
 		removeChild.setChildID(childID);
 		removeChild.setContainerID(containerID);
 		removeChild.execute();
+	}
+
+	public void setConsole(IVPConsoleUI ivpConsoleUI) {
+		program.setConsoleListener(ivpConsoleUI);
 	}
 
 }

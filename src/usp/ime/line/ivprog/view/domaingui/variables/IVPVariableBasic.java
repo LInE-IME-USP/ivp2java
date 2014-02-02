@@ -195,7 +195,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI{
 		add(equalLabel);
 	}
 
-	public void setVariableType(short type){
+	public void setVariableType(String type){
 		variable.setVariableType(type);
 		changeVariableType();
 	}
@@ -237,12 +237,8 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI{
 	}
 	private class ConfigTypeActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Popup menu item ["
-		            + e.getActionCommand() + "] was pressed.");
-			
 			String command = e.getActionCommand();
 			if (command.equals("Inteira")) {
-				System.out.println("set inteira");
 				Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_INTEGER);
 				Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
 				changeVariableType();

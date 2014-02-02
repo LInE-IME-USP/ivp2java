@@ -80,7 +80,7 @@ public class DataFactory implements IDataFactory {
 	 * @see usp.ime.line.ivprog.components.databuilder.dataobjetcs.IDataFactory#
 	 * createOperation()
 	 */
-	public DataObject createOperation() {
+	public DataObject createExpression() {
 		Operation op = new Operation(Operation.STRING_CLASS, Operation.STRING_CLASS+" "+objectID);
 		op.setUniqueID(""+objectID++);
 		return op;

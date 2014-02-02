@@ -45,12 +45,14 @@ public class Print extends CodeComponent {
 	}
 
 	public String toJavaString() {
-		return null;
+		String str = " bsh.console.println(";
+		Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
+		str += e.toJavaString();
+		str += ");";
+		return str;
 	}
 
-	@Override
 	public boolean equals(DomainObject o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

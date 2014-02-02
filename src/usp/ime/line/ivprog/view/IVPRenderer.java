@@ -63,7 +63,6 @@ public class IVPRenderer {
 		}else{ // It's an operation 
 			if(expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND){
 				exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
-				
 			}else{
 				exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());	
 			}
@@ -108,8 +107,6 @@ public class IVPRenderer {
 	
 	private JComponent renderWrite(Print p){
 		PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
-		print.setModelParent(p.getParentID());
-		print.setModelScope(p.getScopeID());
 		Services.getService().getViewMapping().put(p.getUniqueID(), print);
 		return print;
 	}

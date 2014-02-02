@@ -38,7 +38,7 @@ public interface IDataFactory {
 	 * 
 	 * @return
 	 */
-	public DataObject createOperation();
+	public DataObject createExpression();
 
 	/**
 	 * Return a DataObject that represents the IfElse domain object.

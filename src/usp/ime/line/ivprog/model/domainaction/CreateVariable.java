@@ -10,6 +10,7 @@ public class CreateVariable extends DomainAction{
 	private IVPProgram model;
 	private String scopeID;
 	private String varID;
+	private String initValue;
 	
 	public CreateVariable(String name, String description) {
 		super(name, description);
@@ -23,7 +24,7 @@ public class CreateVariable extends DomainAction{
 		if(isRedo()){
 			model.restoreVariable(scopeID, varID, _currentState);
 		} else {
-			varID = model.createVariable(scopeID, _currentState);
+			varID = model.createVariable(scopeID, initValue,_currentState);
 		}
 	}
 
@@ -49,6 +50,14 @@ public class CreateVariable extends DomainAction{
 
 	public void setVarID(String varID) {
 		this.varID = varID;
+	}
+
+	public String getInitValue() {
+		return initValue;
+	}
+
+	public void setInitValue(String initValue) {
+		this.initValue = initValue;
 	}
 
 

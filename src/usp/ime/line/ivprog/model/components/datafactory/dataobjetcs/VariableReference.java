@@ -32,7 +32,7 @@ public class VariableReference extends Reference {
 			setReferenceType(var.getVariableType());
 		}else{
 			setReferencedName(null);
-			setReferenceType((short) -1);
+			setReferenceType("-1");
 		}
 	}
 
@@ -45,11 +45,10 @@ public class VariableReference extends Reference {
 	}
 
 	public String toJavaString() {
-		return null;
+		return " "+getReferencedName()+" ";
 	}
 
 	public boolean equals(DomainObject o) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -321,6 +321,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 
 	private void initLabel() {
 		selectLabel = new JLabel(ResourceBundleIVP.getString("ExpressionBaseUI.selectLabel.text"));
+		selectLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
 		add(selectLabel);
 	}
 	
@@ -381,7 +382,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
 	
 	//BEGIN: Expression listener methods
 	public void expressionCreated(String holder, String id, String context) {
+		
+		
+		
 		if(holder == parentModelID && operationContext.equals(context)){
+			
+			System.out.println("holder "+holder+" expressao "+id+" inicial era "+currentModelID);
+			
 			JComponent lastExp = expression;
 			if(expression != null)
 				remove(expression);

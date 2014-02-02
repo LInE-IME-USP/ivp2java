@@ -1,11 +1,11 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
-import usp.ime.line.ivprog.model.IVPConstants;
+import usp.ime.line.ivprog.model.utils.IVPConstants;
 
 public abstract class Reference extends Expression {
 
 	protected String referencedName = "";
-	protected short referenceType = -1;
+	protected String referenceType = "-1";
 
 	public Reference(String name, String description) {
 		super(name, description);
@@ -34,7 +34,7 @@ public abstract class Reference extends Expression {
 	 * @see IVPConstants
 	 * @return the referenceType
 	 */
-	public short getReferenceType() {
+	public String getReferenceType() {
 		return referenceType;
 	}
 
@@ -44,7 +44,7 @@ public abstract class Reference extends Expression {
 	 * @param referencedType
 	 *            the referenceType to set
 	 */
-	public void setReferenceType(short refType) {
+	public void setReferenceType(String refType) {
 		referenceType = refType;
 	}
 

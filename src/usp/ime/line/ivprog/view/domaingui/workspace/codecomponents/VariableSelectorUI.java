@@ -85,6 +85,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 
 	private void initLabel() {
 		nameLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+		nameLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
 		add(nameLabel);
 	}
 	
@@ -134,7 +135,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
 		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
 		Vector variables = f.getLocalVariableMap().toVector();
-		
 		for(int i = 0; i < variables.size(); i++){
 			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
 			String name = (var).getVariableName();
@@ -217,7 +217,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	
 	public void changeVariable(String id) { }
 	
-	
 	private String lastRemoved= "";
 	
 	public void removedVariable(String id) { 
@@ -298,7 +297,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
 	}
 	
 	public void changeVariableValue(String id, String value) { }
-	public void changeVariableType(String id, short type) { }
+	public void changeVariableType(String id, String type) { }
 	
 	public void variableRestored(String id) { 
 		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
