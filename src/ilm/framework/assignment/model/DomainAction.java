@@ -8,12 +8,12 @@ import java.util.Observable;
 
 public abstract class DomainAction extends Observable implements Cloneable, Serializable {
 
-    private String _name;
-    protected String _description;
-    protected Vector _parameterList;
+    private String            _name;
+    protected String          _description;
+    protected Vector          _parameterList;
     protected AssignmentState _currentState;
-    private boolean _isUndo;
-    private boolean _isRedo;
+    private boolean           _isUndo;
+    private boolean           _isRedo;
 
     public DomainAction(String name, String description) {
         _name = name;
@@ -22,10 +22,8 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     }
 
     /**
-     * Defines the DomainModel on which this action is executed. The concrete
-     * DomainAction classes must have an attribute that is from a class that
-     * inherits from DomainModel, and this method set its value. It is called
-     * internally from the framework.
+     * Defines the DomainModel on which this action is executed. The concrete DomainAction classes must have an attribute that is from a class that inherits from DomainModel, and this method set its
+     * value. It is called internally from the framework.
      * 
      * @param an
      *            instance of a class that inherits from DomainModel
@@ -35,8 +33,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     public abstract void setDomainModel(DomainModel model);
 
     /**
-     * Template Method that is called when this action is being executed. It
-     * encapsulates Hook Method called "executeAction"
+     * Template Method that is called when this action is being executed. It encapsulates Hook Method called "executeAction"
      */
     public final void execute() {
         executeAction();
@@ -47,16 +44,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     }
 
     /**
-     * Hook Method that must be implemented to call methods from DomainModel
-     * when this action is being executed
+     * Hook Method that must be implemented to call methods from DomainModel when this action is being executed
      * 
      * @see example.ilm.model.ActionAddSubString
      */
     protected abstract void executeAction();
 
     /**
-     * Template Method that is called when this action is being undone. It
-     * encapsulates Hook Method called "undoAction"
+     * Template Method that is called when this action is being undone. It encapsulates Hook Method called "undoAction"
      */
     public final void undo() {
         undoAction();
@@ -66,16 +61,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     }
 
     /**
-     * Hook Method that must be implemented to call methods from DomainModel
-     * when this action is being undone
+     * Hook Method that must be implemented to call methods from DomainModel when this action is being undone
      * 
      * @see example.ilm.model.ActionAddSubString
      */
     protected abstract void undoAction();
 
     /**
-     * @return a boolean that indicates whether this action is a "undoing"
-     *         action
+     * @return a boolean that indicates whether this action is a "undoing" action
      */
     public final boolean isUndo() {
         return _isUndo;
@@ -92,16 +85,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     }
 
     /**
-     * @return a boolean that indicates whether this action is a "redoing"
-     *         action
+     * @return a boolean that indicates whether this action is a "redoing" action
      */
     public final boolean isRedo() {
         return _isRedo;
     }
 
     /**
-     * Defines the list of DomainObject which are the parameters that will be
-     * used for the execution of this action
+     * Defines the list of DomainObject which are the parameters that will be used for the execution of this action
      * 
      * @param a
      *            list of DomainObject

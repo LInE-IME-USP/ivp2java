@@ -17,8 +17,8 @@ import ilm.framework.modules.IlmModule;
 public class IlmSystemFactory extends SystemFactory {
 
     public DomainModel createDomainModel() {
-    	IVPProgram program = new IVPProgram(); 
-    	Services.getService().getController().setProgram(program);
+        IVPProgram program = new IVPProgram();
+        Services.getService().getController().setProgram(program);
         return program;
     }
 
@@ -28,15 +28,13 @@ public class IlmSystemFactory extends SystemFactory {
 
     public DomainGUI createDomainGUI(SystemConfig config, DomainModel model) {
         IVPDomainGUI domainGUI = new IVPDomainGUI();
-    	Services.getService().getController().setGui(domainGUI);
-    	Services.getService().getController().initializeModel();
+        Services.getService().getController().setGui(domainGUI);
+        Services.getService().getController().initializeModel();
         Services.getService().getController().initDomainActionList(model);
         return domainGUI;
     }
 
-    public AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition,
-            AssignmentState initial, AssignmentState current, AssignmentState expected,
-            HashMap config, HashMap metadata) {
+    public AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition, AssignmentState initial, AssignmentState current, AssignmentState expected, HashMap config, HashMap metadata) {
         AuthoringGUI gui = new IlmAuthoringGUI();
         gui.setComponents(config, domainGUI, metadata);
         gui.setAssignment(proposition, initial, current, expected);

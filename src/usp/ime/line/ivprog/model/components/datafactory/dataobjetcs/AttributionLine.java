@@ -5,85 +5,94 @@ import usp.ime.line.ivprog.Services;
 
 public class AttributionLine extends CodeComponent {
 
-	private String leftVariable = null;
-	private String rightExpression = null;
-	private short leftVariableType = -1;
-	public static final String STRING_CLASS = "attline";
+    private String             leftVariable     = null;
+    private String             rightExpression  = null;
+    private String             leftVariableType = "-1";
+    public static final String STRING_CLASS     = "attline";
 
-	public AttributionLine(String name, String description) {
-		super(name, description);
-	}
-	
-	/**
-	 * @return the leftVariable
-	 */
-	public String getLeftVariableID() {
-		return leftVariable;
-	}
+    public AttributionLine(String name, String description) {
+        super(name, description);
+    }
 
-	/**
-	 * @param leftVariable
-	 *            the leftVariable to set
-	 */
-	public void setLeftVariableID(String leftVariable) {
-		this.leftVariable = leftVariable;
-	}
+    /**
+     * @return the leftVariable
+     */
+    public String getLeftVariableID() {
+        return leftVariable;
+    }
 
-	/**
-	 * @return the rightExpression
-	 */
-	public String getRightExpressionID() {
-		return rightExpression;
-	}
+    /**
+     * @param leftVariable
+     *            the leftVariable to set
+     */
+    public void setLeftVariableID(String leftVariable) {
+        this.leftVariable = leftVariable;
+    }
 
-	/**
-	 * @param rightExpression the rightExpression to set
-	 */
-	public void setRightExpression(String rightExpression) {
-		this.rightExpression = rightExpression;
-	}
+    /**
+     * @return the rightExpression
+     */
+    public String getRightExpressionID() {
+        return rightExpression;
+    }
 
-	/**
-	 * @return the leftVariableType
-	 */
-	public short getLeftVariableType() {
-		return leftVariableType;
-	}
+    /**
+     * @param rightExpression
+     *            the rightExpression to set
+     */
+    public void setRightExpression(String rightExpression) {
+        this.rightExpression = rightExpression;
+    }
 
-	/**
-	 * @param leftVariableType
-	 *            the leftVariableType to set
-	 */
-	public void setLeftVariableType(short leftVariableType) {
-		this.leftVariableType = leftVariableType;
-	}
+    /**
+     * @return the leftVariableType
+     */
+    public String getLeftVariableType() {
+        return leftVariableType;
+    }
 
-	/**
-	 * Removes the right side of the attribution line and return it.
-	 */
-	public String removeRightExpression() {
-		String rightExpID = rightExpression;
-		rightExpression = "";
-		return rightExpID;
-	}
+    /**
+     * @param leftVariableType
+     *            the leftVariableType to set
+     */
+    public void setLeftVariableType(String leftVariableType) {
+        this.leftVariableType = leftVariableType;
+    }
 
-	public String toXML() {
-		Variable varLeft = (Variable) Services.getService().getModelMapping().get(leftVariable);
-		Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
-		String str = "<dataobject class=\"attline\">" + "<id>" + getUniqueID()
-				+ "</id>" + "<variabletype>" + leftVariableType
-				+ "</variabletype>" + "<left>" + varLeft.toXML()
-				+ "</left>" + "<right>" + rightExp.toXML() + "</right>"
-				+ "</dataobject>";
-		return str;
-	}
+    /**
+     * Removes the right side of the attribution line and return it.
+     */
+    public String removeRightExpression() {
+        String rightExpID = rightExpression;
+        rightExpression = "";
+        return rightExpID;
+    }
 
-	public String toJavaString() {
-		return null;
-	}
+    public String toXML() {
+        VariableReference varLeft = (VariableReference) Services.getService().getModelMapping().get(leftVariable);
+        Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
+        String str = "<dataobject class=\"attline\">" + "<id>" + getUniqueID() + "</id>" + "<variabletype>" + leftVariableType + "</variabletype>" + "<left>" + varLeft.toXML() + "</left>" + "<right>"
+                + rightExp.toXML() + "</right>" + "</dataobject>";
+        return str;
+    }
 
-	public boolean equals(DomainObject o) {
-		return ((DataObject)o).getUniqueID() == getUniqueID();
-	}
+    public String toJavaString() {
+        String str = "";
+        VariableReference varLeft = (VariableReference) Services.getService().getModelMapping().get(leftVariable);
+        Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
+        System.out.println(varLeft + " " + rightExp);
+        str += varLeft.toJavaString() + " = " + rightExp.toJavaString() + "; ";
+        return str;
+    }
+
+    public boolean equals(DomainObject o) {
+        return ((DataObject) o).getUniqueID() == getUniqueID();
+    }
+
+    public void updateParent(String lastExp, String newExp, String operationContext) {
+        if (rightExpression == lastExp || rightExpression == null) {
+            rightExpression = newExp;
+        }
+    }
 
 }

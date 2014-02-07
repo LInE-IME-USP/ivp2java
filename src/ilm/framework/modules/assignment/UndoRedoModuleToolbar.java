@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 public class UndoRedoModuleToolbar extends IlmModuleToolbar {
 
     private static final long serialVersionUID = 1L;
-    private UndoRedoModule _undoRedo;
-    private JButton _undoButton;
-    private JButton _redoButton;
+    private UndoRedoModule    _undoRedo;
+    private JButton           _undoButton;
+    private JButton           _redoButton;
 
     public UndoRedoModuleToolbar() {
         _undoButton = makeButton("undo", "UNDO", "Undo the last action made", "Undo action");

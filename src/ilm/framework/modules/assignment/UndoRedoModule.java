@@ -110,8 +110,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
     }
 
     public String getStringContent(DomainConverter converter, int index) {
-        if (((Stack) _undoStack.get(index)).size() == 0
-                & ((Stack) _redoStack.get(index)).size() == 0) {
+        if (((Stack) _undoStack.get(index)).size() == 0 & ((Stack) _redoStack.get(index)).size() == 0) {
             return "<" + _name + "/>";
         }
         String string = "<" + _name + ">";
@@ -153,13 +152,11 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
 
     public void setState(AssignmentState state) {
         for (int i = 0; i < ((Stack) _undoStack.get(_undoStack.size() - 1)).size(); i++) {
-            DomainAction action = (DomainAction) ((Stack) _undoStack.get(_undoStack.size() - 1))
-                    .get(i);
+            DomainAction action = (DomainAction) ((Stack) _undoStack.get(_undoStack.size() - 1)).get(i);
             action.setState(state);
         }
         for (int i = 0; i < ((Stack) _redoStack.get(_redoStack.size() - 1)).size(); i++) {
-            DomainAction action = (DomainAction) ((Stack) _redoStack.get(_redoStack.size() - 1))
-                    .get(i);
+            DomainAction action = (DomainAction) ((Stack) _redoStack.get(_redoStack.size() - 1)).get(i);
             action.setState(state);
         }
     }

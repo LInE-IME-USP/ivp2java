@@ -23,8 +23,7 @@ public class AutomaticCheckingModule extends OperationModule implements Serializ
         if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) {
             return 0;
         }
-        return _model.AutomaticChecking(_assignmentList.getCurrentState(_assignmentIndex),
-                _assignmentList.getExpectedAnswer(_assignmentIndex));
+        return _model.AutomaticChecking(_assignmentList.getCurrentState(_assignmentIndex), _assignmentList.getExpectedAnswer(_assignmentIndex));
     }
 
     public String getAnswer() {
@@ -37,8 +36,7 @@ public class AutomaticCheckingModule extends OperationModule implements Serializ
     }
 
     public void print() {
-        System.out.println("Name: " + _name + " index: " + _assignmentIndex + " model: "
-                + _model.toString());
+        System.out.println("Name: " + _name + " index: " + _assignmentIndex + " model: " + _model.toString());
     }
 
     public boolean hasExpectedAnswer() {

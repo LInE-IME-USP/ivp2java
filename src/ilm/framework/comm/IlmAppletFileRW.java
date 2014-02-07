@@ -21,9 +21,7 @@ public class IlmAppletFileRW implements ICommunication {
         return null;
     }
 
-    public ZipFile writeAssignmentPackage(String packageName, String metadata,
-            Vector resourceNameList, Vector resourceList, Vector assignmentNameList,
-            Vector assignmentList) throws IOException {
+    public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) throws IOException {
         // TODO Auto-generated method stub
         return null;
     }

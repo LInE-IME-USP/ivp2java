@@ -19,50 +19,51 @@ import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectUI {
-	
-	private String parentModelID;
-	private String thisModelID;
-	private String scopeModelID;
-	private JPanel contentPanel;
-	private JPanel gripArea;
-	private JPanel trashCanPanel;
-	private JPanel panel;
-	
-	public CodeBaseUI(){
-		setLayout(new BorderLayout());
-		setArcs(new Dimension(15,15));
-		initGripArea();
-		initCompositePanel();
-		initTrashCan();
-	}
 
-	private void initTrashCan() {
-		trashCanPanel = new JPanel(new BorderLayout());
-		Action action = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().removeChild(parentModelID, thisModelID);
-			}
-		};
-		action.putValue(Action.SMALL_ICON,new ImageIcon(CodeBaseUI.class.getResource("/usp/ime/line/resources/icons/trash16x16.png")));
-		action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("removeComponent"));
-		JButton btn = new JButton(action);
-		btn.setUI(new IconButtonUI());
-		trashCanPanel.setBorder(new EmptyBorder(3,3,3,3));
-		trashCanPanel.setOpaque(false);
-		trashCanPanel.add(btn, BorderLayout.NORTH);
-		add(trashCanPanel, BorderLayout.EAST);
-	}
+    private String parentModelID;
+    private String thisModelID;
+    private String scopeModelID;
+    private JPanel contentPanel;
+    private JPanel gripArea;
+    private JPanel trashCanPanel;
+    private JPanel panel;
 
-	private void initCompositePanel() {
-		contentPanel = new JPanel(new BorderLayout());
-		contentPanel.setOpaque(false);
-		contentPanel.setBorder(new EmptyBorder(3,3,3,3));
-		add(contentPanel, BorderLayout.CENTER);
-	}
+    public CodeBaseUI(String modelID) {
+        thisModelID = modelID;
+        setLayout(new BorderLayout());
+        setArcs(new Dimension(15, 15));
+        initGripArea();
+        initCompositePanel();
+        initTrashCan();
+    }
 
-	private void initGripArea() {
-		GripArea grip = new GripArea();
-		gripArea = new JPanel();
+    private void initTrashCan() {
+        trashCanPanel = new JPanel(new BorderLayout());
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                Services.getService().getController().removeChild(parentModelID, thisModelID);
+            }
+        };
+        action.putValue(Action.SMALL_ICON, new ImageIcon(CodeBaseUI.class.getResource("/usp/ime/line/resources/icons/trash16x16.png")));
+        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("removeComponent"));
+        JButton btn = new JButton(action);
+        btn.setUI(new IconButtonUI());
+        trashCanPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
+        trashCanPanel.setOpaque(false);
+        trashCanPanel.add(btn, BorderLayout.NORTH);
+        add(trashCanPanel, BorderLayout.EAST);
+    }
+
+    private void initCompositePanel() {
+        contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setOpaque(false);
+        contentPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
+        add(contentPanel, BorderLayout.CENTER);
+    }
+
+    private void initGripArea() {
+        GripArea grip = new GripArea(thisModelID);
+        gripArea = new JPanel();
         BorderLayout bl_gripArea = new BorderLayout();
         bl_gripArea.setHgap(2);
         gripArea.setLayout(bl_gripArea);
@@ -71,35 +72,34 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         gripArea.add(grip, BorderLayout.CENTER);
         gripArea.setOpaque(false);
         add(gripArea, BorderLayout.WEST);
-	}
+    }
 
+    public String getModelID() {
+        return thisModelID;
+    }
 
-	public String getModelID() {
-		return thisModelID;
-	}
-	
-	public String getModelParent() {
-		return parentModelID;
-	}
+    public String getModelParent() {
+        return parentModelID;
+    }
 
-	public String getModelScope() {
-		return scopeModelID;
-	}
+    public String getModelScope() {
+        return scopeModelID;
+    }
 
-	public void setModelID(String id) {
-		thisModelID = id;
-	}
+    public void setModelID(String id) {
+        thisModelID = id;
+    }
 
-	public void setModelParent(String id) {
-		parentModelID = id;
-	}
+    public void setModelParent(String id) {
+        parentModelID = id;
+    }
 
-	public void setModelScope(String id) {
-		scopeModelID = id;
-	}
+    public void setModelScope(String id) {
+        scopeModelID = id;
+    }
 
-	protected void addContentPanel(JPanel panel){
-		contentPanel.add(panel);
-	}
+    protected void addContentPanel(JPanel panel) {
+        contentPanel.add(panel);
+    }
 
 }

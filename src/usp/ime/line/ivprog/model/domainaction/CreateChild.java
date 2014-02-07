@@ -5,60 +5,60 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class CreateChild extends DomainAction {
-	
-	private IVPProgram model;
-	private String containerID;
-	private String scopeID;
-	private String objectID;
-	private short classID;
-	private int index = 0;
 
-	public CreateChild(String name, String description) {
-		super(name, description);
-	}
+    private IVPProgram model;
+    private String     containerID;
+    private String     scopeID;
+    private String     objectID;
+    private short      classID;
+    private int        index = 0;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+    public CreateChild(String name, String description) {
+        super(name, description);
+    }
 
-	protected void executeAction() {
-		if(isRedo()){
-			model.restoreChild(containerID, objectID, index, _currentState);
-		}else{
-			objectID = model.newChild(containerID, classID, _currentState);
-		}
-	}
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		index = model.removeChild(containerID, objectID, _currentState);
-	}
+    protected void executeAction() {
+        if (isRedo()) {
+            model.restoreChild(containerID, objectID, index, _currentState);
+        } else {
+            objectID = model.newChild(containerID, classID, _currentState);
+        }
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    protected void undoAction() {
+        index = model.removeChild(containerID, objectID, _currentState);
+    }
 
-	public String getObjectID() {
-		return objectID;
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public void setObjectID(String objectID) {
-		this.objectID = objectID;
-	}
+    public String getObjectID() {
+        return objectID;
+    }
 
-	public short getClassID() {
-		return classID;
-	}
+    public void setObjectID(String objectID) {
+        this.objectID = objectID;
+    }
 
-	public void setClassID(short classID) {
-		this.classID = classID;
-	}
+    public short getClassID() {
+        return classID;
+    }
 
-	public String getContainerID() {
-		return containerID;
-	}
+    public void setClassID(short classID) {
+        this.classID = classID;
+    }
 
-	public void setContainerID(String containerID) {
-		this.containerID = containerID;
-	}
+    public String getContainerID() {
+        return containerID;
+    }
+
+    public void setContainerID(String containerID) {
+        this.containerID = containerID;
+    }
 
 }

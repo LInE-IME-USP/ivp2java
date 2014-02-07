@@ -8,5 +8,5 @@ public interface IAssignmentOperator {
     public DomainConverter getConverter();
 
     public ICommunication getFileRW();
-    
+
 }

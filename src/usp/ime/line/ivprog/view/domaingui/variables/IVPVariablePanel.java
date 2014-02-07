@@ -48,190 +48,190 @@ import javax.swing.border.EmptyBorder;
 
 public class IVPVariablePanel extends JPanel implements IVariableListener {
 
-	private static final long serialVersionUID = -2214975678822644250L;
-	private JPanel container;
-	private JButton addVarBtn;
-	private RoundedJPanel varPanel;
-	private JButton addParamBtn;
-	private RoundedJPanel paramPanel;
-	private String scopeID;
-	private Vector variableList;
-	private Vector paramList;
-	
-	private TreeMap varMap;
-	private TreeMap paramMap;
-	
-	public IVPVariablePanel(String scopeID, boolean isMain) {
-		setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
-		this.scopeID = scopeID;
-		initialization(isMain);
-		Services.getService().getController().getProgram().addVariableListener(this);
-	}
+    private static final long serialVersionUID = -2214975678822644250L;
+    private JPanel            container;
+    private JButton           addVarBtn;
+    private RoundedJPanel     varPanel;
+    private JButton           addParamBtn;
+    private RoundedJPanel     paramPanel;
+    private String            scopeID;
+    private Vector            variableList;
+    private Vector            paramList;
 
-	private void initialization(boolean isMain) {
-		initVectors();
-		initLayout();
-		initContainer();
-		if (!isMain) {
-			initParamBtn();
-			initParamPanel();
-		}
-		initAddVarBtn();
-		initVarPanel();
-	}
+    private TreeMap           varMap;
+    private TreeMap           paramMap;
 
-	private void initVectors() {
-		variableList = new Vector();
-		paramList = new Vector();
-		varMap = new TreeMap();
-		paramMap = new TreeMap();
-	}
+    public IVPVariablePanel(String scopeID, boolean isMain) {
+        setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+        this.scopeID = scopeID;
+        initialization(isMain);
+        Services.getService().getController().getProgram().addVariableListener(this);
+    }
 
-	private void initLayout() {
-		setBackground(FlatUIColors.MAIN_BG);
-		setLayout(new BorderLayout(0, 0));
-	}
+    private void initialization(boolean isMain) {
+        initVectors();
+        initLayout();
+        initContainer();
+        if (!isMain) {
+            initParamBtn();
+            initParamPanel();
+        }
+        initAddVarBtn();
+        initVarPanel();
+    }
 
-	private void initParamPanel() {
-		paramPanel = new RoundedJPanel();
-		paramPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, paramPanel,
-				paramPanel.getClass(), 1));
-		GridBagConstraints gbc_paramPanel = new GridBagConstraints();
-		gbc_paramPanel.insets = new Insets(2, 0, 2, 0);
-		gbc_paramPanel.fill = GridBagConstraints.BOTH;
-		gbc_paramPanel.gridx = 1;
-		gbc_paramPanel.gridy = 1;
-		container.add(paramPanel, gbc_paramPanel);
-	}
+    private void initVectors() {
+        variableList = new Vector();
+        paramList = new Vector();
+        varMap = new TreeMap();
+        paramMap = new TreeMap();
+    }
 
-	private void initParamBtn() {
-		Action action = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().addParameter(scopeID);
-			}
-		};
-		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_param.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,"Adiciona um novo parâmetro à função:" + "Principal");
-		addParamBtn = new JButton(action);
-		addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
-		addParamBtn.setUI(new IconButtonUI());
-		addParamBtn.setPreferredSize(new Dimension(95, 25));
-		GridBagConstraints gbc_addParamBtn = new GridBagConstraints();
-		gbc_addParamBtn.anchor = GridBagConstraints.WEST;
-		gbc_addParamBtn.insets = new Insets(3, 3, 3, 3);
-		gbc_addParamBtn.gridx = 0;
-		gbc_addParamBtn.gridy = 1;
-		container.add(addParamBtn, gbc_addParamBtn);
-	}
+    private void initLayout() {
+        setBackground(FlatUIColors.MAIN_BG);
+        setLayout(new BorderLayout(0, 0));
+    }
 
-	private void initVarPanel() {
-		varPanel = new RoundedJPanel();
-		varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel, varPanel.getClass(), 1));
-		GridBagConstraints gbc_varPanel = new GridBagConstraints();
-		gbc_varPanel.insets = new Insets(5, 5, 5, 5);
-		gbc_varPanel.fill = GridBagConstraints.BOTH;
-		gbc_varPanel.gridx = 1;
-		gbc_varPanel.gridy = 0;
-		container.add(varPanel, gbc_varPanel);
-	}
+    private void initParamPanel() {
+        paramPanel = new RoundedJPanel();
+        paramPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, paramPanel, paramPanel.getClass(), 1));
+        GridBagConstraints gbc_paramPanel = new GridBagConstraints();
+        gbc_paramPanel.insets = new Insets(2, 0, 2, 0);
+        gbc_paramPanel.fill = GridBagConstraints.BOTH;
+        gbc_paramPanel.gridx = 1;
+        gbc_paramPanel.gridy = 1;
+        container.add(paramPanel, gbc_paramPanel);
+    }
 
-	private void initAddVarBtn() {
-		Action action = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Services.getService().getController().addVariable(scopeID,"0");
-			}
-		};
-		action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-		action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
-		addVarBtn = new JButton(action);
-		addVarBtn.setUI(new IconButtonUI());
-		GridBagConstraints gbc_addVarBtn = new GridBagConstraints();
-		gbc_addVarBtn.anchor = GridBagConstraints.NORTHWEST;
-		gbc_addVarBtn.insets = new Insets(3, 3, 3, 3);
-		gbc_addVarBtn.gridy = 0;
-		container.add(addVarBtn, gbc_addVarBtn);
-	}
+    private void initParamBtn() {
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                Services.getService().getController().addParameter(scopeID);
+            }
+        };
+        action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_param.png")));
+        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        addParamBtn = new JButton(action);
+        addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
+        addParamBtn.setUI(new IconButtonUI());
+        addParamBtn.setPreferredSize(new Dimension(95, 25));
+        GridBagConstraints gbc_addParamBtn = new GridBagConstraints();
+        gbc_addParamBtn.anchor = GridBagConstraints.WEST;
+        gbc_addParamBtn.insets = new Insets(3, 3, 3, 3);
+        gbc_addParamBtn.gridx = 0;
+        gbc_addParamBtn.gridy = 1;
+        container.add(addParamBtn, gbc_addParamBtn);
+    }
 
-	private void initContainer() {
-		container = new JPanel();
-		container.setBorder(new EmptyBorder(0, 0, 5, 0));
-		container.setOpaque(false);
-		add(container, BorderLayout.CENTER);
-		GridBagLayout gbl_container = new GridBagLayout();
-		gbl_container.columnWidths = new int[] { 0, 0, 0 };
-		gbl_container.rowHeights = new int[] { 0, 0, 0 };
-		gbl_container.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gbl_container.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-		container.setLayout(gbl_container);
-	}
-	
-	public void repaintVarPanel(){
-		varPanel.removeAll();
-		Object[] keySetArray = varMap.keySet().toArray();
-		for(int i = 0; i < keySetArray.length; i++){
-			Component variableUI = (Component) varMap.get(keySetArray[i]);
-			if(variableUI != null)
-				varPanel.add(variableUI);
-		}
-		varPanel.revalidate();
-		varPanel.repaint();
-	}
-	
-	public void repaintParamPanel(){
-		paramPanel.removeAll();
-		String[] keySetArray =  (String[]) paramMap.keySet().toArray();
-		for(int i = 0; i < keySetArray.length; i++){
-			Component variableUI = (Component) paramMap.get(keySetArray[i]);
-			if(variableUI != null)
-				paramPanel.add(variableUI);
-		}
-		paramPanel.revalidate();
-		paramPanel.repaint();
-	}
+    private void initVarPanel() {
+        varPanel = new RoundedJPanel();
+        varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel, varPanel.getClass(), 1));
+        GridBagConstraints gbc_varPanel = new GridBagConstraints();
+        gbc_varPanel.insets = new Insets(5, 5, 5, 5);
+        gbc_varPanel.fill = GridBagConstraints.BOTH;
+        gbc_varPanel.gridx = 1;
+        gbc_varPanel.gridy = 0;
+        container.add(varPanel, gbc_varPanel);
+    }
 
-	public void addedVariable(String id) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
-		varMap.put(id, variable);
-		repaintVarPanel();
-	}
+    private void initAddVarBtn() {
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                Services.getService().getController().addVariable(scopeID, "0");
+            }
+        };
+        action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
+        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        addVarBtn = new JButton(action);
+        addVarBtn.setUI(new IconButtonUI());
+        GridBagConstraints gbc_addVarBtn = new GridBagConstraints();
+        gbc_addVarBtn.anchor = GridBagConstraints.NORTHWEST;
+        gbc_addVarBtn.insets = new Insets(3, 3, 3, 3);
+        gbc_addVarBtn.gridy = 0;
+        container.add(addVarBtn, gbc_addVarBtn);
+    }
 
-	public void changeVariable(String id) {
-		
-	}
+    private void initContainer() {
+        container = new JPanel();
+        container.setBorder(new EmptyBorder(0, 0, 5, 0));
+        container.setOpaque(false);
+        add(container, BorderLayout.CENTER);
+        GridBagLayout gbl_container = new GridBagLayout();
+        gbl_container.columnWidths = new int[] { 0, 0, 0 };
+        gbl_container.rowHeights = new int[] { 0, 0, 0 };
+        gbl_container.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+        gbl_container.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+        container.setLayout(gbl_container);
+    }
 
-	public void removedVariable(String id) {
-		varMap.put(id, null);
-		repaintVarPanel();
-	}
+    public void repaintVarPanel() {
+        varPanel.removeAll();
+        Object[] keySetArray = varMap.keySet().toArray();
+        for (int i = 0; i < keySetArray.length; i++) {
+            Component variableUI = (Component) varMap.get(keySetArray[i]);
+            if (variableUI != null)
+                varPanel.add(variableUI);
+        }
+        varPanel.revalidate();
+        varPanel.repaint();
+    }
 
-	public void changeVariableName(String id, String name, String lastName) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		if (variable != null) {
-			variable.setVariableName(name);
-		}
+    public void repaintParamPanel() {
+        paramPanel.removeAll();
+        String[] keySetArray = (String[]) paramMap.keySet().toArray();
+        for (int i = 0; i < keySetArray.length; i++) {
+            Component variableUI = (Component) paramMap.get(keySetArray[i]);
+            if (variableUI != null)
+                paramPanel.add(variableUI);
+        }
+        paramPanel.revalidate();
+        paramPanel.repaint();
+    }
 
-	}
+    public void addedVariable(String id) {
+        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
+        varMap.put(id, variable);
+        repaintVarPanel();
+    }
 
-	public void changeVariableValue(String id, String value) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		if(variable!=null){
-			variable.setVariableValue(value);
-		}
-	}
+    public void changeVariable(String id) {
 
-	public void changeVariableType(String id, String type) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		if(variable!=null){
-			variable.setVariableType(type);
-		}
-	}
+    }
 
-	public void variableRestored(String id) {
-		IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-		varMap.put(id, variable);
-		repaintVarPanel();
-	}
+    public void removedVariable(String id) {
+        varMap.put(id, null);
+        repaintVarPanel();
+    }
 
-	public void updateReference(String id) {}
-	
+    public void changeVariableName(String id, String name, String lastName) {
+        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+        if (variable != null) {
+            variable.setVariableName(name);
+        }
+
+    }
+
+    public void changeVariableValue(String id, String value) {
+        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+        if (variable != null) {
+            variable.setVariableValue(value);
+        }
+    }
+
+    public void changeVariableType(String id, String type) {
+        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+        if (variable != null) {
+            variable.setVariableType(type);
+        }
+    }
+
+    public void variableRestored(String id) {
+        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+        varMap.put(id, variable);
+        repaintVarPanel();
+    }
+
+    public void updateReference(String id) {
+    }
+
 }

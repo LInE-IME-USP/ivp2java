@@ -23,8 +23,7 @@ public class IlmDesktopFileRW implements ICommunication {
         File sourceZipFile = new File(packageName);
         try {
             ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
-            InputStream inMetadata = zipFile.getInputStream(zipFile
-                    .getEntry(IlmProtocol.METADATA_FILENAME));
+            InputStream inMetadata = zipFile.getInputStream(zipFile.getEntry(IlmProtocol.METADATA_FILENAME));
             String metadataContent = convertInputStreamToString(inMetadata);
             zipFile.close();
             return metadataContent;
@@ -40,8 +39,7 @@ public class IlmDesktopFileRW implements ICommunication {
         return null;
     }
 
-    public Vector readAssignmentFiles(String packageName, Vector assignmentFileList)
-            throws IOException {
+    public Vector readAssignmentFiles(String packageName, Vector assignmentFileList) throws IOException {
         File sourceZipFile = new File(packageName);
         try {
             ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
@@ -61,9 +59,7 @@ public class IlmDesktopFileRW implements ICommunication {
         return null;
     }
 
-    public ZipFile writeAssignmentPackage(String packageName, String metadata,
-            Vector resourceNameList, Vector resourceList, Vector assignmentNameList,
-            Vector assignmentList) {
+    public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) {
         writeFile(metadata, IlmProtocol.METADATA_FILENAME);
         for (int i = 0; i < assignmentNameList.size(); i++) {
             writeFile((String) assignmentList.get(i), (String) assignmentNameList.get(i));

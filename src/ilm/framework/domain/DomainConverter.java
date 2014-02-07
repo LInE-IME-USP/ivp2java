@@ -9,14 +9,12 @@ public interface DomainConverter {
      * Converts a string to a list of DomainObject
      * 
      * @param objectListDescription
-     * @return a list of DomainObjects created using the description. Return an
-     *         empty list if the string is empty or incompatible.
+     * @return a list of DomainObjects created using the description. Return an empty list if the string is empty or incompatible.
      * 
      * @see example.ilm.model.IlmDomainConverter for a simple example
      * 
      * @throws it
-     *             is not yet implemented but this method may in the future
-     *             throw exceptions due to parsing errors
+     *             is not yet implemented but this method may in the future throw exceptions due to parsing errors
      */
     public Vector convertStringToObject(String objectListDescription);
 
@@ -34,14 +32,12 @@ public interface DomainConverter {
      * Converts a string to a list of DomainAction
      * 
      * @param actionListDescription
-     * @return a list of DomainActions created using the description. Return an
-     *         empty list if the string is empty or incompatible.
+     * @return a list of DomainActions created using the description. Return an empty list if the string is empty or incompatible.
      * 
      * @see example.ilm.model.IlmDomainConverter for a simple example
      * 
      * @throws it
-     *             is not yet implemented but this method may in the future
-     *             throw exceptions due to parsing errors
+     *             is not yet implemented but this method may in the future throw exceptions due to parsing errors
      */
     public Vector convertStringToAction(String actionListDescription);
 

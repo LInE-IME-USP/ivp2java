@@ -9,42 +9,42 @@ import usp.ime.line.ivprog.Services;
 
 public class IVPVariableMap {
 
-	private HashMap map;
-	private boolean isLocalVarMap;
+    private HashMap map;
+    private boolean isLocalVarMap;
 
-	public IVPVariableMap(boolean isLocalVar) {
-		setLocalVarMap(isLocalVar);
-		map = new HashMap();
-	}
+    public IVPVariableMap(boolean isLocalVar) {
+        setLocalVarMap(isLocalVar);
+        map = new HashMap();
+    }
 
-	public void put(String key, Object o) {
-		map.put(key, o);
-	}
+    public void put(String key, Object o) {
+        map.put(key, o);
+    }
 
-	public Object get(String key) {
-		return map.get(key);
-	}
+    public Object get(String key) {
+        return map.get(key);
+    }
 
-	public Object remove(String key) {
-		Object o = map.remove(key);
-		return o;
-	}
+    public Object remove(String key) {
+        Object o = map.remove(key);
+        return o;
+    }
 
-	public Vector toVector() {
-		Iterator i = map.keySet().iterator();
-		Vector v = new Vector();
-		while (i.hasNext()) {
-			v.add(map.get(i.next()));
-		}
-		return v;
-	}
+    public Vector toVector() {
+        Iterator i = map.keySet().iterator();
+        Vector v = new Vector();
+        while (i.hasNext()) {
+            v.add(map.get(i.next()));
+        }
+        return v;
+    }
 
-	public boolean isLocalVarMap() {
-		return isLocalVarMap;
-	}
+    public boolean isLocalVarMap() {
+        return isLocalVarMap;
+    }
 
-	public void setLocalVarMap(boolean isLocalVarMap) {
-		this.isLocalVarMap = isLocalVarMap;
-	}
+    public void setLocalVarMap(boolean isLocalVarMap) {
+        this.isLocalVarMap = isLocalVarMap;
+    }
 
 }

@@ -75,8 +75,8 @@ public final class AssignmentState extends Observable {
         }
         return true;
     }
-    
-    public void updateState(DomainObject o){
+
+    public void updateState(DomainObject o) {
         setChanged();
         notifyObservers(o);
     }

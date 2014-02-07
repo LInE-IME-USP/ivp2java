@@ -7,8 +7,8 @@ import ilm.framework.config.SystemConfig;
 
 public class CommControl implements ICommunication {
 
-    private SystemConfig _config;
-    private IEncrypter _encrypter;
+    private SystemConfig   _config;
+    private IEncrypter     _encrypter;
     private ICommunication _fileRW;
 
     public CommControl(SystemConfig config) {
@@ -43,8 +43,7 @@ public class CommControl implements ICommunication {
 
     public Vector readAssignmentFiles(String packageName, Vector assignmentList) {
         try {
-            return _encrypter.decryptFromFile(_fileRW.readAssignmentFiles(packageName,
-                    assignmentList));
+            return _encrypter.decryptFromFile(_fileRW.readAssignmentFiles(packageName, assignmentList));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -52,13 +51,9 @@ public class CommControl implements ICommunication {
         return null;
     }
 
-    public ZipFile writeAssignmentPackage(String packageName, String metadata,
-            Vector resourceNameList, Vector resourceList, Vector assignmentNameList,
-            Vector assignmentList) {
+    public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) {
         try {
-            return _fileRW
-                    .writeAssignmentPackage(packageName, metadata, resourceNameList, resourceList,
-                            assignmentNameList, _encrypter.encryptFileContent(assignmentList));
+            return _fileRW.writeAssignmentPackage(packageName, metadata, resourceNameList, resourceList, assignmentNameList, _encrypter.encryptFileContent(assignmentList));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

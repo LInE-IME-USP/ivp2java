@@ -5,50 +5,50 @@ import usp.ime.line.ivprog.Services;
 
 public class VariableReference extends Reference {
 
-	private String referencedVariableID = null;
-	public static final String STRING_CLASS = "variablereference";
+    private String             referencedVariableID = null;
+    public static final String STRING_CLASS         = "variablereference";
 
-	public VariableReference(String name, String description) {
-		super(name, description);
-	}
-	
-	/**
-	 * Return the referenced variable.
-	 * @return
-	 */
-	public String getReferencedVariable() {
-		return referencedVariableID;
-	}
+    public VariableReference(String name, String description) {
+        super(name, description);
+    }
 
-	/**
-	 * Set the referenced variable.
-	 * @param referencedVar
-	 */
-	public void setReferencedVariable(String referencedVar) {
-		referencedVariableID = referencedVar;
-		if(referencedVar != null){
-			Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
-			setReferencedName(var.getVariableName());
-			setReferenceType(var.getVariableType());
-		}else{
-			setReferencedName(null);
-			setReferenceType("-1");
-		}
-	}
+    /**
+     * Return the referenced variable.
+     * 
+     * @return
+     */
+    public String getReferencedVariable() {
+        return referencedVariableID;
+    }
 
-	public String toXML() {
-		String str = "<dataobject class=\"variablereference\">" + "<id>"
-				+ getUniqueID() + "</id>" + "<type>" + getReferenceType()
-				+ "</type>" + "<referencedname>" + getReferencedName()
-				+ "</referencedname>";
-		return str;
-	}
+    /**
+     * Set the referenced variable.
+     * 
+     * @param referencedVar
+     */
+    public void setReferencedVariable(String referencedVar) {
+        referencedVariableID = referencedVar;
+        if (referencedVar != null) {
+            Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
+            setReferencedName(var.getVariableName());
+            setReferenceType(var.getVariableType());
+        } else {
+            setReferencedName(null);
+            setReferenceType("-1");
+        }
+    }
 
-	public String toJavaString() {
-		return " "+getReferencedName()+" ";
-	}
+    public String toXML() {
+        String str = "<dataobject class=\"variablereference\">" + "<id>" + getUniqueID() + "</id>" + "<type>" + getReferenceType() + "</type>" + "<referencedname>" + getReferencedName()
+                + "</referencedname>";
+        return str;
+    }
 
-	public boolean equals(DomainObject o) {
-		return false;
-	}
+    public String toJavaString() {
+        return " " + getReferencedName() + " ";
+    }
+
+    public boolean equals(DomainObject o) {
+        return false;
+    }
 }

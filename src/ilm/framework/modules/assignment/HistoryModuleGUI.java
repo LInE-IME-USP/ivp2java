@@ -14,9 +14,9 @@ import javax.swing.border.EmptyBorder;
 public class HistoryModuleGUI extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
-    private HistoryModule _history;
-    private JPanel contentPane;
-    private JList list;
+    private HistoryModule     _history;
+    private JPanel            contentPane;
+    private JList             list;
 
     public HistoryModuleGUI() {
         setBounds(100, 100, 200, 300);
@@ -34,8 +34,7 @@ public class HistoryModuleGUI extends JFrame implements Observer {
             _history = (HistoryModule) o;
             DefaultListModel listModel = new DefaultListModel();
             for (int i = 0; i < _history.getHistory().size(); i++) {
-                listModel
-                        .addElement(((DomainAction) _history.getHistory().get(i)).getDescription());
+                listModel.addElement(((DomainAction) _history.getHistory().get(i)).getDescription());
             }
             list.setModel(listModel);
         }

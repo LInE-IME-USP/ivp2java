@@ -4,67 +4,64 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
-public class ChangeExpressionSign extends DomainAction{
-	
-	private IVPProgram model;
-	private String expressionID;
-	private String context;
-	private short lastType;
-	private short newType;
-	
-	public ChangeExpressionSign(String name, String description) {
-		super(name, description);
-	}
+public class ChangeExpressionSign extends DomainAction {
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+    private IVPProgram model;
+    private String     expressionID;
+    private String     context;
+    private short      lastType;
+    private short      newType;
 
-	protected void executeAction() {
-		lastType = model.changeOperationSign(expressionID, context, newType, _currentState);
-	}
+    public ChangeExpressionSign(String name, String description) {
+        super(name, description);
+    }
 
-	protected void undoAction() {
-		model.changeOperationSign(expressionID, context, lastType, _currentState);
-	}
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    protected void executeAction() {
+        lastType = model.changeOperationSign(expressionID, context, newType, _currentState);
+    }
 
-	public String getExpressionID() {
-		return expressionID;
-	}
+    protected void undoAction() {
+        model.changeOperationSign(expressionID, context, lastType, _currentState);
+    }
 
-	public void setExpressionID(String expressionID) {
-		this.expressionID = expressionID;
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public short getLastType() {
-		return lastType;
-	}
+    public String getExpressionID() {
+        return expressionID;
+    }
 
-	public void setLastType(short lastType) {
-		this.lastType = lastType;
-	}
+    public void setExpressionID(String expressionID) {
+        this.expressionID = expressionID;
+    }
 
-	public short getNewType() {
-		return newType;
-	}
+    public short getLastType() {
+        return lastType;
+    }
 
-	public void setNewType(short newType) {
-		this.newType = newType;
-	}
+    public void setLastType(short lastType) {
+        this.lastType = lastType;
+    }
 
-	public String getContext() {
-		return context;
-	}
+    public short getNewType() {
+        return newType;
+    }
 
-	public void setContext(String context) {
-		this.context = context;
-	}
+    public void setNewType(short newType) {
+        this.newType = newType;
+    }
 
-	
-	
-	
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
 }

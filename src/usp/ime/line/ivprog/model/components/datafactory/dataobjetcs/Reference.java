@@ -4,51 +4,52 @@ import usp.ime.line.ivprog.model.utils.IVPConstants;
 
 public abstract class Reference extends Expression {
 
-	protected String referencedName = "";
-	protected String referenceType = "-1";
+    protected String referencedName = "";
+    protected String referenceType  = "-1";
 
-	public Reference(String name, String description) {
-		super(name, description);
-	}
-	/**
-	 * Get the object referenced.
-	 * 
-	 * @return
-	 */
-	public String getReferencedName() {
-		return referencedName;
-	}
+    public Reference(String name, String description) {
+        super(name, description);
+    }
 
-	/**
-	 * Set the referenced object name.
-	 * 
-	 * @param refName
-	 */
-	public void setReferencedName(String refName) {
-		referencedName = refName;
-	}
+    /**
+     * Get the object referenced.
+     * 
+     * @return
+     */
+    public String getReferencedName() {
+        return referencedName;
+    }
 
-	/**
-	 * Return the reference type. It might be int, double, string or boolean.
-	 * 
-	 * @see IVPConstants
-	 * @return the referenceType
-	 */
-	public String getReferenceType() {
-		return referenceType;
-	}
+    /**
+     * Set the referenced object name.
+     * 
+     * @param refName
+     */
+    public void setReferencedName(String refName) {
+        referencedName = refName;
+    }
 
-	/**
-	 * Set the reference type.
-	 * 
-	 * @param referencedType
-	 *            the referenceType to set
-	 */
-	public void setReferenceType(String refType) {
-		referenceType = refType;
-	}
+    /**
+     * Return the reference type. It might be int, double, string or boolean.
+     * 
+     * @see IVPConstants
+     * @return the referenceType
+     */
+    public String getReferenceType() {
+        return referenceType;
+    }
 
-	public abstract String toXML();
+    /**
+     * Set the reference type.
+     * 
+     * @param referencedType
+     *            the referenceType to set
+     */
+    public void setReferenceType(String refType) {
+        referenceType = refType;
+    }
 
-	public abstract String toJavaString();
+    public abstract String toXML();
+
+    public abstract String toJavaString();
 }

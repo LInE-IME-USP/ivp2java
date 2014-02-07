@@ -6,27 +6,27 @@ import ilm.framework.domain.DomainModel;
 
 public class CreateReference extends DomainAction {
 
-	private IVPProgram model;
-	private String referenceID;
-	
-	public CreateReference(String name, String description) {
-		super(name, description);
-	}
+    private IVPProgram model;
+    private String     referenceID;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+    public CreateReference(String name, String description) {
+        super(name, description);
+    }
 
-	protected void executeAction() {
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	}
+    protected void executeAction() {
 
-	protected void undoAction() {
+    }
 
-	}
+    protected void undoAction() {
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    }
+
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
 }

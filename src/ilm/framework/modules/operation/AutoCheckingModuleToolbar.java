@@ -10,14 +10,13 @@ import javax.swing.JOptionPane;
 
 public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
 
-    private static final long serialVersionUID = 1L;
-    private JButton button;
+    private static final long       serialVersionUID = 1L;
+    private JButton                 button;
     private AutomaticCheckingModule _module;
 
     public AutoCheckingModuleToolbar(AutomaticCheckingModule module) {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        button = makeButton("autochecking", "AUTOMATIC CHECKING",
-                "Auto evaluate of your assignment, giving you a grade", "Auto-evaluation");
+        button = makeButton("autochecking", "AUTOMATIC CHECKING", "Auto evaluate of your assignment, giving you a grade", "Auto-evaluation");
         button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
@@ -30,8 +29,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     }
 
     private void showEvaluation() {
-        JOptionPane.showMessageDialog(this, "Evaluation: " + _module.getEvaluation(), "Evaluation",
-                JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(this, "Evaluation: " + _module.getEvaluation(), "Evaluation", JOptionPane.OK_OPTION);
     }
 
     public void update(Observable arg0, Object arg1) {

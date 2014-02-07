@@ -37,15 +37,15 @@ import java.awt.Color;
 public class IlmBaseGUI extends BaseGUI {
 
     private static final long serialVersionUID = 1L;
-    private JPanel buttonsMenu;
-    private JPanel panel;
-    private JTabbedPane tabbedPane;
-    private JButton authoringBtn;
-    private JButton newAssBtn;
-    private JButton closeAssBtn;
-    private JButton openAssBtn;
-    private JButton saveAssBtn;
-    private int tabCount;
+    private JPanel            buttonsMenu;
+    private JPanel            panel;
+    private JTabbedPane       tabbedPane;
+    private JButton           authoringBtn;
+    private JButton           newAssBtn;
+    private JButton           closeAssBtn;
+    private JButton           openAssBtn;
+    private JButton           saveAssBtn;
+    private int               tabCount;
 
     public IlmBaseGUI() {
         setLayout(new BorderLayout(0, 0));
@@ -72,14 +72,10 @@ public class IlmBaseGUI extends BaseGUI {
             tabbedPane.setVisible(false);
             _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
             int index = _domainGUIList.size() - 1;
-            ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(0),
-                    _assignments.getCurrentState(0), _assignments.getIlmModuleList().values());
+            ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(0), _assignments.getCurrentState(0), _assignments.getIlmModuleList().values());
             panel.add((Component) _domainGUIList.get(index));
-            _authoringGUIList.add(_factory.createAuthoringGUI(
-                    (DomainGUI) _domainGUIList.get(index), _assignments.getProposition(0),
-                    _assignments.getInitialState(0), _assignments.getCurrentState(0),
-                    _assignments.getExpectedAnswer(0), _assignments.getConfig(0),
-                    _assignments.getMetadata(0)));
+            _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(0), _assignments.getInitialState(0), _assignments.getCurrentState(0),
+                    _assignments.getExpectedAnswer(0), _assignments.getConfig(0), _assignments.getMetadata(0)));
             setActiveAssignment();
         } else {
             panel.add(tabbedPane);
@@ -93,15 +89,12 @@ public class IlmBaseGUI extends BaseGUI {
     private void initAssignment(AssignmentState curState) {
         _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
         int index = _domainGUIList.size() - 1;
-        ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(index),
-                curState, _assignments.getIlmModuleList().values());
+        ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(index), curState, _assignments.getIlmModuleList().values());
         tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(index));
         tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
         setActiveAssignment();
-        _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index),
-                _assignments.getProposition(index), _assignments.getInitialState(index),
-                _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index),
-                _assignments.getConfig(index), _assignments.getMetadata(index)));
+        _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(index), _assignments.getInitialState(index),
+                _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index), _assignments.getConfig(index), _assignments.getMetadata(index)));
     }
 
     public void initToolbar(Collection moduleList) {
@@ -140,8 +133,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setAuthoringButton() {
-        authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING",
-                "Open assignment authoring window", "Start authoring");
+        authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING", "Open assignment authoring window", "Start authoring");
         buttonsMenu.add(authoringBtn);
         authoringBtn.addActionListener(new ActionListener() {
 
@@ -156,8 +148,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setNewAssignmentButton() {
-        newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT",
-                "Open an assignment in a new tab", "Start a new assignment");
+        newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT", "Open an assignment in a new tab", "Start a new assignment");
         buttonsMenu.add(newAssBtn);
         newAssBtn.addActionListener(new ActionListener() {
 
@@ -182,8 +173,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setCloseAssignmentButton() {
-        closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT",
-                "Close the assignment in this tab", "Close this assignment");
+        closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT", "Close the assignment in this tab", "Close this assignment");
         buttonsMenu.add(closeAssBtn);
         closeAssBtn.addActionListener(new ActionListener() {
 
@@ -225,8 +215,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setOpenAssignmentButton() {
-        openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE",
-                "Open an assignment file", "Open an assignment");
+        openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE", "Open an assignment file", "Open an assignment");
         buttonsMenu.add(openAssBtn);
         openAssBtn.addActionListener(new ActionListener() {
 
@@ -259,15 +248,13 @@ public class IlmBaseGUI extends BaseGUI {
         if (returnval == JFileChooser.APPROVE_OPTION) {
             return fc.getSelectedFile().getAbsolutePath();
         } else if (returnval == JFileChooser.ERROR_OPTION) {
-            JOptionPane.showMessageDialog(this, "Error while choosing file.", "Error file",
-                    JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(this, "Error while choosing file.", "Error file", JOptionPane.OK_OPTION);
         }
         return null;
     }
 
     protected void setSaveAssignmentButton() {
-        saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", "Save this assignment in a file",
-                "Save an assignment");
+        saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", "Save this assignment in a file", "Save an assignment");
         buttonsMenu.add(saveAssBtn);
         saveAssBtn.addActionListener(new ActionListener() {
 
@@ -286,9 +273,7 @@ public class IlmBaseGUI extends BaseGUI {
             if (((AuthoringGUI) _authoringGUIList.get(i)).getProposition().length() > 1) {
                 list.add(((AuthoringGUI) _authoringGUIList.get(i)).getAssignment());
             } else {
-                Assignment a = new Assignment(_assignments.getProposition(i),
-                        _assignments.getInitialState(i), _assignments.getCurrentState(i),
-                        _assignments.getExpectedAnswer(i));
+                Assignment a = new Assignment(_assignments.getProposition(i), _assignments.getInitialState(i), _assignments.getCurrentState(i), _assignments.getExpectedAnswer(i));
                 if (tabbedPane.getTabCount() == 0) {
                     a.setName(IlmProtocol.ASSIGNMENT_FILE_NODE + tabCount);
                 } else {

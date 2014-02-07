@@ -19,7 +19,7 @@ import ilm.framework.modules.IlmModule;
 
 public abstract class SystemFactory {
 
-    private DomainModel model;
+    private DomainModel     model;
     private DomainConverter converter;
 
     public final DomainModel getDomainModel(SystemConfig config) {
@@ -48,9 +48,8 @@ public abstract class SystemFactory {
         return gui;
     }
 
-    public abstract AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition,
-            AssignmentState initial, AssignmentState current, AssignmentState expected,
-            HashMap config, HashMap metadata);
+    public abstract AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition, AssignmentState initial, AssignmentState current, AssignmentState expected, HashMap config,
+            HashMap metadata);
 
     public JFrame createConfigGUI(HashMap map, String string) {
         return null;
@@ -64,8 +63,7 @@ public abstract class SystemFactory {
         return new CommControl(config);
     }
 
-    public final AssignmentControl createAssignmentControl(SystemConfig config,
-            ICommunication comm, DomainModel model, DomainConverter converter) {
+    public final AssignmentControl createAssignmentControl(SystemConfig config, ICommunication comm, DomainModel model, DomainConverter converter) {
         AssignmentControl assignControl = new AssignmentControl(config, comm, model, converter);
         for (int i = 0; i < getIlmModuleList().size(); i++) {
             assignControl.addModule((IlmModule) getIlmModuleList().get(i));

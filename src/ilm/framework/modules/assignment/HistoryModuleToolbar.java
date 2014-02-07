@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 public class HistoryModuleToolbar extends IlmModuleToolbar {
 
     private static final long serialVersionUID = 1L;
-    private HistoryModuleGUI _window;
-    private JButton button;
+    private HistoryModuleGUI  _window;
+    private JButton           button;
 
     public HistoryModuleToolbar() {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));

@@ -8,10 +8,10 @@ import ilm.framework.gui.BaseGUI;
 
 public final class SystemControl {
 
-    private SystemConfig _config;
+    private SystemConfig      _config;
     private AssignmentControl _assignmentControl;
-    private CommControl _comm;
-    private BaseGUI _gui;
+    private CommControl       _comm;
+    private BaseGUI           _gui;
 
     public void initialize(boolean isApplet, String[] parameterList, SystemFactory factory) {
         IParameterListParser parser;
@@ -27,8 +27,7 @@ public final class SystemControl {
 
     private void initComponents(SystemFactory factory) {
         _comm = factory.createCommControl(_config);
-        _assignmentControl = factory.createAssignmentControl(_config, _comm,
-                factory.getDomainModel(_config), factory.getDomainConverter());
+        _assignmentControl = factory.createAssignmentControl(_config, _comm, factory.getDomainModel(_config), factory.getDomainConverter());
         _gui = factory.createBaseGUI(_config, _assignmentControl, factory);
     }
 

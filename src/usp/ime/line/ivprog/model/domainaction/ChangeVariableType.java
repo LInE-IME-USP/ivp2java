@@ -5,46 +5,46 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableType extends DomainAction {
-	
-	private IVPProgram model;
-	private String lastType;
-	private String newType;
-	private String variableID;
-	
-	public ChangeVariableType(String name, String description) {
-		super(name, description);
-	}
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+    private IVPProgram model;
+    private String     lastType;
+    private String     newType;
+    private String     variableID;
 
-	protected void executeAction() {
-		lastType = model.changeVariableType(variableID, newType, _currentState);
-	}
+    public ChangeVariableType(String name, String description) {
+        super(name, description);
+    }
 
-	protected void undoAction() {
-		model.changeVariableType(variableID, lastType, _currentState);
-	}
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    protected void executeAction() {
+        lastType = model.changeVariableType(variableID, newType, _currentState);
+    }
 
-	public String getVariableID() {
-		return variableID;
-	}
+    protected void undoAction() {
+        model.changeVariableType(variableID, lastType, _currentState);
+    }
 
-	public void setVariableID(String variableID) {
-		this.variableID = variableID;
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public String getNewType() {
-		return newType;
-	}
+    public String getVariableID() {
+        return variableID;
+    }
 
-	public void setNewType(String newType) {
-		this.newType = newType;
-	}
-	
+    public void setVariableID(String variableID) {
+        this.variableID = variableID;
+    }
+
+    public String getNewType() {
+        return newType;
+    }
+
+    public void setNewType(String newType) {
+        this.newType = newType;
+    }
+
 }

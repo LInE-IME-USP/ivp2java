@@ -19,16 +19,16 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public abstract class BaseGUI extends JPanel implements Observer {
-	public BaseGUI() {
-	}
+    public BaseGUI() {
+    }
 
     private static final long serialVersionUID = 1L;
-    protected SystemConfig _config;
-    protected SystemFactory _factory;
-    protected Vector _domainGUIList;
-    protected Vector _authoringGUIList;
-    protected IAssignment _assignments;
-    protected int _activeAssignment;
+    protected SystemConfig    _config;
+    protected SystemFactory   _factory;
+    protected Vector          _domainGUIList;
+    protected Vector          _authoringGUIList;
+    protected IAssignment     _assignments;
+    protected int             _activeAssignment;
 
     public void setComponents(SystemConfig config, IAssignment commands, SystemFactory factory) {
         _config = config;
@@ -93,17 +93,14 @@ public abstract class BaseGUI extends JPanel implements Observer {
 
     protected abstract void saveAssignmentFile(String fileName);
 
-    protected JButton makeButton(String imageName, String actionCommand, String toolTipText,
-            String altText) {
+    protected JButton makeButton(String imageName, String actionCommand, String toolTipText, String altText) {
         JButton button = new JButton();
         button.setActionCommand(actionCommand);
         button.setToolTipText(toolTipText);
         try {
-            button.setIcon(new ImageIcon(BaseGUI.class.getResource("/usp/ime/line/resources/"
-                    + imageName + ".png"), altText));
+            button.setIcon(new ImageIcon(BaseGUI.class.getResource("/usp/ime/line/resources/" + imageName + ".png"), altText));
         } catch (Exception e) {
-            System.err.println("Error: image './usp/ime/line/resources/" + imageName
-                    + ".png' is missing: ilm/framework/gui/BaseGUI.java");
+            System.err.println("Error: image './usp/ime/line/resources/" + imageName + ".png' is missing: ilm/framework/gui/BaseGUI.java");
         }
         button.setUI(new IconButtonUI());
         return button;

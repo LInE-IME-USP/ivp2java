@@ -28,39 +28,48 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 public class IVPContainer extends JPanel implements ICodeListener {
-	
-	private static final long serialVersionUID = 1L;
-    private Vector children; 
-    private boolean isInternalCanvas = false;
-	private boolean isInternal = false;
-	private String codeCompositeID;
-	private IVPContextMenu menu;
+
+    private static final long serialVersionUID = 1L;
+    private Vector            children;
+    private boolean           isInternalCanvas = false;
+    private boolean           isInternal       = false;
+    private String            codeCompositeID;
+    private IVPContextMenu    menu;
 
     public IVPContainer(boolean isInternal, String codeCompositeID) {
-    	setBorder(new EmptyBorder(5, 0, 0, 0));
+        setBorder(new EmptyBorder(5, 0, 0, 0));
         isInternalCanvas = isInternal;
         children = new Vector();
         this.codeCompositeID = codeCompositeID;
         initLayout();
         initialization();
+        addMouseListener(Services.getService().getML());
+        addMouseMotionListener(Services.getService().getML());
     }
 
-	private void initialization() {
-		Services.getService().getController().addComponentListener(this, codeCompositeID);
+    private void initialization() {
+        Services.getService().getController().addComponentListener(this, codeCompositeID);
         addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent arg0) {
-				IVPContainer.this.requestFocus();
-			}
-			public void mouseClicked(MouseEvent arg0) {
-				IVPContainer.this.requestFocus();
-			}
-			public void mousePressed(MouseEvent arg0) {}
-			public void mouseExited(MouseEvent arg0) {}
-			public void mouseEntered(MouseEvent arg0) {}
-		});
+            public void mouseReleased(MouseEvent arg0) {
+                IVPContainer.this.requestFocus();
+            }
+
+            public void mouseClicked(MouseEvent arg0) {
+                IVPContainer.this.requestFocus();
+            }
+
+            public void mousePressed(MouseEvent arg0) {
+            }
+
+            public void mouseExited(MouseEvent arg0) {
+            }
+
+            public void mouseEntered(MouseEvent arg0) {
+            }
+        });
         children.add(new IVPContextMenu(this));
         relayout();
-	}
+    }
 
     private void initLayout() {
         setLayout(new GridBagLayout());
@@ -91,8 +100,8 @@ public class IVPContainer extends JPanel implements ICodeListener {
         gbc.gridy = row++;
         Component strut = Box.createVerticalStrut(1);
         add(strut, gbc);
-        //Isso aqui é pra disparar o relayout recursivo
-        //escope.updateFunctionEditorPanel();
+        // Isso aqui é pra disparar o relayout recursivo
+        // escope.updateFunctionEditorPanel();
         revalidate();
         repaint();
     }
@@ -106,7 +115,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
     }
 
     public void removeChild(String childID) {
-    	JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
+        JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
         children.remove(child);
         relayout();
     }
@@ -125,7 +134,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
         int yLocDroppedPanel = dropY;
         HashMap yLocPanels = new HashMap();
         for (int i = 0; i < childrenList.size(); i++) {
-            yLocPanels.put(new Integer(((JPanel) childrenList.get(i)).getY() + 5),childrenList.get(i));
+            yLocPanels.put(new Integer(((JPanel) childrenList.get(i)).getY() + 5), childrenList.get(i));
         }
         yLocPanels.put(new Integer(yLocDroppedPanel), child);
         Vector sortableYValues = new Vector();
@@ -144,37 +153,33 @@ public class IVPContainer extends JPanel implements ICodeListener {
         return isInternalCanvas;
     }
 
-	
+    public String getCodeComposite() {
+        return codeCompositeID;
+    }
 
-	public String getCodeComposite(){
-		return codeCompositeID;
-	}
-	
-	public void setContainerBackground(Color bgColor){
-		setBackground(FlatUIColors.MAIN_BG);
-		revalidate();
-		repaint();
-	}
+    public void setContainerBackground(Color bgColor) {
+        setBackground(FlatUIColors.MAIN_BG);
+        revalidate();
+        repaint();
+    }
 
-	//Listener methods
-	public void childAdded(String childID) {
-		JComponent child = Services.getService().getRenderer().paint(childID);
-		children.add(children.size()-1, child);
-		relayout();
-	}
+    // Listener methods
+    public void addChild(String childID) {
+        JComponent child = Services.getService().getRenderer().paint(childID);
+        children.add(children.size() - 1, child);
+        relayout();
+    }
 
-	public void childRemoved(String childID) {
-		JComponent c = (JComponent) Services.getService().getViewMapping().get(childID);
-		children.remove(c);
-		relayout();
-	}
-	
-	public void restoreChild(String childID, int index) {
-		JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
-		children.add(index, child);
-		relayout();
-	}
-	
-	
-	
+    public void childRemoved(String childID) {
+        JComponent c = (JComponent) Services.getService().getViewMapping().get(childID);
+        children.remove(c);
+        relayout();
+    }
+
+    public void restoreChild(String childID, int index) {
+        JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
+        children.add(index, child);
+        relayout();
+    }
+
 }

@@ -6,53 +6,53 @@ import ilm.framework.domain.DomainModel;
 
 public class UpdateReferencedVariable extends DomainAction {
 
-	private IVPProgram model;
-	private String lastVarID;
-	private String newVarID;
-	private String referenceID;
+    private IVPProgram model;
+    private String     lastVarID;
+    private String     newVarID;
+    private String     referenceID;
 
-	public UpdateReferencedVariable(String name, String description) {
-		super(name, description);
-	}
-	
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+    public UpdateReferencedVariable(String name, String description) {
+        super(name, description);
+    }
 
-	protected void executeAction() {
-		lastVarID = model.updateReferencedVariable(referenceID, newVarID, _currentState);
-	}
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		newVarID = model.updateReferencedVariable(referenceID, lastVarID,  _currentState);
-	}
+    protected void executeAction() {
+        lastVarID = model.updateReferencedVariable(referenceID, newVarID, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    protected void undoAction() {
+        newVarID = model.updateReferencedVariable(referenceID, lastVarID, _currentState);
+    }
 
-	public String getLastVarID() {
-		return lastVarID;
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public void setLastVarID(String lastVarID) {
-		this.lastVarID = lastVarID;
-	}
+    public String getLastVarID() {
+        return lastVarID;
+    }
 
-	public String getNewVarID() {
-		return newVarID;
-	}
+    public void setLastVarID(String lastVarID) {
+        this.lastVarID = lastVarID;
+    }
 
-	public void setNewVarID(String newVarID) {
-		this.newVarID = newVarID;
-	}
+    public String getNewVarID() {
+        return newVarID;
+    }
 
-	public String getReferenceID() {
-		return referenceID;
-	}
+    public void setNewVarID(String newVarID) {
+        this.newVarID = newVarID;
+    }
 
-	public void setReferenceID(String referenceID) {
-		this.referenceID = referenceID;
-	}
+    public String getReferenceID() {
+        return referenceID;
+    }
+
+    public void setReferenceID(String referenceID) {
+        this.referenceID = referenceID;
+    }
 
 }

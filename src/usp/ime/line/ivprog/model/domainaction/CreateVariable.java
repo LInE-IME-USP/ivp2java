@@ -5,60 +5,59 @@ import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
-public class CreateVariable extends DomainAction{
-	
-	private IVPProgram model;
-	private String scopeID;
-	private String varID;
-	private String initValue;
-	
-	public CreateVariable(String name, String description) {
-		super(name, description);
-	}
+public class CreateVariable extends DomainAction {
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram)m;
-	}
+    private IVPProgram model;
+    private String     scopeID;
+    private String     varID;
+    private String     initValue;
 
-	protected void executeAction() {
-		if(isRedo()){
-			model.restoreVariable(scopeID, varID, _currentState);
-		} else {
-			varID = model.createVariable(scopeID, initValue,_currentState);
-		}
-	}
+    public CreateVariable(String name, String description) {
+        super(name, description);
+    }
 
-	protected void undoAction() {
-		model.removeVariable(scopeID, varID, _currentState);
-	}
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
-	
-	public String getScopeID() {
-		return scopeID;
-	}
+    protected void executeAction() {
+        if (isRedo()) {
+            model.restoreVariable(scopeID, varID, _currentState);
+        } else {
+            varID = model.createVariable(scopeID, initValue, _currentState);
+        }
+    }
 
-	public void setScopeID(String scopeID) {
-		this.scopeID = scopeID;
-	}
+    protected void undoAction() {
+        model.removeVariable(scopeID, varID, _currentState);
+    }
 
-	public String getVarID() {
-		return varID;
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public void setVarID(String varID) {
-		this.varID = varID;
-	}
+    public String getScopeID() {
+        return scopeID;
+    }
 
-	public String getInitValue() {
-		return initValue;
-	}
+    public void setScopeID(String scopeID) {
+        this.scopeID = scopeID;
+    }
 
-	public void setInitValue(String initValue) {
-		this.initValue = initValue;
-	}
+    public String getVarID() {
+        return varID;
+    }
 
+    public void setVarID(String varID) {
+        this.varID = varID;
+    }
+
+    public String getInitValue() {
+        return initValue;
+    }
+
+    public void setInitValue(String initValue) {
+        this.initValue = initValue;
+    }
 
 }

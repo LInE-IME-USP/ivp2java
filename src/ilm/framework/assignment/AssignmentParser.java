@@ -19,16 +19,12 @@ final class AssignmentParser {
      */
     public Assignment convertStringToAssignment(DomainConverter converter, String assignmentString) {
         String proposition = getProposition(assignmentString);
-        AssignmentState initialState = getState(converter, assignmentString,
-                IlmProtocol.ASSIGNMENT_INITIAL_NODE);
-        AssignmentState currentState = getState(converter, assignmentString,
-                IlmProtocol.ASSIGNMENT_CURRENT_NODE);
-        AssignmentState expectedState = getState(converter, assignmentString,
-                IlmProtocol.ASSIGNMENT_EXPECTED_NODE);
+        AssignmentState initialState = getState(converter, assignmentString, IlmProtocol.ASSIGNMENT_INITIAL_NODE);
+        AssignmentState currentState = getState(converter, assignmentString, IlmProtocol.ASSIGNMENT_CURRENT_NODE);
+        AssignmentState expectedState = getState(converter, assignmentString, IlmProtocol.ASSIGNMENT_EXPECTED_NODE);
         HashMap config = convertStringToMap(assignmentString, IlmProtocol.CONFIG_LIST_NODE);
         HashMap metadata = convertStringToMap(assignmentString, IlmProtocol.METADATA_LIST_NODE);
-        Assignment assignment = new Assignment(proposition, initialState, currentState,
-                expectedState);
+        Assignment assignment = new Assignment(proposition, initialState, currentState, expectedState);
         assignment.setConfig(config);
         assignment.setMetadata(metadata);
         return assignment;
@@ -37,12 +33,10 @@ final class AssignmentParser {
     public String getProposition(String assignmentString) {
         int startIndex = assignmentString.indexOf("<" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">");
         int endIndex = assignmentString.indexOf("</" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">");
-        return assignmentString.substring(
-                startIndex + 2 + IlmProtocol.ASSIGNMENT_PROPOSITION.length(), endIndex);
+        return assignmentString.substring(startIndex + 2 + IlmProtocol.ASSIGNMENT_PROPOSITION.length(), endIndex);
     }
 
-    public AssignmentState getState(DomainConverter converter, String assignmentString,
-            String nodeName) {
+    public AssignmentState getState(DomainConverter converter, String assignmentString, String nodeName) {
         AssignmentState state = new AssignmentState();
         int startIndex = assignmentString.indexOf("<" + nodeName + ">") + 2 + nodeName.length();
         int endIndex = assignmentString.indexOf("</" + nodeName + ">");
@@ -70,8 +64,7 @@ final class AssignmentParser {
             if (startIndex == endIndex) {
                 break;
             }
-            map.put(listString.substring(startIndex + 1, startIndex + nodeLength),
-                    listString.substring(startIndex + nodeLength + 1, endIndex));
+            map.put(listString.substring(startIndex + 1, startIndex + nodeLength), listString.substring(startIndex + nodeLength + 1, endIndex));
             // TODO define a better threshold - differences when there are
             // breaklines chars
         } while (endIndex < listString.lastIndexOf("</" + nodeName + ">") - nodeLength - 4);
@@ -87,39 +80,26 @@ final class AssignmentParser {
      */
     public String convertAssignmentToString(DomainConverter converter, Assignment assignment) {
         String string = "<" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">";
-        string += "<" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">" + assignment.getProposition()
-                + "</" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">";
-        string += "<" + IlmProtocol.ASSIGNMENT_INITIAL_NODE + ">"
-                + converter.convertObjectToString(assignment.getInitialState().getList()) + "</"
-                + IlmProtocol.ASSIGNMENT_INITIAL_NODE + ">";
+        string += "<" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">" + assignment.getProposition() + "</" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">";
+        string += "<" + IlmProtocol.ASSIGNMENT_INITIAL_NODE + ">" + converter.convertObjectToString(assignment.getInitialState().getList()) + "</" + IlmProtocol.ASSIGNMENT_INITIAL_NODE + ">";
         if (assignment.getCurrentState().getList().size() > 0) {
-            string += "<" + IlmProtocol.ASSIGNMENT_CURRENT_NODE + ">"
-                    + converter.convertObjectToString(assignment.getCurrentState().getList())
-                    + "</" + IlmProtocol.ASSIGNMENT_CURRENT_NODE + ">";
+            string += "<" + IlmProtocol.ASSIGNMENT_CURRENT_NODE + ">" + converter.convertObjectToString(assignment.getCurrentState().getList()) + "</" + IlmProtocol.ASSIGNMENT_CURRENT_NODE + ">";
         } else {
             string += "<" + IlmProtocol.ASSIGNMENT_CURRENT_NODE + "/>";
         }
-        if (assignment.getExpectedAnswer() != null
-                && assignment.getExpectedAnswer().getList().size() > 0) {
-            string += "<" + IlmProtocol.ASSIGNMENT_EXPECTED_NODE + ">"
-                    + converter.convertObjectToString(assignment.getExpectedAnswer().getList())
-                    + "</" + IlmProtocol.ASSIGNMENT_EXPECTED_NODE + ">";
+        if (assignment.getExpectedAnswer() != null && assignment.getExpectedAnswer().getList().size() > 0) {
+            string += "<" + IlmProtocol.ASSIGNMENT_EXPECTED_NODE + ">" + converter.convertObjectToString(assignment.getExpectedAnswer().getList()) + "</" + IlmProtocol.ASSIGNMENT_EXPECTED_NODE + ">";
         } else {
             string += "<" + IlmProtocol.ASSIGNMENT_EXPECTED_NODE + "/>";
         }
-        string += "<" + IlmProtocol.CONFIG_LIST_NODE + ">"
-                + convertMapToString(assignment.getConfig()) + "</" + IlmProtocol.CONFIG_LIST_NODE
-                + ">";
-        string += "<" + IlmProtocol.METADATA_LIST_NODE + ">"
-                + convertMapToString(assignment.getMetadata()) + "</"
-                + IlmProtocol.METADATA_LIST_NODE + ">";
+        string += "<" + IlmProtocol.CONFIG_LIST_NODE + ">" + convertMapToString(assignment.getConfig()) + "</" + IlmProtocol.CONFIG_LIST_NODE + ">";
+        string += "<" + IlmProtocol.METADATA_LIST_NODE + ">" + convertMapToString(assignment.getMetadata()) + "</" + IlmProtocol.METADATA_LIST_NODE + ">";
         string += "</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">";
         return string;
     }
 
     /**
-     * Convert a HashMap<String, String> to a XMLString with its contents. The
-     * order of the parameters is inverse alphabetical order of the keys.
+     * Convert a HashMap<String, String> to a XMLString with its contents. The order of the parameters is inverse alphabetical order of the keys.
      * 
      * @param map
      *            - the HashMap<String, String> to be converted
@@ -145,19 +125,15 @@ final class AssignmentParser {
         int listLength = IlmProtocol.FILE_LIST_NODE.length();
         int startIndex = metadataFileContent.indexOf("<" + IlmProtocol.FILE_LIST_NODE + ">");
         int endIndex = metadataFileContent.indexOf("</" + IlmProtocol.FILE_LIST_NODE + ">");
-        String fileListString = metadataFileContent
-                .substring(startIndex, endIndex + 3 + listLength);
+        String fileListString = metadataFileContent.substring(startIndex, endIndex + 3 + listLength);
         Vector assignmentFileList = new Vector();
         int fileLength = IlmProtocol.ASSIGNMENT_FILE_NODE.length();
         endIndex = 0;
         do {
-            startIndex = fileListString.indexOf("<" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">",
-                    endIndex) + 2 + fileLength;
-            endIndex = fileListString.indexOf("</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">",
-                    startIndex);
+            startIndex = fileListString.indexOf("<" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">", endIndex) + 2 + fileLength;
+            endIndex = fileListString.indexOf("</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">", startIndex);
             assignmentFileList.add(fileListString.substring(startIndex, endIndex));
-        } while (endIndex < fileListString.lastIndexOf("</" + IlmProtocol.ASSIGNMENT_FILE_NODE
-                + ">"));
+        } while (endIndex < fileListString.lastIndexOf("</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">"));
         return assignmentFileList;
     }
 
@@ -175,21 +151,14 @@ final class AssignmentParser {
             String assignment = (String) assignmentList.get(i);
             metadataIndex = assignment.indexOf("<" + IlmProtocol.METADATA_LIST_NODE + ">");
             if (metadataIndex == -1) {
-                metadataString = "<" + IlmProtocol.METADATA_LIST_NODE + ">" + metadataString + "</"
-                        + IlmProtocol.METADATA_LIST_NODE + ">";
-                mergedAssignment = assignment.substring(0,
-                        assignment.indexOf("</" + IlmProtocol.PACKAGE_NODE + ">"));
+                metadataString = "<" + IlmProtocol.METADATA_LIST_NODE + ">" + metadataString + "</" + IlmProtocol.METADATA_LIST_NODE + ">";
+                mergedAssignment = assignment.substring(0, assignment.indexOf("</" + IlmProtocol.PACKAGE_NODE + ">"));
                 mergedAssignment += metadataString + "</" + IlmProtocol.PACKAGE_NODE + ">";
                 mergedList.add(mergedAssignment);
             } else {
                 int endIndex = assignment.indexOf("</" + IlmProtocol.METADATA_LIST_NODE + ">");
                 mergedAssignment = assignment.substring(0, endIndex);
-                mergedAssignment += metadataString
-                        + "</"
-                        + IlmProtocol.METADATA_LIST_NODE
-                        + ">"
-                        + assignment.substring(endIndex + 3
-                                + IlmProtocol.METADATA_LIST_NODE.length());
+                mergedAssignment += metadataString + "</" + IlmProtocol.METADATA_LIST_NODE + ">" + assignment.substring(endIndex + 3 + IlmProtocol.METADATA_LIST_NODE.length());
                 mergedList.add(mergedAssignment);
             }
         }
@@ -204,19 +173,15 @@ final class AssignmentParser {
         string += "<" + IlmProtocol.FILE_LIST_NODE + ">";
         for (int i = 0; i < list.size(); i++) {
             Assignment a = (Assignment) list.get(i);
-            string += "<" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">" + a.getName() + "</"
-                    + IlmProtocol.ASSIGNMENT_FILE_NODE + ">";
+            string += "<" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">" + a.getName() + "</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">";
         }
-        string += "</" + IlmProtocol.FILE_LIST_NODE + "><" + IlmProtocol.CONFIG_LIST_NODE + ">"
-                + config + "</" + IlmProtocol.CONFIG_LIST_NODE + "><"
-                + IlmProtocol.METADATA_LIST_NODE + ">";
+        string += "</" + IlmProtocol.FILE_LIST_NODE + "><" + IlmProtocol.CONFIG_LIST_NODE + ">" + config + "</" + IlmProtocol.CONFIG_LIST_NODE + "><" + IlmProtocol.METADATA_LIST_NODE + ">";
         HashMap mergedMetadata = new HashMap();
         for (int i = 0; i < list.size(); i++) {
             Assignment a = (Assignment) list.get(i);
             mergedMetadata = mergeMap(mergedMetadata, a.getMetadata());
         }
-        string += convertMapToString(mergedMetadata) + "</" + IlmProtocol.METADATA_LIST_NODE
-                + "></" + IlmProtocol.PACKAGE_NODE + ">";
+        string += convertMapToString(mergedMetadata) + "</" + IlmProtocol.METADATA_LIST_NODE + "></" + IlmProtocol.PACKAGE_NODE + ">";
         return string;
     }
 
@@ -238,15 +203,13 @@ final class AssignmentParser {
      * @param assignmentString
      * @param availableList
      */
-    public void setAssignmentModulesData(DomainConverter converter, String assignmentString,
-            HashMap availableList, int assignmentIndex) {
+    public void setAssignmentModulesData(DomainConverter converter, String assignmentString, HashMap availableList, int assignmentIndex) {
         int startIndex = assignmentString.indexOf("<" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">");
         int endIndex = assignmentString.indexOf("</" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">");
         if (startIndex == -1 || endIndex == -1) {
             return;
         }
-        String moduleListString = assignmentString.substring(startIndex
-                + IlmProtocol.ASSIGNMENT_MODULES_NODE.length() + 2, endIndex);
+        String moduleListString = assignmentString.substring(startIndex + IlmProtocol.ASSIGNMENT_MODULES_NODE.length() + 2, endIndex);
         String moduleString = "";
         Iterator availableListIterator = availableList.keySet().iterator();
         while (availableListIterator.hasNext()) {
@@ -259,21 +222,18 @@ final class AssignmentParser {
                 moduleString = "";
             }
             if (availableList.get(key) instanceof AssignmentModule) {
-                ((AssignmentModule) availableList.get(key)).setContentFromString(converter,
-                        assignmentIndex, moduleString);
+                ((AssignmentModule) availableList.get(key)).setContentFromString(converter, assignmentIndex, moduleString);
             }
         }
     }
 
-    public String getAssignmentModulesData(DomainConverter converter, String assignmentString,
-            HashMap availableList, int assignmentIndex) {
+    public String getAssignmentModulesData(DomainConverter converter, String assignmentString, HashMap availableList, int assignmentIndex) {
         String string = "<" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">";
         Iterator availableListIterator = availableList.keySet().iterator();
         while (availableListIterator.hasNext()) {
             String key = (String) availableListIterator.next();
             if (availableList.get(key) instanceof AssignmentModule) {
-                string += ((AssignmentModule) availableList.get(key)).getStringContent(converter,
-                        assignmentIndex);
+                string += ((AssignmentModule) availableList.get(key)).getStringContent(converter, assignmentIndex);
             }
         }
         string += "</" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">";

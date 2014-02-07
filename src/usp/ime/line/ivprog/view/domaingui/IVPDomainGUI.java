@@ -39,124 +39,122 @@ import java.awt.Font;
 
 public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
 
-	private static final long serialVersionUID = 4725912646391705263L;
-	private JPanel workspaceContainer;
-	private JTabbedPane tabbedPane;
-	private JPanel consolePanel;
-	private JPanel playAndConsolePanel;
-	private RoundedJPanel consoleContainer;
-	private IVPConsoleUI consoleField;
-	private JButton btnPlay;
-	private JLabel lblNewLabel;
-	private Component verticalStrut;
+    private static final long serialVersionUID = 4725912646391705263L;
+    private JPanel            workspaceContainer;
+    private JTabbedPane       tabbedPane;
+    private JPanel            consolePanel;
+    private JPanel            playAndConsolePanel;
+    private RoundedJPanel     consoleContainer;
+    private IVPConsoleUI      consoleField;
+    private JButton           btnPlay;
+    private JLabel            lblNewLabel;
+    private Component         verticalStrut;
 
-	public IVPDomainGUI() {
-		setPreferredSize(new Dimension(800, 600));
-		setLayout(new BorderLayout(0, 0));
-		Services.getService().getController().getProgram().addFunctionListener(this);
-		initTabbedPane();
-	}
+    public IVPDomainGUI() {
+        setPreferredSize(new Dimension(800, 600));
+        setLayout(new BorderLayout(0, 0));
+        Services.getService().getController().getProgram().addFunctionListener(this);
+        initTabbedPane();
+    }
 
-	private void initTabbedPane() {
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(1.0);
-		splitPane.setDividerSize(3);
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		add(splitPane, BorderLayout.CENTER);
-		workspaceContainer = new JPanel();
-		splitPane.setLeftComponent(workspaceContainer);
-		workspaceContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
-		workspaceContainer.setLayout(new BorderLayout(0, 0));
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		workspaceContainer.add(tabbedPane, BorderLayout.CENTER);
-		
-		consolePanel = new JPanel();
-		consolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		splitPane.setRightComponent(consolePanel);
-		consolePanel.setLayout(new BorderLayout(0, 0));
-		
-		playAndConsolePanel = new JPanel();
-		playAndConsolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		consolePanel.add(playAndConsolePanel, BorderLayout.WEST);
-		playAndConsolePanel.setLayout(new BoxLayout(playAndConsolePanel, BoxLayout.Y_AXIS));
-		
-		Action action = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				//Services.getService().getController().addParameter(scopeID);
-			}
-		};
-		action.putValue(Action.SMALL_ICON,new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/play.png")));
-		action.putValue(Action.SHORT_DESCRIPTION,"Executa a função principal.");
-		
-		lblNewLabel = new JLabel();
-		lblNewLabel.setIcon(new ImageIcon(IVPDomainGUI.class.getResource("/usp/ime/line/resources/icons/console.png")));
-		playAndConsolePanel.add(lblNewLabel);
-		
-		verticalStrut = Box.createVerticalStrut(10);
-		playAndConsolePanel.add(verticalStrut);
-		
-		btnPlay = new JButton(action);
-		btnPlay.setUI(new IconButtonUI());
-		btnPlay.addActionListener(
-				new ActionListener(){
-					public void actionPerformed(ActionEvent arg0) {
-						Services.getService().getController().playCode();
-					}
-				}
-		);
-		playAndConsolePanel.add(btnPlay);
-		
-		consoleContainer = new RoundedJPanel();
-		consoleContainer.setBackgroundColor(FlatUIColors.CONSOLE_COLOR);
-		consoleContainer.setArcs(new Dimension(10,10));
-		consoleContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
-		consolePanel.add(consoleContainer, BorderLayout.CENTER);
-		consoleContainer.setLayout(new BorderLayout(0, 0));
+    private void initTabbedPane() {
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setResizeWeight(1.0);
+        splitPane.setDividerSize(3);
+        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        add(splitPane, BorderLayout.CENTER);
+        workspaceContainer = new JPanel();
+        splitPane.setLeftComponent(workspaceContainer);
+        workspaceContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
+        workspaceContainer.setLayout(new BorderLayout(0, 0));
+        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        workspaceContainer.add(tabbedPane, BorderLayout.CENTER);
 
-		consoleField = new IVPConsoleUI();
-		consoleContainer.add(consoleField);
-	}
+        consolePanel = new JPanel();
+        consolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        splitPane.setRightComponent(consolePanel);
+        consolePanel.setLayout(new BorderLayout(0, 0));
 
-	public void update(Observable model, Object o) {
-		//Not going to be used anymore
-		//We adopted other pattern
-	}
+        playAndConsolePanel = new JPanel();
+        playAndConsolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        consolePanel.add(playAndConsolePanel, BorderLayout.WEST);
+        playAndConsolePanel.setLayout(new BoxLayout(playAndConsolePanel, BoxLayout.Y_AXIS));
 
-	// update function tabs
-	public void addTab(String tabName, FunctionBodyUI function) {
-		tabbedPane.add(tabName, function);
-	}
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                // Services.getService().getController().addParameter(scopeID);
+            }
+        };
+        action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/play.png")));
+        action.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
 
-	public void removeTabAtIndex(int index) {
-		tabbedPane.remove(index);
-	}
+        lblNewLabel = new JLabel();
+        lblNewLabel.setIcon(new ImageIcon(IVPDomainGUI.class.getResource("/usp/ime/line/resources/icons/console.png")));
+        playAndConsolePanel.add(lblNewLabel);
 
-	public void updateFunction(FunctionBodyUI function) {
-		if (tabbedPane.getTabCount() == 0) {
-			tabbedPane.add(function.getName(), function);
-			return;
-		}
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			if (tabbedPane.getTitleAt(i).equals(function.getName())) {
-				tabbedPane.remove(i);
-				tabbedPane.add(function, i);
-			}
-		}
-	}
+        verticalStrut = Box.createVerticalStrut(10);
+        playAndConsolePanel.add(verticalStrut);
 
-	protected void initDomainGUI() {
+        btnPlay = new JButton(action);
+        btnPlay.setUI(new IconButtonUI());
+        btnPlay.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                Services.getService().getController().playCode();
+            }
+        });
+        playAndConsolePanel.add(btnPlay);
 
-	}
+        consoleContainer = new RoundedJPanel();
+        consoleContainer.setBackgroundColor(FlatUIColors.CONSOLE_COLOR);
+        consoleContainer.setArcs(new Dimension(10, 10));
+        consoleContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
+        consolePanel.add(consoleContainer, BorderLayout.CENTER);
+        consoleContainer.setLayout(new BorderLayout(0, 0));
 
-	public Vector getSelectedObjects() {
-		return null;
-	}
+        consoleField = new IVPConsoleUI();
+        consoleContainer.add(consoleField);
+    }
 
-	public void functionCreated(String id) {
-		updateFunction((FunctionBodyUI) Services.getService().getRenderer().paint(id));
-	}
+    public void update(Observable model, Object o) {
+        // Not going to be used anymore
+        // We adopted other pattern
+    }
 
-	public void initDomainActionList(DomainModel model) {
-	}
+    // update function tabs
+    public void addTab(String tabName, FunctionBodyUI function) {
+        tabbedPane.add(tabName, function);
+    }
+
+    public void removeTabAtIndex(int index) {
+        tabbedPane.remove(index);
+    }
+
+    public void updateFunction(FunctionBodyUI function) {
+        if (tabbedPane.getTabCount() == 0) {
+            tabbedPane.add(function.getName(), function);
+            return;
+        }
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+            if (tabbedPane.getTitleAt(i).equals(function.getName())) {
+                tabbedPane.remove(i);
+                tabbedPane.add(function, i);
+            }
+        }
+    }
+
+    protected void initDomainGUI() {
+
+    }
+
+    public Vector getSelectedObjects() {
+        return null;
+    }
+
+    public void functionCreated(String id) {
+        updateFunction((FunctionBodyUI) Services.getService().getRenderer().paint(id));
+    }
+
+    public void initDomainActionList(DomainModel model) {
+    }
 
 }

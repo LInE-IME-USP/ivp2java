@@ -9,14 +9,13 @@ import java.awt.event.ActionEvent;
 
 public class ObjectListModuleToolbar extends IlmModuleToolbar {
 
-    private static final long serialVersionUID = 1L;
+    private static final long   serialVersionUID = 1L;
     private ObjectListModuleGUI _window;
-    private JButton button;
+    private JButton             button;
 
     public ObjectListModuleToolbar() {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        button = makeButton("objectlist", "OBJECT LIST", "Open the list of objects",
-                "Object List window");
+        button = makeButton("objectlist", "OBJECT LIST", "Open the list of objects", "Object List window");
         button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {

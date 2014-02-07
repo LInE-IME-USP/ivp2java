@@ -8,16 +8,15 @@ import java.util.Iterator;
 
 public class Assignment implements Serializable {
 
-    private String _proposition;
-    private String _name;
+    private String          _proposition;
+    private String          _name;
     private AssignmentState _initialState;
     private AssignmentState _currentState;
     private AssignmentState _expectedAnswer;
-    private HashMap _config;
-    private HashMap _metadata;
+    private HashMap         _config;
+    private HashMap         _metadata;
 
-    public Assignment(String proposition, AssignmentState initial, AssignmentState current,
-            AssignmentState expected) {
+    public Assignment(String proposition, AssignmentState initial, AssignmentState current, AssignmentState expected) {
         _proposition = proposition;
         _name = "";
         _initialState = initial;

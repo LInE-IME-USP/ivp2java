@@ -36,8 +36,7 @@ public class HistoryModule extends AssignmentModule implements Serializable {
                 setChanged();
                 notifyObservers();
             } else {
-                ((Vector) _history.get(_assignmentIndex)).remove(((Vector) _history
-                        .get(_assignmentIndex)).size() - 1);
+                ((Vector) _history.get(_assignmentIndex)).remove(((Vector) _history.get(_assignmentIndex)).size() - 1);
                 setChanged();
                 notifyObservers();
             }
@@ -96,8 +95,7 @@ public class HistoryModule extends AssignmentModule implements Serializable {
 
     public void setState(AssignmentState state) {
         for (int i = 0; i < ((Vector) _history.get(_history.size() - 1)).size(); i++) {
-            DomainAction action = (DomainAction) ((Vector) _history.get(_history.size() - 1))
-                    .get(i);
+            DomainAction action = (DomainAction) ((Vector) _history.get(_history.size() - 1)).get(i);
             action.setState(state);
         }
     }

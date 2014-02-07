@@ -8,9 +8,9 @@ import java.util.Observer;
 
 public abstract class AssignmentModule extends IlmModule implements Observer, Cloneable {
 
-    protected int _observerType;
-    public static final int ACTION_OBSERVER = 1;
-    public static final int OBJECT_OBSERVER = 2;
+    protected int           _observerType;
+    public static final int ACTION_OBSERVER        = 1;
+    public static final int OBJECT_OBSERVER        = 2;
     public static final int ACTION_OBJECT_OBSERVER = 3;
 
     public final Object clone() {
@@ -35,8 +35,7 @@ public abstract class AssignmentModule extends IlmModule implements Observer, Cl
 
     public abstract void removeAssignment(int index);
 
-    public abstract void setContentFromString(DomainConverter converter, int index,
-            String moduleContent);
+    public abstract void setContentFromString(DomainConverter converter, int index, String moduleContent);
 
     public abstract String getStringContent(DomainConverter converter, int index);
 }

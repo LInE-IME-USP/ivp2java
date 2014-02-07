@@ -14,9 +14,9 @@ import javax.swing.JList;
 public class ObjectListModuleGUI extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
-    private ObjectListModule _objectList;
-    private JPanel contentPane;
-    private JList list;
+    private ObjectListModule  _objectList;
+    private JPanel            contentPane;
+    private JList             list;
 
     public ObjectListModuleGUI() {
         setBounds(100, 100, 200, 300);
@@ -36,8 +36,7 @@ public class ObjectListModuleGUI extends JFrame implements Observer {
             DefaultListModel listModel = new DefaultListModel();
             for (int i = 0; i < _objectList.getObjectList().size(); i++) {
                 if (((DomainObject) _objectList.getObjectList().get(i)) != null)
-                    listModel.addElement(((DomainObject) _objectList.getObjectList().get(i))
-                            .getDescription());
+                    listModel.addElement(((DomainObject) _objectList.getObjectList().get(i)).getDescription());
             }
             list.setModel(listModel);
         }

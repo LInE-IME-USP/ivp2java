@@ -12,7 +12,5 @@ public interface ICommunication {
 
     public Vector readAssignmentFiles(String packageName, Vector assignmentList) throws IOException;
 
-    public ZipFile writeAssignmentPackage(String packageName, String metadata,
-            Vector resourceNameList, Vector resourceList, Vector assignmentNameList,
-            Vector assignmentList) throws IOException;
+    public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) throws IOException;
 }

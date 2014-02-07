@@ -6,28 +6,45 @@ import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableInitValue extends DomainAction {
 
-	private IVPProgram model;
-	private String lastValue;
-	private String newValue;
-	
-	public ChangeVariableInitValue(String name, String description) {
-		super(name, description);
-	}
+    private IVPProgram model;
+    private String     variableID;
+    private String     lastValue;
+    private String     newValue;
 
-	public void setDomainModel(DomainModel m) {
-		
-	}
+    public ChangeVariableInitValue(String name, String description) {
+        super(name, description);
+    }
 
-	protected void executeAction() {
+    public void setDomainModel(DomainModel m) {
+        model = (IVPProgram) m;
+    }
 
-	}
+    protected void executeAction() {
+        lastValue = model.changeVariableInitialValue(variableID, newValue, _currentState);
+    }
 
-	protected void undoAction() {
+    protected void undoAction() {
+        model.changeVariableInitialValue(variableID, lastValue, _currentState);
+    }
 
-	}
+    public boolean equals(DomainAction a) {
+        return false;
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+    public String getVariableID() {
+        return variableID;
+    }
+
+    public void setVariableID(String variableID) {
+        this.variableID = variableID;
+    }
+
+    public String getNewValue() {
+        return newValue;
+    }
+
+    public void setNewValue(String newValue) {
+        this.newValue = newValue;
+    }
 
 }

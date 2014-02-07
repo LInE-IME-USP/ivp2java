@@ -12,9 +12,12 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
+import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
+import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.BooleanOperationUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ConstantUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
@@ -25,97 +28,104 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.PrintUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPRenderer {
-	public JComponent paint(Object objectKey) {
-		DataObject codeElementModel = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
-		if (codeElementModel instanceof Function) {
-			return renderFunction((Function) codeElementModel);
-		} else if (codeElementModel instanceof Variable) {
-			return renderVariable((Variable) codeElementModel);
-		} else if (codeElementModel instanceof While){
-			return renderWhile((While)codeElementModel);
-		} else if (codeElementModel instanceof Print){
-			return renderWrite((Print) codeElementModel);
-		} else if (codeElementModel instanceof AttributionLine){
-			return renderAttributionLine((AttributionLine) codeElementModel);
-		} else if (codeElementModel instanceof Expression){
-			return renderExpresion((Expression) codeElementModel);
-		} else if (codeElementModel instanceof Reference){
-			return renderReference((Reference)codeElementModel);
-		}
-		return null;
-	}
+    public JComponent paint(Object objectKey) {
+        DataObject codeElementModel = (DataObject) Services.getService().getModelMapping().get((String) objectKey);
+        if (codeElementModel instanceof Function) {
+            return renderFunction((Function) codeElementModel);
+        } else if (codeElementModel instanceof Variable) {
+            return renderVariable((Variable) codeElementModel);
+        } else if (codeElementModel instanceof While) {
+            return renderWhile((While) codeElementModel);
+        } else if (codeElementModel instanceof Print) {
+            return renderWrite((Print) codeElementModel);
+        } else if (codeElementModel instanceof AttributionLine) {
+            return renderAttributionLine((AttributionLine) codeElementModel);
+        } else if (codeElementModel instanceof Expression) {
+            return renderExpresion((Expression) codeElementModel);
+        } else if (codeElementModel instanceof Reference) {
+            return renderReference((Reference) codeElementModel);
+        }
+        return null;
+    }
 
-	private JComponent renderReference(Reference referenceModel) {
-		//acho que isso aqui poderia renderizar uma label com o nome da variável...
-		//seria a label que vai 
-		return null;
-	}
+    private JComponent renderReference(Reference referenceModel) {
+        // acho que isso aqui poderia renderizar uma label com o nome da variável...
+        // seria a label que vai
+        return null;
+    }
 
-	private JComponent renderExpresion(Expression expressionModel) {
-		VariableSelectorUI var;
-		OperationUI exp;
-		if(expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE){
-			var = new VariableSelectorUI(expressionModel.getParentID());
-			var.setModelID(expressionModel.getUniqueID());
-			var.setScopeID(expressionModel.getScopeID());
-			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
-			return var;
-		}else{ // It's an operation 
-			if(expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND){
-				exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
-			}else{
-				exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());	
-			}
-			if(((Operation)expressionModel).getExpressionA() != null){
-				exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation)expressionModel).getExpressionA()));
-			}
-			((OperationUI)exp).setModelScope(expressionModel.getScopeID());
-			Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
-			return exp;
-		}
-	}
+    private JComponent renderExpresion(Expression expressionModel) {
+        VariableSelectorUI var;
+        OperationUI exp;
+        ConstantUI constant;
+        if (expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE) {
+            var = new VariableSelectorUI(expressionModel.getParentID());
+            var.setModelID(expressionModel.getUniqueID());
+            var.setScopeID(expressionModel.getScopeID());
+            Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
+            return var;
+        } else if (expressionModel.getExpressionType() >= Expression.EXPRESSION_INTEGER && expressionModel.getExpressionType() <= Expression.EXPRESSION_BOOLEAN) {
+            constant = new ConstantUI(expressionModel.getUniqueID());
+            constant.setExpressionType(expressionModel.getExpressionType());
+            constant.setModelScope(expressionModel.getScopeID());
+            Services.getService().getViewMapping().put(expressionModel.getUniqueID(), constant);
+            return constant;
+        } else {// It's an operation
+            if (expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND) {
+                exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+            } else {
+                exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+            }
+            if (((Operation) expressionModel).getExpressionA() != null) {
+                exp.setExpressionBaseUI_1((JComponent) Services.getService().getViewMapping().get(((Operation) expressionModel).getExpressionA()));
+            }
+            ((OperationUI) exp).setModelScope(expressionModel.getScopeID());
+            Services.getService().getViewMapping().put(expressionModel.getUniqueID(), exp);
+            return exp;
+        }
+    }
 
-	private JComponent renderAttributionLine(AttributionLine attLineModel) {
-		AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
-		attLine.setModelParent(attLineModel.getParentID());
-		attLine.setModelScope(attLineModel.getScopeID());
-		attLine.setLeftVarModelID(attLineModel.getLeftVariableID());
-		Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
-		return attLine;
-	}
+    private JComponent renderAttributionLine(AttributionLine attLineModel) {
+        AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
+        attLine.setModelParent(attLineModel.getParentID());
+        attLine.setModelScope(attLineModel.getScopeID());
+        attLine.setLeftVarModelID(attLineModel.getLeftVariableID());
+        Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
+        return attLine;
+    }
 
-	private JComponent renderWhile(While object) {
-		WhileUI w = new WhileUI(object.getUniqueID());
-		w.setModelParent(object.getParentID());
-		w.setModelScope(object.getScopeID());
-		Services.getService().getViewMapping().put(object.getUniqueID(), w);
-		return w;
-	}
+    private JComponent renderWhile(While object) {
+        WhileUI w = new WhileUI(object.getUniqueID());
+        w.setModelParent(object.getParentID());
+        w.setModelScope(object.getScopeID());
+        Services.getService().getViewMapping().put(object.getUniqueID(), w);
+        return w;
+    }
 
-	public FunctionBodyUI renderFunction(Function f) {
-		FunctionBodyUI function;
-		if (f.getFunctionName().equals(ResourceBundleIVP.getString("mainFunctionName"))) {
-			function = new FunctionBodyUI(f.getUniqueID(), true);
-		} else
-			function = new FunctionBodyUI(f.getUniqueID(), false);
-		// parameters and variables need to be rendered
-		function.setName(f.getFunctionName());
-		function.setType(f.getReturnType());
-		Services.getService().getViewMapping().put(f.getUniqueID(), function);
-		return function;
-	}
-	
-	private JComponent renderWrite(Print p){
-		PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
-		Services.getService().getViewMapping().put(p.getUniqueID(), print);
-		return print;
-	}
+    public FunctionBodyUI renderFunction(Function f) {
+        FunctionBodyUI function;
+        if (f.getFunctionName().equals(ResourceBundleIVP.getString("mainFunctionName"))) {
+            function = new FunctionBodyUI(f.getUniqueID(), true);
+        } else
+            function = new FunctionBodyUI(f.getUniqueID(), false);
+        // parameters and variables need to be rendered
+        function.setName(f.getFunctionName());
+        function.setType(f.getReturnType());
+        Services.getService().getViewMapping().put(f.getUniqueID(), function);
+        return function;
+    }
 
-	private JComponent renderVariable(Variable object) {
-		IVPVariableBasic variable = new IVPVariableBasic(object.getUniqueID(), object.getScopeID());
-		variable.setVariableName(object.getVariableName());
-		Services.getService().getViewMapping().put(object.getUniqueID(), variable);
-		return variable;
-	}
+    private JComponent renderWrite(Print p) {
+        PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
+        Services.getService().getViewMapping().put(p.getUniqueID(), print);
+        return print;
+    }
+
+    private JComponent renderVariable(Variable object) {
+        IVPVariableBasic variable = new IVPVariableBasic(object.getUniqueID(), object.getScopeID());
+        variable.setVariableName(object.getVariableName());
+        Services.getService().getViewMapping().put(object.getUniqueID(), variable);
+        return variable;
+    }
 
 }

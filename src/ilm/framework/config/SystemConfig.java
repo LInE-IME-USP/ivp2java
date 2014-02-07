@@ -15,9 +15,9 @@ import java.util.Properties;
 public final class SystemConfig extends Observable implements Serializable {
 
     private static final String CUSTOM_PROPERTIES_KEY = "config";
-    private Properties _parameters;
-    private boolean _isApplet;
-    private Locale _currentLocale;
+    private Properties          _parameters;
+    private boolean             _isApplet;
+    private Locale              _currentLocale;
 
     public SystemConfig(boolean isApplet, Map parameterList) {
         this(isApplet, parameterList, null);
@@ -31,8 +31,7 @@ public final class SystemConfig extends Observable implements Serializable {
                 if (!isApplet) {
                     if (parameterList.containsKey(CUSTOM_PROPERTIES_KEY)) {
                         _parameters = new Properties();
-                        _parameters.load(getClass().getResourceAsStream(
-                                (String) parameterList.get(CUSTOM_PROPERTIES_KEY)));
+                        _parameters.load(getClass().getResourceAsStream((String) parameterList.get(CUSTOM_PROPERTIES_KEY)));
                     } else {
                         _parameters = getDefaultProperties();
                     }
@@ -56,8 +55,7 @@ public final class SystemConfig extends Observable implements Serializable {
         setLanguage(_parameters.getProperty("language"));
     }
 
-    private Properties getDefaultProperties() throws InvalidParameterException,
-            FileNotFoundException, IOException {
+    private Properties getDefaultProperties() throws InvalidParameterException, FileNotFoundException, IOException {
         Properties defaultProperties = new Properties();
         defaultProperties.load(getClass().getResourceAsStream("defaultConfig.properties"));
         return defaultProperties;

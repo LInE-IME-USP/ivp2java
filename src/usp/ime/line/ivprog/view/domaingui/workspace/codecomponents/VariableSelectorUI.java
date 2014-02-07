@@ -26,451 +26,456 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class VariableSelectorUI extends JPanel implements IVariableListener, IDomainObjectUI {
-	
-	public static final Color borderColor = new Color(230, 126, 34); 
-	public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
-	
-	private String currentModelID;
-	private String parentModelID;
-	private String scopeModelID;
-	private String context;
-	
-	private JComboBox varList;
-	private TreeMap indexMap;
-	private JLabel nameLabel;
-	private JLabel icon; 
-	private boolean isUpdate = true;
-	private boolean warningState = false;
-	private boolean isOnlyOneElement = false;
-	private boolean isIsolated = false;
-	private JLabel iconLabel;
-	
-	private boolean drawBorder = true;
-	
-	private boolean editState = true;
-	
-	public VariableSelectorUI(String parent){
-		this.parentModelID = parent;
-		initialization();
-		initComponents();
-		Services.getService().getController().getProgram().addVariableListener(this);
-	}
 
-	//BEGIN: initialization methods
-	private void initialization() {
-		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
-		flowLayout.setVgap(3);
-		flowLayout.setHgap(3);
-		setLayout(flowLayout);
-		addMouseListener(new ExpressionMouseListener(this));
-	}
-	
-	private void initComponents() {
-		initVector();
-		initLabel();
-		initConfigMenu();
-		initIconLabel();
-	}
+    public static final Color borderColor      = new Color(230, 126, 34);
+    public static final Color hoverColor       = FlatUIColors.HOVER_COLOR;
 
-	private void initIconLabel() {
-		iconLabel = new JLabel();
-		iconLabel.setIcon(new ImageIcon(VariableSelectorUI.class.getResource("/usp/ime/line/resources/icons/attention.png")));
-		add(iconLabel);
-		iconLabel.setVisible(false);
-	}
+    private String            currentModelID;
+    private String            parentModelID;
+    private String            scopeModelID;
+    private String            context;
 
-	private void initVector() {
-		indexMap = new TreeMap();
-	}
+    private JComboBox         varList;
+    private TreeMap           indexMap;
+    private JLabel            nameLabel;
+    private JLabel            icon;
+    private boolean           isUpdate         = true;
+    private boolean           warningState     = false;
+    private boolean           isOnlyOneElement = false;
+    private boolean           isIsolated       = false;
+    private JLabel            iconLabel;
 
-	private void initLabel() {
-		nameLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-		nameLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
-		add(nameLabel);
-	}
-	
-	private void initConfigMenu() {
-		varList = new JComboBox();
-		varList.setVisible(false);
-		initValues();
-		varList.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-			    if(!isUpdate){
-			    	JComboBox cb = (JComboBox) evt.getSource();
-				    Object item = cb.getSelectedItem();
-			    	if (evt.getActionCommand().equals("comboBoxChanged")) {
-			    		if(isIsolated) {// Verifies the context. If it's an isolated variable selector (att line leftvar) then editStateOff behavior is sustained.
-			    			editStateOff((String) item);
-			    		}
-			    		String newRefID = getNewVarID();
-			    		if(newRefID != null){
-			    			Services.getService().getController().updateVariableReference(currentModelID, newRefID);
-			    		}
-			    		if(warningState){
-			    			turnWaningStateOFF();
-			    		}
-			    	} 
-			    }
-			}
-		});
-		add(varList);
-	}
-	
-	private String getNewVarID(){
-		Function f = (Function) Services.getService().getModelMapping().get(scopeModelID);
-		Vector variables = f.getLocalVariableMap().toVector();
-	    String item = (String) varList.getSelectedItem();
-	    for(int i = 0; i < variables.size(); i++){
-			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
-			if(var.getVariableName().equals(item)){
-				return var.getUniqueID();
-			}
-		}
-	    return null;
-	}
+    private boolean           drawBorder       = true;
 
-	private void initValues() {
-		String parentID = parentModelID;
-		if(parentID.contains("_")) parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
-		DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
-		Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
-		Vector variables = f.getLocalVariableMap().toVector();
-		for(int i = 0; i < variables.size(); i++){
-			Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
-			String name = (var).getVariableName();
-			indexMap.put(var.getUniqueID(), name);
-		}
-		isUpdate = true;
-		updateVariableList("","");
-		isUpdate = false;
-	}
+    private boolean           editState        = true;
 
-	//END: initialization methods
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if(drawBorder){
-			FlowLayout layout = (FlowLayout) getLayout();
-			layout.setVgap(3);
-			layout.setHgap(3);
-			revalidate();
-			g.setColor(borderColor);
-			java.awt.Rectangle bounds = getBounds();
-			for (int i = 0; i < bounds.width; i += 6) {
-				g.drawLine(i, 0, i + 3, 0);
-				g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
-			}
-			for (int i = 0; i < bounds.height; i += 6) {
-				g.drawLine(0, i, 0, i + 3);
-				g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
-			}
-		}else{
-			FlowLayout layout = (FlowLayout) getLayout();
-			layout.setVgap(0);
-			layout.setHgap(0);
-		}
-	}
-	
-	//BEGIN: Mouse listener
-	private class ExpressionMouseListener implements MouseListener {
-		private JPanel container;
-		private int clickCounter = 0;
-		public ExpressionMouseListener(JPanel c){ container = c; }
+    public VariableSelectorUI(String parent) {
+        this.parentModelID = parent;
+        initialization();
+        initComponents();
+        Services.getService().getController().getProgram().addVariableListener(this);
+    }
 
-		public void mouseEntered(MouseEvent e) {
-			if(editState){
-				setBackground(hoverColor);
-				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-		
-		public void mouseExited(MouseEvent e) {
-			if(editState||isIsolated){
-				if(drawBorder){
-					setBackground(FlatUIColors.MAIN_BG);
-				} else {
-					setBackground(FlatUIColors.CODE_BG);
-				}
-				e.getComponent().setCursor(Cursor.getDefaultCursor());
-			}
-		}
-		public void mouseClicked(MouseEvent arg0) {
-			if(editState){
-				editStateOn();
-				varList.requestFocus();
-			}
-		}
-		
-		public void mousePressed(MouseEvent arg0) { }
-		public void mouseReleased(MouseEvent arg0) { }
-		
-	}
-	//END: Mouse listener
-	
-	//BEGIN: Variable listener methods
-	public void addedVariable(String id) { 
-		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
-		indexMap.put(id, name);
-		isUpdate = true;
-		updateVariableList("","");
-		isUpdate = false;
-	}
-	
-	public void changeVariable(String id) { }
-	
-	private String lastRemoved= "";
-	
-	public void removedVariable(String id) { 
-		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
-		indexMap.put(id, null);
-		if(isIsolated){
-			if(nameLabel.isVisible()){
-				if(nameLabel.getText().equals(name)){
-					lastRemoved = name;
-					turnWaningStateON();
-				}
-			}
-		}else{
-			if(name.equals(varList.getSelectedItem())){
-				if(isEditState()){
-					lastRemoved = name;
-					turnWaningStateON();
-				}else{
-					if(Services.getService().getModelMapping().get(parentModelID) instanceof ExpressionHolderUI){
-						((ExpressionHolderUI)Services.getService().getModelMapping().get(parentModelID)).warningStateOn();
-					}
-					lastRemoved = name;
-					turnWaningStateON();
-				}
-			}
-		}
-		isUpdate = true;
-		updateVariableList("","");
-		isUpdate = false;
-	}
-	
-	
+    // BEGIN: initialization methods
+    private void initialization() {
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+        flowLayout.setVgap(3);
+        flowLayout.setHgap(3);
+        setLayout(flowLayout);
+        addMouseListener(new ExpressionMouseListener(this));
+    }
 
-	public void changeVariableName(String id, String name, String lastName) {
-		isUpdate = true;
-		indexMap.put(id, name);
-		updateVariableList(name, lastName);
-		isUpdate = false;
-		if(nameLabel.isVisible() && nameLabel.getText().equals(lastName)){
-			nameLabel.setText(name);
-			nameLabel.revalidate();
-			nameLabel.repaint();
-		}
-	}
-	
-	public void updateReference(String id) {
-		if(id == currentModelID){
-			String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
-			isUpdate = true;
-			varList.setSelectedItem(name);
-			isUpdate = false;
-			if(isIsolated){
-				editStateOff(name);
-			}
-			else{
-				if(nameLabel.isVisible() && !("".equals(name) || name == null)){
-					nameLabel.setText(name);
-					nameLabel.revalidate();
-					nameLabel.repaint();
-				}else{
-					nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-					nameLabel.revalidate();
-					nameLabel.repaint();
-				}
-				/*
-				if(nameLabel.isVisible() && "".equals(name)){
-					nameLabel.setText(name);
-					nameLabel.revalidate();
-					nameLabel.repaint();
-				}else if("".equals(name) || name == null){
-					nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-					nameLabel.revalidate();
-					nameLabel.repaint();
-				}
-				*/
-			}
-		}
-	}
-	
-	public void changeVariableValue(String id, String value) { }
-	public void changeVariableType(String id, String type) { }
-	
-	public void variableRestored(String id) { 
-		String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
-		indexMap.put(id,name);
-		isUpdate = true;
-		updateVariableList("","");
-		isUpdate = false;
-		if( isIsolated ){
-			if(nameLabel.isVisible()){
-				if(lastRemoved.equals(name)){
-					nameLabel.setText(name);
-					turnWaningStateOFF();
-				}
-			}else{
-				if(lastRemoved.equals(name)){
-					turnWaningStateOFF();
-					isUpdate = true;
-					varList.setSelectedItem(lastRemoved);
-					isUpdate = false;
-				}
-			}
-		} else {
-			if(lastRemoved.equals(name)){
-				turnWaningStateOFF();
-				isUpdate = true;
-				varList.setSelectedItem(lastRemoved);
-				isUpdate = false;
-			}
-		}
-		lastRemoved = "";
-		revalidate();
-		repaint();
-	}
-	//END: Variable listener methods
-	
-	//BEGIN: support methods
-	public void editStateOn() {
-		varList.setVisible(true);
-		nameLabel.setVisible(false);
-		drawBorder = false;
-		if(getParent() instanceof ExpressionHolderUI)
-			((ExpressionHolderUI) getParent()).editStateOn();
-		if(!isIsolated) editState = true;
-		revalidate();
-		repaint();
-	}
-	
-	public void editStateOff(String item) {
-		varList.setVisible(false);
-		if(item != null && item != "")
-			nameLabel.setText(item);
-		else
-			nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
-		nameLabel.setVisible(true);
-		if(getParent() instanceof ExpressionHolderUI)
-			((ExpressionHolderUI) getParent()).editStateOff();
-		if(!isIsolated) editState = false;
-		revalidate();
-		repaint();
-	}
-	
-	private void turnWaningStateON() {
-		iconLabel.setVisible(true);
-		warningState = true;
-		editStateOn();
-		if(Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI){
-			((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-		}else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
-			((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-		}else{
-			editStateOn();
-		}
-	}
-	
-	private void turnWaningStateOFF() {
-		iconLabel.setVisible(false);
-		warningState = false;
-	}
-	
-	private void updateVariableList(String newName, String lastName){
-		Object itemSelected = varList.getSelectedItem();
-		varList.removeAllItems();
-		Object[] keySetArray = indexMap.keySet().toArray();
-		int count = 0;
-		for(int i = 0; i < keySetArray.length; i++){
-			String variableName = (String) indexMap.get(keySetArray[i]);
-			if(variableName != null){
-				count++;
-			}
-		}
-		isOnlyOneElement = count == 1? true: false;
-		for(int i = 0; i < keySetArray.length; i++){
-			String variableName = (String) indexMap.get(keySetArray[i]);
-			if(variableName != null){
-				varList.addItem(variableName);
-			}
-		}
-		if(lastName.equals(itemSelected)){
-			varList.setSelectedItem(newName);
-		}else{
-			varList.setSelectedItem(itemSelected);
-		}
-		
-	}
+    private void initComponents() {
+        initVector();
+        initLabel();
+        initConfigMenu();
+        initIconLabel();
+    }
 
+    private void initIconLabel() {
+        iconLabel = new JLabel();
+        iconLabel.setIcon(new ImageIcon(VariableSelectorUI.class.getResource("/usp/ime/line/resources/icons/attention.png")));
+        add(iconLabel);
+        iconLabel.setVisible(false);
+    }
 
-	public String getScopeID() {
-		return scopeModelID;
-	}
+    private void initVector() {
+        indexMap = new TreeMap();
+    }
 
-	public void setScopeID(String scopeID) {
-		this.scopeModelID = scopeID;
-	}
+    private void initLabel() {
+        nameLabel = new JLabel(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+        nameLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
+        add(nameLabel);
+    }
 
-	public String getCurrentModelID() {
-		return currentModelID;
-	}
+    private void initConfigMenu() {
+        varList = new JComboBox();
+        varList.setVisible(false);
+        initValues();
+        varList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (!isUpdate) {
+                    JComboBox cb = (JComboBox) evt.getSource();
+                    Object item = cb.getSelectedItem();
+                    if (evt.getActionCommand().equals("comboBoxChanged")) {
+                        if (isIsolated) {// Verifies the context. If it's an isolated variable selector (att line leftvar) then editStateOff behavior is sustained.
+                            editStateOff((String) item);
+                        }
+                        String newRefID = getNewVarID();
+                        if (newRefID != null) {
+                            Services.getService().getController().updateVariableReference(currentModelID, newRefID);
+                        }
+                        if (warningState) {
+                            turnWaningStateOFF();
+                        }
+                    }
+                }
+            }
+        });
+        add(varList);
+    }
 
-	public void setCurrentModelID(String currentModelID) {
-		this.currentModelID = currentModelID;
-	}
+    private String getNewVarID() {
+        Function f = (Function) Services.getService().getModelMapping().get(scopeModelID);
+        Vector variables = f.getLocalVariableMap().toVector();
+        String item = (String) varList.getSelectedItem();
+        for (int i = 0; i < variables.size(); i++) {
+            Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
+            if (var.getVariableName().equals(item)) {
+                return var.getUniqueID();
+            }
+        }
+        return null;
+    }
 
-	public String getModelID() {
-		return currentModelID;
-	}
-	
-	public String getModelParent() {
-		return parentModelID;
-	}
+    private void initValues() {
+        String parentID = parentModelID;
+        if (parentID.contains("_"))
+            parentID = parentModelID.substring(0, parentModelID.indexOf("_"));
+        DataObject component = (DataObject) Services.getService().getModelMapping().get(parentID);
+        Function f = (Function) Services.getService().getModelMapping().get(component.getScopeID());
+        Vector variables = f.getLocalVariableMap().toVector();
+        for (int i = 0; i < variables.size(); i++) {
+            Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
+            String name = (var).getVariableName();
+            indexMap.put(var.getUniqueID(), name);
+        }
+        isUpdate = true;
+        updateVariableList("", "");
+        isUpdate = false;
+    }
 
-	public String getModelScope() {
-		return scopeModelID;
-	}
+    // END: initialization methods
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (drawBorder) {
+            FlowLayout layout = (FlowLayout) getLayout();
+            layout.setVgap(3);
+            layout.setHgap(3);
+            revalidate();
+            g.setColor(borderColor);
+            java.awt.Rectangle bounds = getBounds();
+            for (int i = 0; i < bounds.width; i += 6) {
+                g.drawLine(i, 0, i + 3, 0);
+                g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
+            }
+            for (int i = 0; i < bounds.height; i += 6) {
+                g.drawLine(0, i, 0, i + 3);
+                g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
+            }
+        } else {
+            FlowLayout layout = (FlowLayout) getLayout();
+            layout.setVgap(0);
+            layout.setHgap(0);
+        }
+    }
 
-	public void setModelID(String id) {
-		currentModelID = id;
-	}
+    // BEGIN: Mouse listener
+    private class ExpressionMouseListener implements MouseListener {
+        private JPanel container;
+        private int    clickCounter = 0;
 
-	public void setModelParent(String id) {
-		parentModelID = id;
-	}
+        public ExpressionMouseListener(JPanel c) {
+            container = c;
+        }
 
-	public void setModelScope(String id) {
-		scopeModelID = id;
-	}
+        public void mouseEntered(MouseEvent e) {
+            if (editState) {
+                setBackground(hoverColor);
+                e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+        }
 
-	public void setContext(String context) {
-		this.context = context;
-	}
+        public void mouseExited(MouseEvent e) {
+            if (editState || isIsolated) {
+                if (drawBorder) {
+                    setBackground(FlatUIColors.MAIN_BG);
+                } else {
+                    setBackground(FlatUIColors.CODE_BG);
+                }
+                e.getComponent().setCursor(Cursor.getDefaultCursor());
+            }
+        }
 
-	public String getContext() {
-		return context;
-	}
+        public void mouseClicked(MouseEvent arg0) {
+            if (editState) {
+                editStateOn();
+                varList.requestFocus();
+            }
+        }
 
-	public boolean isEditState() {
-		return editState;
-	}
+        public void mousePressed(MouseEvent arg0) {
+        }
 
-	public void setEditState(boolean editState) {
-		this.editState = editState;
-	}
+        public void mouseReleased(MouseEvent arg0) {
+        }
 
-	public String getVarListSelectedItem() {
-		return (String) varList.getSelectedItem();
-	}
-	
-	public void setIsolationMode(boolean isIso){
-		isIsolated = isIso;
-		setBackground(FlatUIColors.MAIN_BG);
-	}
-	
-	public boolean isIsolated(){
-		return isIsolated;
-	}
+    }
+
+    // END: Mouse listener
+
+    // BEGIN: Variable listener methods
+    public void addedVariable(String id) {
+        String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+        indexMap.put(id, name);
+        isUpdate = true;
+        updateVariableList("", "");
+        isUpdate = false;
+    }
+
+    public void changeVariable(String id) {
+    }
+
+    private String lastRemoved = "";
+
+    public void removedVariable(String id) {
+        String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+        indexMap.put(id, null);
+        if (isIsolated) {
+            if (nameLabel.isVisible()) {
+                if (nameLabel.getText().equals(name)) {
+                    lastRemoved = name;
+                    turnWaningStateON();
+                }
+            }
+        } else {
+            if (name.equals(varList.getSelectedItem())) {
+                if (isEditState()) {
+                    lastRemoved = name;
+                    turnWaningStateON();
+                } else {
+                    if (Services.getService().getModelMapping().get(parentModelID) instanceof ExpressionHolderUI) {
+                        ((ExpressionHolderUI) Services.getService().getModelMapping().get(parentModelID)).warningStateOn();
+                    }
+                    lastRemoved = name;
+                    turnWaningStateON();
+                }
+            }
+        }
+        isUpdate = true;
+        updateVariableList("", "");
+        isUpdate = false;
+    }
+
+    public void changeVariableName(String id, String name, String lastName) {
+        isUpdate = true;
+        indexMap.put(id, name);
+        updateVariableList(name, lastName);
+        isUpdate = false;
+        if (nameLabel.isVisible() && nameLabel.getText().equals(lastName)) {
+            nameLabel.setText(name);
+            nameLabel.revalidate();
+            nameLabel.repaint();
+        }
+    }
+
+    public void updateReference(String id) {
+        if (id == currentModelID) {
+            String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
+            isUpdate = true;
+            varList.setSelectedItem(name);
+            isUpdate = false;
+            if (isIsolated) {
+                editStateOff(name);
+            } else {
+                if (nameLabel.isVisible() && !("".equals(name) || name == null)) {
+                    nameLabel.setText(name);
+                    nameLabel.revalidate();
+                    nameLabel.repaint();
+                } else {
+                    nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+                    nameLabel.revalidate();
+                    nameLabel.repaint();
+                }
+                /*
+                 * if(nameLabel.isVisible() && "".equals(name)){ nameLabel.setText(name); nameLabel.revalidate(); nameLabel.repaint(); }else if("".equals(name) || name == null){
+                 * nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel")); nameLabel.revalidate(); nameLabel.repaint(); }
+                 */
+            }
+        }
+    }
+
+    public void changeVariableValue(String id, String value) {
+    }
+
+    public void changeVariableType(String id, String type) {
+    }
+
+    public void variableRestored(String id) {
+        String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+        indexMap.put(id, name);
+        isUpdate = true;
+        updateVariableList("", "");
+        isUpdate = false;
+        if (isIsolated) {
+            if (nameLabel.isVisible()) {
+                if (lastRemoved.equals(name)) {
+                    nameLabel.setText(name);
+                    turnWaningStateOFF();
+                }
+            } else {
+                if (lastRemoved.equals(name)) {
+                    turnWaningStateOFF();
+                    isUpdate = true;
+                    varList.setSelectedItem(lastRemoved);
+                    isUpdate = false;
+                }
+            }
+        } else {
+            if (lastRemoved.equals(name)) {
+                turnWaningStateOFF();
+                isUpdate = true;
+                varList.setSelectedItem(lastRemoved);
+                isUpdate = false;
+            }
+        }
+        lastRemoved = "";
+        revalidate();
+        repaint();
+    }
+
+    // END: Variable listener methods
+
+    // BEGIN: support methods
+    public void editStateOn() {
+        varList.setVisible(true);
+        nameLabel.setVisible(false);
+        drawBorder = false;
+        if (getParent() instanceof ExpressionHolderUI)
+            ((ExpressionHolderUI) getParent()).editStateOn();
+        if (!isIsolated)
+            editState = true;
+        revalidate();
+        repaint();
+    }
+
+    public void editStateOff(String item) {
+        varList.setVisible(false);
+        if (item != null && item != "")
+            nameLabel.setText(item);
+        else
+            nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
+        nameLabel.setVisible(true);
+        if (getParent() instanceof ExpressionHolderUI)
+            ((ExpressionHolderUI) getParent()).editStateOff();
+        if (!isIsolated)
+            editState = false;
+        revalidate();
+        repaint();
+    }
+
+    private void turnWaningStateON() {
+        iconLabel.setVisible(true);
+        warningState = true;
+        editStateOn();
+        if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
+            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else {
+            editStateOn();
+        }
+    }
+
+    private void turnWaningStateOFF() {
+        iconLabel.setVisible(false);
+        warningState = false;
+    }
+
+    private void updateVariableList(String newName, String lastName) {
+        Object itemSelected = varList.getSelectedItem();
+        varList.removeAllItems();
+        Object[] keySetArray = indexMap.keySet().toArray();
+        int count = 0;
+        for (int i = 0; i < keySetArray.length; i++) {
+            String variableName = (String) indexMap.get(keySetArray[i]);
+            if (variableName != null) {
+                count++;
+            }
+        }
+        isOnlyOneElement = count == 1 ? true : false;
+        for (int i = 0; i < keySetArray.length; i++) {
+            String variableName = (String) indexMap.get(keySetArray[i]);
+            if (variableName != null) {
+                varList.addItem(variableName);
+            }
+        }
+        if (lastName.equals(itemSelected)) {
+            varList.setSelectedItem(newName);
+        } else {
+            varList.setSelectedItem(itemSelected);
+        }
+
+    }
+
+    public String getScopeID() {
+        return scopeModelID;
+    }
+
+    public void setScopeID(String scopeID) {
+        this.scopeModelID = scopeID;
+    }
+
+    public String getCurrentModelID() {
+        return currentModelID;
+    }
+
+    public void setCurrentModelID(String currentModelID) {
+        this.currentModelID = currentModelID;
+    }
+
+    public String getModelID() {
+        return currentModelID;
+    }
+
+    public String getModelParent() {
+        return parentModelID;
+    }
+
+    public String getModelScope() {
+        return scopeModelID;
+    }
+
+    public void setModelID(String id) {
+        currentModelID = id;
+    }
+
+    public void setModelParent(String id) {
+        parentModelID = id;
+    }
+
+    public void setModelScope(String id) {
+        scopeModelID = id;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public boolean isEditState() {
+        return editState;
+    }
+
+    public void setEditState(boolean editState) {
+        this.editState = editState;
+    }
+
+    public String getVarListSelectedItem() {
+        return (String) varList.getSelectedItem();
+    }
+
+    public void setIsolationMode(boolean isIso) {
+        isIsolated = isIso;
+        setBackground(FlatUIColors.MAIN_BG);
+    }
+
+    public boolean isIsolated() {
+        return isIsolated;
+    }
 
 }
