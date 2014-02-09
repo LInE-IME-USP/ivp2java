@@ -75,7 +75,7 @@ public class Operation extends Expression {
         Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
         Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
         String str = "(";
-        
+
         str += expA.toJavaString() + " " + getOperationTypeAsString() + " ";
         str += expB.toJavaString() + " )";
         return str;
@@ -124,7 +124,7 @@ public class Operation extends Expression {
     }
 
     public void updateParent(String lastExp, String newExp, String operationContext) {
-        
+
         if (operationContext.equals("right")) {
             if (expressionBID.equals(lastExp) || expressionBID == "") {
                 expressionBID = newExp;

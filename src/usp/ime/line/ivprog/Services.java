@@ -9,12 +9,12 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
 
-    private IVPController   controller;
-    private IVPRenderer     render;
-    private HashMap         modelHash;
-    private HashMap         viewHash;
+    private IVPController    controller;
+    private IVPRenderer      render;
+    private HashMap          modelHash;
+    private HashMap          viewHash;
     private IVPMouseListener mL = null;
-    private static Services instance;
+    private static Services  instance;
 
     private Services() {
         controller = new IVPController();
@@ -49,8 +49,8 @@ public class Services {
         return viewHash;
     }
 
-    public IVPMouseListener getML(){
+    public IVPMouseListener getML() {
         return mL;
     }
-    
+
 }

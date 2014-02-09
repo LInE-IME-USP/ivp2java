@@ -42,8 +42,19 @@ public class EditInPlace extends JPanel implements KeyListener {
     private String[]          patterns                       = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", ".*" };
     // private String pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$";
 
-    public static final Color bgColor                        = FlatUIColors.MAIN_BG;
+    private Color             bgColor                        = FlatUIColors.MAIN_BG;
     public static final Color hoverColor                     = FlatUIColors.HOVER_COLOR;
+
+    public EditInPlace(Color bgColor) {
+        this.bgColor = bgColor;
+        FlowLayout flowLayout = (FlowLayout) getLayout();
+        flowLayout.setVgap(0);
+        flowLayout.setHgap(0);
+        setBorder(new EmptyBorder(0, 0, 0, 0));
+        initNameContainer();
+        initNameLabel();
+        initNameField();
+    }
 
     public EditInPlace() {
         FlowLayout flowLayout = (FlowLayout) getLayout();
@@ -193,5 +204,4 @@ public class EditInPlace extends JPanel implements KeyListener {
     public void setCurrentPattern(int currentPattern) {
         this.currentPattern = currentPattern;
     }
-
 }

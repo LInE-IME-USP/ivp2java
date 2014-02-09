@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JToolBar;
 
-public class WhileUI extends CodeBaseUI implements ICodeListener{
+public class WhileUI extends CodeBaseUI implements ICodeListener {
 
     private JPanel             contentPanel;
     private JPanel             header;

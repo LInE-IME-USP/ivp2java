@@ -29,7 +29,6 @@ public abstract class IlmModuleToolbar extends JPanel implements Observer {
             System.err.println("Error: image './usp/ime/line/resources/" + imageName + ".png' is missing: ilm/framework/modules/IlmModuleToolbar.java");
         }
         button.setUI(new IconButtonUI());
-
         return button;
     }
 }

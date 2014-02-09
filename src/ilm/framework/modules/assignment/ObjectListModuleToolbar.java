@@ -22,7 +22,7 @@ public class ObjectListModuleToolbar extends IlmModuleToolbar {
                 showWindow();
             }
         });
-        add(button);
+        // add(button);
         _window = new ObjectListModuleGUI();
     }
 

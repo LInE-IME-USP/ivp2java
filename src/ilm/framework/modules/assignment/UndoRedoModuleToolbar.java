@@ -1,8 +1,13 @@
 package ilm.framework.modules.assignment;
 
 import ilm.framework.modules.IlmModuleToolbar;
+
 import java.util.Observable;
+
 import javax.swing.JButton;
+
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +20,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
     private JButton           _redoButton;
 
     public UndoRedoModuleToolbar() {
-        _undoButton = makeButton("undo", "UNDO", "Undo the last action made", "Undo action");
+        _undoButton = makeButton("undo", "UNDO", ResourceBundleIVP.getString("undoBtn.Tip"), ResourceBundleIVP.getString("undoBtn.AltText"));
         add(_undoButton);
         _undoButton.addActionListener(new ActionListener() {
 
@@ -24,7 +29,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
             }
         });
         _undoButton.setEnabled(false);
-        _redoButton = makeButton("redo", "REDO", "Redo the last action unmade", "Redo action");
+        _redoButton = makeButton("redo", "REDO", ResourceBundleIVP.getString("redoBtn.Tip"), ResourceBundleIVP.getString("redoBtn.AltText"));
         add(_redoButton);
         _redoButton.addActionListener(new ActionListener() {
 

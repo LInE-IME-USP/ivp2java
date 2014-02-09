@@ -11,6 +11,7 @@ import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.gui.BaseGUI;
 import ilm.framework.modules.IlmModule;
+import ilm.framework.modules.assignment.HistoryModule;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -30,6 +31,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 import usp.ime.line.ivprog.view.FlatUIColors;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.FlowLayout;
 import java.awt.Color;
@@ -59,7 +61,6 @@ public class IlmBaseGUI extends BaseGUI {
         panel.setLayout(new BorderLayout(0, 0));
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.addChangeListener(new ChangeListener() {
-
             public void stateChanged(ChangeEvent arg0) {
                 setActiveAssignment();
             }
@@ -133,7 +134,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setAuthoringButton() {
-        authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING", "Open assignment authoring window", "Start authoring");
+        authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING", ResourceBundleIVP.getString("authoringBtn.Tip"), ResourceBundleIVP.getString("authoringBtn.AltText"));
         buttonsMenu.add(authoringBtn);
         authoringBtn.addActionListener(new ActionListener() {
 
@@ -148,7 +149,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setNewAssignmentButton() {
-        newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT", "Open an assignment in a new tab", "Start a new assignment");
+        newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT", ResourceBundleIVP.getString("newAssBtn.Tip"), ResourceBundleIVP.getString("newAssBtn.AltText"));
         buttonsMenu.add(newAssBtn);
         newAssBtn.addActionListener(new ActionListener() {
 
@@ -173,7 +174,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setCloseAssignmentButton() {
-        closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT", "Close the assignment in this tab", "Close this assignment");
+        closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT", ResourceBundleIVP.getString("closeAssBtn.Tip"), ResourceBundleIVP.getString("closeAssBtn.Tip"));
         buttonsMenu.add(closeAssBtn);
         closeAssBtn.addActionListener(new ActionListener() {
 
@@ -215,7 +216,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setOpenAssignmentButton() {
-        openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE", "Open an assignment file", "Open an assignment");
+        openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE", ResourceBundleIVP.getString("openAssBtn.Tip"), ResourceBundleIVP.getString("openAssBtn.AltText"));
         buttonsMenu.add(openAssBtn);
         openAssBtn.addActionListener(new ActionListener() {
 
@@ -254,7 +255,7 @@ public class IlmBaseGUI extends BaseGUI {
     }
 
     protected void setSaveAssignmentButton() {
-        saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", "Save this assignment in a file", "Save an assignment");
+        saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", ResourceBundleIVP.getString("saveAssBtn.Tip"), ResourceBundleIVP.getString("saveAssBtn.AltText"));
         buttonsMenu.add(saveAssBtn);
         saveAssBtn.addActionListener(new ActionListener() {
 

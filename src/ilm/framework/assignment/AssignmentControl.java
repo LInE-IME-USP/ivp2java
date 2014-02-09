@@ -10,6 +10,8 @@ import java.util.Vector;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.zip.ZipFile;
+
+import usp.ime.line.ivprog.view.configuration.ConfigurationModule;
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.comm.ICommunication;
@@ -49,6 +51,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         addModule(new UndoRedoModule());
         addModule(new HistoryModule());
         addModule(new ObjectListModule());
+        addModule(new ConfigurationModule());
     }
 
     public void addModule(IlmModule module) {

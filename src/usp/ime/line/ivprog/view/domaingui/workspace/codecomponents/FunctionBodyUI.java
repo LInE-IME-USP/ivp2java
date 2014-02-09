@@ -17,7 +17,7 @@ import java.awt.peer.ScrollbarPeer;
 
 import javax.swing.ScrollPaneConstants;
 
-public class FunctionBodyUI extends JPanel implements ICodeListener{
+public class FunctionBodyUI extends JPanel implements ICodeListener {
 
     private static final long serialVersionUID = -1559611466195605109L;
     private String            name             = null;
@@ -64,7 +64,7 @@ public class FunctionBodyUI extends JPanel implements ICodeListener{
     }
 
     public void addChild(String childID) {
-        
+
         canvas.addChild(childID);
     }
 

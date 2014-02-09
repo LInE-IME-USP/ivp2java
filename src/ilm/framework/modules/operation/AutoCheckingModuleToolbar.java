@@ -1,12 +1,16 @@
 package ilm.framework.modules.operation;
 
 import ilm.framework.modules.IlmModuleToolbar;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
 
@@ -16,7 +20,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
 
     public AutoCheckingModuleToolbar(AutomaticCheckingModule module) {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        button = makeButton("autochecking", "AUTOMATIC CHECKING", "Auto evaluate of your assignment, giving you a grade", "Auto-evaluation");
+        button = makeButton("autochecking", "AUTOMATIC CHECKING", ResourceBundleIVP.getString("evaluationBtn.Tip"), ResourceBundleIVP.getString("evaluationBtn.AltText"));
         button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {

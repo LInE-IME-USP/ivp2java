@@ -17,8 +17,8 @@ public class GripArea extends JPanel {
     private static final long serialVersionUID = 1L;
     protected java.awt.Color  highlightColor   = javax.swing.plaf.metal.MetalLookAndFeel.getControlHighlight();
     protected java.awt.Color  shadowColor      = javax.swing.plaf.metal.MetalLookAndFeel.getControlDarkShadow();
-    private String modelID;
-    
+    private String            modelID;
+
     public GripArea(String componentID) {
         setModelID(componentID);
         setMinimumSize(new java.awt.Dimension(12, 0));

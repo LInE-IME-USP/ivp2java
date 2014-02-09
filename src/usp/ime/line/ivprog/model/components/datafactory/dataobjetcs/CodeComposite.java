@@ -24,21 +24,21 @@ public abstract class CodeComposite extends CodeComponent {
      * 
      * @param holdingComponent
      * @param index
-     * @return 
+     * @return
      */
     public int addChildToIndex(String holdingComponentID, int index) {
         int lastIndex = -1;
-        if(children.contains(holdingComponentID)){
+        if (children.contains(holdingComponentID)) {
             lastIndex = children.indexOf(holdingComponentID);
-            if(index >= lastIndex){
+            if (index >= lastIndex) {
                 children.add(index, holdingComponentID);
                 children.remove(lastIndex);
-            }else{
+            } else {
                 children.remove(holdingComponentID);
                 children.add(index, holdingComponentID);
             }
             return lastIndex;
-        }else{
+        } else {
             children.add(index, holdingComponentID);
             return lastIndex;
         }

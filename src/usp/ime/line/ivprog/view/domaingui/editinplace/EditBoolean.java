@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 
 import java.awt.FlowLayout;
@@ -37,9 +38,20 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
     private String         scopeModelID;
     private String         context;
 
-    public static Color    BACKGROUND_COLOR = new Color(204, 255, 204);
+    private Color          BACKGROUND_COLOR = FlatUIColors.MAIN_BG;
 
     public EditBoolean() {
+        FlowLayout flowLayout = (FlowLayout) getLayout();
+        flowLayout.setVgap(0);
+        flowLayout.setHgap(0);
+        setBorder(new EmptyBorder(0, 0, 0, 0));
+        initNameContainer();
+        initNameLabel();
+        initNameField();
+    }
+
+    public EditBoolean(Color bg) {
+        BACKGROUND_COLOR = bg;
         FlowLayout flowLayout = (FlowLayout) getLayout();
         flowLayout.setVgap(0);
         flowLayout.setHgap(0);
@@ -172,4 +184,5 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
     public String getContext() {
         return context;
     }
+
 }

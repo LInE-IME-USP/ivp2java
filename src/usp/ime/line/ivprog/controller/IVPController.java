@@ -39,7 +39,7 @@ public class IVPController {
         actionList = new HashMap();
         codeListener = new HashMap();
     }
-    
+
     public HashMap getCodeListener() {
         return codeListener;
     }
@@ -88,8 +88,8 @@ public class IVPController {
         ICodeListener listener = (ICodeListener) codeListener.get(containerID);
         listener.addChild(newChild.getObjectID());
     }
-    
-    public void moveChild(String child, String origin, String destiny, int dropIndex){
+
+    public void moveChild(String child, String origin, String destiny, int dropIndex) {
         MoveComponent mv = (MoveComponent) actionList.get("movecomponent");
         mv.setComponent(child);
         mv.setOrigin(origin);
@@ -177,15 +177,13 @@ public class IVPController {
         changeExpression.setNewType(expressionType);
         changeExpression.execute();
     }
-    
+
     public void removeChild(String containerID, String childID) {
         RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
         removeChild.setChildID(childID);
         removeChild.setContainerID(containerID);
         removeChild.execute();
     }
-
-    
 
     public void initDomainActionList(DomainModel model) {
         CreateVariable newVar = new CreateVariable("newvar", "newvar");
@@ -235,8 +233,8 @@ public class IVPController {
         ChangeValue chV = new ChangeValue("changevalue", "changevalue");
         chV.setDomainModel(model);
         actionList.put("changevalue", chV);
-        
-        MoveComponent mv = new MoveComponent("movecomponent","movecomponent");
+
+        MoveComponent mv = new MoveComponent("movecomponent", "movecomponent");
         mv.setDomainModel(model);
         actionList.put("movecomponent", mv);
     }
@@ -244,7 +242,7 @@ public class IVPController {
     public void addComponentListener(ICodeListener listener, String id) {
         codeListener.put(id, listener);
     }
-    
+
     public void setConsole(IVPConsoleUI ivpConsoleUI) {
         program.setConsoleListener(ivpConsoleUI);
     }
@@ -253,5 +251,12 @@ public class IVPController {
         program.updateParent(parentModelID, currentModelID, newExpID, context);
     }
 
-   
+    public void showConfigurationsWindow() {
+
+    }
+
+    public void changeInteractionProtocol(String interactionProtocol) {
+        Services.getService().getML().setProtocol(interactionProtocol);
+    }
+
 };

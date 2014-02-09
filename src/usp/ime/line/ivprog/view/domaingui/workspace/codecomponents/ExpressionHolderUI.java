@@ -406,11 +406,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
                 ((IDomainObjectUI) lastExp).setModelParent(currentModelID);
             }
-            
+
             if (Services.getService().getViewMapping().get(parentModelID) instanceof CodeBaseUI) { // nessa atualização tenho que olhar o contexto...
                 if (lastExp != null) {
                     Services.getService().getController().updateParent(parentModelID, ((IDomainObjectUI) lastExp).getModelID(), id, operationContext);
-                }else{
+                } else {
                     Services.getService().getController().updateParent(parentModelID, "", id, operationContext);
                 }
             }

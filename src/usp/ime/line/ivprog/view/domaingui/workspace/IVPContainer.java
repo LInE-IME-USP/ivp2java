@@ -178,25 +178,25 @@ public class IVPContainer extends JPanel implements ICodeListener {
 
     public void restoreChild(String childID, int index) {
         JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
-        if(children.contains(child)){
+        if (children.contains(child)) {
             int ind = children.indexOf(child);
-            if(index >= ind){
+            if (index >= ind) {
                 children.add(index, child);
                 children.remove(ind);
-            }else{
+            } else {
                 children.remove(child);
                 children.add(index, child);
             }
-        }else{
+        } else {
             children.add(index, child);
         }
         relayout();
     }
-    
-    public int getDropIndex(int dropY){
+
+    public int getDropIndex(int dropY) {
         int index = 0;
-        while(index < children.size()-1){
-            if(((JPanel)children.get(index)).getY() > dropY){
+        while (index < children.size() - 1) {
+            if (((JPanel) children.get(index)).getY() > dropY) {
                 return index;
             }
             index++;

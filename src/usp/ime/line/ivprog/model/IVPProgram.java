@@ -134,14 +134,14 @@ public class IVPProgram extends DomainModel {
         CodeComposite originCode = (CodeComposite) Services.getService().getModelMapping().get(origin);
         CodeComponent componentCode = (CodeComponent) Services.getService().getModelMapping().get(component);
         int lastIndex;
-        ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny); 
+        ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny);
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
-        if(origin != destiny){
+        if (origin != destiny) {
             lastIndex = originCode.removeChild(component);
             destinyCode.addChildToIndex(component, dropIndex);
             originListener.childRemoved(component);
             destinyListener.restoreChild(component, dropIndex);
-        }else{
+        } else {
             lastIndex = destinyCode.addChildToIndex(component, dropIndex);
             destinyListener.restoreChild(component, dropIndex);
         }
@@ -219,7 +219,7 @@ public class IVPProgram extends DomainModel {
         }
         state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
     }
-    
+
     public String updateReferencedVariable(String refID, String newVarRef, AssignmentState state) {
         String lastReferencedVariable = "";
         VariableReference ref = (VariableReference) Services.getService().getModelMapping().get(refID);
@@ -274,7 +274,7 @@ public class IVPProgram extends DomainModel {
         }
         if (context.equals("right")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionB(exp.getUniqueID());
-        }else if (context.equals("left")){
+        } else if (context.equals("left")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionA(exp.getUniqueID());
         }
         state.add(exp);
@@ -438,13 +438,10 @@ public class IVPProgram extends DomainModel {
         return "";
     }
 
-    public void addComponentListener(){
-        
-    }
-    
-    
+    public void addComponentListener() {
 
-    
+    }
+
     public void playCode() {
         String code = " ";
         Object[] functionList = functionMap.values().toArray();
