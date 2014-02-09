@@ -264,12 +264,10 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     }
 
     public void print() {
-        System.out.println("Assignments: " + _assignmentList.size());
         for (int i = 0; i < _assignmentList.size(); i++) {
             Assignment a = (Assignment) _assignmentList.get(i);
             a.print();
         }
-        System.out.println("Modules:");
         Iterator moduleIterator = _moduleList.keySet().iterator();
         while (moduleIterator.hasNext()) {
             String key = (String) moduleIterator.next();

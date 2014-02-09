@@ -115,7 +115,6 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
 
         public void mouseReleased(MouseEvent e) {
             if (e.getSource().equals(nameLabel)) {
-                System.out.println("TROCAR VALOR BOOLEAN");
                 // nameField.setVisible(true);
                 // nameContainer.setVisible(false);
                 // nameField.requestFocus();

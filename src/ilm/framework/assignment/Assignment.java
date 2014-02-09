@@ -83,34 +83,24 @@ public class Assignment implements Serializable {
     }
 
     public void print() {
-        System.out.println("Proposition:" + _proposition);
-        System.out.println("Initial:");
         for (int i = 0; i < _initialState.getList().size(); i++) {
             DomainObject obj = (DomainObject) _initialState.getList().get(i);
-            System.out.println(obj.getName() + " " + obj.getDescription());
         }
-        System.out.println("Current:");
         for (int i = 0; i < _currentState.getList().size(); i++) {
             DomainObject obj = (DomainObject) _currentState.getList().get(i);
-            System.out.println(obj.getName() + " " + obj.getDescription());
         }
         if (_expectedAnswer != null) {
-            System.out.println("Expected:");
             for (int i = 0; i < _expectedAnswer.getList().size(); i++) {
                 DomainObject obj = (DomainObject) _expectedAnswer.getList().get(i);
-                System.out.println(obj.getName() + " " + obj.getDescription());
             }
         }
         Iterator keySetIterator = _config.keySet().iterator();
         while (keySetIterator.hasNext()) {
             String key = (String) keySetIterator.next();
-            System.out.println(key + ": " + _config.get(key));
         }
-        System.out.println("Metadata:");
         Iterator metaDataIterator = _metadata.keySet().iterator();
         while (metaDataIterator.hasNext()) {
             String key = (String) metaDataIterator.next();
-            System.out.println(key + ": " + _metadata.get(key));
         }
     }
 }

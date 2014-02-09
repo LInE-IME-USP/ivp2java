@@ -20,6 +20,7 @@ import usp.ime.line.ivprog.model.domainaction.DeleteExpression;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.CreateChild;
 import usp.ime.line.ivprog.model.domainaction.CreateVariable;
+import usp.ime.line.ivprog.model.domainaction.MoveComponent;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
@@ -86,6 +87,15 @@ public class IVPController {
         newChild.execute();
         ICodeListener listener = (ICodeListener) codeListener.get(containerID);
         listener.addChild(newChild.getObjectID());
+    }
+    
+    public void moveChild(String child, String origin, String destiny, int dropIndex){
+        MoveComponent mv = (MoveComponent) actionList.get("movecomponent");
+        mv.setComponent(child);
+        mv.setOrigin(origin);
+        mv.setDestiny(destiny);
+        mv.setDropY(dropIndex);
+        mv.execute();
     }
 
     public void addParameter(String scopeID) {
@@ -167,6 +177,15 @@ public class IVPController {
         changeExpression.setNewType(expressionType);
         changeExpression.execute();
     }
+    
+    public void removeChild(String containerID, String childID) {
+        RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
+        removeChild.setChildID(childID);
+        removeChild.setContainerID(containerID);
+        removeChild.execute();
+    }
+
+    
 
     public void initDomainActionList(DomainModel model) {
         CreateVariable newVar = new CreateVariable("newvar", "newvar");
@@ -216,19 +235,16 @@ public class IVPController {
         ChangeValue chV = new ChangeValue("changevalue", "changevalue");
         chV.setDomainModel(model);
         actionList.put("changevalue", chV);
+        
+        MoveComponent mv = new MoveComponent("movecomponent","movecomponent");
+        mv.setDomainModel(model);
+        actionList.put("movecomponent", mv);
     }
 
     public void addComponentListener(ICodeListener listener, String id) {
         codeListener.put(id, listener);
     }
-
-    public void removeChild(String containerID, String childID) {
-        RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
-        removeChild.setChildID(childID);
-        removeChild.setContainerID(containerID);
-        removeChild.execute();
-    }
-
+    
     public void setConsole(IVPConsoleUI ivpConsoleUI) {
         program.setConsoleListener(ivpConsoleUI);
     }
@@ -237,4 +253,5 @@ public class IVPController {
         program.updateParent(parentModelID, currentModelID, newExpID, context);
     }
 
+   
 };

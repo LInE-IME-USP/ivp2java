@@ -27,7 +27,6 @@ public class While extends CodeComposite {
      * @param cond
      */
     public void setCondition(String cond) {
-        System.out.println(cond);
         conditionID = cond;
     }
 
@@ -48,12 +47,10 @@ public class While extends CodeComposite {
         String str = " while (";
         str += e.toJavaString();
         str += ") {";
-
         for (int i = 0; i < getChildrenList().size(); i++) {
-            CodeComponent c = ((CodeComponent) Services.getService().getModelMapping().get(conditionID));
+            DataObject c = ((DataObject) Services.getService().getModelMapping().get(getChildrenList().get(i)));
             str += c.toJavaString();
         }
-
         str += "}";
 
         // ------------------------------------------------------------ converting condition

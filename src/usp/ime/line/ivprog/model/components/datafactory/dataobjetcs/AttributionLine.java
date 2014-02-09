@@ -80,7 +80,6 @@ public class AttributionLine extends CodeComponent {
         String str = "";
         VariableReference varLeft = (VariableReference) Services.getService().getModelMapping().get(leftVariable);
         Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
-        System.out.println(varLeft + " " + rightExp);
         str += varLeft.toJavaString() + " = " + rightExp.toJavaString() + "; ";
         return str;
     }

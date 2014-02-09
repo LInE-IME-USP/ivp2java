@@ -35,6 +35,8 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         initGripArea();
         initCompositePanel();
         initTrashCan();
+        addMouseListener(Services.getService().getML());
+        addMouseMotionListener(Services.getService().getML());
     }
 
     private void initTrashCan() {

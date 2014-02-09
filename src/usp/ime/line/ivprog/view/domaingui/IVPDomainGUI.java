@@ -3,10 +3,13 @@ package usp.ime.line.ivprog.view.domaingui;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.domain.DomainModel;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -15,6 +18,7 @@ import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;

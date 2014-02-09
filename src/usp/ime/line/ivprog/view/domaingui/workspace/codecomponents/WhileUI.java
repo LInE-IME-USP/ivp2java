@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JToolBar;
 
-public class WhileUI extends CodeBaseUI {
+public class WhileUI extends CodeBaseUI implements ICodeListener{
 
     private JPanel             contentPanel;
     private JPanel             header;
@@ -145,4 +146,15 @@ public class WhileUI extends CodeBaseUI {
         return context;
     }
 
+    public void addChild(String childID) {
+        container.addChild(childID);
+    }
+
+    public void childRemoved(String childID) {
+        container.childRemoved(childID);
+    }
+
+    public void restoreChild(String childID, int index) {
+        container.restoreChild(childID, index);
+    }
 }

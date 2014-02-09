@@ -98,13 +98,10 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
     }
 
     public void print() {
-        System.out.println("Name: " + _name + " size: " + _undoStack.size());
         for (int i = 0; i < _undoStack.size(); i++) {
             Stack stack = (Stack) _undoStack.get(i);
-            System.out.println("size: " + stack.size());
             for (int j = 0; j < stack.size(); j++) {
                 DomainAction a = (DomainAction) stack.get(j);
-                System.out.println(a.getName() + " " + a.getDescription());
             }
         }
     }

@@ -150,13 +150,11 @@ public class EditInPlace extends JPanel implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
-        // System.out.println(e);
 
     }
 
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        // System.out.println(e);
 
     }
 

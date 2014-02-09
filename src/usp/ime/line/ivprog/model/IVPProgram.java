@@ -129,19 +129,23 @@ public class IVPProgram extends DomainModel {
         return codeBlock.getUniqueID();
     }
 
-    public int moveChild(String component, String origin, String destiny, int dropY, AssignmentState _currentState) {
+    public int moveChild(String component, String origin, String destiny, int dropIndex, AssignmentState _currentState) {
         CodeComposite destinyCode = (CodeComposite) Services.getService().getModelMapping().get(destiny);
         CodeComposite originCode = (CodeComposite) Services.getService().getModelMapping().get(origin);
         CodeComponent componentCode = (CodeComponent) Services.getService().getModelMapping().get(component);
-        destinyCode.addChildToIndex(component, dropY);
-        int lastIndex = originCode.removeChild(component);
-        componentCode.setParentID(destiny);
+        int lastIndex;
         ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny); 
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
-        
-        destinyListener.restoreChild(component, dropY);
-        originListener.childRemoved(component);
-        
+        if(origin != destiny){
+            lastIndex = originCode.removeChild(component);
+            destinyCode.addChildToIndex(component, dropIndex);
+            originListener.childRemoved(component);
+            destinyListener.restoreChild(component, dropIndex);
+        }else{
+            lastIndex = destinyCode.addChildToIndex(component, dropIndex);
+            destinyListener.restoreChild(component, dropIndex);
+        }
+        componentCode.setParentID(destiny);
         return lastIndex;
     }
 
@@ -397,8 +401,6 @@ public class IVPProgram extends DomainModel {
         String lastValue = v.getVariableValue();
         v.setVariableValue(value);
 
-        System.out.println("chamou o changevalue " + value);
-
         for (int i = 0; i < variableListeners.size(); i++) {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.changeVariableValue(id, value);
@@ -450,9 +452,7 @@ public class IVPProgram extends DomainModel {
             code += " " + ((Function) functionList[i]).toJavaString() + " ";
         }
         code += " Principal(); ";
-
         System.out.println(code);
-
         try {
             interpreter.eval(code);
         } catch (EvalError e) {

@@ -3,6 +3,7 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
@@ -16,7 +17,7 @@ import java.awt.peer.ScrollbarPeer;
 
 import javax.swing.ScrollPaneConstants;
 
-public class FunctionBodyUI extends JPanel {
+public class FunctionBodyUI extends JPanel implements ICodeListener{
 
     private static final long serialVersionUID = -1559611466195605109L;
     private String            name             = null;
@@ -60,6 +61,19 @@ public class FunctionBodyUI extends JPanel {
 
     public void setDataFunction(String function) {
         this.functionID = function;
+    }
+
+    public void addChild(String childID) {
+        
+        canvas.addChild(childID);
+    }
+
+    public void childRemoved(String childID) {
+        canvas.childRemoved(childID);
+    }
+
+    public void restoreChild(String childID, int index) {
+        canvas.restoreChild(childID, index);
     }
 
 }

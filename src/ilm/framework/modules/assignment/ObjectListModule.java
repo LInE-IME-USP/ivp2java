@@ -57,13 +57,10 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
     }
 
     public void print() {
-        System.out.println("Name: " + _name + "size: " + _objectList.size());
         for (int i = 0; i < _objectList.size(); i++) {
             Vector list = (Vector) _objectList.get(i);
-            System.out.println("size: " + list.size());
             for (int j = 0; j < list.size(); j++) {
                 DomainObject obj = (DomainObject) list.get(j);
-                System.out.println(obj.getName() + " " + obj.getDescription());
             }
         }
     }

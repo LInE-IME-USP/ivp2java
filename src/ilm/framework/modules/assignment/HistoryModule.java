@@ -59,12 +59,9 @@ public class HistoryModule extends AssignmentModule implements Serializable {
     }
 
     public void print() {
-        System.out.println("Name: " + _name + " size: " + _history.size());
         for (int i = 0; i < _history.size(); i++) {
-            System.out.println("size: " + ((Vector) _history.get(i)).size());
             for (int j = 0; j < ((Vector) _history.get(i)).size(); j++) {
                 DomainAction a = (DomainAction) ((Vector) _history.get(i)).get(j);
-                System.out.println(a.getName() + " " + a.getDescription());
             }
         }
     }

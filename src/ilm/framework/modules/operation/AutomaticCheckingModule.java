@@ -36,7 +36,6 @@ public class AutomaticCheckingModule extends OperationModule implements Serializ
     }
 
     public void print() {
-        System.out.println("Name: " + _name + " index: " + _assignmentIndex + " model: " + _model.toString());
     }
 
     public boolean hasExpectedAnswer() {

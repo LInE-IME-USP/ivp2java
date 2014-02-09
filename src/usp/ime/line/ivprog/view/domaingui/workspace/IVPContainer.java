@@ -134,7 +134,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
         int yLocDroppedPanel = dropY;
         HashMap yLocPanels = new HashMap();
         for (int i = 0; i < childrenList.size(); i++) {
-            yLocPanels.put(new Integer(((JPanel) childrenList.get(i)).getY() + 5), childrenList.get(i));
+            yLocPanels.put(new Integer(((JPanel) childrenList.get(i)).getY()), childrenList.get(i));
         }
         yLocPanels.put(new Integer(yLocDroppedPanel), child);
         Vector sortableYValues = new Vector();
@@ -178,8 +178,30 @@ public class IVPContainer extends JPanel implements ICodeListener {
 
     public void restoreChild(String childID, int index) {
         JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
-        children.add(index, child);
+        if(children.contains(child)){
+            int ind = children.indexOf(child);
+            if(index >= ind){
+                children.add(index, child);
+                children.remove(ind);
+            }else{
+                children.remove(child);
+                children.add(index, child);
+            }
+        }else{
+            children.add(index, child);
+        }
         relayout();
+    }
+    
+    public int getDropIndex(int dropY){
+        int index = 0;
+        while(index < children.size()-1){
+            if(((JPanel)children.get(index)).getY() > dropY){
+                return index;
+            }
+            index++;
+        }
+        return index;
     }
 
 }

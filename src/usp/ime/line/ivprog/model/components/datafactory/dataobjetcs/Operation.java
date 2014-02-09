@@ -30,7 +30,6 @@ public class Operation extends Expression {
      * @param expA
      */
     public void setExpressionA(String expA) {
-        System.out.println("setA");
         expressionAID = expA;
     }
 
@@ -51,7 +50,6 @@ public class Operation extends Expression {
      * @param expressionA
      */
     public void setExpressionB(String expB) {
-        System.out.println("setB");
         expressionBID = expB;
     }
 
@@ -77,8 +75,6 @@ public class Operation extends Expression {
         Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
         Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
         String str = "(";
-        
-        System.out.println("em operation "+expA+" "+expB);
         
         str += expA.toJavaString() + " " + getOperationTypeAsString() + " ";
         str += expB.toJavaString() + " )";
@@ -128,8 +124,6 @@ public class Operation extends Expression {
     }
 
     public void updateParent(String lastExp, String newExp, String operationContext) {
-        
-        System.out.println("updateParent em operation "+lastExp+" "+newExp+" "+operationContext);
         
         if (operationContext.equals("right")) {
             if (expressionBID.equals(lastExp) || expressionBID == "") {

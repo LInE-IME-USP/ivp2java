@@ -24,7 +24,6 @@ public class Ilm extends JApplet implements IlmProtocol {
         _ilmProtocol = ilmControl.getProtocol();
         try {
             SwingUtilities.invokeLater(new Runnable() {
-
                 public void run() {
                     ilmControl.startDesktopGUI();
                 }

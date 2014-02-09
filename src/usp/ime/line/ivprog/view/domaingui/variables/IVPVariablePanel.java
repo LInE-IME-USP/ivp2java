@@ -1,50 +1,32 @@
 package usp.ime.line.ivprog.view.domaingui.variables;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.util.TreeMap;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
-
-import com.l2fprod.common.demo.TaskPaneMain;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.listeners.IVariableListener;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
-import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 import usp.ime.line.ivprog.view.FlatUIColors;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
-import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
-import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Vector;
-
-import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.EmptyBorder;
 
 public class IVPVariablePanel extends JPanel implements IVariableListener {
 
