@@ -11,6 +11,7 @@ import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.peer.ScrollbarPeer;

@@ -6,6 +6,7 @@ import ilm.framework.config.SystemConfig;
 import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 
+import java.awt.Cursor;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;

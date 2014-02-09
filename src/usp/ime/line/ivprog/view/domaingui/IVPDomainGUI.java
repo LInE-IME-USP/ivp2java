@@ -5,6 +5,7 @@ import ilm.framework.domain.DomainModel;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

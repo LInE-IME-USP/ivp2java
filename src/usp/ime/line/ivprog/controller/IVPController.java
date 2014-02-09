@@ -2,6 +2,7 @@ package usp.ime.line.ivprog.controller;
 
 import ilm.framework.domain.DomainModel;
 
+import java.awt.Cursor;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
 
@@ -253,6 +254,14 @@ public class IVPController {
 
     public void showConfigurationsWindow() {
 
+    }
+    
+    public void changeCursor(int cursor){
+        gui.setCursor(Cursor.getPredefinedCursor(cursor));
+    }
+    
+    public void changeCursor(Cursor cursor){
+        gui.setCursor(cursor);
     }
 
     public void changeInteractionProtocol(String interactionProtocol) {
