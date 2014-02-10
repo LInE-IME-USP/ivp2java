@@ -248,51 +248,15 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         };
         variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.tip"));
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
-        
-        /*
-        Action integerHasBeenChosen = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_INTEGER, operationContext);
-            }
-        };
-        integerHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.integerHasBeenChosen.tip"));
-        integerHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.integerHasBeenChosen.text"));
-        Action doubleHasBeenChosen = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_DOUBLE, operationContext);
-            }
-        };
-        doubleHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.doubleHasBeenChosen.tip"));
-        doubleHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.doubleHasBeenChosen.text"));
-        Action textHasBeenChosen = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_STRING, operationContext);
-            }
-        };
-        textHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.tip"));
-        textHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.textHasBeenChosen.text"));
-        Action booleanHasBeenChosen = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_STRING, operationContext);
-            }
-        };
-        booleanHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.tip"));
-        booleanHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.text"));
-        */
         Action valueHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().createExpression(null, parentModelID, holdingType, operationContext);
             }
         };
-        valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeenChosen.tip"));
-        valueHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeenChosen.text"));
-        
-        
+        valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeensChosen.tip"));
+        valueHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeensChosen.text"));
         contentMenu.add(variableHasBeenChosen);
         contentMenu.add(valueHasBeenChosen);
-        //contentMenu.add(doubleHasBeenChosen);
-        //contentMenu.add(textHasBeenChosen);
-        //contentMenu.add(booleanHasBeenChosen);
     }
 
     private void initChangeContentBtn() {
