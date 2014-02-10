@@ -93,40 +93,28 @@ public class IVPProgram extends DomainModel {
         DataObject codeBlock = null;
         if (classID == IVPConstants.MODEL_WHILE) {
             codeBlock = (CodeComposite) dataFactory.createWhile();
-            Operation op = (Operation) dataFactory.createExpression();
-            op.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
-            op.setScopeID(currentScope);
-            op.setParentID(codeBlock.getUniqueID());
-            ((While) codeBlock).setCondition(op.getUniqueID());
-            Services.getService().getModelMapping().put(op.getUniqueID(), op);
-            state.add(op);
+            initCodeBlock(containerID, codeBlock);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_OPERATION_EQU, "while", state);
         } else if (classID == IVPConstants.MODEL_WRITE) {
             codeBlock = (DataObject) dataFactory.createPrint();
-            VariableReference e = (VariableReference) dataFactory.createVarReference();
-            e.setScopeID(currentScope);
-            e.setParentID(codeBlock.getUniqueID());
-            e.setExpressionType(Expression.EXPRESSION_VARIABLE);
-            Services.getService().getModelMapping().put(e.getUniqueID(), e);
-            state.add(e);
-            ((Print) codeBlock).setPrintableObject(e.getUniqueID());
+            initCodeBlock(containerID, codeBlock);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, "printable", state);
         } else if (classID == IVPConstants.MODEL_ATTLINE) {
             codeBlock = (DataObject) dataFactory.createAttributionLine();
-            VariableReference varRef = (VariableReference) dataFactory.createVarReference();
-            varRef.setScopeID(currentScope);
-            varRef.setParentID(codeBlock.getUniqueID());
-            varRef.setExpressionType(Expression.EXPRESSION_VARIABLE);
-            ((AttributionLine) codeBlock).setLeftVariableID(varRef.getUniqueID());
-            Services.getService().getModelMapping().put(varRef.getUniqueID(), varRef);
-            state.add(varRef);
+            initCodeBlock(containerID, codeBlock);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, "leftVar", state);
         }
-        Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-        codeBlock.setParentID(containerID);
-        codeBlock.setScopeID(currentScope);
         container.addChild(codeBlock.getUniqueID());
         // Framework
         state.add(codeBlock);
         return codeBlock.getUniqueID();
+    }
+
+    private void initCodeBlock(String containerID, DataObject codeBlock) {
+        codeBlock.setParentID(containerID);
+        codeBlock.setScopeID(currentScope);
+        Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
     }
 
     public int moveChild(String component, String origin, String destiny, int dropIndex, AssignmentState _currentState) {
@@ -229,8 +217,15 @@ public class IVPProgram extends DomainModel {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.updateReference(refID);
         }
-        Variable newReferenced = (Variable) Services.getService().getModelMapping().get(newVarRef);
-        newReferenced.addVariableReference(refID);
+        
+        System.out.println(refID + "  " + newVarRef);
+        
+        if(newVarRef != null){
+            //significa que estou voltando ao estado inicial.
+            Variable newReferenced = (Variable) Services.getService().getModelMapping().get(newVarRef);
+            newReferenced.addVariableReference(refID);
+        }
+        
         Variable lastReferenced = (Variable) Services.getService().getModelMapping().get(lastReferencedVariable);
         if (lastReferenced != null && !"".equals(lastReferenced)) {
             lastReferenced.removeVariableReference(refID);
@@ -239,24 +234,14 @@ public class IVPProgram extends DomainModel {
     }
 
     public String createExpression(String leftExpID, String holder, short expressionType, String context, AssignmentState state) {
-        // new expression -> (leftExp SIGN newExpField)
-        Expression exp = null;
-        if (expressionType == Expression.EXPRESSION_VARIABLE) {
-            exp = (Expression) dataFactory.createVarReference();
-            exp.setExpressionType(expressionType);
-        } else if (expressionType >= Expression.EXPRESSION_INTEGER && expressionType <= Expression.EXPRESSION_BOOLEAN) {
-            exp = (Expression) dataFactory.createConstant();
-            exp.setExpressionType(expressionType);
-            ((Constant) exp).setConstantValue(getInitvalue(expressionType));
-        } else {
-            exp = (Expression) dataFactory.createExpression();
-            exp.setExpressionType(expressionType);
-            ((Expression) Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
-            ((Operation) exp).setExpressionA(leftExpID);
-        }
-        exp.setParentID(holder);
-        exp.setScopeID(currentScope);
-        Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
+        Expression exp = createExpression(leftExpID, holder, expressionType);
+        updateExpressionListeners(holder, expressionType, context, state, exp);
+        putExpressionOnRightPlace(holder, context, exp);
+        state.add(exp);
+        return exp.getUniqueID();
+    }
+
+    private void updateExpressionListeners(String holder, short expressionType, String context, AssignmentState state, Expression exp) {
         for (int i = 0; i < expressionListeners.size(); i++) {
             ((IExpressionListener) expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID(), context);
         }
@@ -272,15 +257,45 @@ public class IVPProgram extends DomainModel {
             }
             state.add(newExp);
         }
+    }
+
+    private void putExpressionOnRightPlace(String holder, String context, Expression exp) {
         if (context.equals("right")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionB(exp.getUniqueID());
         } else if (context.equals("left")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionA(exp.getUniqueID());
+        } else if(context.equals("leftVar")){
+            ((AttributionLine)Services.getService().getModelMapping().get(holder)).setLeftVariableID(exp.getUniqueID());
+        } else if(context.equals("printable")){
+            ((Print)Services.getService().getModelMapping().get(holder)).setPrintableObject(exp.getUniqueID());
+        } else if(context.equals("while")){
+            ((While)Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
         }
-        state.add(exp);
-        return exp.getUniqueID();
     }
 
+    private Expression createExpression(String leftExpID, String holder, short expressionType) {
+        Expression exp = null;
+        if (expressionType == Expression.EXPRESSION_VARIABLE) {
+            exp = (Expression) dataFactory.createVarReference();
+            exp.setExpressionType(expressionType);
+        } else if (expressionType >= Expression.EXPRESSION_INTEGER && expressionType <= Expression.EXPRESSION_BOOLEAN) {
+            exp = (Expression) dataFactory.createConstant();
+            exp.setExpressionType(expressionType);
+            ((Constant) exp).setConstantValue(getInitvalue(expressionType));
+        } else {
+            exp = (Expression) dataFactory.createExpression();
+            exp.setExpressionType(expressionType);
+            if(leftExpID != ""){
+                ((Expression) Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
+                ((Operation) exp).setExpressionA(leftExpID);
+            }
+        }
+        exp.setParentID(holder);
+        exp.setScopeID(currentScope);
+        Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
+        return exp;
+    }
+    
     public String deleteExpression(String expression, String holder, String context, boolean isClean, boolean isComparison, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         DataObject dataHolder = (DataObject) Services.getService().getModelMapping().get(holder);
@@ -453,7 +468,7 @@ public class IVPProgram extends DomainModel {
         try {
             interpreter.eval(code);
         } catch (EvalError e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
     }
 }

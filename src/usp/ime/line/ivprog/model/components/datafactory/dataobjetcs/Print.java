@@ -46,7 +46,7 @@ public class Print extends CodeComponent {
     }
 
     public String toJavaString() {
-        String str = " bsh.console.println(";
+        String str = " bsh.console.println( \"> \"+";
         Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
         str += e.toJavaString();
         str += ");";

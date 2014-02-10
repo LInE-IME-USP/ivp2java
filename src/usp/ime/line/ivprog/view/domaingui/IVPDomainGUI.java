@@ -54,6 +54,8 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     private JButton           btnPlay;
     private JLabel            lblNewLabel;
     private Component         verticalStrut;
+    private Component verticalStrut_1;
+    private JButton btnErase;
 
     public IVPDomainGUI() {
         setPreferredSize(new Dimension(800, 600));
@@ -85,13 +87,13 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         consolePanel.add(playAndConsolePanel, BorderLayout.WEST);
         playAndConsolePanel.setLayout(new BoxLayout(playAndConsolePanel, BoxLayout.Y_AXIS));
 
-        Action action = new AbstractAction() {
+        Action playAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                // Services.getService().getController().addParameter(scopeID);
+                Services.getService().getController().playCode();
             }
         };
-        action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/play.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
+        playAction.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/play.png")));
+        playAction.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
 
         lblNewLabel = new JLabel();
         lblNewLabel.setIcon(new ImageIcon(IVPDomainGUI.class.getResource("/usp/ime/line/resources/icons/console.png")));
@@ -100,14 +102,24 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         verticalStrut = Box.createVerticalStrut(10);
         playAndConsolePanel.add(verticalStrut);
 
-        btnPlay = new JButton(action);
+        btnPlay = new JButton(playAction);
         btnPlay.setUI(new IconButtonUI());
-        btnPlay.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                Services.getService().getController().playCode();
-            }
-        });
         playAndConsolePanel.add(btnPlay);
+        
+        verticalStrut_1 = Box.createVerticalStrut(10);
+        playAndConsolePanel.add(verticalStrut_1);
+        
+        Action cleanAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                consoleField.clean();
+            }
+        };
+        cleanAction.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/erase.png")));
+        cleanAction.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
+        
+        btnErase = new JButton(cleanAction);
+        btnErase.setUI(new IconButtonUI());
+        playAndConsolePanel.add(btnErase);
 
         consoleContainer = new RoundedJPanel();
         consoleContainer.setBackgroundColor(FlatUIColors.CONSOLE_COLOR);
@@ -117,6 +129,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         consoleContainer.setLayout(new BorderLayout(0, 0));
 
         consoleField = new IVPConsoleUI();
+        consoleField.setLineWrap(false);
         consoleContainer.add(consoleField);
     }
 
@@ -148,7 +161,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     }
 
     protected void initDomainGUI() {
-
+        
     }
 
     public Vector getSelectedObjects() {

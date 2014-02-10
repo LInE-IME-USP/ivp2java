@@ -132,7 +132,13 @@ public class Variable extends Expression {
         String str = "";
         str += " " + getVariableType();
         str += " " + getVariableName();
-        str += " = " + getVariableValue() + ";";
+        System.out.println(variableType);
+        if(variableType.equals(TYPE_STRING)){
+            str += " = \"" + getVariableValue() + "\";";    
+        }else{
+            str += " = " + getVariableValue() + ";";
+        }
+        
         return str;
     }
 

@@ -10,7 +10,6 @@ public class ChangeValue extends DomainAction {
     String     id;
     String     lastValue;
     String     newValue;
-
     String     context;
     String     holder;
 

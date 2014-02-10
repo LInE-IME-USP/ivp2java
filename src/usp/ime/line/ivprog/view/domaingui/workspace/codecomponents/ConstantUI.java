@@ -153,4 +153,8 @@ public class ConstantUI extends JPanel implements IDomainObjectUI {
             ((ExpressionHolderUI) getParent()).editStateOff();
     }
 
+    public boolean isEditState() {
+        return isEditing;
+    }
+
 }

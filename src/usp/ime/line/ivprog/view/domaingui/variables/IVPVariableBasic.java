@@ -80,6 +80,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     private void initLayout() {
         setOpaque(false);
         FlowLayout flowLayout = new FlowLayout();
+        flowLayout.setHgap(2);
         flowLayout.setVgap(2);
         flowLayout.setAlignment(FlowLayout.LEFT);
         setLayout(flowLayout);
@@ -107,7 +108,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("IVPVariableBasic.remove.tip"));
         excludeBtn = new JButton(action);
         excludeBtn.setUI(new IconButtonUI());
         optionsContainer.add(excludeBtn);
@@ -119,11 +120,10 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("IVPVariableBasic.config.tip"));
         configBtn = new JButton(action);
         configBtn.setUI(new IconButtonUI());
         configBtn.addActionListener(new ConfigBtnActionListener());
-
         optionsContainer.add(configBtn);
     }
 
@@ -131,23 +131,22 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         configMenu = new JPopupMenu();
         ActionListener al = new ConfigTypeActionListener();
 
-        JMenuItem menuItemInteira = new JMenuItem("Inteira");
+        JMenuItem menuItemInteira = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"));
         configMenu.add(menuItemInteira);
         menuItemInteira.addActionListener(al);
 
-        JMenuItem menuItemReal = new JMenuItem("Real");
+        JMenuItem menuItemReal = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.double"));
         configMenu.add(menuItemReal);
         menuItemReal.addActionListener(al);
 
-        JMenuItem menuItemBoolean = new JMenuItem("Verdadeiro/Falsa");
+        JMenuItem menuItemString = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.string"));
+        configMenu.add(menuItemString);
+        menuItemString.addActionListener(al);
+        
+        JMenuItem menuItemBoolean = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"));
         configMenu.add(menuItemBoolean);
         menuItemBoolean.addActionListener(al);
 
-        configMenu.addSeparator();
-
-        JMenuItem menuItemVetor = new JMenuItem("Vetor");
-        configMenu.add(menuItemVetor);
-        menuItemVetor.addActionListener(al);
     }
 
     private void initValueContainer() {
@@ -214,6 +213,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Variable.TYPE_STRING) {
                 value.setVisible(true);
+                value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_STRING);
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Variable.TYPE_BOOLEAN) {
                 value.setVisible(false);
@@ -232,21 +232,23 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     private class ConfigTypeActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
-            if (command.equals("Inteira")) {
+            if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_INTEGER);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
                 changeVariableType();
-            } else if (command.equals("Real")) {
+            } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.double"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_DOUBLE);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1.0");
                 changeVariableType();
-            } else if (command.equals("Verdadeiro/Falsa")) {
+            } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.string"))) {
+                    Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_STRING);
+                    Services.getService().getController().changeVariableInitialValue(currentModelID, "Olá mundo!");
+                    changeVariableType();
+            } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_BOOLEAN);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
                 changeVariableType();
-            } else if (command.equals("")) {
-
-            }
+            } 
         }
 
     }

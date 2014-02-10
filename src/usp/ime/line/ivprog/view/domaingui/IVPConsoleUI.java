@@ -35,7 +35,6 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
     }
 
     public IVPConsoleUI(InputStream cin, OutputStream cout) {
-
         setFont(new Font("Consolas", Font.BOLD, 12));
         setForeground(Color.WHITE);
         setBackground(FlatUIColors.CONSOLE_COLOR);
@@ -66,7 +65,6 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
     }
 
     public void error(Object arg0) {
-
     }
 
     public PrintStream getErr() {
@@ -90,6 +88,12 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
         append(String.valueOf(o));
     }
 
+    public void printError(Object o) {
+        setForeground(Color.red);
+        print(o);
+        setForeground(Color.white);
+    }
+    
     public static class BlockingPipedInputStream extends PipedInputStream {
         boolean closed;
 
@@ -122,6 +126,10 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
             closed = true;
             super.close();
         }
+    }
+    
+    public void clean(){
+        setText("");
     }
 
 }

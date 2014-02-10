@@ -460,7 +460,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             if (restoredExp instanceof OperationUI) {
                 ((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
-            } else {
+            } else if(restoredExp instanceof ConstantUI){
+                if(((ConstantUI) restoredExp).isEditState()){
+                    editStateOn();
+                }else{
+                    editStateOff();
+                }
+            }else {
                 if (((VariableSelectorUI) restoredExp).isEditState()) {
                     editStateOn();
                 } else {

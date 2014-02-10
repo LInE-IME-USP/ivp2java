@@ -233,7 +233,7 @@ public class Function extends CodeComposite {
         Vector paramList = parameters.toVector();
         for (int i = 0; i < paramList.size(); i++) {
             Variable v = ((Variable) Services.getService().getModelMapping().get(paramList.get(i)));
-            str += v.getVariableType() + " " + v.getVariableName() + ", ";
+            str += v.toJavaString();
         }
         str += ") {";
 
@@ -242,7 +242,7 @@ public class Function extends CodeComposite {
         Vector varList = localVariables.toVector();
         for (int i = 0; i < varList.size(); i++) {
             Variable v = ((Variable) Services.getService().getModelMapping().get(varList.get(i)));
-            str += v.getVariableType() + " " + v.getVariableName() + " " + " = " + v.getVariableValue() + "; ";
+            str += v.toJavaString();
         }
 
         Vector children = getChildrenList();
