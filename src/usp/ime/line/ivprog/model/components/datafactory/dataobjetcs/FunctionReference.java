@@ -9,6 +9,7 @@ import usp.ime.line.ivprog.Services;
 public class FunctionReference extends Reference {
 
     private String             referencedFunctionID = null;
+    private String functionReferencedType = "-1";
     private Vector             parameterList        = new Vector();
     public static final String STRING_CLASS         = "functionreference";
 
@@ -26,7 +27,7 @@ public class FunctionReference extends Reference {
             referencedFunctionID = functionID;
             Function f = (Function) Services.getService().getModelMapping().get(functionID);
             setReferencedName(f.getFunctionName());
-            setReferenceType(f.getReturnType());
+            setFunctionReferencedType(f.getReturnType());
         }
     }
 
@@ -105,5 +106,13 @@ public class FunctionReference extends Reference {
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    public String getFunctionReferencedType() {
+        return functionReferencedType;
+    }
+
+    public void setFunctionReferencedType(String functionReferencedType) {
+        this.functionReferencedType = functionReferencedType;
     }
 }

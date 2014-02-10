@@ -5,8 +5,8 @@ import usp.ime.line.ivprog.Services;
 
 public class AttributionLine extends CodeComponent {
 
-    private String             leftVariable     = null;
-    private String             rightExpression  = null;
+    private String             leftVariable     = "";
+    private String             rightExpression  = "";
     private String             leftVariableType = "-1";
     public static final String STRING_CLASS     = "attline";
 
@@ -80,7 +80,7 @@ public class AttributionLine extends CodeComponent {
         String str = "";
         VariableReference varLeft = (VariableReference) Services.getService().getModelMapping().get(leftVariable);
         Expression rightExp = (Expression) Services.getService().getModelMapping().get(rightExpression);
-        str += varLeft.toJavaString() + " = " + rightExp.toJavaString() + "; ";
+        str += varLeft.toJavaString() + " = " + rightExp.toJavaString() + ";\n /*" + getUniqueID() + "*/";
         return str;
     }
 
@@ -89,7 +89,7 @@ public class AttributionLine extends CodeComponent {
     }
 
     public void updateParent(String lastExp, String newExp, String operationContext) {
-        if (rightExpression == lastExp || rightExpression == null) {
+        if (rightExpression == lastExp || rightExpression == "") {
             rightExpression = newExp;
         }
     }

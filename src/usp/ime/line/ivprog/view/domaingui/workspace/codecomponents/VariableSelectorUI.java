@@ -278,6 +278,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             isUpdate = false;
             if (isIsolated) {
                 editStateOff(name);
+                if(Services.getService().getViewMapping().get(parentModelID) instanceof AttributionLineUI){
+                    ((AttributionLineUI)Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(true);
+                    if("".equals(name) || name == null){
+                        ((AttributionLineUI)Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(false);
+                    }
+                }
             } else {
                 if (nameLabel.isVisible() && !("".equals(name) || name == null)) {
                     nameLabel.setText(name);
@@ -288,10 +294,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     nameLabel.revalidate();
                     nameLabel.repaint();
                 }
-                /*
-                 * if(nameLabel.isVisible() && "".equals(name)){ nameLabel.setText(name); nameLabel.revalidate(); nameLabel.repaint(); }else if("".equals(name) || name == null){
-                 * nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel")); nameLabel.revalidate(); nameLabel.repaint(); }
-                 */
             }
         }
     }
@@ -299,7 +301,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     public void changeVariableValue(String id, String value) {
     }
 
-    public void changeVariableType(String id, String type) {
+    public void changeVariableType(String id, short type) {
     }
 
     public void variableRestored(String id) {

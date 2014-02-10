@@ -6,9 +6,13 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
+
+import java.awt.Font;
 
 public class AttributionLineUI extends CodeBaseUI {
 
@@ -17,6 +21,9 @@ public class AttributionLineUI extends CodeBaseUI {
     private VariableSelectorUI varSelector;
     private ExpressionFieldUI  expression;
     private String             context;
+    private boolean            isLeftVarSet = false;
+    private JLabel             blockedLabel;
+    private String leftVarModelID;
 
     public AttributionLineUI(String id, String scope, String parent) {
         super(id);
@@ -31,9 +38,12 @@ public class AttributionLineUI extends CodeBaseUI {
         expression = new ExpressionFieldUI(getModelID(), getModelScope());
         contentPanel = new JPanel();
         codeLabel = new JLabel(ResourceBundleIVP.getString("AttLine.text"));
-        varSelector = new VariableSelectorUI(getModelParent());
+        varSelector = new VariableSelectorUI(getModelID());
         varSelector.setModelScope(getModelScope());
         varSelector.setIsolationMode(true);
+        blockedLabel = new JLabel(ResourceBundleIVP.getString("AttributionLineUI.lblNewLabel.text")); //$NON-NLS-1$
+        blockedLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+        blockedLabel.setForeground(Color.PINK);
         setBackground(FlatUIColors.MAIN_BG);
     }
 
@@ -43,7 +53,22 @@ public class AttributionLineUI extends CodeBaseUI {
         contentPanel.add(varSelector);
         contentPanel.add(codeLabel);
         contentPanel.add(expression);
+        contentPanel.add(blockedLabel);
+        blockContent();
         addContentPanel(contentPanel);
+    }
+
+    public void blockContent() {
+        codeLabel.setVisible(false);
+        expression.setVisible(false);
+        blockedLabel.setVisible(true);
+    }
+
+    public void unblockContent() {
+        codeLabel.setVisible(true);
+        expression.setVisible(true);
+        expression.setHoldingType(((VariableReference)Services.getService().getModelMapping().get(leftVarModelID)).getReferenceType());
+        blockedLabel.setVisible(false);
     }
 
     public void setContext(String context) {
@@ -55,7 +80,22 @@ public class AttributionLineUI extends CodeBaseUI {
     }
 
     public void setLeftVarModelID(String leftVariableID) {
+        this.leftVarModelID = leftVariableID;
         varSelector.setModelID(leftVariableID);
+    }
+
+    public boolean isLeftVarSet() {
+        return isLeftVarSet;
+    }
+
+    public void setLeftVarSet(boolean isLeftVarSet) {
+        this.isLeftVarSet = isLeftVarSet;
+        expression.setBlocked(!isLeftVarSet);
+        if(isLeftVarSet){
+            unblockContent();
+        }else{
+            blockContent();
+        }
     }
 
 }

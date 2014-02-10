@@ -93,7 +93,7 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
         print(o);
         setForeground(Color.white);
     }
-    
+
     public static class BlockingPipedInputStream extends PipedInputStream {
         boolean closed;
 
@@ -127,8 +127,8 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
             super.close();
         }
     }
-    
-    public void clean(){
+
+    public void clean() {
         setText("");
     }
 

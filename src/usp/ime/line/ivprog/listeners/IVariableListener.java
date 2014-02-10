@@ -11,7 +11,7 @@ public interface IVariableListener {
 
     public void changeVariableValue(String id, String value);
 
-    public void changeVariableType(String id, String type);
+    public void changeVariableType(String id, short newType);
 
     public void variableRestored(String id);
 

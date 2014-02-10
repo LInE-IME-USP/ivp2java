@@ -11,13 +11,14 @@ public class Variable extends Expression {
 
     public static final String STRING_CLASS  = "variable";
     private String             variableName  = "";
-    private String             variableType  = "-1";
+    private short             variableType  = -1;
     private String             variableValue = "";
     private Vector             variableReferenceList;
-    public static String       TYPE_INTEGER  = "int";
-    public static String       TYPE_DOUBLE   = "double";
-    public static String       TYPE_STRING   = "String";
-    public static String       TYPE_BOOLEAN  = "boolean";
+    
+    public static String       TYPESTRING_INTEGER  = "int";
+    public static String       TYPESTRING_DOUBLE   = "double";
+    public static String       TYPESTRING_STRING   = "String";
+    public static String       TYPESTRING_BOOLEAN  = "boolean";
 
     public Variable(String name, String description) {
         super(name, description);
@@ -48,7 +49,7 @@ public class Variable extends Expression {
      * @see IVPConstants
      * @return type
      */
-    public String getVariableType() {
+    public short getVariableType() {
         return variableType;
     }
 
@@ -58,7 +59,7 @@ public class Variable extends Expression {
      * @see IVPConstants
      * @param varIntType
      */
-    public void setVariableType(String varIntType) {
+    public void setVariableType(short varIntType) {
         variableType = varIntType;
     }
 
@@ -133,12 +134,12 @@ public class Variable extends Expression {
         str += " " + getVariableType();
         str += " " + getVariableName();
         System.out.println(variableType);
-        if(variableType.equals(TYPE_STRING)){
-            str += " = \"" + getVariableValue() + "\";";    
-        }else{
+        if (variableType == Expression.EXPRESSION_STRING) {
+            str += " = \"" + getVariableValue() + "\";";
+        } else {
             str += " = " + getVariableValue() + ";";
         }
-        
+
         return str;
     }
 

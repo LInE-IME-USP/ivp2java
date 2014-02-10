@@ -54,8 +54,8 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     private JButton           btnPlay;
     private JLabel            lblNewLabel;
     private Component         verticalStrut;
-    private Component verticalStrut_1;
-    private JButton btnErase;
+    private Component         verticalStrut_1;
+    private JButton           btnErase;
 
     public IVPDomainGUI() {
         setPreferredSize(new Dimension(800, 600));
@@ -105,10 +105,10 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         btnPlay = new JButton(playAction);
         btnPlay.setUI(new IconButtonUI());
         playAndConsolePanel.add(btnPlay);
-        
+
         verticalStrut_1 = Box.createVerticalStrut(10);
         playAndConsolePanel.add(verticalStrut_1);
-        
+
         Action cleanAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 consoleField.clean();
@@ -116,7 +116,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         };
         cleanAction.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/erase.png")));
         cleanAction.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
-        
+
         btnErase = new JButton(cleanAction);
         btnErase.setUI(new IconButtonUI());
         playAndConsolePanel.add(btnErase);
@@ -161,7 +161,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     }
 
     protected void initDomainGUI() {
-        
+
     }
 
     public Vector getSelectedObjects() {

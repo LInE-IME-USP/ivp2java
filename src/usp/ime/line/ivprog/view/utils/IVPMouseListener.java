@@ -27,7 +27,7 @@ public class IVPMouseListener extends MouseAdapter {
     private String             holdingComponent            = "";
     private JComponent         lastEnteredComponent        = null;
     private int                lastYOnLastEnteredComponent = 0;
-    
+
     // --------------------------------------------------------------------------------
     // MouseListener
     public void mouseClicked(MouseEvent event) {

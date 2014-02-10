@@ -24,6 +24,7 @@ import javax.swing.JButton;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.view.FlatUIColors;
@@ -142,7 +143,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         JMenuItem menuItemString = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.string"));
         configMenu.add(menuItemString);
         menuItemString.addActionListener(al);
-        
+
         JMenuItem menuItemBoolean = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"));
         configMenu.add(menuItemBoolean);
         menuItemBoolean.addActionListener(al);
@@ -188,7 +189,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         add(equalLabel);
     }
 
-    public void setVariableType(String type) {
+    public void setVariableType(short type) {
         variable.setVariableType(type);
         changeVariableType();
     }
@@ -203,19 +204,19 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
 
     private void changeVariableType() {
         if (variable != null) {
-            if (variable.getVariableType() == Variable.TYPE_INTEGER) {
+            if (variable.getVariableType() == Expression.EXPRESSION_INTEGER) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
                 booleanValue.setVisible(false);
-            } else if (variable.getVariableType() == Variable.TYPE_DOUBLE) {
+            } else if (variable.getVariableType() == Expression.EXPRESSION_DOUBLE) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_DOUBLE);
                 booleanValue.setVisible(false);
-            } else if (variable.getVariableType() == Variable.TYPE_STRING) {
+            } else if (variable.getVariableType() == Expression.EXPRESSION_STRING) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_STRING);
                 booleanValue.setVisible(false);
-            } else if (variable.getVariableType() == Variable.TYPE_BOOLEAN) {
+            } else if (variable.getVariableType() == Expression.EXPRESSION_BOOLEAN) {
                 value.setVisible(false);
                 booleanValue.setVisible(true);
             }
@@ -233,22 +234,22 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"))) {
-                Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_INTEGER);
+                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_INTEGER);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
                 changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.double"))) {
-                Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_DOUBLE);
+                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_DOUBLE);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1.0");
                 changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.string"))) {
-                    Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_STRING);
-                    Services.getService().getController().changeVariableInitialValue(currentModelID, "Olá mundo!");
-                    changeVariableType();
+                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_STRING);
+                Services.getService().getController().changeVariableInitialValue(currentModelID, "Olá mundo!");
+                changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"))) {
-                Services.getService().getController().changeVariableType(currentModelID, Variable.TYPE_BOOLEAN);
+                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_STRING);
                 Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
                 changeVariableType();
-            } 
+            }
         }
 
     }

@@ -5,7 +5,7 @@ import usp.ime.line.ivprog.model.utils.IVPConstants;
 public abstract class Reference extends Expression {
 
     protected String referencedName = "";
-    protected String referenceType  = "-1";
+    protected short referenceType  = -1;
 
     public Reference(String name, String description) {
         super(name, description);
@@ -35,7 +35,7 @@ public abstract class Reference extends Expression {
      * @see IVPConstants
      * @return the referenceType
      */
-    public String getReferenceType() {
+    public short getReferenceType() {
         return referenceType;
     }
 
@@ -45,7 +45,7 @@ public abstract class Reference extends Expression {
      * @param referencedType
      *            the referenceType to set
      */
-    public void setReferenceType(String refType) {
+    public void setReferenceType(short refType) {
         referenceType = refType;
     }
 

@@ -34,7 +34,7 @@ public class VariableReference extends Reference {
             setReferenceType(var.getVariableType());
         } else {
             setReferencedName(null);
-            setReferenceType("-1");
+            setReferenceType((short) -1);
         }
     }
 

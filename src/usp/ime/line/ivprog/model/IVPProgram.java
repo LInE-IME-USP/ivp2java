@@ -69,10 +69,10 @@ public class IVPProgram extends DomainModel {
     }
 
     // Program actions
-    public void createFunction(String name, String functionType, AssignmentState state) {
+    public void createFunction(String name, String funcReturnVoid, AssignmentState state) {
         Function f = (Function) dataFactory.createFunction();
         f.setFunctionName(name);
-        f.setReturnType(functionType);
+        f.setReturnType(funcReturnVoid);
         functionMap.put(name, f);
         Services.getService().getModelMapping().put(f.getUniqueID(), f);
         for (int i = 0; i < functionListeners.size(); i++) {
@@ -175,7 +175,7 @@ public class IVPProgram extends DomainModel {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         Variable newVar = (Variable) dataFactory.createVariable();
         newVar.setVariableName("newVar" + f.getVariableCount());
-        newVar.setVariableType(Variable.TYPE_INTEGER);
+        newVar.setVariableType(Expression.EXPRESSION_INTEGER);
         newVar.setVariableValue(initialValue);
         newVar.setScopeID(currentScope);
         Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
@@ -217,22 +217,19 @@ public class IVPProgram extends DomainModel {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.updateReference(refID);
         }
-        
-        System.out.println(refID + "  " + newVarRef);
-        
-        if(newVarRef != null){
-            //significa que estou voltando ao estado inicial.
+
+        if (newVarRef != null) {
+            // significa que estou voltando ao estado inicial.
             Variable newReferenced = (Variable) Services.getService().getModelMapping().get(newVarRef);
             newReferenced.addVariableReference(refID);
         }
-        
+
         Variable lastReferenced = (Variable) Services.getService().getModelMapping().get(lastReferencedVariable);
         if (lastReferenced != null && !"".equals(lastReferenced)) {
             lastReferenced.removeVariableReference(refID);
         }
         return lastReferencedVariable;
     }
-
     public String createExpression(String leftExpID, String holder, short expressionType, String context, AssignmentState state) {
         Expression exp = createExpression(leftExpID, holder, expressionType);
         updateExpressionListeners(holder, expressionType, context, state, exp);
@@ -264,12 +261,12 @@ public class IVPProgram extends DomainModel {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionB(exp.getUniqueID());
         } else if (context.equals("left")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionA(exp.getUniqueID());
-        } else if(context.equals("leftVar")){
-            ((AttributionLine)Services.getService().getModelMapping().get(holder)).setLeftVariableID(exp.getUniqueID());
-        } else if(context.equals("printable")){
-            ((Print)Services.getService().getModelMapping().get(holder)).setPrintableObject(exp.getUniqueID());
-        } else if(context.equals("while")){
-            ((While)Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
+        } else if (context.equals("leftVar")) {
+            ((AttributionLine) Services.getService().getModelMapping().get(holder)).setLeftVariableID(exp.getUniqueID());
+        } else if (context.equals("printable")) {
+            ((Print) Services.getService().getModelMapping().get(holder)).setPrintableObject(exp.getUniqueID());
+        } else if (context.equals("while")) {
+            ((While) Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
         }
     }
 
@@ -285,7 +282,7 @@ public class IVPProgram extends DomainModel {
         } else {
             exp = (Expression) dataFactory.createExpression();
             exp.setExpressionType(expressionType);
-            if(leftExpID != ""){
+            if (leftExpID != "") {
                 ((Expression) Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
                 ((Operation) exp).setExpressionA(leftExpID);
             }
@@ -295,7 +292,7 @@ public class IVPProgram extends DomainModel {
         Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
         return exp;
     }
-    
+
     public String deleteExpression(String expression, String holder, String context, boolean isClean, boolean isComparison, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         DataObject dataHolder = (DataObject) Services.getService().getModelMapping().get(holder);
@@ -399,13 +396,13 @@ public class IVPProgram extends DomainModel {
         return lastName;
     }
 
-    public String changeVariableType(String id, String type, AssignmentState state) {
+    public short changeVariableType(String id, short newType, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
-        String lastType = v.getVariableType();
-        v.setVariableType(type);
+        short lastType = v.getVariableType();
+        v.setVariableType(newType);
         for (int i = 0; i < variableListeners.size(); i++) {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
-            listener.changeVariableType(id, type);
+            listener.changeVariableType(id, newType);
         }
         state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
         return lastType;
@@ -464,11 +461,9 @@ public class IVPProgram extends DomainModel {
             code += " " + ((Function) functionList[i]).toJavaString() + " ";
         }
         code += " Principal(); ";
-        System.out.println(code);
         try {
             interpreter.eval(code);
-        } catch (EvalError e) {
-           e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 }

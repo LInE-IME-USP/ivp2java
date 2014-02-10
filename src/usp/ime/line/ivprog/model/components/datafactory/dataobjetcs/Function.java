@@ -11,7 +11,7 @@ import usp.ime.line.ivprog.model.utils.IVPVariableMap;
 public class Function extends CodeComposite {
 
     private String             functionName   = "";
-    private String             returnType     = "-1";
+    private String             returnType     ="-1";
     private IVPVariableMap     parameters;
     private IVPVariableMap     localVariables;
     private int                variableCount  = 0;
@@ -112,11 +112,11 @@ public class Function extends CodeComposite {
      * Set the return type of this function.
      * 
      * @see IVPConstants
-     * @param rType
+     * @param funcReturnVoid
      *            the returnType to set
      */
-    public void setReturnType(String rType) {
-        returnType = rType;
+    public void setReturnType(String funcReturnVoid) {
+        returnType = funcReturnVoid;
     }
 
     /**

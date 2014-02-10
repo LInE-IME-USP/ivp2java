@@ -23,6 +23,7 @@ public class ExpressionFieldUI extends JPanel {
     private ImageIcon          open;
     private ImageIcon          closed;
     private JLabel             lockerIcon;
+    private boolean            isBlocked = true;
 
     public ExpressionFieldUI(String parent, String scope) {
         initLayout();
@@ -37,16 +38,18 @@ public class ExpressionFieldUI extends JPanel {
         lockerIcon.setIcon(closed);
         Action edition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                if (isEditing) {
-                    expressionHolderUI.disableEdition();
-                    isEditing = false;
-                    lockerIcon.setIcon(closed);
-                    lockerIcon.repaint();
-                } else {
-                    expressionHolderUI.enableEdition();
-                    isEditing = true;
-                    lockerIcon.setIcon(open);
-                    lockerIcon.repaint();
+                if (!isBlocked) {
+                    if (isEditing) {
+                        expressionHolderUI.disableEdition();
+                        isEditing = false;
+                        lockerIcon.setIcon(closed);
+                        lockerIcon.repaint();
+                    } else {
+                        expressionHolderUI.enableEdition();
+                        isEditing = true;
+                        lockerIcon.setIcon(open);
+                        lockerIcon.repaint();
+                    }
                 }
             }
         };
@@ -91,4 +94,20 @@ public class ExpressionFieldUI extends JPanel {
         return isEditing;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
+
+    public void setHoldingType(short type){
+        expressionHolderUI.setHoldingType(type);
+    }
+    
+    public short getHoldingType(){
+        return expressionHolderUI.getHoldingType();
+    }
+    
 }

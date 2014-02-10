@@ -124,10 +124,10 @@ public class IVPController {
         changeVarName.execute();
     }
 
-    public void changeVariableType(String id, String type) {
+    public void changeVariableType(String id, short expressionInteger) {
         ChangeVariableType changeVarType = (ChangeVariableType) actionList.get("changeVarType");
         changeVarType.setVariableID(id);
-        changeVarType.setNewType(type);
+        changeVarType.setNewType(expressionInteger);
         changeVarType.execute();
     }
 
@@ -255,12 +255,12 @@ public class IVPController {
     public void showConfigurationsWindow() {
 
     }
-    
-    public void changeCursor(int cursor){
+
+    public void changeCursor(int cursor) {
         gui.setCursor(Cursor.getPredefinedCursor(cursor));
     }
-    
-    public void changeCursor(Cursor cursor){
+
+    public void changeCursor(Cursor cursor) {
         gui.setCursor(cursor);
     }
 

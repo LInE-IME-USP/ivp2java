@@ -16,8 +16,8 @@ public class Constant extends Expression {
     }
 
     public String toJavaString() {
-        if(getExpressionType() == EXPRESSION_STRING){
-            return "\""+constantValue+"\"";
+        if (getExpressionType() == EXPRESSION_STRING) {
+            return "\"" + constantValue + "\"";
         }
         return constantValue;
     }

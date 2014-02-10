@@ -49,6 +49,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private String            operationContext;
     private JButton           operationsBtn;
     private JComponent        expression;
+    
+    private short holdingType = -1;
 
     public ExpressionHolderUI(String parent, String scopeID) {
         init(parent, scopeID);
@@ -246,6 +248,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         };
         variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.tip"));
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
+        
+        /*
         Action integerHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_INTEGER, operationContext);
@@ -274,11 +278,21 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         };
         booleanHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.tip"));
         booleanHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.booleanHasBeenChosen.text"));
+        */
+        Action valueHasBeenChosen = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                Services.getService().getController().createExpression(null, parentModelID, holdingType, operationContext);
+            }
+        };
+        valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeenChosen.tip"));
+        valueHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeenChosen.text"));
+        
+        
         contentMenu.add(variableHasBeenChosen);
-        contentMenu.add(integerHasBeenChosen);
-        contentMenu.add(doubleHasBeenChosen);
-        contentMenu.add(textHasBeenChosen);
-        contentMenu.add(booleanHasBeenChosen);
+        contentMenu.add(valueHasBeenChosen);
+        //contentMenu.add(doubleHasBeenChosen);
+        //contentMenu.add(textHasBeenChosen);
+        //contentMenu.add(booleanHasBeenChosen);
     }
 
     private void initChangeContentBtn() {
@@ -460,13 +474,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             if (restoredExp instanceof OperationUI) {
                 ((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
-            } else if(restoredExp instanceof ConstantUI){
-                if(((ConstantUI) restoredExp).isEditState()){
+            } else if (restoredExp instanceof ConstantUI) {
+                if (((ConstantUI) restoredExp).isEditState()) {
                     editStateOn();
-                }else{
+                } else {
                     editStateOff();
                 }
-            }else {
+            } else {
                 if (((VariableSelectorUI) restoredExp).isEditState()) {
                     editStateOn();
                 } else {
@@ -600,6 +614,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             ((ExpressionFieldUI) getParent()).setEdition(true);
             enableEdition();
         }
+    }
+
+    public short getHoldingType() {
+        return holdingType;
+    }
+
+    public void setHoldingType(short holdingType) {
+        this.holdingType = holdingType;
     }
 
 }
