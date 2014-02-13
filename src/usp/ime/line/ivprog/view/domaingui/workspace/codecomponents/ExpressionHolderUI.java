@@ -243,14 +243,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         contentMenu = new JPopupMenu();
         Action variableHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, Expression.EXPRESSION_VARIABLE, operationContext);
+                Services.getService().getController().createExpression("", parentModelID, Expression.EXPRESSION_VARIABLE, operationContext);
             }
         };
         variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.tip"));
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
         Action valueHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression(null, parentModelID, holdingType, operationContext);
+                Services.getService().getController().createExpression("", parentModelID, holdingType, operationContext);
             }
         };
         valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeensChosen.tip"));
@@ -366,6 +366,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 else {
                     ((VariableSelectorUI) expression).editStateOff("");
                 }
+                if(holdingType != -1){
+                	((VariableSelectorUI) expression).setExpressionType(holdingType);
+                }
             } else if (expression instanceof ConstantUI) {
                 if (isEditing)
                     ((ConstantUI) expression).editStateOn();
@@ -373,6 +376,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                     ((ConstantUI) expression).editStateOff("");
                 }
             } else {
+            	if(holdingType == -1){
+            		correctHoldingType(lastExp);
+            	}
+            	((OperationUI) expression).setExpressionType(holdingType);
                 if (!isComparison) {
                     if (lastExp != null)
                         ((OperationUI) expression).setExpressionBaseUI_1(lastExp);
@@ -398,12 +405,24 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         }
     }
 
-    public void expressionDeleted(String id, String context, boolean isClean) {
+    private void correctHoldingType(JComponent lastExp) {
+    	if(lastExp instanceof VariableSelectorUI){
+    		holdingType = ((VariableSelectorUI)lastExp).referenceType();
+    	}else if(lastExp instanceof OperationUI){
+    		holdingType = ((OperationUI)lastExp).getExpressionType();
+    	}
+	}
+
+	public void expressionDeleted(String id, String context, boolean isClean) {
+		System.out.println("deveria chegar aqui, ver a mensagem e parar...");
         if (expression != null) {
             if (currentModelID.equals(id) && operationContext.equals(context)) {
+            	System.out.println("achou de onde tirar...");
+
                 remove(expression);
                 isContentSet = false;
                 if (!isClean) {
+                	System.out.println("NAO PODE ENTRAR AQUI...");
                     if (expression instanceof OperationUI) {
                         JComponent exp = ((OperationUI) expression).getExpressionBaseUI_1().getExpression();
                         currentModelID = ((IDomainObjectUI) exp).getModelID();
@@ -415,10 +434,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
                 revalidate();
                 repaint();
-
             }
         }
-
     }
 
     public void expressionRestoredFromCleaning(String holder, String id, String context) {

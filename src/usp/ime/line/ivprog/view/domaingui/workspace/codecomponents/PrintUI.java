@@ -41,6 +41,7 @@ public class PrintUI extends CodeBaseUI {
         initialExpression = (VariableSelectorUI) Services.getService().getRenderer().paint(printableExpression);
         expressionFieldUI = new ExpressionFieldUI(getModelID(), getModelScope());
         expressionFieldUI.setHolderContent(initialExpression);
+        expressionFieldUI.setBlocked(false);
         contentPanel.add(expressionFieldUI);
         addContentPanel(contentPanel);
     }

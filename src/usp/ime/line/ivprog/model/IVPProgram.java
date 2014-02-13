@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.listeners.IOperationListener;
+import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
@@ -296,6 +297,9 @@ public class IVPProgram extends DomainModel {
     public String deleteExpression(String expression, String holder, String context, boolean isClean, boolean isComparison, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         DataObject dataHolder = (DataObject) Services.getService().getModelMapping().get(holder);
+        
+        System.out.println(dataHolder);
+        
         String lastExpressionID;
         if (dataHolder instanceof AttributionLine) {
             ((AttributionLine) dataHolder).setRightExpression(null);
@@ -309,6 +313,10 @@ public class IVPProgram extends DomainModel {
         for (int i = 0; i < expressionListeners.size(); i++) {
             ((IExpressionListener) expressionListeners.get(i)).expressionDeleted(expression, context, isClean);
         }
+        
+        
+        //checar aqui...
+        
         if (isClean) {
             Expression newExp;
             if (!isComparison) {
@@ -338,7 +346,6 @@ public class IVPProgram extends DomainModel {
             } else {
                 ((IExpressionListener) expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
             }
-
         }
         state.add(exp);
     }
@@ -357,6 +364,8 @@ public class IVPProgram extends DomainModel {
         Constant c = (Constant) Services.getService().getModelMapping().get(id);
         String lastValue = c.getConstantValue();
         c.setConstantValue(constantValue);
+        IValueListener v = (IValueListener) Services.getService().getViewMapping().get(id);
+        v.valueChanged(constantValue);
         return lastValue;
     }
 
@@ -461,9 +470,15 @@ public class IVPProgram extends DomainModel {
             code += " " + ((Function) functionList[i]).toJavaString() + " ";
         }
         code += " Principal(); ";
+        String finalCode = "Runnable r = new Runnable(){ public void run() {"+ code + "} }; Thread t = new Thread(r); t.run();";
+        System.out.println(finalCode);
         try {
-            interpreter.eval(code);
+            interpreter.eval(finalCode);
         } catch (Exception e) {
+        	e.printStackTrace();
         }
     }
 }
+
+
+

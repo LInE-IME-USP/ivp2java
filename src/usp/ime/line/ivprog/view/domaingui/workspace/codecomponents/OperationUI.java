@@ -30,8 +30,10 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
     private boolean              drawBorder = false;
     private boolean              isEditing  = false;
     protected JPopupMenu         operationSignMenu;
+    protected short expressionType;
 
-    public OperationUI(String parent, String scope, String id) {
+   
+	public OperationUI(String parent, String scope, String id) {
         currentModelID = id;
         scopeModelID = scope;
         parentModelID = parent;
@@ -216,5 +218,15 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
             enableEdition();
         }
     }
+    
+    public short getExpressionType() {
+		return expressionType;
+	}
+
+	public void setExpressionType(short expressionType) {
+		this.expressionType = expressionType;
+		expressionBaseUI_1.setHoldingType(expressionType);
+		expressionBaseUI_2.setHoldingType(expressionType);
+	}
 
 }

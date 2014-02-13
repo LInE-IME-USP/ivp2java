@@ -34,18 +34,16 @@ public class EditInPlace extends JPanel implements KeyListener {
     public static int         PATTERN_VARIABLE_VALUE_DOUBLE  = 1;
     public static int         PATTERN_VARIABLE_VALUE_INTEGER = 2;
     public static int         PATTERN_VARIABLE_VALUE_STRING  = 3;
-
     private int               currentPattern                 = 0;
-
     private String[]          patternsTyping                 = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[0-9]*.[0-9]*$", "^[0-9]*$", ".*" };
-
     private String[]          patterns                       = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", ".*" };
-    // private String pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$";
 
     private Color             bgColor                        = FlatUIColors.MAIN_BG;
     public static final Color hoverColor                     = FlatUIColors.HOVER_COLOR;
-
-    public EditInPlace(Color bgColor) {
+    public boolean isUpdate = false;
+    
+    
+	public EditInPlace(Color bgColor) {
         this.bgColor = bgColor;
         FlowLayout flowLayout = (FlowLayout) getLayout();
         flowLayout.setVgap(0);
@@ -81,11 +79,9 @@ public class EditInPlace extends JPanel implements KeyListener {
     private void hasFocusLost() {
         nameContainer.setVisible(true);
         nameField.setVisible(false);
-
         if (valueListener != null) {
-            valueListener.valueChanged(nameField.getText());
+       		valueListener.valueChanged(nameField.getText());
         }
-        setValue(nameField.getText());
         nameField.setBorder(BorderFactory.createEtchedBorder());
     }
 
@@ -94,14 +90,16 @@ public class EditInPlace extends JPanel implements KeyListener {
         nameField.addKeyListener(this);
         nameField.addFocusListener(new FocusListener() {
             public void focusLost(FocusEvent arg0) {
-                String value = nameField.getText();
-                if (value.matches(patterns[currentPattern])) {
-                    hasFocusLost();
-                } else {
-                    nameField.setBorder(BorderFactory.createLineBorder(Color.red));
-                }
+            	if(!isUpdate){
+	                String value = nameField.getText();
+	                if (value.matches(patterns[currentPattern])) {
+	                    hasFocusLost();
+	                } else {
+	                    nameField.setBorder(BorderFactory.createLineBorder(Color.red));
+	                }
+            	}
+            	isUpdate = false;
             }
-
             public void focusGained(FocusEvent arg0) {
             }
         });
@@ -113,8 +111,9 @@ public class EditInPlace extends JPanel implements KeyListener {
     private void initInputMap() {
         AbstractAction editDone = new AbstractAction() {
             public void actionPerformed(ActionEvent ae) {
-                nameField.setFocusable(false);
-                nameField.setFocusable(true);
+            	isUpdate = true;
+            	nameField.setFocusable(false);
+            	nameField.setFocusable(true);
             }
         };
         nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER), editDone);

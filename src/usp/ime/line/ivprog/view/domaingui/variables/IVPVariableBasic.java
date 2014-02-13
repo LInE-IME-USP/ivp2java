@@ -116,13 +116,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     }
 
     private void initConfigBtn() {
-        Action action = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        };
-        action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("IVPVariableBasic.config.tip"));
-        configBtn = new JButton(action);
+        configBtn = new JButton(new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
         configBtn.setUI(new IconButtonUI());
         configBtn.addActionListener(new ConfigBtnActionListener());
         optionsContainer.add(configBtn);
@@ -207,18 +201,22 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             if (variable.getVariableType() == Expression.EXPRESSION_INTEGER) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
+                value.setValue("1");
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Expression.EXPRESSION_DOUBLE) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_DOUBLE);
+                value.setValue("1.0");
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Expression.EXPRESSION_STRING) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_STRING);
+                value.setValue("Olá mundo!");
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Expression.EXPRESSION_BOOLEAN) {
                 value.setVisible(false);
                 booleanValue.setVisible(true);
+                booleanValue.setValue("true");
             }
         }
     }
@@ -235,19 +233,15 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             String command = e.getActionCommand();
             if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_INTEGER);
-                Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
                 changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.double"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_DOUBLE);
-                Services.getService().getController().changeVariableInitialValue(currentModelID, "1.0");
                 changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.string"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_STRING);
-                Services.getService().getController().changeVariableInitialValue(currentModelID, "Olá mundo!");
                 changeVariableType();
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"))) {
-                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_STRING);
-                Services.getService().getController().changeVariableInitialValue(currentModelID, "1");
+                Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_BOOLEAN);
                 changeVariableType();
             }
         }

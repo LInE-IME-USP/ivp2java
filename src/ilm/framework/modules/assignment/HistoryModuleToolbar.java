@@ -27,7 +27,7 @@ public class HistoryModuleToolbar extends IlmModuleToolbar {
                 showWindow();
             }
         });
-        // add(button);
+         add(button);
         _window = new HistoryModuleGUI();
     }
 

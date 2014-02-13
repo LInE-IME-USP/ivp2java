@@ -11,7 +11,7 @@ public class Variable extends Expression {
 
     public static final String STRING_CLASS  = "variable";
     private String             variableName  = "";
-    private short             variableType  = -1;
+    private short              variableType  = -1;
     private String             variableValue = "";
     private Vector             variableReferenceList;
     
@@ -131,9 +131,8 @@ public class Variable extends Expression {
 
     public String toJavaString() {
         String str = "";
-        str += " " + getVariableType();
+        str += " " + getTypeAsString();
         str += " " + getVariableName();
-        System.out.println(variableType);
         if (variableType == Expression.EXPRESSION_STRING) {
             str += " = \"" + getVariableValue() + "\";";
         } else {
@@ -145,6 +144,19 @@ public class Variable extends Expression {
 
     public boolean equals(DomainObject o) {
         return false;
+    }
+    
+    public String getTypeAsString(){
+    	if(Expression.EXPRESSION_INTEGER == getVariableType()){
+    		return "int";
+    	}else if(Expression.EXPRESSION_DOUBLE == getVariableType()){
+    		return "double";
+    	}else if(Expression.EXPRESSION_STRING == getVariableType()){
+    		return "String";
+    	}else if(Expression.EXPRESSION_BOOLEAN == getVariableType()){
+    		return "boolean";
+    	}
+    	return "";
     }
 
 }

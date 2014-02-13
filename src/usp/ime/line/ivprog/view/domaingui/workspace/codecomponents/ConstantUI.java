@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-public class ConstantUI extends JPanel implements IDomainObjectUI {
+public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListener {
 
     private String      currentModelID;
     private String      parentModelID;
@@ -156,5 +156,19 @@ public class ConstantUI extends JPanel implements IDomainObjectUI {
     public boolean isEditState() {
         return isEditing;
     }
+
+	public void valueChanged(String value) {
+		if(expressionType == Expression.EXPRESSION_BOOLEAN){
+			editBool.setValue(value);
+			if(value.equals("true"))
+				valueLabel.setText("Verdadeiro");
+			else
+				valueLabel.setText("Falso");
+		}else{
+			editInPlace.setValue(value);
+			valueLabel.setText(value);
+		}
+		
+	}
 
 }
