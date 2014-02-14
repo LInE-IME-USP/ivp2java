@@ -1,20 +1,19 @@
 package usp.ime.line.ivprog.view.utils;
 
 public class DynamicFlowLayout extends java.awt.FlowLayout {
-
     private static final long  serialVersionUID = 1L;
     private java.awt.Dimension lastPreferredSize;
     private java.awt.Component anchorComponent;
     private int                anchorConstant   = 0;
     private Class              anchorClass;
-
+    
     public DynamicFlowLayout(int align, java.awt.Component anchor, Class anchorClass, int anchorConstant) {
         super(align);
         this.anchorComponent = anchor;
         this.anchorClass = anchorClass;
         this.anchorConstant = anchorConstant;
     }
-
+    
     public void layoutContainer(java.awt.Container target) {
         synchronized (target.getTreeLock()) {
             java.awt.Insets insets = target.getInsets();
@@ -51,7 +50,7 @@ public class DynamicFlowLayout extends java.awt.FlowLayout {
             moveComponents(target, insets.left + hgap, y, maxwidth - x, rowh, start, nmembers, ltr);
         }
     }
-
+    
     private void moveComponents(java.awt.Container target, int x, int y, int width, int height, int rowStart, int rowEnd, boolean ltr) {
         synchronized (target.getTreeLock()) {
             switch (getAlignment()) {
@@ -83,7 +82,7 @@ public class DynamicFlowLayout extends java.awt.FlowLayout {
             }
         }
     }
-
+    
     public java.awt.Dimension preferredLayoutSize(java.awt.Container target) {
         java.awt.Insets insets = target.getInsets();
         int hgap = getHgap();
@@ -138,11 +137,11 @@ public class DynamicFlowLayout extends java.awt.FlowLayout {
         lastPreferredSize = new java.awt.Dimension(maxwidth, y + rowh + vgap);
         return lastPreferredSize;
     }
-
+    
     public java.awt.Dimension minimumLayoutSize(java.awt.Container target) {
         return preferredLayoutSize(target);
     }
-
+    
     private java.awt.Component getAnchor(java.awt.Component current) {
         if (current == null || anchorClass.isAssignableFrom(current.getClass())) {
             return current;

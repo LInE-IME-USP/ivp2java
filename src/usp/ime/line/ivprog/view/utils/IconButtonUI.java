@@ -27,25 +27,23 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import usp.ime.line.ivprog.view.FlatUIColors;
 
 public class IconButtonUI extends BasicButtonUI {
-
     private Icon   baseIcon;
     private Icon   darkerIcon;
     private Icon   brighterIcon;
     private Icon   originalIcon;
-
     /**
      * Allows to scale icon image
      */
     private double scalingValue = -1;
-
+    
     public IconButtonUI() {
         super();
     }
-
+    
     public IconButtonUI(double scalingValue) {
         this.scalingValue = scalingValue;
     }
-
+    
     protected void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         b.setBorderPainted(false);
@@ -55,23 +53,22 @@ public class IconButtonUI extends BasicButtonUI {
         b.addMouseListener(new HandCursor());
         prepareIcons(b);
     }
-
+    
     public void installUI(JComponent c) {
         AbstractButton b = (AbstractButton) c;
         this.originalIcon = b.getIcon();
         super.installUI(c);
     }
-
+    
     public void uninstallUI(JComponent c) {
         AbstractButton b = (AbstractButton) c;
         b.setIcon(this.originalIcon);
         super.uninstallUI(c);
     }
-
+    
     public void paint(Graphics g, JComponent c) {
         AbstractButton b = (AbstractButton) c;
         ButtonModel model = b.getModel();
-
         if (model.isArmed() && model.isPressed()) {
             b.setIcon(darkerIcon);
         } else if (model.isRollover()) {
@@ -79,16 +76,14 @@ public class IconButtonUI extends BasicButtonUI {
         } else {
             b.setIcon(baseIcon);
         }
-
         super.paint(g, c);
     }
-
+    
     /**
      * Prepares icons to simulate button behaviour
      */
     private void prepareIcons(AbstractButton b) {
         baseIcon = b.getIcon();
-
         Image baseImage = getImage(baseIcon);
         if (this.scalingValue > 0) {
             baseImage = getScaledImage(baseImage, (int) (baseIcon.getIconWidth() * this.scalingValue), (int) (baseIcon.getIconHeight() * this.scalingValue));
@@ -96,11 +91,10 @@ public class IconButtonUI extends BasicButtonUI {
         }
         Image brightenImage = changeBrightness(baseImage, true, 30);
         Image darkenImage = changeBrightness(baseImage, false, 20);
-
         brighterIcon = getIcon(brightenImage);
         darkerIcon = getIcon(darkenImage);
     }
-
+    
     /**
      * Creates an image from an icon.
      */
@@ -118,7 +112,7 @@ public class IconButtonUI extends BasicButtonUI {
         else
             return null;
     }
-
+    
     /**
      * @param img
      * @return an icon from an image
@@ -126,7 +120,7 @@ public class IconButtonUI extends BasicButtonUI {
     private Icon getIcon(Image img) {
         return new IconUIResource(new ImageIcon(img));
     }
-
+    
     /**
      * @param img
      *            to scale
@@ -141,7 +135,7 @@ public class IconButtonUI extends BasicButtonUI {
         ImageProducer prod = new FilteredImageSource(img.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
-
+    
     /**
      * Change the brightness of an image
      */
@@ -150,7 +144,7 @@ public class IconButtonUI extends BasicButtonUI {
             public int filterRGB(int x, int y, int rgb) {
                 return (rgb & 0xff000000) | (filter(rgb >> 16) << 16) | (filter(rgb >> 8) << 8) | (filter(rgb));
             }
-
+            
             /**
              * Brighens or darkens a single r/g/b value.
              */
@@ -167,20 +161,18 @@ public class IconButtonUI extends BasicButtonUI {
                     color = 255;
                 return color;
             }
-
         };
         ImageProducer prod = new FilteredImageSource(img.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
-
+    
     static class HandCursor extends MouseAdapter {
         public void mouseEntered(MouseEvent e) {
             e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
-
+        
         public void mouseExited(MouseEvent e) {
             e.getComponent().setCursor(Cursor.getDefaultCursor());
         }
     }
-
 }

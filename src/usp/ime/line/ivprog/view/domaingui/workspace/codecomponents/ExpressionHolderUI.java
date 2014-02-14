@@ -28,10 +28,8 @@ import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ExpressionHolderUI extends JPanel implements IExpressionListener {
-
     public static final Color borderColor         = new Color(230, 126, 34);
     public static final Color hoverColor          = FlatUIColors.HOVER_COLOR;
-
     private boolean           drawBorder          = true;
     private boolean           isComparisonEnabled = false;
     private boolean           isEditing           = false;
@@ -41,7 +39,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private JPopupMenu        operationMenuWithoutComparison;
     private JPopupMenu        operationMenuWithComparison;
     private JPopupMenu        operationMenuComparison;
-
     private JLabel            selectLabel;
     private String            parentModelID;
     private String            scopeModelID;
@@ -49,15 +46,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private String            operationContext;
     private JButton           operationsBtn;
     private JComponent        expression;
+    private short             holdingType         = -1;
     
-    private short holdingType = -1;
-
     public ExpressionHolderUI(String parent, String scopeID) {
         init(parent, scopeID);
         initialization();
         initComponents();
     }
-
+    
     // BEGIN: initialization methods
     private void init(String parent, String scopeID) {
         parentModelID = parent;
@@ -66,7 +62,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         setOperationContext("");
         Services.getService().getController().getProgram().addExpressionListener(this);
     }
-
+    
     private void initialization() {
         setBackground(FlatUIColors.MAIN_BG);
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
@@ -75,14 +71,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         setLayout(flowLayout);
         addMouseListener(new ExpressionMouseListener(this));
     }
-
+    
     private void initComponents() {
         initLabel();
         initChooseContentMenu();
         initChangeContentBtn();
         initOperationsMenu();
     }
-
+    
     private void initOperationsMenu() {
         operationMenuWithoutComparison = new JPopupMenu();
         operationMenuWithComparison = new JPopupMenu();
@@ -95,7 +91,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         addCleanContent(operationMenuWithComparison);
         addCleanContent(operationMenuWithoutComparison);
     }
-
+    
     private void addCleanContentForCondition(JPopupMenu menu) {
         Action cleanContent = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -107,12 +103,12 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
         menu.add(cleanContent);
     }
-
+    
     private void addBooleanOperators(JPopupMenu menu) {
         Action changeToAND = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_AND, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_AND,(short)-1, operationContext);
             }
         };
         changeToAND.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.AND.tip"));
@@ -120,7 +116,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToOR = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_OR, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_OR,(short)-1, operationContext);
             }
         };
         changeToOR.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.OR.tip"));
@@ -128,7 +124,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         menu.add(changeToAND);
         menu.add(changeToOR);
     }
-
+    
     private void addCleanContent(JPopupMenu menu) {
         Action cleanContent = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -140,12 +136,12 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         cleanContent.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.cleanContent.text"));
         menu.add(cleanContent);
     }
-
+    
     private void addArithmeticOperations(JPopupMenu menu) {
         Action createAddition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_ADDITION, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_ADDITION, (short)-1, operationContext);
             }
         };
         createAddition.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition.tip"));
@@ -153,7 +149,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createSubtraction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION,(short)-1, operationContext);
             }
         };
         createSubtraction.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createSubtraction.tip"));
@@ -161,7 +157,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createMultiplication = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION,(short)-1, operationContext);
             }
         };
         createMultiplication.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createMultiplication.tip"));
@@ -169,7 +165,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createDivision = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION,(short)-1, operationContext);
             }
         };
         createDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision.tip"));
@@ -180,12 +176,12 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         menu.add(createMultiplication);
         menu.addSeparator();
     }
-
+    
     private void addComparison(JPopupMenu menu) {
         Action changeToLEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ,(short)-1, operationContext);
             }
         };
         changeToLEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LEQ.tip"));
@@ -193,7 +189,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToLES = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES,(short)-1, operationContext);
             }
         };
         changeToLES.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LES.tip"));
@@ -201,7 +197,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToEQU = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU,(short)-1, operationContext);
             }
         };
         changeToEQU.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.EQU.tip"));
@@ -209,7 +205,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToNEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ,(short)-1, operationContext);
             }
         };
         changeToNEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.NEQ.tip"));
@@ -217,7 +213,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToGEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ,(short)-1, operationContext);
             }
         };
         changeToGEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GEQ.tip"));
@@ -225,7 +221,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToGRE = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE,(short)-1, operationContext);
             }
         };
         changeToGRE.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GRE.tip"));
@@ -238,19 +234,19 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         menu.add(changeToGRE);
         menu.addSeparator();
     }
-
+    
     private void initChooseContentMenu() {
         contentMenu = new JPopupMenu();
         Action variableHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression("", parentModelID, Expression.EXPRESSION_VARIABLE, operationContext);
+                Services.getService().getController().createExpression("", parentModelID, Expression.EXPRESSION_VARIABLE, holdingType, operationContext);
             }
         };
         variableHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.tip"));
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
         Action valueHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression("", parentModelID, holdingType, operationContext);
+                Services.getService().getController().createExpression("", parentModelID, holdingType,(short)-1, operationContext);
             }
         };
         valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeensChosen.tip"));
@@ -258,7 +254,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         contentMenu.add(variableHasBeenChosen);
         contentMenu.add(valueHasBeenChosen);
     }
-
+    
     private void initChangeContentBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -279,15 +275,14 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         operationsBtn.setVisible(false);
         add(operationsBtn);
     }
-
+    
     private void initLabel() {
         selectLabel = new JLabel(ResourceBundleIVP.getString("ExpressionBaseUI.selectLabel.text"));
         selectLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
         add(selectLabel);
     }
-
+    
     // END: initialization methods
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (drawBorder) {
@@ -311,45 +306,44 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             layout.setHgap(0);
         }
     }
-
+    
     // BEGIN: Mouse listener
     private class ExpressionMouseListener implements MouseListener {
         private JPanel container;
-
+        
         public ExpressionMouseListener(JPanel c) {
             container = c;
         }
-
+        
         public void mouseEntered(MouseEvent e) {
             if (isEditing && !isContentSet) {
                 setBackground(hoverColor);
                 e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         }
-
+        
         public void mouseExited(MouseEvent e) {
             if (isEditing && !isContentSet) {
                 setBackground(FlatUIColors.MAIN_BG);
                 e.getComponent().setCursor(Cursor.getDefaultCursor());
             }
         }
-
+        
         public void mouseClicked(MouseEvent arg0) {
             if (isEditing && !isContentSet) {
                 contentMenu.show(container, 0, container.getHeight());
                 contentMenu.requestFocus();
             }
         }
-
+        
         public void mousePressed(MouseEvent arg0) {
         }
-
+        
         public void mouseReleased(MouseEvent arg0) {
         }
     }
-
+    
     // END: Mouse listener
-
     // BEGIN: Expression listener methods
     public void expressionCreated(String holder, String id, String context) {
         if (holder == parentModelID && operationContext.equals(context)) {
@@ -366,8 +360,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 else {
                     ((VariableSelectorUI) expression).editStateOff("");
                 }
-                if(holdingType != -1){
-                	((VariableSelectorUI) expression).setExpressionType(holdingType);
+                if (holdingType != -1) {
+                    ((VariableSelectorUI) expression).setReferencedType(holdingType);
                 }
             } else if (expression instanceof ConstantUI) {
                 if (isEditing)
@@ -376,10 +370,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                     ((ConstantUI) expression).editStateOff("");
                 }
             } else {
-            	if(holdingType == -1){
-            		correctHoldingType(lastExp);
-            	}
-            	((OperationUI) expression).setExpressionType(holdingType);
+                if (holdingType == -1) {
+                    correctHoldingType(lastExp);
+                }
+                ((OperationUI) expression).setExpressionType(holdingType);
                 if (!isComparison) {
                     if (lastExp != null)
                         ((OperationUI) expression).setExpressionBaseUI_1(lastExp);
@@ -391,7 +385,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
                 ((IDomainObjectUI) lastExp).setModelParent(currentModelID);
             }
-
             if (Services.getService().getViewMapping().get(parentModelID) instanceof CodeBaseUI) { // nessa atualização tenho que olhar o contexto...
                 if (lastExp != null) {
                     Services.getService().getController().updateParent(parentModelID, ((IDomainObjectUI) lastExp).getModelID(), id, operationContext);
@@ -404,25 +397,21 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             repaint();
         }
     }
-
+    
     private void correctHoldingType(JComponent lastExp) {
-    	if(lastExp instanceof VariableSelectorUI){
-    		holdingType = ((VariableSelectorUI)lastExp).referenceType();
-    	}else if(lastExp instanceof OperationUI){
-    		holdingType = ((OperationUI)lastExp).getExpressionType();
-    	}
-	}
-
-	public void expressionDeleted(String id, String context, boolean isClean) {
-		System.out.println("deveria chegar aqui, ver a mensagem e parar...");
+        if (lastExp instanceof VariableSelectorUI) {
+            holdingType = ((VariableSelectorUI) lastExp).referenceType();
+        } else if (lastExp instanceof OperationUI) {
+            holdingType = ((OperationUI) lastExp).getExpressionType();
+        }
+    }
+    
+    public void expressionDeleted(String id, String context, boolean isClean) {
         if (expression != null) {
             if (currentModelID.equals(id) && operationContext.equals(context)) {
-            	System.out.println("achou de onde tirar...");
-
                 remove(expression);
                 isContentSet = false;
                 if (!isClean) {
-                	System.out.println("NAO PODE ENTRAR AQUI...");
                     if (expression instanceof OperationUI) {
                         JComponent exp = ((OperationUI) expression).getExpressionBaseUI_1().getExpression();
                         currentModelID = ((IDomainObjectUI) exp).getModelID();
@@ -437,7 +426,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             }
         }
     }
-
+    
     public void expressionRestoredFromCleaning(String holder, String id, String context) {
         String lastExpID = null;
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
@@ -448,7 +437,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         revalidate();
         repaint();
     }
-
+    
     public void expressionRestored(String holder, String id, String context) {
         String lastExpID = null;
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
@@ -471,30 +460,28 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             setExpression(restoredExp);
             isContentSet = true;
         }
-
         revalidate();
         repaint();
     }
-
+    
     // END: Expression listener methods
-
     private void emptyExpressionHolder() {
         selectLabel.setVisible(true);
         setOpaque(true);
         drawBorder = true;
         editStateOff();
     }
-
+    
     private void populatedExpressionHolder() {
         selectLabel.setVisible(false);
         setOpaque(false);
         drawBorder = false;
     }
-
+    
     public JComponent getExpression() {
         return expression;
     }
-
+    
     public void setExpression(JComponent exp) {
         currentModelID = ((IDomainObjectUI) exp).getModelID();
         ;
@@ -512,43 +499,43 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         revalidate();
         repaint();
     }
-
+    
     public String getCurrentModelID() {
         return currentModelID;
     }
-
+    
     public void setCurrentModelID(String currentModelID) {
         this.currentModelID = currentModelID;
     }
-
+    
     public String getOperationContext() {
         return operationContext;
     }
-
+    
     public void setOperationContext(String operationContext) {
         this.operationContext = operationContext;
     }
-
+    
     public void editStateOff() {
         operationsBtn.setVisible(false);
         revalidate();
         repaint();
     }
-
+    
     public void editStateOn() {
         operationsBtn.setVisible(true);
         revalidate();
         repaint();
     }
-
+    
     public void enableComparison() {
         isComparisonEnabled = true;
     }
-
+    
     public void disableComparison() {
         isComparisonEnabled = false;
     }
-
+    
     public void enableEdition() {
         isEditing = true;
         if (expression != null) {
@@ -562,7 +549,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             }
         }
     }
-
+    
     public void disableEdition() {
         isEditing = false;
         if (expression != null) {
@@ -577,15 +564,15 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             }
         }
     }
-
+    
     public boolean isComparison() {
         return isComparison;
     }
-
+    
     public void setComparison(boolean isComparison) {
         this.isComparison = isComparison;
     }
-
+    
     public void warningStateOn() {
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
             ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
@@ -596,13 +583,12 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             enableEdition();
         }
     }
-
+    
     public short getHoldingType() {
         return holdingType;
     }
-
+    
     public void setHoldingType(short holdingType) {
         this.holdingType = holdingType;
     }
-
 }

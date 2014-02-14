@@ -13,12 +13,11 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.Services;
 
 public class GripArea extends JPanel {
-
     private static final long serialVersionUID = 1L;
     protected java.awt.Color  highlightColor   = javax.swing.plaf.metal.MetalLookAndFeel.getControlHighlight();
     protected java.awt.Color  shadowColor      = javax.swing.plaf.metal.MetalLookAndFeel.getControlDarkShadow();
     private String            modelID;
-
+    
     public GripArea(String componentID) {
         setModelID(componentID);
         setMinimumSize(new java.awt.Dimension(12, 0));
@@ -28,18 +27,18 @@ public class GripArea extends JPanel {
         addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent arg0) {
             }
-
+            
             public void mouseEntered(MouseEvent e) {
                 e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
             }
-
+            
             public void mouseExited(MouseEvent e) {
                 e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
-
+            
             public void mousePressed(MouseEvent arg0) {
             }
-
+            
             public void mouseReleased(MouseEvent arg0) {
             }
         });
@@ -54,13 +53,12 @@ public class GripArea extends JPanel {
             e.printStackTrace();
         }
     }
-
+    
     public String getModelID() {
         return modelID;
     }
-
+    
     public void setModelID(String modelID) {
         this.modelID = modelID;
     }
-
 }

@@ -13,16 +13,15 @@ import java.util.Observable;
 import java.util.Properties;
 
 public final class SystemConfig extends Observable implements Serializable {
-
     private static final String CUSTOM_PROPERTIES_KEY = "config";
     private Properties          _parameters;
     private boolean             _isApplet;
     private Locale              _currentLocale;
-
+    
     public SystemConfig(boolean isApplet, Map parameterList) {
         this(isApplet, parameterList, null);
     }
-
+    
     public SystemConfig(boolean isApplet, Map parameterList, Properties properties) {
         if (properties != null) {
             _parameters = properties;
@@ -54,13 +53,13 @@ public final class SystemConfig extends Observable implements Serializable {
         setProperties(parameterList);
         setLanguage(_parameters.getProperty("language"));
     }
-
+    
     private Properties getDefaultProperties() throws InvalidParameterException, FileNotFoundException, IOException {
         Properties defaultProperties = new Properties();
         defaultProperties.load(getClass().getResourceAsStream("defaultConfig.properties"));
         return defaultProperties;
     }
-
+    
     private void setProperties(Map parameterList) {
         Iterator parameterIterator = parameterList.entrySet().iterator();
         while (parameterIterator.hasNext()) {
@@ -68,31 +67,31 @@ public final class SystemConfig extends Observable implements Serializable {
             _parameters.setProperty((String) entry.getKey(), (String) entry.getValue());
         }
     }
-
+    
     public void setParameter(String key, String value) {
         _parameters.setProperty(key, value);
         setChanged();
         notifyObservers();
     }
-
+    
     public void setLanguage(String language) {
         _currentLocale = new Locale(language);
         setChanged();
         notifyObservers();
     }
-
+    
     public String getValue(String key) {
         return _parameters.getProperty(key);
     }
-
+    
     public Locale getLanguage() {
         return _currentLocale;
     }
-
+    
     public boolean isApplet() {
         return _isApplet;
     }
-
+    
     public String toString() {
         String string = "";
         Enumeration e = _parameters.propertyNames();

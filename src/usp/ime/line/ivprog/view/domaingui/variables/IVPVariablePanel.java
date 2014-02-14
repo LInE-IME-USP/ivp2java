@@ -29,7 +29,6 @@ import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 
 public class IVPVariablePanel extends JPanel implements IVariableListener {
-
     private static final long serialVersionUID = -2214975678822644250L;
     private JPanel            container;
     private JButton           addVarBtn;
@@ -39,17 +38,16 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     private String            scopeID;
     private Vector            variableList;
     private Vector            paramList;
-
     private TreeMap           varMap;
     private TreeMap           paramMap;
-
+    
     public IVPVariablePanel(String scopeID, boolean isMain) {
         setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
         this.scopeID = scopeID;
         initialization(isMain);
         Services.getService().getController().getProgram().addVariableListener(this);
     }
-
+    
     private void initialization(boolean isMain) {
         initVectors();
         initLayout();
@@ -61,19 +59,19 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         initAddVarBtn();
         initVarPanel();
     }
-
+    
     private void initVectors() {
         variableList = new Vector();
         paramList = new Vector();
         varMap = new TreeMap();
         paramMap = new TreeMap();
     }
-
+    
     private void initLayout() {
         setBackground(FlatUIColors.MAIN_BG);
         setLayout(new BorderLayout(0, 0));
     }
-
+    
     private void initParamPanel() {
         paramPanel = new RoundedJPanel();
         paramPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, paramPanel, paramPanel.getClass(), 1));
@@ -84,7 +82,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         gbc_paramPanel.gridy = 1;
         container.add(paramPanel, gbc_paramPanel);
     }
-
+    
     private void initParamBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +102,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         gbc_addParamBtn.gridy = 1;
         container.add(addParamBtn, gbc_addParamBtn);
     }
-
+    
     private void initVarPanel() {
         varPanel = new RoundedJPanel();
         varPanel.setLayout(new DynamicFlowLayout(FlowLayout.LEFT, varPanel, varPanel.getClass(), 1));
@@ -115,11 +113,11 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         gbc_varPanel.gridy = 0;
         container.add(varPanel, gbc_varPanel);
     }
-
+    
     private void initAddVarBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().addVariable(scopeID, "0");
+                Services.getService().getController().addVariable(scopeID, "1");
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
@@ -132,7 +130,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         gbc_addVarBtn.gridy = 0;
         container.add(addVarBtn, gbc_addVarBtn);
     }
-
+    
     private void initContainer() {
         container = new JPanel();
         container.setBorder(new EmptyBorder(0, 0, 5, 0));
@@ -145,7 +143,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         gbl_container.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
         container.setLayout(gbl_container);
     }
-
+    
     public void repaintVarPanel() {
         varPanel.removeAll();
         Object[] keySetArray = varMap.keySet().toArray();
@@ -157,7 +155,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         varPanel.revalidate();
         varPanel.repaint();
     }
-
+    
     public void repaintParamPanel() {
         paramPanel.removeAll();
         String[] keySetArray = (String[]) paramMap.keySet().toArray();
@@ -169,51 +167,48 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         paramPanel.revalidate();
         paramPanel.repaint();
     }
-
+    
     public void addedVariable(String id) {
         IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
         varMap.put(id, variable);
         repaintVarPanel();
     }
-
+    
     public void changeVariable(String id) {
-
     }
-
+    
     public void removedVariable(String id) {
         varMap.put(id, null);
         repaintVarPanel();
     }
-
+    
     public void changeVariableName(String id, String name, String lastName) {
         IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
         if (variable != null) {
             variable.setVariableName(name);
         }
-
     }
-
+    
     public void changeVariableValue(String id, String value) {
         IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
         if (variable != null) {
             variable.setVariableValue(value);
         }
     }
-
+    
     public void changeVariableType(String id, short type) {
         IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
         if (variable != null) {
             variable.setVariableType(type);
         }
     }
-
+    
     public void variableRestored(String id) {
         IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
         varMap.put(id, variable);
         repaintVarPanel();
     }
-
+    
     public void updateReference(String id) {
     }
-
 }

@@ -7,16 +7,15 @@ import java.util.Vector;
 import usp.ime.line.ivprog.Services;
 
 public class For extends CodeComposite {
-
     private String             indexInitialValue = null;
     private String             upperBound        = null;
     private String             increment         = null;
     public static final String STRING_CLASS      = "for";
-
+    
     public For(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Returns the expression containing index initial value.
      * 
@@ -25,7 +24,7 @@ public class For extends CodeComposite {
     public String getIndexInitialValue() {
         return indexInitialValue;
     }
-
+    
     /**
      * Set the index initial value expression.
      * 
@@ -34,7 +33,7 @@ public class For extends CodeComposite {
     public void setIndexInitialValue(String indexInitValue) {
         indexInitialValue = indexInitValue;
     }
-
+    
     /**
      * Return the index upper bound's expression.
      * 
@@ -43,7 +42,7 @@ public class For extends CodeComposite {
     public String getUpperBound() {
         return upperBound;
     }
-
+    
     /**
      * Sets the upper bound's expression.
      * 
@@ -52,7 +51,7 @@ public class For extends CodeComposite {
     public void setUpperBound(String hBound) {
         upperBound = hBound;
     }
-
+    
     /**
      * Return the expression that defines the increment's value.
      * 
@@ -61,7 +60,7 @@ public class For extends CodeComposite {
     public String getIncrement() {
         return increment;
     }
-
+    
     /**
      * Set the increment's value.
      * 
@@ -70,7 +69,7 @@ public class For extends CodeComposite {
     public void setIncrement(String inc) {
         increment = inc;
     }
-
+    
     public String toXML() {
         Expression index = (Expression) Services.getService().getModelMapping().get(indexInitialValue);
         Expression upper = (Expression) Services.getService().getModelMapping().get(upperBound);
@@ -84,15 +83,15 @@ public class For extends CodeComposite {
         str += "</children></dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         return null;
     }
-
+    
     public boolean equals(DomainObject o) {
         return false;
     }
-
+    
     public void updateParent(String lastExp, String newExp, String operationContext) {
         if (upperBound == lastExp)
             upperBound = newExp;

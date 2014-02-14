@@ -3,15 +3,14 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 import java.util.Vector;
 
 public abstract class Collection extends DataObject {
-
     private String collectionName = "";
     private Vector referenceList  = new Vector();
     private short  collectionType = -1;
-
+    
     public Collection(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * This methods returns the collection name in the system.
      * 
@@ -20,7 +19,7 @@ public abstract class Collection extends DataObject {
     public String getCollectionName() {
         return collectionName;
     }
-
+    
     /**
      * This method sets the collection name in the system.
      * 
@@ -29,7 +28,7 @@ public abstract class Collection extends DataObject {
     public void setCollectionName(String name) {
         collectionName = name;
     }
-
+    
     /**
      * This method gets the collection type. It might be int, double, String or boolean.
      * 
@@ -38,7 +37,7 @@ public abstract class Collection extends DataObject {
     public short getCollectionType() {
         return collectionType;
     }
-
+    
     /**
      * This method sets the collection type. It might be int, double, String or boolean.
      * 
@@ -47,7 +46,7 @@ public abstract class Collection extends DataObject {
     public void setCollectionType(short cType) {
         collectionType = cType;
     }
-
+    
     /**
      * Return the references list for this collection.
      * 
@@ -56,7 +55,7 @@ public abstract class Collection extends DataObject {
     public Vector getReferenceList() {
         return referenceList;
     }
-
+    
     /**
      * Set the references list for this collection.
      * 
@@ -65,7 +64,7 @@ public abstract class Collection extends DataObject {
     public void setReferenceList(Vector referenceList) {
         this.referenceList = referenceList;
     }
-
+    
     /**
      * Append a reference to the end of reference list.
      * 
@@ -74,7 +73,7 @@ public abstract class Collection extends DataObject {
     public void addReferenceToTheList(Expression refID) {
         referenceList.add(refID);
     }
-
+    
     /**
      * Remove the specified reference from the list and return it.
      * 

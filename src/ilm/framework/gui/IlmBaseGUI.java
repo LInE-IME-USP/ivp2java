@@ -37,7 +37,6 @@ import java.awt.FlowLayout;
 import java.awt.Color;
 
 public class IlmBaseGUI extends BaseGUI {
-
     private static final long serialVersionUID = 1L;
     private JPanel            buttonsMenu;
     private JPanel            panel;
@@ -48,7 +47,7 @@ public class IlmBaseGUI extends BaseGUI {
     private JButton           openAssBtn;
     private JButton           saveAssBtn;
     private int               tabCount;
-
+    
     public IlmBaseGUI() {
         setLayout(new BorderLayout(0, 0));
         buttonsMenu = new JPanel();
@@ -67,7 +66,7 @@ public class IlmBaseGUI extends BaseGUI {
         });
         tabCount = 0;
     }
-
+    
     protected void initAssignments() {
         if (_assignments.getNumberOfAssignments() == 1) {
             tabbedPane.setVisible(false);
@@ -86,7 +85,7 @@ public class IlmBaseGUI extends BaseGUI {
             }
         }
     }
-
+    
     private void initAssignment(AssignmentState curState) {
         _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
         int index = _domainGUIList.size() - 1;
@@ -97,7 +96,7 @@ public class IlmBaseGUI extends BaseGUI {
         _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(index), _assignments.getInitialState(index),
                 _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index), _assignments.getConfig(index), _assignments.getMetadata(index)));
     }
-
+    
     public void initToolbar(Collection moduleList) {
         addToolBarButtons();
         Iterator moduleIterator = moduleList.iterator();
@@ -107,7 +106,7 @@ public class IlmBaseGUI extends BaseGUI {
             buttonsMenu.add(Box.createHorizontalStrut(50));
         }
     }
-
+    
     private void addToolBarButtons() {
         setAuthoringButton();
         setNewAssignmentButton();
@@ -115,7 +114,7 @@ public class IlmBaseGUI extends BaseGUI {
         setOpenAssignmentButton();
         setSaveAssignmentButton();
     }
-
+    
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
         // update comes from _config
@@ -123,7 +122,7 @@ public class IlmBaseGUI extends BaseGUI {
         // check for language
         // apply changes
     }
-
+    
     protected void setActiveAssignment() {
         int index = tabbedPane.getSelectedIndex();
         if (index == -1) {
@@ -132,33 +131,31 @@ public class IlmBaseGUI extends BaseGUI {
             updateAssignmentIndex(index);
         }
     }
-
+    
     protected void setAuthoringButton() {
         authoringBtn = makeButton("authoring", "ASSIGNMENT AUTHORING", ResourceBundleIVP.getString("authoringBtn.Tip"), ResourceBundleIVP.getString("authoringBtn.AltText"));
         buttonsMenu.add(authoringBtn);
         authoringBtn.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 startAuthoring();
             }
         });
     }
-
+    
     protected void startAuthoring() {
         ((JFrame) _authoringGUIList.get(_activeAssignment)).setVisible(true);
     }
-
+    
     protected void setNewAssignmentButton() {
         newAssBtn = makeButton("newassignment", "NEW ASSIGNMENT", ResourceBundleIVP.getString("newAssBtn.Tip"), ResourceBundleIVP.getString("newAssBtn.AltText"));
         buttonsMenu.add(newAssBtn);
         newAssBtn.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 addNewAssignment();
             }
         });
     }
-
+    
     protected void addNewAssignment() {
         if (_assignments.getNumberOfAssignments() == 1) {
             panel.removeAll();
@@ -172,19 +169,18 @@ public class IlmBaseGUI extends BaseGUI {
         }
         updateCloseButton();
     }
-
+    
     protected void setCloseAssignmentButton() {
         closeAssBtn = makeButton("closeassignment", "CLOSE ASSIGNMENT", ResourceBundleIVP.getString("closeAssBtn.Tip"), ResourceBundleIVP.getString("closeAssBtn.Tip"));
         buttonsMenu.add(closeAssBtn);
         closeAssBtn.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 closeAssignment(tabbedPane.getSelectedIndex());
             }
         });
         updateCloseButton();
     }
-
+    
     protected void closeAssignment(int index) {
         if (_assignments.getNumberOfAssignments() == 1) {
         } else if (_assignments.getNumberOfAssignments() == 2) {
@@ -197,7 +193,7 @@ public class IlmBaseGUI extends BaseGUI {
             closeActiveAssignment();
         }
     }
-
+    
     private void updateCloseButton() {
         if (_assignments.getNumberOfAssignments() == 1) {
             closeAssBtn.setEnabled(false);
@@ -205,7 +201,7 @@ public class IlmBaseGUI extends BaseGUI {
             closeAssBtn.setEnabled(true);
         }
     }
-
+    
     private void closeActiveAssignment() {
         int index = _activeAssignment;
         _assignments.closeAssignment(index);
@@ -214,18 +210,17 @@ public class IlmBaseGUI extends BaseGUI {
         _authoringGUIList.remove(index);
         setActiveAssignment();
     }
-
+    
     protected void setOpenAssignmentButton() {
         openAssBtn = makeButton("openassignment", "OPEN ASSIGNMENT FILE", ResourceBundleIVP.getString("openAssBtn.Tip"), ResourceBundleIVP.getString("openAssBtn.AltText"));
         buttonsMenu.add(openAssBtn);
         openAssBtn.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 openAssignmentFile(getFileNameFromWindow("Choose file"));
             }
         });
     }
-
+    
     protected void openAssignmentFile(String fileName) {
         if (fileName == null) {
             return;
@@ -242,7 +237,7 @@ public class IlmBaseGUI extends BaseGUI {
         }
         updateCloseButton();
     }
-
+    
     private String getFileNameFromWindow(String option) {
         JFileChooser fc = new JFileChooser();
         int returnval = fc.showDialog(this, option);
@@ -253,18 +248,17 @@ public class IlmBaseGUI extends BaseGUI {
         }
         return null;
     }
-
+    
     protected void setSaveAssignmentButton() {
         saveAssBtn = makeButton("save", "SAVE ASSIGNMENT FILE", ResourceBundleIVP.getString("saveAssBtn.Tip"), ResourceBundleIVP.getString("saveAssBtn.AltText"));
         buttonsMenu.add(saveAssBtn);
         saveAssBtn.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 saveAssignmentFile(getFileNameFromWindow("Choose filename"));
             }
         });
     }
-
+    
     protected void saveAssignmentFile(String fileName) {
         if (fileName == null) {
             return;

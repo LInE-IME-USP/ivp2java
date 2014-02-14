@@ -12,10 +12,9 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import ilm.framework.modules.IlmModuleToolbar;
 
 public class ConfigurationToolBar extends IlmModuleToolbar {
-
     private JButton          button;
     private ConfigurationGUI frame;
-
+    
     public ConfigurationToolBar() {
         button = makeButton("settings", "CONFIGURATIONS", ResourceBundleIVP.getString("configBtn.Tip"), ResourceBundleIVP.getString("configBtn.AltText"));
         try {
@@ -30,9 +29,7 @@ public class ConfigurationToolBar extends IlmModuleToolbar {
         });
         add(button);
     }
-
+    
     public void update(Observable arg0, Object arg1) {
-
     }
-
 }

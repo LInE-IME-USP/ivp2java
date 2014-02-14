@@ -17,21 +17,16 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListener {
-
     private String      currentModelID;
     private String      parentModelID;
     private String      scopeModelID;
     private String      context;
-
     private short       expressionType;
-
     private EditBoolean editBool;
     private EditInPlace editInPlace;
-
     private boolean     isEditing = false;
-
     private JLabel      valueLabel;
-
+    
     public ConstantUI(String modelID) {
         FlowLayout flowLayout = (FlowLayout) getLayout();
         flowLayout.setVgap(2);
@@ -46,7 +41,7 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
         add(editInPlace);
         setOpaque(false);
     }
-
+    
     private void initEditInPlace() {
         editInPlace = new EditInPlace(FlatUIColors.CODE_BG);
         editInPlace.setValueListener(new IValueListener() {
@@ -55,7 +50,7 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
             }
         });
     }
-
+    
     private void initBool() {
         editBool = new EditBoolean(FlatUIColors.CODE_BG);
         editBool.setValueListener(new IValueListener() {
@@ -64,7 +59,7 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
             }
         });
     }
-
+    
     private void changeVariableType(short type) {
         Constant c = (Constant) Services.getService().getModelMapping().get(currentModelID);
         if (type == Expression.EXPRESSION_INTEGER) {
@@ -79,56 +74,54 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
             editBool.setValue(c.getConstantValue());
         }
     }
-
+    
     public String getModelID() {
         return currentModelID;
     }
-
+    
     public String getModelParent() {
         return parentModelID;
     }
-
+    
     public String getModelScope() {
         return scopeModelID;
     }
-
+    
     public void setModelID(String id) {
         currentModelID = id;
     }
-
+    
     public void setModelParent(String id) {
         parentModelID = id;
     }
-
+    
     public void setModelScope(String id) {
         scopeModelID = id;
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }
-
+    
     public String getContext() {
         return context;
     }
-
+    
     public short getExpressionType() {
         return expressionType;
     }
-
+    
     public void setExpressionType(short expressionType) {
         this.expressionType = expressionType;
         changeVariableType(expressionType);
     }
-
+    
     private void warningStateOn() {
-
     }
-
+    
     private void warningStateOff() {
-
     }
-
+    
     public void editStateOn() {
         isEditing = true;
         valueLabel.setVisible(false);
@@ -142,7 +135,7 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
         if (getParent() instanceof ExpressionHolderUI)
             ((ExpressionHolderUI) getParent()).editStateOn();
     }
-
+    
     public void editStateOff(String string) {
         isEditing = false;
         valueLabel.setVisible(true);
@@ -152,23 +145,21 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
         if (getParent() instanceof ExpressionHolderUI)
             ((ExpressionHolderUI) getParent()).editStateOff();
     }
-
+    
     public boolean isEditState() {
         return isEditing;
     }
-
-	public void valueChanged(String value) {
-		if(expressionType == Expression.EXPRESSION_BOOLEAN){
-			editBool.setValue(value);
-			if(value.equals("true"))
-				valueLabel.setText("Verdadeiro");
-			else
-				valueLabel.setText("Falso");
-		}else{
-			editInPlace.setValue(value);
-			valueLabel.setText(value);
-		}
-		
-	}
-
+    
+    public void valueChanged(String value) {
+        if (expressionType == Expression.EXPRESSION_BOOLEAN) {
+            editBool.setValue(value);
+            if (value.equals("true"))
+                valueLabel.setText("Verdadeiro");
+            else
+                valueLabel.setText("Falso");
+        } else {
+            editInPlace.setValue(value);
+            valueLabel.setText(value);
+        }
+    }
 }

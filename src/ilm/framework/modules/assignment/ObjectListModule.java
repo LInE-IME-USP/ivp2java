@@ -12,9 +12,8 @@ import java.util.Collection;
 import java.util.Observable;
 
 public class ObjectListModule extends AssignmentModule implements Serializable {
-
     private Vector _objectList;
-
+    
     public ObjectListModule() {
         _objectList = new Vector();
         _name = IlmProtocol.OBJECT_LIST_MODULE_NAME;
@@ -22,11 +21,11 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
         _assignmentIndex = 0;
         _observerType = OBJECT_OBSERVER;
     }
-
+    
     public Vector getObjectList() {
         return (Vector) _objectList.get(_assignmentIndex);
     }
-
+    
     public void update(Observable o, Object arg) {
         if (o instanceof AssignmentState) {
             AssignmentState state = (AssignmentState) o;
@@ -40,7 +39,7 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
             notifyObservers();
         }
     }
-
+    
     public void setContentFromString(DomainConverter converter, int index, String moduleContent) {
         if (_objectList.size() == index) {
             addAssignment();
@@ -51,11 +50,11 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
             ((Vector) _objectList.get(index)).add(obj);
         }
     }
-
+    
     public void addAssignment() {
         _objectList.add(new Vector());
     }
-
+    
     public void print() {
         for (int i = 0; i < _objectList.size(); i++) {
             Vector list = (Vector) _objectList.get(i);
@@ -64,7 +63,7 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
             }
         }
     }
-
+    
     public String getStringContent(DomainConverter converter, int index) {
         if (((Vector) _objectList.get(_assignmentIndex)).size() == 0) {
             return "<" + _name + "/>";
@@ -74,17 +73,17 @@ public class ObjectListModule extends AssignmentModule implements Serializable {
         string += "</objects></" + _name + ">";
         return string;
     }
-
+    
     public void removeAssignment(int index) {
         _objectList.remove(index);
     }
-
+    
     public void setDomainModel(DomainModel model) {
     }
-
+    
     public void setState(AssignmentState state) {
     }
-
+    
     public void setActionObservers(Collection values) {
     }
 }

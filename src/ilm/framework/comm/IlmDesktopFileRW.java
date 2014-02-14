@@ -18,7 +18,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class IlmDesktopFileRW implements ICommunication {
-
     public String readMetadataFile(String packageName) throws IOException {
         File sourceZipFile = new File(packageName);
         try {
@@ -33,12 +32,12 @@ public class IlmDesktopFileRW implements ICommunication {
         }
         return null;
     }
-
+    
     public Vector readResourceFiles(String packageName, Vector resourceList) {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
     public Vector readAssignmentFiles(String packageName, Vector assignmentFileList) throws IOException {
         File sourceZipFile = new File(packageName);
         try {
@@ -58,7 +57,7 @@ public class IlmDesktopFileRW implements ICommunication {
         }
         return null;
     }
-
+    
     public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) {
         writeFile(metadata, IlmProtocol.METADATA_FILENAME);
         for (int i = 0; i < assignmentNameList.size(); i++) {
@@ -93,7 +92,7 @@ public class IlmDesktopFileRW implements ICommunication {
         // TODO Return something meaningfull
         return null;
     }
-
+    
     private void writeFile(String content, String fileName) {
         try {
             FileWriter fstream = new FileWriter(fileName);
@@ -108,7 +107,7 @@ public class IlmDesktopFileRW implements ICommunication {
             e.printStackTrace();
         }
     }
-
+    
     public String convertInputStreamToString(InputStream in) {
         if (in != null) {
             StringWriter writer = new StringWriter();
@@ -129,5 +128,4 @@ public class IlmDesktopFileRW implements ICommunication {
             return "";
         }
     }
-
 }

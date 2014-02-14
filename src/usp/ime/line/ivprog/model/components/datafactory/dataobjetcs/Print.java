@@ -4,14 +4,13 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Print extends CodeComponent {
-
     private String             printableObjectID = null;
     public static final String STRING_CLASS      = "print";
-
+    
     public Print(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Return the printable object.
      * 
@@ -20,7 +19,7 @@ public class Print extends CodeComponent {
     public String getPrintableObject() {
         return printableObjectID;
     }
-
+    
     /**
      * Set the printable object.
      * 
@@ -30,7 +29,7 @@ public class Print extends CodeComponent {
     public void setPrintableObject(String printableObject) {
         this.printableObjectID = printableObject;
     }
-
+    
     /**
      * Removes the printable object and return it.
      */
@@ -38,13 +37,13 @@ public class Print extends CodeComponent {
         printableObjectID = null;
         return printableObjectID;
     }
-
+    
     public String toXML() {
         Expression printable = (Expression) Services.getService().getModelMapping().get(printableObjectID);
         String str = "<dataobject class=\"print\"><id>" + getUniqueID() + "</id>" + "<printable>" + printable.toXML() + "</printable></dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         String str = " bsh.console.println( \"> \"+";
         Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
@@ -52,14 +51,13 @@ public class Print extends CodeComponent {
         str += ");";
         return str;
     }
-
+    
     public boolean equals(DomainObject o) {
         return false;
     }
-
+    
     public void updateParent(String lastExp, String newExp, String operationContext) {
         if (printableObjectID == lastExp)
             printableObjectID = newExp;
     }
-
 }

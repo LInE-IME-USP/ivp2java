@@ -19,7 +19,6 @@ import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectUI {
-
     private String parentModelID;
     private String thisModelID;
     private String scopeModelID;
@@ -27,7 +26,7 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
     private JPanel gripArea;
     private JPanel trashCanPanel;
     private JPanel panel;
-
+    
     public CodeBaseUI(String modelID) {
         thisModelID = modelID;
         setLayout(new BorderLayout());
@@ -38,7 +37,7 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         addMouseListener(Services.getService().getML());
         addMouseMotionListener(Services.getService().getML());
     }
-
+    
     private void initTrashCan() {
         trashCanPanel = new JPanel(new BorderLayout());
         Action action = new AbstractAction() {
@@ -55,14 +54,14 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         trashCanPanel.add(btn, BorderLayout.NORTH);
         add(trashCanPanel, BorderLayout.EAST);
     }
-
+    
     private void initCompositePanel() {
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setOpaque(false);
         contentPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
         add(contentPanel, BorderLayout.CENTER);
     }
-
+    
     private void initGripArea() {
         GripArea grip = new GripArea(thisModelID);
         gripArea = new JPanel();
@@ -75,33 +74,32 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         gripArea.setOpaque(false);
         add(gripArea, BorderLayout.WEST);
     }
-
+    
     public String getModelID() {
         return thisModelID;
     }
-
+    
     public String getModelParent() {
         return parentModelID;
     }
-
+    
     public String getModelScope() {
         return scopeModelID;
     }
-
+    
     public void setModelID(String id) {
         thisModelID = id;
     }
-
+    
     public void setModelParent(String id) {
         parentModelID = id;
     }
-
+    
     public void setModelScope(String id) {
         scopeModelID = id;
     }
-
+    
     protected void addContentPanel(JPanel panel) {
         contentPanel.add(panel);
     }
-
 }

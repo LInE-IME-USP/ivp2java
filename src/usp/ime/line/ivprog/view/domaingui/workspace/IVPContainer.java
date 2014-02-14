@@ -28,14 +28,13 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 public class IVPContainer extends JPanel implements ICodeListener {
-
     private static final long serialVersionUID = 1L;
     private Vector            children;
     private boolean           isInternalCanvas = false;
     private boolean           isInternal       = false;
     private String            codeCompositeID;
     private IVPContextMenu    menu;
-
+    
     public IVPContainer(boolean isInternal, String codeCompositeID) {
         setBorder(new EmptyBorder(5, 0, 0, 0));
         isInternalCanvas = isInternal;
@@ -46,38 +45,38 @@ public class IVPContainer extends JPanel implements ICodeListener {
         addMouseListener(Services.getService().getML());
         addMouseMotionListener(Services.getService().getML());
     }
-
+    
     private void initialization() {
         Services.getService().getController().addComponentListener(this, codeCompositeID);
         addMouseListener(new MouseListener() {
             public void mouseReleased(MouseEvent arg0) {
                 IVPContainer.this.requestFocus();
             }
-
+            
             public void mouseClicked(MouseEvent arg0) {
                 IVPContainer.this.requestFocus();
             }
-
+            
             public void mousePressed(MouseEvent arg0) {
             }
-
+            
             public void mouseExited(MouseEvent arg0) {
             }
-
+            
             public void mouseEntered(MouseEvent arg0) {
             }
         });
         children.add(new IVPContextMenu(this));
         relayout();
     }
-
+    
     private void initLayout() {
         setLayout(new GridBagLayout());
         setBackground(FlatUIColors.MAIN_BG);
         if (isInternalCanvas)
             setPreferredSize(new Dimension(10, 30));
     }
-
+    
     public void relayout() {
         int row = 0;
         GridBagConstraints gbc = new GridBagConstraints();
@@ -105,7 +104,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
         revalidate();
         repaint();
     }
-
+    
     private void initCanvasHeight() {
         if (children.size() == 0) {
             setPreferredSize(new Dimension(10, 30));
@@ -113,22 +112,22 @@ public class IVPContainer extends JPanel implements ICodeListener {
             setPreferredSize(null);
         }
     }
-
+    
     public void removeChild(String childID) {
         JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
         children.remove(child);
         relayout();
     }
-
+    
     public Vector getChildren() {
         return children;
     }
-
+    
     public void setChildren(Vector childrenArray) {
         this.children = childrenArray;
         relayout();
     }
-
+    
     public void dropChild(JComponent child, int dropY) {
         Vector childrenList = children;
         int yLocDroppedPanel = dropY;
@@ -148,34 +147,34 @@ public class IVPContainer extends JPanel implements ICodeListener {
         childrenList.addAll(orderedPanels);
         relayout();
     }
-
+    
     public boolean isInternalCanvas() {
         return isInternalCanvas;
     }
-
+    
     public String getCodeComposite() {
         return codeCompositeID;
     }
-
+    
     public void setContainerBackground(Color bgColor) {
         setBackground(FlatUIColors.MAIN_BG);
         revalidate();
         repaint();
     }
-
+    
     // Listener methods
     public void addChild(String childID) {
         JComponent child = Services.getService().getRenderer().paint(childID);
         children.add(children.size() - 1, child);
         relayout();
     }
-
+    
     public void childRemoved(String childID) {
         JComponent c = (JComponent) Services.getService().getViewMapping().get(childID);
         children.remove(c);
         relayout();
     }
-
+    
     public void restoreChild(String childID, int index) {
         JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
         if (children.contains(child)) {
@@ -192,7 +191,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
         }
         relayout();
     }
-
+    
     public int getDropIndex(int dropY) {
         int index = 0;
         while (index < children.size() - 1) {
@@ -203,5 +202,4 @@ public class IVPContainer extends JPanel implements ICodeListener {
         }
         return index;
     }
-
 }

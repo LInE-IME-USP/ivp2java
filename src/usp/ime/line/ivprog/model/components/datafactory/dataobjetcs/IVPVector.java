@@ -4,15 +4,14 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPVector extends Collection {
-
     private int                vectorSize   = 0;
     private String[]           elements     = null;
     public static final String STRING_CLASS = "vector";
-
+    
     public IVPVector(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Put the specified object into the specified array position. If there's a variable at that position it will be overwritten.
      * 
@@ -22,7 +21,7 @@ public class IVPVector extends Collection {
     public void addElementToIndex(int index, String elementID) {
         elements[index] = elementID;
     }
-
+    
     /**
      * Return the element at the specified position in this vector.
      * 
@@ -32,7 +31,7 @@ public class IVPVector extends Collection {
     public String getElementAtIndex(int index) {
         return elements[index];
     }
-
+    
     /**
      * Return the IVProgVector size.
      * 
@@ -41,7 +40,7 @@ public class IVPVector extends Collection {
     public int getVectorSize() {
         return vectorSize;
     }
-
+    
     /**
      * Sets the IVProgVector size.
      * 
@@ -51,7 +50,7 @@ public class IVPVector extends Collection {
         vectorSize = vSize;
         elements = new String[vSize];
     }
-
+    
     /**
      * Remove the element from the specified position, return it, and put a null on the elements place.
      * 
@@ -62,7 +61,7 @@ public class IVPVector extends Collection {
         elements[index] = null;
         return variableID;
     }
-
+    
     public String toXML() {
         String str = "<dataobject class=\"ivpvector\">" + "<id>" + getUniqueID() + "</id>" + "<collectionname>" + getCollectionName() + "</collectionname>" + "<collectiontype>" + getCollectionType()
                 + "</collectiontype>" + "<size>" + vectorSize + "</size><elements>";
@@ -73,15 +72,14 @@ public class IVPVector extends Collection {
         str += "</elements></dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         return null;
     }
-
+    
     @Override
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DesktopParameterListParser implements IParameterListParser {
-
     public Map Parse(String[] parameterList) {
         Map result = new HashMap();
         for (int i = 0; i < parameterList.length; i++) {

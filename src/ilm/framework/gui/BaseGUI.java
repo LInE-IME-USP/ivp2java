@@ -22,7 +22,7 @@ import usp.ime.line.ivprog.view.utils.IconButtonUI;
 public abstract class BaseGUI extends JPanel implements Observer {
     public BaseGUI() {
     }
-
+    
     private static final long serialVersionUID = 1L;
     protected SystemConfig    _config;
     protected SystemFactory   _factory;
@@ -30,7 +30,7 @@ public abstract class BaseGUI extends JPanel implements Observer {
     protected Vector          _authoringGUIList;
     protected IAssignment     _assignments;
     protected int             _activeAssignment;
-
+    
     public void setComponents(SystemConfig config, IAssignment commands, SystemFactory factory) {
         _config = config;
         _config.addObserver(this);
@@ -40,16 +40,16 @@ public abstract class BaseGUI extends JPanel implements Observer {
         _assignments = commands;
         _activeAssignment = 0;
     }
-
+    
     public void initGUI() {
         initAssignments();
         initToolbar(_assignments.getIlmModuleList().values());
     }
-
+    
     protected abstract void initAssignments();
-
+    
     protected abstract void initToolbar(Collection moduleList);
-
+    
     public void startDesktop() {
         final JFrame frame = new JFrame();
         frame.getContentPane().add(this);
@@ -58,7 +58,7 @@ public abstract class BaseGUI extends JPanel implements Observer {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    
     protected void updateAssignmentIndex(int index) {
         _activeAssignment = index;
         Iterator moduleIterator = _assignments.getIlmModuleList().values().iterator();
@@ -73,27 +73,27 @@ public abstract class BaseGUI extends JPanel implements Observer {
             }
         }
     }
-
+    
     protected abstract void setAuthoringButton();
-
+    
     protected abstract void setNewAssignmentButton();
-
+    
     protected abstract void setCloseAssignmentButton();
-
+    
     protected abstract void setOpenAssignmentButton();
-
+    
     protected abstract void setSaveAssignmentButton();
-
+    
     protected abstract void startAuthoring();
-
+    
     protected abstract void addNewAssignment();
-
+    
     protected abstract void closeAssignment(int index);
-
+    
     protected abstract void openAssignmentFile(String fileName);
-
+    
     protected abstract void saveAssignmentFile(String fileName);
-
+    
     protected JButton makeButton(String imageName, String actionCommand, String toolTipText, String altText) {
         JButton button = new JButton();
         button.setActionCommand(actionCommand);

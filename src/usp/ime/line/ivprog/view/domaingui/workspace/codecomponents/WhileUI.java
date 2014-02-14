@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import javax.swing.JToolBar;
 
 public class WhileUI extends CodeBaseUI implements ICodeListener {
-
     private JPanel             contentPanel;
     private JPanel             header;
     private IVPContainer       container;
@@ -37,9 +36,8 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     private Icon               up;
     private Icon               down;
     private String             context;
-
     private BooleanOperationUI booleanOperationUI;
-
+    
     public WhileUI(String id) {
         super(id);
         setModelID(id);
@@ -51,24 +49,24 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         addContentPanel(contentPanel);
         setBackground(FlatUIColors.MAIN_BG);
     }
-
+    
     private void initContainer() {
         container = new IVPContainer(true, getModelID());
         container.setContainerBackground(FlatUIColors.MAIN_BG);
         container.setVisible(false);
         contentPanel.add(container, BorderLayout.CENTER);
     }
-
+    
     private void initExpandButtonIcon() {
         up = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/expand_up.png"));
         down = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/expand_down.png"));
     }
-
+    
     private void initContentPanel() {
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setOpaque(false);
     }
-
+    
     private void initHeader() {
         header = new JPanel(new FlowLayout(FlowLayout.LEFT));
         header.setOpaque(false);
@@ -78,11 +76,10 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         initCodeBlockLabel();
         initExpression();
     }
-
+    
     private void initExpressionHolder() {
-
     }
-
+    
     private void initExpression() {
         String condition = ((While) Services.getService().getModelMapping().get(getModelID())).getCondition();
         booleanOperationUI = (BooleanOperationUI) Services.getService().getRenderer().paint(condition);
@@ -91,7 +88,7 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         expressionField.setComparison(true);
         header.add(expressionField);
     }
-
+    
     private void initExpandBtnUP() {
         expandBtnUP = new JButton();
         expandBtnUP.setIcon(up);
@@ -104,7 +101,7 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         expandBtnUP.setVisible(false);
         header.add(expandBtnUP);
     }
-
+    
     private void initExpandBtnDOWN() {
         expandBtnDOWN = new JButton();
         expandBtnDOWN.setIcon(down);
@@ -116,7 +113,7 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         });
         header.add(expandBtnDOWN);
     }
-
+    
     protected void notExpandedAction() {
         container.setVisible(true);
         expandBtnUP.setVisible(true);
@@ -124,7 +121,7 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         revalidate();
         repaint();
     }
-
+    
     protected void expandedActions() {
         container.setVisible(false);
         expandBtnUP.setVisible(false);
@@ -132,28 +129,28 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         revalidate();
         repaint();
     }
-
+    
     private void initCodeBlockLabel() {
         codeBlockName = new JLabel(ResourceBundleIVP.getString("WhileUI.text"));
         header.add(codeBlockName);
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }
-
+    
     public String getContext() {
         return context;
     }
-
+    
     public void addChild(String childID) {
         container.addChild(childID);
     }
-
+    
     public void childRemoved(String childID) {
         container.childRemoved(childID);
     }
-
+    
     public void restoreChild(String childID, int index) {
         container.restoreChild(childID, index);
     }

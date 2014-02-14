@@ -7,20 +7,19 @@ import java.util.Vector;
 import java.util.Observable;
 
 public abstract class DomainAction extends Observable implements Cloneable, Serializable {
-
     private String            _name;
     protected String          _description;
     protected Vector          _parameterList;
     protected AssignmentState _currentState;
     private boolean           _isUndo;
     private boolean           _isRedo;
-
+    
     public DomainAction(String name, String description) {
         _name = name;
         _description = description;
         _parameterList = new Vector();
     }
-
+    
     /**
      * Defines the DomainModel on which this action is executed. The concrete DomainAction classes must have an attribute that is from a class that inherits from DomainModel, and this method set its
      * value. It is called internally from the framework.
@@ -31,7 +30,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
      * @see example.ilm.model.ActionAddSubString
      */
     public abstract void setDomainModel(DomainModel model);
-
+    
     /**
      * Template Method that is called when this action is being executed. It encapsulates Hook Method called "executeAction"
      */
@@ -42,14 +41,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
         notifyObservers();
         _isRedo = false;
     }
-
+    
     /**
      * Hook Method that must be implemented to call methods from DomainModel when this action is being executed
      * 
      * @see example.ilm.model.ActionAddSubString
      */
     protected abstract void executeAction();
-
+    
     /**
      * Template Method that is called when this action is being undone. It encapsulates Hook Method called "undoAction"
      */
@@ -59,21 +58,21 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
         setChanged();
         notifyObservers();
     }
-
+    
     /**
      * Hook Method that must be implemented to call methods from DomainModel when this action is being undone
      * 
      * @see example.ilm.model.ActionAddSubString
      */
     protected abstract void undoAction();
-
+    
     /**
      * @return a boolean that indicates whether this action is a "undoing" action
      */
     public final boolean isUndo() {
         return _isUndo;
     }
-
+    
     /**
      * Defines whether this action is a "redoing" action
      * 
@@ -83,14 +82,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     public final void setRedo(boolean b) {
         _isRedo = b;
     }
-
+    
     /**
      * @return a boolean that indicates whether this action is a "redoing" action
      */
     public final boolean isRedo() {
         return _isRedo;
     }
-
+    
     /**
      * Defines the list of DomainObject which are the parameters that will be used for the execution of this action
      * 
@@ -100,7 +99,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     public final void setObjectParameter(Vector parameterList) {
         _parameterList = parameterList;
     }
-
+    
     /**
      * Defines a new assignment state for this action
      * 
@@ -110,28 +109,28 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     public final void setState(AssignmentState currentState) {
         _currentState = currentState;
     }
-
+    
     /**
      * @return the action's current assignment state
      */
     public final AssignmentState getState() {
         return _currentState;
     }
-
+    
     /**
      * @return the action's name
      */
     public final String getName() {
         return _name;
     }
-
+    
     /**
      * @return the action's description
      */
     public final String getDescription() {
         return _description;
     }
-
+    
     /**
      * Defines a new description for this action
      * 
@@ -141,7 +140,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     public final void setDescription(String string) {
         _description = string;
     }
-
+    
     /**
      * @return a copy of the current DomainAction
      * 
@@ -154,7 +153,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
             return null;
         }
     }
-
+    
     /**
      * Compares this with another DomainAction
      * 

@@ -31,7 +31,6 @@ import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPContextMenu extends RoundedJPanel {
-
     private static final long serialVersionUID = 3814837809047109772L;
     private IVPContainer      container        = null;
     private JPanel            btnPanel;
@@ -39,9 +38,8 @@ public class IVPContextMenu extends RoundedJPanel {
     private JPanel            buttonsContainer;
     private JButton           plusBtn;
     private JPopupMenu        menu;
-
+    
     // começar a transformar em context menu
-
     public IVPContextMenu(IVPContainer c) {
         container = c;
         initialization();
@@ -49,7 +47,7 @@ public class IVPContextMenu extends RoundedJPanel {
         initPopupMenu();
         initPlusBtn();
     }
-
+    
     private void initPopupMenu() {
         menu = new JPopupMenu();
         menu.setBackground(FlatUIColors.MAIN_BG);
@@ -79,7 +77,6 @@ public class IVPContextMenu extends RoundedJPanel {
         createifElse.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.if.text"));
         Action createRead = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-
             }
         };
         createRead.putValue(Action.SMALL_ICON, new ImageIcon(IVPContextMenu.class.getResource("/usp/ime/line/resources/icons/incoming.png")));
@@ -108,13 +105,13 @@ public class IVPContextMenu extends RoundedJPanel {
         menu.add(createRead);
         menu.add(createPrint);
     }
-
+    
     private void initialization() {
         setBorder(new EmptyBorder(2, 2, 2, 2));
         setLayout(new BorderLayout(0, 0));
         setBackground(FlatUIColors.MAIN_BG);
     }
-
+    
     private void initPanels() {
         btnPanel = new JPanel();
         btnPanel.setBackground(FlatUIColors.MAIN_BG);
@@ -132,7 +129,7 @@ public class IVPContextMenu extends RoundedJPanel {
         menuPanel.repaint();
         menuPanel.add(buttonsContainer);
     }
-
+    
     private void initPlusBtn() {
         plusBtn = new JButton();
         plusBtn.addActionListener(new ActionListener() {
@@ -144,7 +141,7 @@ public class IVPContextMenu extends RoundedJPanel {
         plusBtn.setUI(new IconButtonUI());
         btnPanel.add(plusBtn);
     }
-
+    
     private void hideMenu() {
         Runnable r = new Runnable() {
             public void run() {
@@ -166,7 +163,7 @@ public class IVPContextMenu extends RoundedJPanel {
         Thread t = new Thread(r);
         t.start();
     }
-
+    
     private void movePanel(final Point p) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -174,5 +171,4 @@ public class IVPContextMenu extends RoundedJPanel {
             }
         });
     }
-
 }

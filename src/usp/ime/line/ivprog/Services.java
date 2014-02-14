@@ -8,14 +8,13 @@ import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
-
     private IVPController    controller;
     private IVPRenderer      render;
     private HashMap          modelHash;
     private HashMap          viewHash;
     private IVPMouseListener mL = null;
     private static Services  instance;
-
+    
     private Services() {
         controller = new IVPController();
         render = new IVPRenderer();
@@ -23,7 +22,7 @@ public class Services {
         viewHash = new HashMap();
         mL = new IVPMouseListener();
     }
-
+    
     public static Services getService() {
         if (instance != null) {
             return instance;
@@ -32,25 +31,24 @@ public class Services {
         }
         return instance;
     }
-
+    
     public IVPRenderer getRenderer() {
         return render;
     }
-
+    
     public IVPController getController() {
         return controller;
     }
-
+    
     public HashMap getModelMapping() {
         return modelHash;
     }
-
+    
     public HashMap getViewMapping() {
         return viewHash;
     }
-
+    
     public IVPMouseListener getML() {
         return mL;
     }
-
 }

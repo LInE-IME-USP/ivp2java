@@ -4,15 +4,14 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Operation extends Expression {
-
     private String             expressionAID = null;
     private String             expressionBID = null;
     public static final String STRING_CLASS  = "operation";
-
+    
     public Operation(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * An expression is formed by two other expressions, A and B -> (A "operator" B). Observation: a variable is also an expression (a terminal symbol). This method returns the left side of an
      * expression. In other words, it returns expression A.
@@ -22,7 +21,7 @@ public class Operation extends Expression {
     public String getExpressionA() {
         return expressionAID;
     }
-
+    
     /**
      * An expression is formed by two other expressions, A and B -> (A "operator" B). Observation: a variable is also an expression (a terminal symbol). This method sets the left side of an
      * expression. In other words, it sets expression A.
@@ -32,7 +31,7 @@ public class Operation extends Expression {
     public void setExpressionA(String expA) {
         expressionAID = expA;
     }
-
+    
     /**
      * An expression is formed by two other expressions, A and B -> (A "operator" B). Observation: a variable is also an expression (a terminal symbol). This method returns the right side of an
      * expression. In other words, it returns expression B.
@@ -42,7 +41,7 @@ public class Operation extends Expression {
     public String getExpressionB() {
         return expressionBID;
     }
-
+    
     /**
      * An expression is formed by two other expressions, A and B -> (A "operator" B). Observation: a variable is also an expression (a terminal symbol). This method sets the right side of an
      * expression. In other words, it sets expression B.
@@ -52,7 +51,7 @@ public class Operation extends Expression {
     public void setExpressionB(String expB) {
         expressionBID = expB;
     }
-
+    
     /**
      * This method get the operation type. An operation might be arithmetical or logical.
      * 
@@ -62,7 +61,7 @@ public class Operation extends Expression {
     public short getOperationType() {
         return expressionType;
     }
-
+    
     public String toXML() {
         Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
         Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
@@ -70,17 +69,16 @@ public class Operation extends Expression {
                 + "<expressionB>" + expB.toXML() + "</expressionB>" + "</dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
         Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
         String str = "(";
-
         str += expA.toJavaString() + " " + getOperationTypeAsString() + " ";
         str += expB.toJavaString() + " )";
         return str;
     }
-
+    
     private String getOperationTypeAsString() {
         switch (getOperationType()) {
         case Operation.EXPRESSION_OPERATION_ADDITION:
@@ -110,11 +108,11 @@ public class Operation extends Expression {
         }
         return null;
     }
-
+    
     public boolean equals(DomainObject o) {
         return false;
     }
-
+    
     public void removeExpression(String expression) {
         if (expressionAID != null && expressionAID.equals(expression)) {
             expressionAID = null;
@@ -122,9 +120,8 @@ public class Operation extends Expression {
             expressionBID = null;
         }
     }
-
+    
     public void updateParent(String lastExp, String newExp, String operationContext) {
-
         if (operationContext.equals("right")) {
             if (expressionBID.equals(lastExp) || expressionBID == "") {
                 expressionBID = newExp;
@@ -135,5 +132,4 @@ public class Operation extends Expression {
             }
         }
     }
-
 }

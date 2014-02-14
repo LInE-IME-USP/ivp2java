@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 final class AssignmentParser {
-
     /**
      * CONVERSÃO DE STRING PARA ATIVIDADE (LEITURA DE ARQUIVOS)
      * 
@@ -29,13 +28,13 @@ final class AssignmentParser {
         assignment.setMetadata(metadata);
         return assignment;
     }
-
+    
     public String getProposition(String assignmentString) {
         int startIndex = assignmentString.indexOf("<" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">");
         int endIndex = assignmentString.indexOf("</" + IlmProtocol.ASSIGNMENT_PROPOSITION + ">");
         return assignmentString.substring(startIndex + 2 + IlmProtocol.ASSIGNMENT_PROPOSITION.length(), endIndex);
     }
-
+    
     public AssignmentState getState(DomainConverter converter, String assignmentString, String nodeName) {
         AssignmentState state = new AssignmentState();
         int startIndex = assignmentString.indexOf("<" + nodeName + ">") + 2 + nodeName.length();
@@ -48,7 +47,7 @@ final class AssignmentParser {
         state.setList(list);
         return state;
     }
-
+    
     public HashMap convertStringToMap(String xmlContent, String nodeName) {
         int listNodeLength = nodeName.length();
         int startIndex = xmlContent.indexOf("<" + nodeName + ">");
@@ -70,7 +69,7 @@ final class AssignmentParser {
         } while (endIndex < listString.lastIndexOf("</" + nodeName + ">") - nodeLength - 4);
         return map;
     }
-
+    
     /**
      * CONVERS�O DE ATIVIDADE PARA STRING (GRAVA��O DE ARQUIVOS)
      * 
@@ -97,7 +96,7 @@ final class AssignmentParser {
         string += "</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">";
         return string;
     }
-
+    
     /**
      * Convert a HashMap<String, String> to a XMLString with its contents. The order of the parameters is inverse alphabetical order of the keys.
      * 
@@ -114,7 +113,7 @@ final class AssignmentParser {
         }
         return string;
     }
-
+    
     /**
      * COLETA/ESCRITA DE DADOS DO ARQUIVO DE METADADOS
      * 
@@ -136,7 +135,7 @@ final class AssignmentParser {
         } while (endIndex < fileListString.lastIndexOf("</" + IlmProtocol.ASSIGNMENT_FILE_NODE + ">"));
         return assignmentFileList;
     }
-
+    
     public Vector mergeMetadata(Vector assignmentList, HashMap metadata) {
         String metadataString = "";
         Iterator metaDataIterator = metadata.keySet().iterator();
@@ -164,7 +163,7 @@ final class AssignmentParser {
         }
         return mergedList;
     }
-
+    
     public String createMetadataFileContent(Vector list, String config) {
         String string = "<" + IlmProtocol.PACKAGE_NODE + ">";
         if (list.size() < 1) {
@@ -184,7 +183,7 @@ final class AssignmentParser {
         string += convertMapToString(mergedMetadata) + "</" + IlmProtocol.METADATA_LIST_NODE + "></" + IlmProtocol.PACKAGE_NODE + ">";
         return string;
     }
-
+    
     private HashMap mergeMap(HashMap mergedMap, HashMap map) {
         Iterator mapIterator = map.keySet().iterator();
         while (mapIterator.hasNext()) {
@@ -195,7 +194,7 @@ final class AssignmentParser {
         }
         return mergedMap;
     }
-
+    
     /**
      * CONVERS�O DE DADOS DOS M�DULOS DE ATIVIDADES
      * 
@@ -226,7 +225,7 @@ final class AssignmentParser {
             }
         }
     }
-
+    
     public String getAssignmentModulesData(DomainConverter converter, String assignmentString, HashMap availableList, int assignmentIndex) {
         String string = "<" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">";
         Iterator availableListIterator = availableList.keySet().iterator();

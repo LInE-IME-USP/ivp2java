@@ -15,10 +15,9 @@ import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 
 public class UndoRedoModule extends AssignmentModule implements Serializable {
-
     private Stack _undoStack;
     private Stack _redoStack;
-
+    
     public UndoRedoModule() {
         _undoStack = new Stack();
         _redoStack = new Stack();
@@ -26,13 +25,13 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         _gui = new UndoRedoModuleToolbar();
         _observerType = ACTION_OBSERVER;
     }
-
+    
     public void undo() {
         DomainAction action = (DomainAction) ((Stack) _undoStack.get(_assignmentIndex)).pop();
         ((Stack) _redoStack.get(_assignmentIndex)).push(action);
         action.undo();
     }
-
+    
     public void redo() {
         DomainAction action = (DomainAction) ((Stack) _redoStack.get(_assignmentIndex)).pop();
         action.setRedo(true);
@@ -40,15 +39,15 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         // action.execute()
         action.execute();
     }
-
+    
     public boolean isUndoStackEmpty() {
         return ((Stack) _undoStack.get(_assignmentIndex)).isEmpty();
     }
-
+    
     public boolean isRedoStackEmpty() {
         return ((Stack) _redoStack.get(_assignmentIndex)).isEmpty();
     }
-
+    
     public void update(Observable o, Object arg) {
         if (o instanceof DomainAction) {
             DomainAction action = (DomainAction) o;
@@ -65,7 +64,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             }
         }
     }
-
+    
     public void setContentFromString(DomainConverter converter, int index, String moduleContent) {
         if (_undoStack.size() == index && _redoStack.size() == index) {
             addAssignment();
@@ -81,7 +80,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             ((Stack) _redoStack.get(index)).push(actionArray.get(i));
         }
     }
-
+    
     private String getActions(String string, String moduleContent) {
         int startIndex = moduleContent.indexOf("<" + string + ">") + 2 + string.length();
         int endIndex = moduleContent.indexOf("</" + string + ">");
@@ -91,12 +90,12 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         String s = moduleContent.substring(startIndex, endIndex);
         return s;
     }
-
+    
     public void addAssignment() {
         _undoStack.add(new Stack());
         _redoStack.add(new Stack());
     }
-
+    
     public void print() {
         for (int i = 0; i < _undoStack.size(); i++) {
             Stack stack = (Stack) _undoStack.get(i);
@@ -105,7 +104,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             }
         }
     }
-
+    
     public String getStringContent(DomainConverter converter, int index) {
         if (((Stack) _undoStack.get(index)).size() == 0 & ((Stack) _redoStack.get(index)).size() == 0) {
             return "<" + _name + "/>";
@@ -124,12 +123,12 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         string += "</" + _name + ">";
         return string;
     }
-
+    
     public void removeAssignment(int index) {
         _undoStack.remove(index);
         _redoStack.remove(index);
     }
-
+    
     public void setDomainModel(DomainModel model) {
         for (int i = 0; i < _undoStack.size(); i++) {
             Stack stack = (Stack) _undoStack.get(i);
@@ -146,7 +145,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             }
         }
     }
-
+    
     public void setState(AssignmentState state) {
         for (int i = 0; i < ((Stack) _undoStack.get(_undoStack.size() - 1)).size(); i++) {
             DomainAction action = (DomainAction) ((Stack) _undoStack.get(_undoStack.size() - 1)).get(i);
@@ -157,7 +156,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             action.setState(state);
         }
     }
-
+    
     public void setActionObservers(Collection values) {
         Iterator valuesIterator = values.iterator();
         while (valuesIterator.hasNext()) {

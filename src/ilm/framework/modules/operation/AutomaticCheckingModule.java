@@ -9,35 +9,34 @@ import java.io.Serializable;
 import java.util.Vector;
 
 public class AutomaticCheckingModule extends OperationModule implements Serializable {
-
     private DomainModel _model;
-
+    
     public AutomaticCheckingModule(IAssignment assignments, IAssignmentOperator operator) {
         setAssignmentList(assignments);
         setAssignmentOperator(operator);
         _name = IlmProtocol.AUTO_CHECKING_MODULE_NAME;
         _gui = new AutoCheckingModuleToolbar(this);
     }
-
+    
     public float getEvaluation() {
         if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) {
             return 0;
         }
         return _model.AutomaticChecking(_assignmentList.getCurrentState(_assignmentIndex), _assignmentList.getExpectedAnswer(_assignmentIndex));
     }
-
+    
     public String getAnswer() {
         Vector list = _assignmentList.getCurrentState(_assignmentIndex).getList();
         return _operator.getConverter().convertObjectToString(list);
     }
-
+    
     public void setModel(DomainModel model) {
         _model = model;
     }
-
+    
     public void print() {
     }
-
+    
     public boolean hasExpectedAnswer() {
         if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) {
             return false;

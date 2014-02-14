@@ -15,7 +15,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.Font;
 
 public class AttributionLineUI extends CodeBaseUI {
-
+    
     private JPanel             contentPanel;
     private JLabel             codeLabel;
     private VariableSelectorUI varSelector;
@@ -23,8 +23,8 @@ public class AttributionLineUI extends CodeBaseUI {
     private String             context;
     private boolean            isLeftVarSet = false;
     private JLabel             blockedLabel;
-    private String leftVarModelID;
-
+    private String             leftVarModelID;
+    
     public AttributionLineUI(String id, String scope, String parent) {
         super(id);
         setModelID(id);
@@ -33,7 +33,7 @@ public class AttributionLineUI extends CodeBaseUI {
         initialization();
         addComponents();
     }
-
+    
     private void initialization() {
         expression = new ExpressionFieldUI(getModelID(), getModelScope());
         contentPanel = new JPanel();
@@ -46,7 +46,7 @@ public class AttributionLineUI extends CodeBaseUI {
         blockedLabel.setForeground(Color.PINK);
         setBackground(FlatUIColors.MAIN_BG);
     }
-
+    
     private void addComponents() {
         contentPanel.setOpaque(false);
         contentPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -57,45 +57,44 @@ public class AttributionLineUI extends CodeBaseUI {
         blockContent();
         addContentPanel(contentPanel);
     }
-
+    
     public void blockContent() {
         codeLabel.setVisible(false);
         expression.setVisible(false);
         blockedLabel.setVisible(true);
     }
-
+    
     public void unblockContent() {
         codeLabel.setVisible(true);
         expression.setVisible(true);
-        expression.setHoldingType(((VariableReference)Services.getService().getModelMapping().get(leftVarModelID)).getReferenceType());
+        expression.setHoldingType(((VariableReference) Services.getService().getModelMapping().get(leftVarModelID)).getReferencedType());
         blockedLabel.setVisible(false);
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }
-
+    
     public String getContext() {
         return context;
     }
-
+    
     public void setLeftVarModelID(String leftVariableID) {
         this.leftVarModelID = leftVariableID;
         varSelector.setModelID(leftVariableID);
     }
-
+    
     public boolean isLeftVarSet() {
         return isLeftVarSet;
     }
-
+    
     public void setLeftVarSet(boolean isLeftVarSet) {
         this.isLeftVarSet = isLeftVarSet;
         expression.setBlocked(!isLeftVarSet);
-        if(isLeftVarSet){
+        if (isLeftVarSet) {
             unblockContent();
-        }else{
+        } else {
             blockContent();
         }
     }
-
 }

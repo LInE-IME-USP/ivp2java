@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppletParameterListParser implements IParameterListParser {
-
     public Map Parse(String[] parameterList) {
         Map result = new HashMap();
         int equalsIndex;

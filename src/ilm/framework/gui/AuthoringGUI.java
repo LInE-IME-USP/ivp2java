@@ -8,7 +8,6 @@ import ilm.framework.domain.DomainGUI;
 import javax.swing.JFrame;
 
 public abstract class AuthoringGUI extends JFrame implements Observer {
-
     /**
      * @attribute serial version due to javax.swing specification
      * @attribute the domain user interface this authoring interface is attached to
@@ -23,7 +22,7 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
     protected Assignment      _assignment;
     protected HashMap         _config;
     protected HashMap         _metadata;
-
+    
     /**
      * Defines and initializes the components on which the assignment will be authored
      * 
@@ -39,7 +38,7 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
         _domainGUI.getCurrentState().addObserver(this);
         _metadata = metadata;
     }
-
+    
     /**
      * Defines and initializes the assignment that will be authored
      * 
@@ -55,14 +54,14 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
         _assignment = new Assignment(proposition, initial, current, expected);
         initFields();
     }
-
+    
     /**
      * Initialization method to the user interface features (widgets) that depend on the assignment to be defined. It is called at the method "setAssignment", just after the assignment is defined.
      * 
      * @see example.ilm.gui.IlmAuthoringGUI
      */
     protected abstract void initFields();
-
+    
     /**
      * @return Template Method that creates the authored assignment calling up various Hook Methods that define each one of the assignment's field. It is called by BaseGUI when the button save
      *         assignment is pressed.
@@ -74,21 +73,21 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
         _assignment.setMetadata(getMetadata());
         return _assignment;
     }
-
+    
     /**
      * Hook Method for defining the assignment's proposition
      * 
      * @return the assignment's proposition
      */
     protected abstract String getProposition();
-
+    
     /**
      * Hook Method for defining the assignment's name
      * 
      * @return the assignment's name
      */
     protected abstract String getAssignmentName();
-
+    
     /**
      * Hook Method for defining the assignment's initial state
      * 
@@ -97,7 +96,7 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
      * @see example.ilm.gui.IlmAuthoringGUI
      */
     protected abstract AssignmentState getInitialState();
-
+    
     /**
      * Hook Method for defining the assignment's expected answer
      * 
@@ -106,7 +105,7 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
      * @see example.ilm.gui.IlmAuthoringGUI
      */
     protected abstract AssignmentState getExpectedAnswer();
-
+    
     /**
      * Hook Method for defining the assignment's configuration
      * 
@@ -115,7 +114,7 @@ public abstract class AuthoringGUI extends JFrame implements Observer {
      * @see example.ilm.gui.IlmAuthoringGUI
      */
     protected abstract HashMap getConfig();
-
+    
     /**
      * Hook Method for defining the assignment's metadata
      * 

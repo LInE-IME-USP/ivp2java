@@ -1,7 +1,6 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 public abstract class Expression extends DataObject {
-
     public static final short EXPRESSION_VARIABLE                 = 0;
     public static final short EXPRESSION_OPERATION_ADDITION       = 1;
     public static final short EXPRESSION_OPERATION_SUBTRACTION    = 2;
@@ -19,19 +18,18 @@ public abstract class Expression extends DataObject {
     public static final short EXPRESSION_DOUBLE                   = 14;
     public static final short EXPRESSION_STRING                   = 15;
     public static final short EXPRESSION_BOOLEAN                  = 16;
-
+    
     protected short           expressionType                      = -1;
-
+    
     public Expression(String name, String description) {
         super(name, description);
     }
-
+    
     public short getExpressionType() {
         return expressionType;
     }
-
+    
     public void setExpressionType(short type) {
         expressionType = type;
     }
-
 }

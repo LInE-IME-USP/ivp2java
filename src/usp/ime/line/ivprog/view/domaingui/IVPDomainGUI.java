@@ -43,7 +43,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
-
     private static final long serialVersionUID = 4725912646391705263L;
     private JPanel            workspaceContainer;
     private JTabbedPane       tabbedPane;
@@ -56,14 +55,14 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     private Component         verticalStrut;
     private Component         verticalStrut_1;
     private JButton           btnErase;
-
+    
     public IVPDomainGUI() {
         setPreferredSize(new Dimension(800, 600));
         setLayout(new BorderLayout(0, 0));
         Services.getService().getController().getProgram().addFunctionListener(this);
         initTabbedPane();
     }
-
+    
     private void initTabbedPane() {
         JSplitPane splitPane = new JSplitPane();
         splitPane.setResizeWeight(1.0);
@@ -76,17 +75,14 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         workspaceContainer.setLayout(new BorderLayout(0, 0));
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         workspaceContainer.add(tabbedPane, BorderLayout.CENTER);
-
         consolePanel = new JPanel();
         consolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         splitPane.setRightComponent(consolePanel);
         consolePanel.setLayout(new BorderLayout(0, 0));
-
         playAndConsolePanel = new JPanel();
         playAndConsolePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         consolePanel.add(playAndConsolePanel, BorderLayout.WEST);
         playAndConsolePanel.setLayout(new BoxLayout(playAndConsolePanel, BoxLayout.Y_AXIS));
-
         Action playAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().playCode();
@@ -94,21 +90,16 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         };
         playAction.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/play.png")));
         playAction.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
-
         lblNewLabel = new JLabel();
         lblNewLabel.setIcon(new ImageIcon(IVPDomainGUI.class.getResource("/usp/ime/line/resources/icons/console.png")));
         playAndConsolePanel.add(lblNewLabel);
-
         verticalStrut = Box.createVerticalStrut(10);
         playAndConsolePanel.add(verticalStrut);
-
         btnPlay = new JButton(playAction);
         btnPlay.setUI(new IconButtonUI());
         playAndConsolePanel.add(btnPlay);
-
         verticalStrut_1 = Box.createVerticalStrut(10);
         playAndConsolePanel.add(verticalStrut_1);
-
         Action cleanAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 consoleField.clean();
@@ -116,37 +107,34 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         };
         cleanAction.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/erase.png")));
         cleanAction.putValue(Action.SHORT_DESCRIPTION, "Executa a função principal.");
-
         btnErase = new JButton(cleanAction);
         btnErase.setUI(new IconButtonUI());
         playAndConsolePanel.add(btnErase);
-
         consoleContainer = new RoundedJPanel();
         consoleContainer.setBackgroundColor(FlatUIColors.CONSOLE_COLOR);
         consoleContainer.setArcs(new Dimension(10, 10));
         consoleContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
         consolePanel.add(consoleContainer, BorderLayout.CENTER);
         consoleContainer.setLayout(new BorderLayout(0, 0));
-
         consoleField = new IVPConsoleUI();
         consoleField.setLineWrap(false);
         consoleContainer.add(consoleField);
     }
-
+    
     public void update(Observable model, Object o) {
         // Not going to be used anymore
         // We adopted other pattern
     }
-
+    
     // update function tabs
     public void addTab(String tabName, FunctionBodyUI function) {
         tabbedPane.add(tabName, function);
     }
-
+    
     public void removeTabAtIndex(int index) {
         tabbedPane.remove(index);
     }
-
+    
     public void updateFunction(FunctionBodyUI function) {
         if (tabbedPane.getTabCount() == 0) {
             tabbedPane.add(function.getName(), function);
@@ -159,20 +147,18 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
             }
         }
     }
-
+    
     protected void initDomainGUI() {
-
     }
-
+    
     public Vector getSelectedObjects() {
         return null;
     }
-
+    
     public void functionCreated(String id) {
         updateFunction((FunctionBodyUI) Services.getService().getRenderer().paint(id));
     }
-
+    
     public void initDomainActionList(DomainModel model) {
     }
-
 }

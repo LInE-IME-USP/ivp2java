@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Assignment implements Serializable {
-
     private String          _proposition;
     private String          _name;
     private AssignmentState _initialState;
@@ -15,7 +14,7 @@ public class Assignment implements Serializable {
     private AssignmentState _expectedAnswer;
     private HashMap         _config;
     private HashMap         _metadata;
-
+    
     public Assignment(String proposition, AssignmentState initial, AssignmentState current, AssignmentState expected) {
         _proposition = proposition;
         _name = "";
@@ -25,63 +24,63 @@ public class Assignment implements Serializable {
         _config = new HashMap();
         _metadata = new HashMap();
     }
-
+    
     public String getProposition() {
         return _proposition;
     }
-
+    
     public String getName() {
         return _name;
     }
-
+    
     public void setName(String name) {
         _name = name;
     }
-
+    
     public AssignmentState getInitialState() {
         return _initialState;
     }
-
+    
     public AssignmentState getCurrentState() {
         return _currentState;
     }
-
+    
     public AssignmentState getExpectedAnswer() {
         return _expectedAnswer;
     }
-
+    
     public void setConfigParameter(String key, String value) {
         _config.put(key, value);
     }
-
+    
     public String getConfigParameter(String key) {
         return (String) _config.get(key);
     }
-
+    
     public void setConfig(HashMap config) {
         _config = config;
     }
-
+    
     public HashMap getConfig() {
         return _config;
     }
-
+    
     public void setMetadataParameter(String key, String value) {
         _metadata.put(key, value);
     }
-
+    
     public String getMetadataParameter(String key) {
         return (String) _metadata.get(key);
     }
-
+    
     public void setMetadata(HashMap metadata) {
         _metadata = metadata;
     }
-
+    
     public HashMap getMetadata() {
         return _metadata;
     }
-
+    
     public void print() {
         for (int i = 0; i < _initialState.getList().size(); i++) {
             DomainObject obj = (DomainObject) _initialState.getList().get(i);

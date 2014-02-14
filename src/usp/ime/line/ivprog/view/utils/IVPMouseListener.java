@@ -19,7 +19,6 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 
 public class IVPMouseListener extends MouseAdapter {
-
     private String             currentProtocol             = INTERACTION_PROTOCOL_DND;
     public static final String INTERACTION_PROTOCOL_DND    = "drag&drop";
     public static final String INTERACTION_PROTOCOL_CNP    = "catch&paste";
@@ -27,7 +26,7 @@ public class IVPMouseListener extends MouseAdapter {
     private String             holdingComponent            = "";
     private JComponent         lastEnteredComponent        = null;
     private int                lastYOnLastEnteredComponent = 0;
-
+    
     // --------------------------------------------------------------------------------
     // MouseListener
     public void mouseClicked(MouseEvent event) {
@@ -41,7 +40,7 @@ public class IVPMouseListener extends MouseAdapter {
             }
         }
     }
-
+    
     public void mouseEntered(MouseEvent event) {
         if (currentProtocol.equals(INTERACTION_PROTOCOL_DND)) {
             if (event.getSource() instanceof IVPContainer) {
@@ -51,7 +50,7 @@ public class IVPMouseListener extends MouseAdapter {
             }
         }
     }
-
+    
     public void mouseReleased(MouseEvent event) {
         if (currentProtocol.equals(INTERACTION_PROTOCOL_DND)) {
             if (lastEnteredComponent instanceof IVPContainer && isHolding) {
@@ -59,13 +58,13 @@ public class IVPMouseListener extends MouseAdapter {
             }
         }
     }
-
+    
     public void mouseExited(MouseEvent event) {
     }
-
+    
     public void mousePressed(MouseEvent event) {
     }
-
+    
     // --------------------------------------------------------------------------------
     // Motion Listener
     public void mouseDragged(MouseEvent event) {
@@ -75,20 +74,19 @@ public class IVPMouseListener extends MouseAdapter {
             }
         }
     }
-
+    
     public void mouseMoved(MouseEvent event) {
     }
-
+    
     // --------------------------------------------------------------------------------------- end
-
     public String getProtocol() {
         return currentProtocol;
     }
-
+    
     public void setProtocol(String protocol) {
         this.currentProtocol = protocol;
     }
-
+    
     private void getComponent(Object object) {
         if (object instanceof GripArea) {
             isHolding = true;
@@ -96,7 +94,7 @@ public class IVPMouseListener extends MouseAdapter {
             Services.getService().getController().changeCursor(DragSource.DefaultMoveDrop);
         }
     }
-
+    
     private void dropComponent(IVPContainer target, int dropY) {
         String origin = ((DataObject) Services.getService().getModelMapping().get(holdingComponent)).getParentID();
         Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), target.getDropIndex(dropY));
@@ -106,5 +104,4 @@ public class IVPMouseListener extends MouseAdapter {
         lastYOnLastEnteredComponent = 0;
         Services.getService().getController().changeCursor(Cursor.DEFAULT_CURSOR);
     }
-
 }

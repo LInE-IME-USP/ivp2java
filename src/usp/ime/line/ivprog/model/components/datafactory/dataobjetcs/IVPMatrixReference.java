@@ -4,16 +4,15 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPMatrixReference extends Reference {
-
     private String             referencedMatrixID = null;
     private String             lineExpID          = null;
     private String             columnExpID        = null;
     public static final String STRING_CLASS       = "matrixreference";
-
+    
     public IVPMatrixReference(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Return the referenced matrix.
      * 
@@ -22,7 +21,7 @@ public class IVPMatrixReference extends Reference {
     public String getReferencedMatrix() {
         return referencedMatrixID;
     }
-
+    
     /**
      * Set the referencedMatrix.
      * 
@@ -34,7 +33,7 @@ public class IVPMatrixReference extends Reference {
         IVPMatrix m = (IVPMatrix) Services.getService().getModelMapping().get(referencedMatrixID);
         setReferencedName(m.getCollectionName());
     }
-
+    
     /**
      * Return the expression that specifies the line in this reference.
      * 
@@ -43,7 +42,7 @@ public class IVPMatrixReference extends Reference {
     public String getLineExpression() {
         return lineExpID;
     }
-
+    
     /**
      * Set the expression that specifies the line in this reference.
      * 
@@ -53,7 +52,7 @@ public class IVPMatrixReference extends Reference {
     public void setLineExpression(String line) {
         this.lineExpID = line;
     }
-
+    
     /**
      * Return the expression that specifies the column in this reference.
      * 
@@ -62,7 +61,7 @@ public class IVPMatrixReference extends Reference {
     public String getColumnExpression() {
         return columnExpID;
     }
-
+    
     /**
      * Set the expression that specifies the column in this reference.
      * 
@@ -72,19 +71,19 @@ public class IVPMatrixReference extends Reference {
     public void setColumnExpression(String col) {
         columnExpID = col;
     }
-
+    
     public String toXML() {
         Expression line = (Expression) Services.getService().getModelMapping().get(lineExpID);
         Expression column = (Expression) Services.getService().getModelMapping().get(columnExpID);
-        String str = "<dataobject class\"ivpmatrixreference\">" + "<id>" + getUniqueID() + "</id>" + "<referencedname>" + referencedName + "</referencedname>" + "<type>" + referenceType + "</type>"
+        String str = "<dataobject class\"ivpmatrixreference\">" + "<id>" + getUniqueID() + "</id>" + "<referencedname>" + referencedName + "</referencedname>" + "<type>" + referencedType + "</type>"
                 + "<lineexpression>" + line.toXML() + "</lineexpression>" + "<columnexpression>" + column.toXML() + "</columnexpression>" + "</dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         return null;
     }
-
+    
     @Override
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub

@@ -11,16 +11,14 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public abstract class IlmModuleToolbar extends JPanel implements Observer {
-
     private static final long serialVersionUID = 1L;
-
+    
     public IlmModuleToolbar() {
         setBackground(FlatUIColors.MAIN_BG);
     }
-
+    
     protected JButton makeButton(String imageName, String actionCommand, String toolTipText, String altText) {
         JButton button = new JButton();
-
         button.setActionCommand(actionCommand);
         button.setToolTipText(toolTipText);
         try {

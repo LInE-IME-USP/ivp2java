@@ -7,18 +7,17 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.view.FlatUIColors;
 
 public class RoundedJPanel extends JPanel {
-
     private static final long serialVersionUID = 1L;
     protected Dimension       arcs             = new Dimension(5, 5);
     protected static int      idCounter        = 0;
     private Color             borderColor      = FlatUIColors.CODE_BORDER_BG;
     private Color             bgColor          = FlatUIColors.CODE_BG;
-
+    
     public RoundedJPanel() {
         super();
         setOpaque(false);
     }
-
+    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Object oldAntialiasing = null;
@@ -35,14 +34,13 @@ public class RoundedJPanel extends JPanel {
             ((java.awt.Graphics2D) g).addRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING, oldAntialiasing));
         }
     }
-
+    
     public void setArcs(Dimension arcs) {
         this.arcs = arcs;
         repaint();
     }
-
+    
     public void setBackgroundColor(Color bgColor) {
         this.bgColor = bgColor;
     }
-
 }

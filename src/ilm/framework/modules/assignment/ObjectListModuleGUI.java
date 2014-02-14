@@ -12,12 +12,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 
 public class ObjectListModuleGUI extends JFrame implements Observer {
-
     private static final long serialVersionUID = 1L;
     private ObjectListModule  _objectList;
     private JPanel            contentPane;
     private JList             list;
-
+    
     public ObjectListModuleGUI() {
         setBounds(100, 100, 200, 300);
         contentPane = new JPanel();
@@ -28,7 +27,7 @@ public class ObjectListModuleGUI extends JFrame implements Observer {
         contentPane.add(list, BorderLayout.CENTER);
         setTitle(IlmProtocol.OBJECT_LIST_MODULE_NAME);
     }
-
+    
     public void update(Observable o, Object arg) {
         if (o instanceof ObjectListModule) {
             _objectList = (ObjectListModule) o;

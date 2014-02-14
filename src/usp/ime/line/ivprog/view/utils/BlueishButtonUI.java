@@ -17,7 +17,6 @@ package usp.ime.line.ivprog.view.utils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -39,24 +38,20 @@ import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
 public class BlueishButtonUI extends BasicButtonUI {
-
     private static Color         blueishBackgroundOver     = new Color(224, 232, 246);
     private static Color         blueishBorderOver         = new Color(152, 180, 226);
-
     private static Color         blueishBackgroundSelected = new Color(193, 210, 238);
     private static Color         blueishBorderSelected     = new Color(49, 106, 197);
     private static MouseListener handCursorListener        = new HandCursor();
-
     private static Rectangle     viewRect                  = new Rectangle();
     private static Rectangle     textRect                  = new Rectangle();
     private static Rectangle     iconRect                  = new Rectangle();
-
     protected int                dashedRectGapX;
     protected int                dashedRectGapY;
     protected int                dashedRectGapWidth;
     protected int                dashedRectGapHeight;
     private Color                focusColor;
-
+    
     public BlueishButtonUI() {
         super();
         dashedRectGapX = UIManager.getInt("ButtonUI.dashedRectGapX");
@@ -65,17 +60,17 @@ public class BlueishButtonUI extends BasicButtonUI {
         dashedRectGapHeight = UIManager.getInt("ButtonUI.dashedRectGapHeight");
         focusColor = new Color(100, 100, 255);
     }
-
+    
     protected void installListeners(AbstractButton b) {
         super.installListeners(b);
         b.addMouseListener(handCursorListener);
     }
-
+    
     protected void uninstallListeners(AbstractButton b) {
         super.uninstallListeners(b);
         b.removeMouseListener(handCursorListener);
     }
-
+    
     public void installUI(JComponent c) {
         super.installUI(c);
         AbstractButton button = (AbstractButton) c;
@@ -83,7 +78,7 @@ public class BlueishButtonUI extends BasicButtonUI {
         button.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         button.setOpaque(false);
     }
-
+    
     public void paint(Graphics g, JComponent c) {
         AbstractButton button = (AbstractButton) c;
         if (button.getModel().isRollover() || button.getModel().isArmed() || button.getModel().isSelected()) {
@@ -101,7 +96,6 @@ public class BlueishButtonUI extends BasicButtonUI {
             g.drawRect(0, 0, c.getWidth() - 1, c.getHeight() - 1);
             g.setColor(oldColor);
         }
-
         if (button.getText() != null && !button.getText().equals("")) {
             View v = (View) c.getClientProperty(BasicHTML.propertyKey);
             if (v != null) {
@@ -117,7 +111,7 @@ public class BlueishButtonUI extends BasicButtonUI {
         }
         super.paint(g, c);
     }
-
+    
     protected void paintFocus(Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {
         if (b.getParent() instanceof JToolBar) {
             return;
@@ -127,15 +121,14 @@ public class BlueishButtonUI extends BasicButtonUI {
         g.setColor(focusColor);
         BasicGraphicsUtils.drawDashedRect(g, dashedRectGapX, dashedRectGapY, width - dashedRectGapWidth, height - dashedRectGapHeight);
     }
-
+    
     static class HandCursor extends MouseAdapter {
         public void mouseEntered(MouseEvent e) {
             e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
-
+        
         public void mouseExited(MouseEvent e) {
             e.getComponent().setCursor(Cursor.getDefaultCursor());
         }
     }
-
 }

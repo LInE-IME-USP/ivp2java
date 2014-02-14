@@ -7,16 +7,15 @@ import java.util.Vector;
 import usp.ime.line.ivprog.Services;
 
 public class FunctionReference extends Reference {
-
-    private String             referencedFunctionID = null;
-    private String functionReferencedType = "-1";
-    private Vector             parameterList        = new Vector();
-    public static final String STRING_CLASS         = "functionreference";
-
+    private String             referencedFunctionID   = null;
+    private String             functionReferencedType = "-1";
+    private Vector             parameterList          = new Vector();
+    public static final String STRING_CLASS           = "functionreference";
+    
     public FunctionReference(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Set the referenced function.
      * 
@@ -30,7 +29,7 @@ public class FunctionReference extends Reference {
             setFunctionReferencedType(f.getReturnType());
         }
     }
-
+    
     /**
      * Return the referenced function.
      * 
@@ -39,7 +38,7 @@ public class FunctionReference extends Reference {
     public String getReferencedFunction() {
         return referencedFunctionID;
     }
-
+    
     /**
      * Set the entire parameter list.
      * 
@@ -48,7 +47,7 @@ public class FunctionReference extends Reference {
     public void setParameterList(Vector paramList) {
         parameterList = paramList;
     }
-
+    
     /**
      * Append the specified parameter to the end of the list.
      * 
@@ -57,7 +56,7 @@ public class FunctionReference extends Reference {
     public void addParameterToTheListAtIndex(int index, String refID) {
         parameterList.add(index, refID);
     }
-
+    
     /**
      * Remove the specified parameter from the list and return it.
      * 
@@ -68,7 +67,7 @@ public class FunctionReference extends Reference {
         parameterList.remove(index);
         return paramRefID;
     }
-
+    
     /**
      * Remove the parameter with the specified name from the list and return it.
      * 
@@ -87,9 +86,9 @@ public class FunctionReference extends Reference {
         }
         return paramID;
     }
-
+    
     public String toXML() {
-        String str = "<dataobject class=\"functionreference\">" + "<id>" + getUniqueID() + "</id>" + "<type>" + getReferenceType() + "</type>" + "<referencedname>" + getReferencedName()
+        String str = "<dataobject class=\"functionreference\">" + "<id>" + getUniqueID() + "</id>" + "<type>" + getReferencedType() + "</type>" + "<referencedname>" + getReferencedName()
                 + "</referencedname>" + "<parameterlist>";
         for (int i = 0; i < parameterList.size(); i++) {
             str += ((DataObject) parameterList.get(i)).toXML();
@@ -97,21 +96,21 @@ public class FunctionReference extends Reference {
         str += "</parameterlist></dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         return null;
     }
-
+    
     @Override
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub
         return false;
     }
-
+    
     public String getFunctionReferencedType() {
         return functionReferencedType;
     }
-
+    
     public void setFunctionReferencedType(String functionReferencedType) {
         this.functionReferencedType = functionReferencedType;
     }

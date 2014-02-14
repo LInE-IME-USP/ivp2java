@@ -3,13 +3,12 @@ package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 import java.util.Vector;
 
 public abstract class CodeComposite extends CodeComponent {
-
     private Vector children = new Vector();
-
+    
     public CodeComposite(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Append a child at the end of children's vector.
      * 
@@ -18,7 +17,7 @@ public abstract class CodeComposite extends CodeComponent {
     public void addChild(String aChildID) {
         children.add(aChildID);
     }
-
+    
     /**
      * Put the child at the specified position.
      * 
@@ -43,7 +42,7 @@ public abstract class CodeComposite extends CodeComponent {
             return lastIndex;
         }
     }
-
+    
     /**
      * Remove a child from the specified position and return it.
      * 
@@ -53,7 +52,7 @@ public abstract class CodeComposite extends CodeComponent {
         String removedChildID = (String) children.remove(index);
         return removedChildID;
     }
-
+    
     /**
      * Remove the specified child from the children vector and return it.
      * 
@@ -64,7 +63,7 @@ public abstract class CodeComposite extends CodeComponent {
         children.remove(childID);
         return index;
     }
-
+    
     /**
      * Return the child at the specified position.
      * 
@@ -74,7 +73,7 @@ public abstract class CodeComposite extends CodeComponent {
     public String getChildAtIndex(int i) {
         return (String) children.get(i);
     }
-
+    
     /**
      * Set the children list. It's useful for file reading.
      * 
@@ -83,7 +82,7 @@ public abstract class CodeComposite extends CodeComponent {
     public void setChildrenList(Vector childrenList) {
         children = childrenList;
     }
-
+    
     /**
      * Return the children vector.
      * 
@@ -92,5 +91,4 @@ public abstract class CodeComposite extends CodeComponent {
     public Vector getChildrenList() {
         return children;
     }
-
 }

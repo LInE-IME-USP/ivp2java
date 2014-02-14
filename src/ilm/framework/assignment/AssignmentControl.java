@@ -26,14 +26,13 @@ import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
 public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol, Serializable {
-
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
     private ICommunication  _comm;
     private Vector          _assignmentList;
     private HashMap         _moduleList;
-
+    
     public AssignmentControl(SystemConfig config, ICommunication comm, DomainModel model, DomainConverter converter) {
         _config = config;
         _comm = comm;
@@ -42,7 +41,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         initModuleList();
         initAssignments();
     }
-
+    
     private void initModuleList() {
         _moduleList = new HashMap();
         AutomaticCheckingModule module = new AutomaticCheckingModule(this, this);
@@ -53,11 +52,11 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         addModule(new ObjectListModule());
         addModule(new ConfigurationModule());
     }
-
+    
     public void addModule(IlmModule module) {
         _moduleList.put(module.getName(), module);
     }
-
+    
     private void initAssignments() {
         int numberOfPackages;
         try {
@@ -77,7 +76,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             _assignmentList.add(createNewAssignment());
         }
     }
-
+    
     private Vector createAssignments(Vector stringList) {
         Vector assignmentList = new Vector();
         AssignmentParser parser = new AssignmentParser();
@@ -94,7 +93,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         }
         return assignmentList;
     }
-
+    
     private Assignment createNewAssignment() {
         AssignmentState initialState = _model.getNewAssignmentState();
         Assignment a = new Assignment("", initialState, initialState, null);
@@ -102,7 +101,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         setModulesAssignment(a);
         return a;
     }
-
+    
     private void addAssignmentToModules() {
         Iterator moduleIterator = _moduleList.keySet().iterator();
         while (moduleIterator.hasNext()) {
@@ -112,7 +111,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             }
         }
     }
-
+    
     private void setModulesAssignment(Assignment assignment) {
         Iterator moduleIterator = _moduleList.keySet().iterator();
         while (moduleIterator.hasNext()) {
@@ -129,7 +128,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             }
         }
     }
-
+    
     private String loadMetadataFile(String packageFileName) {
         try {
             return _comm.readMetadataFile(packageFileName);
@@ -139,7 +138,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         }
         return null;
     }
-
+    
     private void getConfigFromMetadataFile(String metadataFileContent) {
         AssignmentParser parser = new AssignmentParser();
         HashMap config = parser.convertStringToMap(metadataFileContent, IlmProtocol.CONFIG_LIST_NODE);
@@ -149,7 +148,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             _config.setParameter(key, (String) config.get(key));
         }
     }
-
+    
     private Vector loadAssignmentFiles(String packageFileName) {
         AssignmentParser parser = new AssignmentParser();
         String metadataFileContent = loadMetadataFile(packageFileName);
@@ -164,7 +163,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         }
         return null;
     }
-
+    
     /**
      * @see IAssignment
      * 
@@ -191,20 +190,20 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         }
         return null;
     }
-
+    
     public int openAssignmentPackage(String fileName) {
         int initIndex = _assignmentList.size();
         _assignmentList.addAll(createAssignments(loadAssignmentFiles(fileName)));
         getConfigFromMetadataFile(loadMetadataFile(fileName));
         return initIndex;
     }
-
+    
     public AssignmentState newAssignment() {
         Assignment a = createNewAssignment();
         _assignmentList.add(a);
         return a.getCurrentState();
     }
-
+    
     public void closeAssignment(int index) {
         _assignmentList.remove(index);
         Iterator moduleIterator = _moduleList.keySet().iterator();
@@ -215,39 +214,39 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             }
         }
     }
-
+    
     public int getNumberOfAssignments() {
         return _assignmentList.size();
     }
-
+    
     public HashMap getIlmModuleList() {
         return _moduleList;
     }
-
+    
     public AssignmentState getCurrentState(int index) {
         return ((Assignment) _assignmentList.get(index)).getCurrentState();
     }
-
+    
     public AssignmentState getInitialState(int index) {
         return ((Assignment) _assignmentList.get(index)).getInitialState();
     }
-
+    
     public AssignmentState getExpectedAnswer(int index) {
         return ((Assignment) _assignmentList.get(index)).getExpectedAnswer();
     }
-
+    
     public HashMap getConfig(int index) {
         return ((Assignment) _assignmentList.get(index)).getConfig();
     }
-
+    
     public HashMap getMetadata(int index) {
         return ((Assignment) _assignmentList.get(index)).getMetadata();
     }
-
+    
     public String getProposition(int index) {
         return ((Assignment) _assignmentList.get(index)).getProposition();
     }
-
+    
     /**
      * @see IAssignmentOperator
      * 
@@ -256,7 +255,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     public DomainConverter getConverter() {
         return _converter;
     }
-
+    
     /**
      * @see IAssignmentOperator
      * 
@@ -265,7 +264,7 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     public ICommunication getFileRW() {
         return _comm;
     }
-
+    
     public void print() {
         for (int i = 0; i < _assignmentList.size(); i++) {
             Assignment a = (Assignment) _assignmentList.get(i);
@@ -277,19 +276,18 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             ((IlmModule) _moduleList.get(key)).print();
         }
     }
-
+    
     public float getEvaluation() {
         return ((AutomaticCheckingModule) _moduleList.get(IlmProtocol.AUTO_CHECKING_MODULE_NAME)).getEvaluation();
     }
-
+    
     public String getAnswer() {
         return ((AutomaticCheckingModule) _moduleList.get(IlmProtocol.AUTO_CHECKING_MODULE_NAME)).getAnswer();
     }
-
+    
     public ZipFile getAssignmentPackage() {
         // TODO A better maybe random name generator
         String fileName = "skdjhf";
         return saveAssignmentPackage(_assignmentList, fileName);
     }
-
 }

@@ -15,17 +15,16 @@ import ilm.framework.gui.AuthoringGUI;
 import ilm.framework.modules.IlmModule;
 
 public class IlmSystemFactory extends SystemFactory {
-
     public DomainModel createDomainModel() {
         IVPProgram program = new IVPProgram();
         Services.getService().getController().setProgram(program);
         return program;
     }
-
+    
     public DomainConverter createDomainConverter() {
         return new IVPDomainConverter();
     }
-
+    
     public DomainGUI createDomainGUI(SystemConfig config, DomainModel model) {
         IVPDomainGUI domainGUI = new IVPDomainGUI();
         Services.getService().getController().setGui(domainGUI);
@@ -33,14 +32,14 @@ public class IlmSystemFactory extends SystemFactory {
         Services.getService().getController().initDomainActionList(model);
         return domainGUI;
     }
-
+    
     public AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition, AssignmentState initial, AssignmentState current, AssignmentState expected, HashMap config, HashMap metadata) {
         AuthoringGUI gui = new IlmAuthoringGUI();
         gui.setComponents(config, domainGUI, metadata);
         gui.setAssignment(proposition, initial, current, expected);
         return gui;
     }
-
+    
     protected Vector getIlmModuleList() {
         Vector list = new Vector();
         // list.add(new ScriptModule());

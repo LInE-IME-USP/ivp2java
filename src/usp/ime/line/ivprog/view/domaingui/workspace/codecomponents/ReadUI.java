@@ -12,13 +12,12 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ReadUI extends CodeBaseUI {
-
     private JPanel             contentPanel;
     private JLabel             codeBlockName;
     private String             context;
     private ExpressionFieldUI  expressionFieldUI;
     private VariableSelectorUI initialExpression;
-
+    
     public ReadUI(String id, String parentID, String scopeID) {
         super(id);
         setModelParent(parentID);
@@ -27,13 +26,13 @@ public class ReadUI extends CodeBaseUI {
         initialization(id);
         addComponents();
     }
-
+    
     private void initialization(String id) {
         contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         codeBlockName = new JLabel(ResourceBundleIVP.getString("PrintUI.text"));
         setBackground(FlatUIColors.MAIN_BG);
     }
-
+    
     private void addComponents() {
         contentPanel.setOpaque(false);
         contentPanel.add(codeBlockName);
@@ -44,11 +43,11 @@ public class ReadUI extends CodeBaseUI {
         contentPanel.add(expressionFieldUI);
         addContentPanel(contentPanel);
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }
-
+    
     public String getContext() {
         return context;
     }

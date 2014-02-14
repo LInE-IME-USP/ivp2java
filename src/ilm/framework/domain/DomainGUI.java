@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import usp.ime.line.ivprog.Services;
 
 public abstract class DomainGUI extends JPanel implements Observer {
-
     /**
      * @attribute serial version due to javax.swing specification
      * @attribute the proposition of the assignment shown by this user interface
@@ -26,7 +25,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
     private static final long serialVersionUID = 1L;
     protected String          _proposition;
     protected AssignmentState _state;
-
+    
     /**
      * Defines the assignment-specific data that this user interface must keep. Also updates the communication among the framework components.
      * 
@@ -57,21 +56,21 @@ public abstract class DomainGUI extends JPanel implements Observer {
         }
         initDomainGUI();
     }
-
+    
     /**
      * Initialization method to the user interface features (widgets) that depend on the assignment to be defined. It is called at the method "setAssignment", just after the assignment is defined.
      * 
      * @see example.ilm.gui.IlmDomainGUI
      */
     protected abstract void initDomainGUI();
-
+    
     /**
      * @return a list of domain objects selected by the user. It is used by authoringGUI to author a new assignment.
      * 
      * @see example.ilm.gui.IlmDomainGUI
      */
     public abstract Vector getSelectedObjects();
-
+    
     /**
      * @return the current state of the assignment shown by this user interface. It is not a final method, so it can be overriden by the child class to add some behavior.
      */

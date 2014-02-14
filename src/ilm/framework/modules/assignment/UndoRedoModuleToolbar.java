@@ -13,17 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UndoRedoModuleToolbar extends IlmModuleToolbar {
-
     private static final long serialVersionUID = 1L;
     private UndoRedoModule    _undoRedo;
     private JButton           _undoButton;
     private JButton           _redoButton;
-
+    
     public UndoRedoModuleToolbar() {
         _undoButton = makeButton("undo", "UNDO", ResourceBundleIVP.getString("undoBtn.Tip"), ResourceBundleIVP.getString("undoBtn.AltText"));
         add(_undoButton);
         _undoButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 _undoRedo.undo();
             }
@@ -32,7 +30,6 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
         _redoButton = makeButton("redo", "REDO", ResourceBundleIVP.getString("redoBtn.Tip"), ResourceBundleIVP.getString("redoBtn.AltText"));
         add(_redoButton);
         _redoButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 _undoRedo.redo();
             }
@@ -40,7 +37,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
         _redoButton.setEnabled(false);
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
     }
-
+    
     public void update(Observable o, Object arg) {
         if (o instanceof UndoRedoModule) {
             _undoRedo = (UndoRedoModule) o;
@@ -48,7 +45,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
             updateRedoButton();
         }
     }
-
+    
     private void updateUndoButton() {
         if (_undoRedo.isUndoStackEmpty()) {
             _undoButton.setEnabled(false);
@@ -56,7 +53,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
             _undoButton.setEnabled(true);
         }
     }
-
+    
     private void updateRedoButton() {
         if (_undoRedo.isRedoStackEmpty()) {
             _redoButton.setEnabled(false);

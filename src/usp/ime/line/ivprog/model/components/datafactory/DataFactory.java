@@ -21,12 +21,11 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableRefe
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 
 public class DataFactory implements IDataFactory {
-
     /**
      * This integer grants an unique id for each DomainObject
      */
     private static int objectID = 0;
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -37,7 +36,7 @@ public class DataFactory implements IDataFactory {
         cont.setUniqueID("" + objectID++);
         return cont;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -48,7 +47,7 @@ public class DataFactory implements IDataFactory {
         variable.setUniqueID("" + objectID++);
         return variable;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -59,7 +58,7 @@ public class DataFactory implements IDataFactory {
         array.setUniqueID("" + objectID++);
         return array;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -70,7 +69,7 @@ public class DataFactory implements IDataFactory {
         matrix.setUniqueID("" + objectID++);
         return matrix;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -81,7 +80,7 @@ public class DataFactory implements IDataFactory {
         op.setUniqueID("" + objectID++);
         return op;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -92,7 +91,7 @@ public class DataFactory implements IDataFactory {
         ifelse.setUniqueID("" + objectID++);
         return ifelse;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -103,7 +102,7 @@ public class DataFactory implements IDataFactory {
         f.setUniqueID("" + objectID++);
         return f;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -114,7 +113,7 @@ public class DataFactory implements IDataFactory {
         w.setUniqueID("" + objectID++);
         return w;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -125,7 +124,7 @@ public class DataFactory implements IDataFactory {
         print.setUniqueID("" + objectID++);
         return print;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -136,7 +135,7 @@ public class DataFactory implements IDataFactory {
         comment.setUniqueID("" + objectID++);
         return comment;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -147,7 +146,7 @@ public class DataFactory implements IDataFactory {
         attline.setUniqueID("" + objectID++);
         return attline;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -158,7 +157,7 @@ public class DataFactory implements IDataFactory {
         returnStatement.setUniqueID("" + objectID++);
         return returnStatement;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -169,7 +168,7 @@ public class DataFactory implements IDataFactory {
         f.setUniqueID("" + objectID++);
         return f;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -180,7 +179,7 @@ public class DataFactory implements IDataFactory {
         fr.setUniqueID("" + objectID++);
         return fr;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -191,7 +190,7 @@ public class DataFactory implements IDataFactory {
         varRef.setUniqueID("" + objectID++);
         return varRef;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -202,7 +201,7 @@ public class DataFactory implements IDataFactory {
         vRef.setUniqueID("" + objectID++);
         return vRef;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -213,7 +212,7 @@ public class DataFactory implements IDataFactory {
         mRef.setUniqueID("" + objectID++);
         return mRef;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -224,5 +223,4 @@ public class DataFactory implements IDataFactory {
         ask.setUniqueID("" + objectID++);
         return ask;
     }
-
 }

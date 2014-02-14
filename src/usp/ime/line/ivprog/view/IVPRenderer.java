@@ -47,13 +47,13 @@ public class IVPRenderer {
         }
         return null;
     }
-
+    
     private JComponent renderReference(Reference referenceModel) {
         // acho que isso aqui poderia renderizar uma label com o nome da variável...
         // seria a label que vai
         return null;
     }
-
+    
     private JComponent renderExpresion(Expression expressionModel) {
         VariableSelectorUI var;
         OperationUI exp;
@@ -84,7 +84,7 @@ public class IVPRenderer {
             return exp;
         }
     }
-
+    
     private JComponent renderAttributionLine(AttributionLine attLineModel) {
         AttributionLineUI attLine = new AttributionLineUI(attLineModel.getUniqueID(), attLineModel.getScopeID(), attLineModel.getParentID());
         attLine.setModelParent(attLineModel.getParentID());
@@ -93,7 +93,7 @@ public class IVPRenderer {
         Services.getService().getViewMapping().put(attLineModel.getUniqueID(), attLine);
         return attLine;
     }
-
+    
     private JComponent renderWhile(While object) {
         WhileUI w = new WhileUI(object.getUniqueID());
         w.setModelParent(object.getParentID());
@@ -101,7 +101,7 @@ public class IVPRenderer {
         Services.getService().getViewMapping().put(object.getUniqueID(), w);
         return w;
     }
-
+    
     public FunctionBodyUI renderFunction(Function f) {
         FunctionBodyUI function;
         if (f.getFunctionName().equals(ResourceBundleIVP.getString("mainFunctionName"))) {
@@ -114,18 +114,17 @@ public class IVPRenderer {
         Services.getService().getViewMapping().put(f.getUniqueID(), function);
         return function;
     }
-
+    
     private JComponent renderWrite(Print p) {
         PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
         Services.getService().getViewMapping().put(p.getUniqueID(), print);
         return print;
     }
-
+    
     private JComponent renderVariable(Variable object) {
         IVPVariableBasic variable = new IVPVariableBasic(object.getUniqueID(), object.getScopeID());
         variable.setVariableName(object.getVariableName());
         Services.getService().getViewMapping().put(object.getUniqueID(), variable);
         return variable;
     }
-
 }

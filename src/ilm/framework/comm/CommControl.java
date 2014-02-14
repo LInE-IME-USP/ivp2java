@@ -6,11 +6,10 @@ import java.util.zip.ZipFile;
 import ilm.framework.config.SystemConfig;
 
 public class CommControl implements ICommunication {
-
     private SystemConfig   _config;
     private IEncrypter     _encrypter;
     private ICommunication _fileRW;
-
+    
     public CommControl(SystemConfig config) {
         _config = config;
         _encrypter = new IlmEncrypter();
@@ -20,7 +19,7 @@ public class CommControl implements ICommunication {
             _fileRW = new IlmDesktopFileRW();
         }
     }
-
+    
     public String readMetadataFile(String packageName) {
         try {
             return _fileRW.readMetadataFile(packageName);
@@ -30,7 +29,7 @@ public class CommControl implements ICommunication {
         }
         return null;
     }
-
+    
     public Vector readResourceFiles(String packageName, Vector resourceList) {
         try {
             return _fileRW.readResourceFiles(packageName, resourceList);
@@ -40,7 +39,7 @@ public class CommControl implements ICommunication {
         }
         return null;
     }
-
+    
     public Vector readAssignmentFiles(String packageName, Vector assignmentList) {
         try {
             return _encrypter.decryptFromFile(_fileRW.readAssignmentFiles(packageName, assignmentList));
@@ -50,7 +49,7 @@ public class CommControl implements ICommunication {
         }
         return null;
     }
-
+    
     public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) {
         try {
             return _fileRW.writeAssignmentPackage(packageName, metadata, resourceNameList, resourceList, assignmentNameList, _encrypter.encryptFileContent(assignmentList));

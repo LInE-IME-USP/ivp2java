@@ -35,7 +35,6 @@ import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 public class ConfigurationGUI extends JFrame {
-
     private JPanel       contentPane;
     private JRadioButton rdBtnCnP;
     private JRadioButton rdBtnDnD;
@@ -43,7 +42,7 @@ public class ConfigurationGUI extends JFrame {
     private Vector       configState;
     private JPanel       panel;
     private JLabel       lblInteration;
-
+    
     public ConfigurationGUI() {
         initLayoutAndPanel();
         initLabelInteraction();
@@ -53,7 +52,7 @@ public class ConfigurationGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-
+    
     private void initCNPRdBtn() {
         rdBtnCnP = new JRadioButton(ResourceBundleIVP.getString("rdBtnCnP.text"));
         rdBtnCnP.addActionListener(new ActionListener() {
@@ -69,7 +68,7 @@ public class ConfigurationGUI extends JFrame {
         gbc_rdbtnNewRadioButton_1.gridy = 0;
         panel.add(rdBtnCnP, gbc_rdbtnNewRadioButton_1);
     }
-
+    
     private void initDNDRdBtn() {
         rdBtnDnD = new JRadioButton(ResourceBundleIVP.getString("rdBtnDnD.text"));
         rdBtnDnD.addActionListener(new ActionListener() {
@@ -86,7 +85,7 @@ public class ConfigurationGUI extends JFrame {
         gbc_rdbtnNewRadioButton.gridy = 0;
         panel.add(rdBtnDnD, gbc_rdbtnNewRadioButton);
     }
-
+    
     private void initLabelInteraction() {
         lblInteration = new JLabel(ResourceBundleIVP.getString("lblInteration.text"));
         lblInteration.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -97,7 +96,7 @@ public class ConfigurationGUI extends JFrame {
         gbc_lblInteraoPadro.gridy = 0;
         panel.add(lblInteration, gbc_lblInteraoPadro);
     }
-
+    
     private void initLayoutAndPanel() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -105,7 +104,6 @@ public class ConfigurationGUI extends JFrame {
         contentPane.setBorder(null);
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(20, 20, 20, 20));
         panel.setBackground(FlatUIColors.MAIN_BG);
@@ -117,5 +115,4 @@ public class ConfigurationGUI extends JFrame {
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
         panel.setLayout(gbl_panel);
     }
-
 }

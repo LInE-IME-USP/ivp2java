@@ -3,7 +3,6 @@ package ilm.framework;
 import java.util.zip.ZipFile;
 
 public interface IlmProtocol {
-
     /**
      * Parameters from iLM specification
      */
@@ -41,17 +40,17 @@ public interface IlmProtocol {
      * Configuration attributes/properties from iLM specification
      */
     public static final String ACTIVE_ASSIGNMENT_INDEX   = "active_assignment_index";
-
+    
     /**
      * @return a number which represents the grade obtained by the student for this assignment (percentage of correctness)
      */
     public float getEvaluation();
-
+    
     /**
      * @return a string with the converted solution created by the student for this assignment
      */
     public String getAnswer();
-
+    
     /**
      * @return a zip package with all the assignment data
      */

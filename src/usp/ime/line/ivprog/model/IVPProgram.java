@@ -40,7 +40,6 @@ import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPProgram extends DomainModel {
-
     private HashMap     globalVariables     = null;
     private HashMap     preDefinedFunctions = null;
     private HashMap     functionMap         = null;
@@ -50,9 +49,8 @@ public class IVPProgram extends DomainModel {
     private List        expressionListeners;
     private List        operationListeners;
     private Interpreter interpreter;
-
     private String      currentScope        = "0";
-
+    
     public IVPProgram() {
         globalVariables = new HashMap();
         preDefinedFunctions = new HashMap();
@@ -64,11 +62,11 @@ public class IVPProgram extends DomainModel {
         operationListeners = new Vector();
         interpreter = new Interpreter();
     }
-
+    
     public void initializeModel() {
         createFunction(ResourceBundleIVP.getString("mainFunctionName"), IVPConstants.FUNC_RETURN_VOID, null);
     }
-
+    
     // Program actions
     public void createFunction(String name, String funcReturnVoid, AssignmentState state) {
         Function f = (Function) dataFactory.createFunction();
@@ -83,27 +81,27 @@ public class IVPProgram extends DomainModel {
         if (state != null)
             state.add(f);
     }
-
+    
     public void removeFunction(String name, AssignmentState state) {
         // Framework
         state.remove((DomainObject) functionMap.get(name));
         functionMap.remove(name);
     }
-
+    
     public String newChild(String containerID, short classID, AssignmentState state) {
         DataObject codeBlock = null;
         if (classID == IVPConstants.MODEL_WHILE) {
             codeBlock = (CodeComposite) dataFactory.createWhile();
             initCodeBlock(containerID, codeBlock);
-            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_OPERATION_EQU, "while", state);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_OPERATION_EQU,(short)-1, "while", state);
         } else if (classID == IVPConstants.MODEL_WRITE) {
             codeBlock = (DataObject) dataFactory.createPrint();
             initCodeBlock(containerID, codeBlock);
-            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, "printable", state);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE,(short)-1, "printable", state);
         } else if (classID == IVPConstants.MODEL_ATTLINE) {
             codeBlock = (DataObject) dataFactory.createAttributionLine();
             initCodeBlock(containerID, codeBlock);
-            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, "leftVar", state);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short)-1, "leftVar", state);
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         container.addChild(codeBlock.getUniqueID());
@@ -111,13 +109,13 @@ public class IVPProgram extends DomainModel {
         state.add(codeBlock);
         return codeBlock.getUniqueID();
     }
-
+    
     private void initCodeBlock(String containerID, DataObject codeBlock) {
         codeBlock.setParentID(containerID);
         codeBlock.setScopeID(currentScope);
         Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
     }
-
+    
     public int moveChild(String component, String origin, String destiny, int dropIndex, AssignmentState _currentState) {
         CodeComposite destinyCode = (CodeComposite) Services.getService().getModelMapping().get(destiny);
         CodeComposite originCode = (CodeComposite) Services.getService().getModelMapping().get(origin);
@@ -137,7 +135,7 @@ public class IVPProgram extends DomainModel {
         componentCode.setParentID(destiny);
         return lastIndex;
     }
-
+    
     public int removeChild(String containerID, String childID, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         int index = 0;
@@ -155,23 +153,21 @@ public class IVPProgram extends DomainModel {
         state.remove((DomainObject) Services.getService().getModelMapping().get(childID));
         return index;
     }
-
+    
     public void restoreChild(String containerID, String childID, int index, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         parent.addChildToIndex(childID, index);
         ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
         codeListener.restoreChild(childID, index);
     }
-
+    
     // Function actions
     public void createParameter(String scopeID) {
-
     }
-
+    
     public void removeParameter(String scopeID, String parameterID) {
-
     }
-
+    
     public String createVariable(String scopeID, String initialValue, AssignmentState state) {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         Variable newVar = (Variable) dataFactory.createVariable();
@@ -188,7 +184,7 @@ public class IVPProgram extends DomainModel {
         state.add(newVar);
         return newVar.getUniqueID();
     }
-
+    
     public void removeVariable(String scopeID, String variableID, AssignmentState state) {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         f.removeLocalVariable(variableID);
@@ -198,7 +194,7 @@ public class IVPProgram extends DomainModel {
         }
         state.remove((DomainObject) Services.getService().getModelMapping().get(variableID));
     }
-
+    
     public void restoreVariable(String scopeID, String variableID, AssignmentState state) {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         f.addLocalVariable(variableID);
@@ -208,7 +204,7 @@ public class IVPProgram extends DomainModel {
         }
         state.add((DomainObject) Services.getService().getModelMapping().get(variableID));
     }
-
+    
     public String updateReferencedVariable(String refID, String newVarRef, AssignmentState state) {
         String lastReferencedVariable = "";
         VariableReference ref = (VariableReference) Services.getService().getModelMapping().get(refID);
@@ -218,27 +214,26 @@ public class IVPProgram extends DomainModel {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.updateReference(refID);
         }
-
         if (newVarRef != null) {
             // significa que estou voltando ao estado inicial.
             Variable newReferenced = (Variable) Services.getService().getModelMapping().get(newVarRef);
             newReferenced.addVariableReference(refID);
         }
-
         Variable lastReferenced = (Variable) Services.getService().getModelMapping().get(lastReferencedVariable);
         if (lastReferenced != null && !"".equals(lastReferenced)) {
             lastReferenced.removeVariableReference(refID);
         }
         return lastReferencedVariable;
     }
-    public String createExpression(String leftExpID, String holder, short expressionType, String context, AssignmentState state) {
-        Expression exp = createExpression(leftExpID, holder, expressionType);
+    
+    public String createExpression(String leftExpID, String holder, short expressionType, short primitiveType, String context, AssignmentState state) {
+        Expression exp = createExpression(leftExpID, holder, expressionType, primitiveType);
         updateExpressionListeners(holder, expressionType, context, state, exp);
         putExpressionOnRightPlace(holder, context, exp);
         state.add(exp);
         return exp.getUniqueID();
     }
-
+    
     private void updateExpressionListeners(String holder, short expressionType, String context, AssignmentState state, Expression exp) {
         for (int i = 0; i < expressionListeners.size(); i++) {
             ((IExpressionListener) expressionListeners.get(i)).expressionCreated(holder, exp.getUniqueID(), context);
@@ -256,7 +251,7 @@ public class IVPProgram extends DomainModel {
             state.add(newExp);
         }
     }
-
+    
     private void putExpressionOnRightPlace(String holder, String context, Expression exp) {
         if (context.equals("right")) {
             ((Operation) Services.getService().getModelMapping().get(holder)).setExpressionB(exp.getUniqueID());
@@ -270,12 +265,13 @@ public class IVPProgram extends DomainModel {
             ((While) Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
         }
     }
-
-    private Expression createExpression(String leftExpID, String holder, short expressionType) {
+    
+    private Expression createExpression(String leftExpID, String holder, short expressionType, short primitiveType) {
         Expression exp = null;
         if (expressionType == Expression.EXPRESSION_VARIABLE) {
             exp = (Expression) dataFactory.createVarReference();
-            exp.setExpressionType(expressionType);
+            exp.setExpressionType(Expression.EXPRESSION_VARIABLE);
+            ((VariableReference)exp).setReferencedType(primitiveType);
         } else if (expressionType >= Expression.EXPRESSION_INTEGER && expressionType <= Expression.EXPRESSION_BOOLEAN) {
             exp = (Expression) dataFactory.createConstant();
             exp.setExpressionType(expressionType);
@@ -293,14 +289,12 @@ public class IVPProgram extends DomainModel {
         Services.getService().getModelMapping().put(exp.getUniqueID(), exp);
         return exp;
     }
-
+    
     public String deleteExpression(String expression, String holder, String context, boolean isClean, boolean isComparison, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         DataObject dataHolder = (DataObject) Services.getService().getModelMapping().get(holder);
-        
-        System.out.println(dataHolder);
-        
         String lastExpressionID;
+        
         if (dataHolder instanceof AttributionLine) {
             ((AttributionLine) dataHolder).setRightExpression(null);
             lastExpressionID = null;
@@ -313,15 +307,12 @@ public class IVPProgram extends DomainModel {
         for (int i = 0; i < expressionListeners.size(); i++) {
             ((IExpressionListener) expressionListeners.get(i)).expressionDeleted(expression, context, isClean);
         }
-        
-        
-        //checar aqui...
-        
+        // checar aqui...
         if (isClean) {
             Expression newExp;
             if (!isComparison) {
                 newExp = (Expression) dataFactory.createVarReference();
-                newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
+                newExp.setExpressionType(((AttributionLine) dataHolder).getLeftVariableType());
             } else {
                 newExp = (Expression) dataFactory.createExpression();
                 newExp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
@@ -337,7 +328,7 @@ public class IVPProgram extends DomainModel {
         state.remove(exp);
         return expression;
     }
-
+    
     public void restoreExpression(String expression, String holder, String context, boolean wasClean, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         for (int i = 0; i < expressionListeners.size(); i++) {
@@ -349,7 +340,7 @@ public class IVPProgram extends DomainModel {
         }
         state.add(exp);
     }
-
+    
     public short changeOperationSign(String expression, String context, short newType, AssignmentState state) {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         short lastType = exp.getExpressionType();
@@ -359,7 +350,7 @@ public class IVPProgram extends DomainModel {
         }
         return lastType;
     }
-
+    
     public String changeValue(String id, String constantValue, AssignmentState state) {
         Constant c = (Constant) Services.getService().getModelMapping().get(id);
         String lastValue = c.getConstantValue();
@@ -368,27 +359,27 @@ public class IVPProgram extends DomainModel {
         v.valueChanged(constantValue);
         return lastValue;
     }
-
+    
     public void addExpressionListener(IExpressionListener listener) {
         if (!expressionListeners.contains(listener)) {
             expressionListeners.add(listener);
         }
     }
-
+    
     public void addOperationListener(IOperationListener listener) {
         if (!operationListeners.contains(listener)) {
             operationListeners.add(listener);
         }
     }
-
+    
     public void addVariableListener(IVariableListener listener) {
         variableListeners.add(listener);
     }
-
+    
     public void addFunctionListener(IFunctionListener listener) {
         functionListeners.add(listener);
     }
-
+    
     public String changeVariableName(String id, String name, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         String lastName = v.getVariableName();
@@ -404,11 +395,12 @@ public class IVPProgram extends DomainModel {
         state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
         return lastName;
     }
-
+    
     public short changeVariableType(String id, short newType, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         short lastType = v.getVariableType();
         v.setVariableType(newType);
+        v.setVariableValue(getInitvalue(newType));
         for (int i = 0; i < variableListeners.size(); i++) {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.changeVariableType(id, newType);
@@ -416,12 +408,13 @@ public class IVPProgram extends DomainModel {
         state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
         return lastType;
     }
-
+    
     public String changeVariableInitialValue(String id, String value, AssignmentState state) {
+        
+        
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         String lastValue = v.getVariableValue();
         v.setVariableValue(value);
-
         for (int i = 0; i < variableListeners.size(); i++) {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.changeVariableValue(id, value);
@@ -429,23 +422,28 @@ public class IVPProgram extends DomainModel {
         state.updateState((DomainObject) Services.getService().getModelMapping().get(id));
         return lastValue;
     }
-
+    
     public AssignmentState getNewAssignmentState() {
         return new AssignmentState();
     }
-
+    
     public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
         return 0;
     }
-
+    
     public void setConsoleListener(IVPConsoleUI ivpConsoleUI) {
         interpreter.setConsole(ivpConsoleUI);
     }
-
+    
     public void updateParent(String parentModelID, String currentModelID, String newExp, String operationContext) {
         ((CodeComponent) Services.getService().getModelMapping().get(parentModelID)).updateParent(currentModelID, newExp, operationContext);
     }
-
+    
+    public void updateAttLineType(String attLineID, short newType){
+        AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLineID);
+        attLine.setLeftVariableType(newType);
+    }
+    
     public String getInitvalue(short type) {
         if (type == Expression.EXPRESSION_BOOLEAN) {
             return "true";
@@ -458,11 +456,10 @@ public class IVPProgram extends DomainModel {
         }
         return "";
     }
-
+    
     public void addComponentListener() {
-
     }
-
+    
     public void playCode() {
         String code = " ";
         Object[] functionList = functionMap.values().toArray();
@@ -470,15 +467,12 @@ public class IVPProgram extends DomainModel {
             code += " " + ((Function) functionList[i]).toJavaString() + " ";
         }
         code += " Principal(); ";
-        String finalCode = "Runnable r = new Runnable(){ public void run() {"+ code + "} }; Thread t = new Thread(r); t.run();";
+        String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
         System.out.println(finalCode);
         try {
             interpreter.eval(finalCode);
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
-
-
-

@@ -38,16 +38,12 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.Color;
 
 public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
-
     private JPanel      valueContainer;
     private JLabel      equalLabel;
-
     private EditInPlace name;
     private EditInPlace value;
     private EditBoolean booleanValue;
-
     private JLabel      valueLabel;
-
     private JPanel      optionsContainer;
     private JButton     configBtn;
     private JButton     excludeBtn;
@@ -55,17 +51,16 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     protected String    currentModelID;
     protected String    parentModelID;
     private String      context;
-
     private JPopupMenu  configMenu;
     private Variable    variable;
-
+    
     public IVPVariableBasic(String id, String scope) {
         this.modelScopeID = scope;
         setBackgroundColor(FlatUIColors.MAIN_BG);
         initialization();
         setModelID(id);
     }
-
+    
     private void initialization() {
         initLayout();
         initName();
@@ -77,7 +72,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         initConfigMenu();
         changeVariableType();
     }
-
+    
     private void initLayout() {
         setOpaque(false);
         FlowLayout flowLayout = new FlowLayout();
@@ -86,7 +81,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         flowLayout.setAlignment(FlowLayout.LEFT);
         setLayout(flowLayout);
     }
-
+    
     private void initOptionsContainer() {
         optionsContainer = new JPanel();
         optionsContainer.setOpaque(false);
@@ -96,12 +91,12 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         flowLayout.setAlignment(FlowLayout.LEFT);
         add(optionsContainer);
     }
-
+    
     private void initBtns() {
         initConfigBtn();
         initDeleteBtn();
     }
-
+    
     private void initDeleteBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -114,39 +109,34 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         excludeBtn.setUI(new IconButtonUI());
         optionsContainer.add(excludeBtn);
     }
-
+    
     private void initConfigBtn() {
         configBtn = new JButton(new ImageIcon(IVPVariableBasic.class.getResource("/usp/ime/line/resources/icons/varConfig2.png")));
         configBtn.setUI(new IconButtonUI());
         configBtn.addActionListener(new ConfigBtnActionListener());
         optionsContainer.add(configBtn);
     }
-
+    
     private void initConfigMenu() {
         configMenu = new JPopupMenu();
         ActionListener al = new ConfigTypeActionListener();
-
         JMenuItem menuItemInteira = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"));
         configMenu.add(menuItemInteira);
         menuItemInteira.addActionListener(al);
-
         JMenuItem menuItemReal = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.double"));
         configMenu.add(menuItemReal);
         menuItemReal.addActionListener(al);
-
         JMenuItem menuItemString = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.string"));
         configMenu.add(menuItemString);
         menuItemString.addActionListener(al);
-
         JMenuItem menuItemBoolean = new JMenuItem(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"));
         configMenu.add(menuItemBoolean);
         menuItemBoolean.addActionListener(al);
-
     }
-
+    
     private void initValueContainer() {
         value = new EditInPlace();
-        value.setValue("0");
+        value.setValue("1");
         value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
         value.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
@@ -155,10 +145,10 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         });
         add(value);
     }
-
+    
     private void initBooleanValueContainer() {
         booleanValue = new EditBoolean();
-        booleanValue.setValue("0");
+        booleanValue.setValue("true");
         booleanValue.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
                 Services.getService().getController().changeVariableInitialValue(currentModelID, value);
@@ -166,7 +156,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         });
         add(booleanValue);
     }
-
+    
     private void initName() {
         name = new EditInPlace();
         name.setValueListener(new IValueListener() {
@@ -177,25 +167,25 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);
         add(name);
     }
-
+    
     private void initEqualLabel() {
         equalLabel = new JLabel("=");
         add(equalLabel);
     }
-
+    
     public void setVariableType(short type) {
         variable.setVariableType(type);
         changeVariableType();
     }
-
+    
     public void setVariableName(String name) {
         this.name.setValue(name);
     }
-
+    
     public void setVariableValue(String value) {
         this.value.setValue(value);
     }
-
+    
     private void changeVariableType() {
         if (variable != null) {
             if (variable.getVariableType() == Expression.EXPRESSION_INTEGER) {
@@ -220,14 +210,14 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             }
         }
     }
-
+    
     private class ConfigBtnActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             configMenu.show(configBtn, 0, configBtn.getHeight());
             configMenu.requestFocus();
         }
     }
-
+    
     private class ConfigTypeActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
@@ -245,47 +235,45 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
                 changeVariableType();
             }
         }
-
     }
-
+    
     public String getModelID() {
         return currentModelID;
     }
-
+    
     public String getModelParent() {
         return parentModelID;
     }
-
+    
     public String getModelScope() {
         return modelScopeID;
     }
-
+    
     public void setModelID(String id) {
         currentModelID = id;
         variable = (Variable) Services.getService().getModelMapping().get(id);
         changeVariableType();
     }
-
+    
     public void setModelParent(String id) {
         parentModelID = id;
     }
-
+    
     public void setModelScope(String id) {
         modelScopeID = id;
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }
-
+    
     public String getContext() {
         return context;
     }
-
+    
     public void setBackgroundColor(Color bg) {
         super.setBackgroundColor(bg);
         revalidate();
         repaint();
     }
-
 }

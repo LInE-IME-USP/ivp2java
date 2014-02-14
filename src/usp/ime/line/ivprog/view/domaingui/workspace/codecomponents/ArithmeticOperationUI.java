@@ -20,11 +20,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class ArithmeticOperationUI extends OperationUI {
-
     public ArithmeticOperationUI(String parent, String scope, String id) {
         super(parent, scope, id);
     }
-
+    
     public void initOperationSignMenu() {
         operationSignMenu = new JPopupMenu();
         Action changeToAddition = new AbstractAction() {
@@ -64,7 +63,7 @@ public class ArithmeticOperationUI extends OperationUI {
         operationSignMenu.add(changeToMultiplication);
         operationSignMenu.add(changeToSubtraction);
     }
-
+    
     public void initSignal() {
         String sign = null;
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
@@ -80,11 +79,10 @@ public class ArithmeticOperationUI extends OperationUI {
         }
         expSign.setText(sign);
     }
-
+    
     public void operationTypeChanged(String id, String context) {
         if (currentModelID.equals(id) && this.context.equals(context)) {
             setModelID(id);
         }
     }
-
 }

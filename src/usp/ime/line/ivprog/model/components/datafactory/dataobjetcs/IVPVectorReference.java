@@ -4,15 +4,14 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPVectorReference extends Reference {
-
     private String             referencedVectorID = null;
     private String             positionExpID      = null;
     public static final String STRING_CLASS       = "vectorreference";
-
+    
     public IVPVectorReference(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Return the referenced vector.
      * 
@@ -21,7 +20,7 @@ public class IVPVectorReference extends Reference {
     public String getReferencedVector() {
         return referencedVectorID;
     }
-
+    
     /**
      * Set the referenced vector.
      * 
@@ -33,7 +32,7 @@ public class IVPVectorReference extends Reference {
         IVPVector v = (IVPVector) Services.getService().getModelMapping().get(referencedVecID);
         setReferencedName(v.getCollectionName());
     }
-
+    
     /**
      * Return the expression that specifies the positions of this reference.
      * 
@@ -42,7 +41,7 @@ public class IVPVectorReference extends Reference {
     public String getPosition() {
         return positionExpID;
     }
-
+    
     /**
      * Set the expression that specifies the positions of this reference.
      * 
@@ -52,18 +51,18 @@ public class IVPVectorReference extends Reference {
     public void setPosition(String pos) {
         positionExpID = pos;
     }
-
+    
     public String toXML() {
         Expression posExp = (Expression) Services.getService().getModelMapping().get(positionExpID);
-        String str = "<dataobject class=\"vectorreference\">" + "<id>" + getUniqueID() + "</id>" + "<referencedname>" + referencedName + "<referencedname>" + "<referencedtype>" + referenceType
+        String str = "<dataobject class=\"vectorreference\">" + "<id>" + getUniqueID() + "</id>" + "<referencedname>" + referencedName + "<referencedname>" + "<referencedtype>" + referencedType
                 + "</referencedtype>" + "<index>" + posExp.toXML() + "</index>" + "</dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         return null;
     }
-
+    
     @Override
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub

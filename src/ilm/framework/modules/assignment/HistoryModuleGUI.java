@@ -12,12 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class HistoryModuleGUI extends JFrame implements Observer {
-
     private static final long serialVersionUID = 1L;
     private HistoryModule     _history;
     private JPanel            contentPane;
     private JList             list;
-
+    
     public HistoryModuleGUI() {
         setBounds(100, 100, 200, 300);
         contentPane = new JPanel();
@@ -28,7 +27,7 @@ public class HistoryModuleGUI extends JFrame implements Observer {
         contentPane.add(list, BorderLayout.CENTER);
         setTitle(IlmProtocol.HISTORY_MODULE_NAME);
     }
-
+    
     public void update(Observable o, Object arg) {
         if (o instanceof HistoryModule) {
             _history = (HistoryModule) o;

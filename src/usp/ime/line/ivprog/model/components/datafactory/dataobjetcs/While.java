@@ -4,14 +4,13 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class While extends CodeComposite {
-
     private String             conditionID  = null;
     public static final String STRING_CLASS = "while";
-
+    
     public While(String name, String description) {
         super(name, description);
     }
-
+    
     /**
      * Return the loop condition.
      * 
@@ -20,7 +19,7 @@ public class While extends CodeComposite {
     public String getCondition() {
         return conditionID;
     }
-
+    
     /**
      * Set the loop condition.
      * 
@@ -29,7 +28,7 @@ public class While extends CodeComposite {
     public void setCondition(String cond) {
         conditionID = cond;
     }
-
+    
     public String toXML() {
         Operation operation = (Operation) Services.getService().getModelMapping().get(conditionID);
         String str = "<dataobject class=\"while\"><id>" + getUniqueID() + "</id>" + "<condition>" + operation.toXML() + "</condition><children>";
@@ -40,7 +39,7 @@ public class While extends CodeComposite {
         str += "</children></dataobject>";
         return str;
     }
-
+    
     public String toJavaString() {
         // ------------------------------------------------------------ adding while
         Expression e = ((Expression) Services.getService().getModelMapping().get(conditionID));
@@ -52,18 +51,15 @@ public class While extends CodeComposite {
             str += c.toJavaString();
         }
         str += "}";
-
         // ------------------------------------------------------------ converting condition
-
         return str;
     }
-
+    
     public boolean equals(DomainObject o) {
         return false;
     }
-
+    
     public void updateParent(String lastExp, String newExp, String operationContext) {
         conditionID = newExp;
     }
-
 }

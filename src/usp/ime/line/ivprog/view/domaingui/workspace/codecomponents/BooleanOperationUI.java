@@ -12,14 +12,13 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class BooleanOperationUI extends OperationUI {
-
     private JPopupMenu operationAndOrMenu;
     private JPopupMenu operationComparisonMenu;
-
+    
     public BooleanOperationUI(String parent, String scope, String id) {
         super(parent, scope, id);
     }
-
+    
     public void initOperationSignMenu() {
         operationComparisonMenu = new JPopupMenu();
         operationAndOrMenu = new JPopupMenu();
@@ -39,7 +38,6 @@ public class BooleanOperationUI extends OperationUI {
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToOR.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.OR.tip"));
         changeToOR.putValue(Action.NAME, ResourceBundleIVP.getString("BooleanOperationUI.OR.text"));
-
         Action changeToLEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_LEQ, context);
@@ -96,11 +94,9 @@ public class BooleanOperationUI extends OperationUI {
         operationComparisonMenu.add(changeToGRE);
         operationAndOrMenu.add(changeToAND);
         operationAndOrMenu.add(changeToOR);
-
         operationSignMenu = operationComparisonMenu;
-
     }
-
+    
     public void initSignal() {
         String sign = null;
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
@@ -140,21 +136,20 @@ public class BooleanOperationUI extends OperationUI {
         }
         expSign.setText(sign);
     }
-
+    
     private void enableComparison() {
         expressionBaseUI_1.enableComparison();
         expressionBaseUI_2.enableComparison();
     }
-
+    
     private void disableComparison() {
         expressionBaseUI_1.disableComparison();
         expressionBaseUI_2.disableComparison();
     }
-
+    
     public void operationTypeChanged(String id, String context) {
         if (currentModelID.equals(id) && this.context.equals(context)) {
             setModelID(id);
         }
     }
-
 }
