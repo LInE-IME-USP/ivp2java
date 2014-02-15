@@ -338,9 +338,9 @@ public class IVPProgram extends DomainModel {
         Expression exp = (Expression) Services.getService().getModelMapping().get(expression);
         for (int i = 0; i < expressionListeners.size(); i++) {
             if (wasClean) {
-                ((IExpressionListener) expressionListeners.get(i)).expressionRestoredFromCleaning(holder, exp.getUniqueID(), context);
+                ((IExpressionListener) expressionListeners.get(i)).expressionRestoredFromCleaning(holder, expression, context);
             } else {
-                ((IExpressionListener) expressionListeners.get(i)).expressionRestored(holder, exp.getUniqueID(), context);
+                ((IExpressionListener) expressionListeners.get(i)).expressionRestored(holder, expression, context);
             }
         }
         state.add(exp);
@@ -416,13 +416,12 @@ public class IVPProgram extends DomainModel {
                 if (((VariableSelectorUI) listener).isIsolated()) {
                     String modelParentID = ((VariableSelectorUI) listener).getModelParent();
                     if (Services.getService().getModelMapping().get(modelParentID) instanceof AttributionLine) {
-                        System.out.println("encontrei um ");
                         attLines.add(modelParentID);
                     }
                 }
             }
         }
-        for (int i = 0; i < attLines.size(); i++) { //ta errado... só posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
+        for (int i = 0; i < attLines.size(); i++) { // ta errado... só posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
             if (attLine.getLeftVariableType() != newType && varRef.getReferencedVariable().equals(id)) {
@@ -442,7 +441,7 @@ public class IVPProgram extends DomainModel {
         v.setVariableType((Short) ret.get(0));
         v.setVariableValue(getInitvalue((Short) ret.get(0)));
         Vector attLines = new Vector();
-        for(int i = 0; i < variableListeners.size(); i++){
+        for (int i = 0; i < variableListeners.size(); i++) {
             IVariableListener listener = (IVariableListener) variableListeners.get(i);
             listener.changeVariableType(id, (Short) ret.get(0));
             if (listener instanceof VariableSelectorUI) {
@@ -454,9 +453,7 @@ public class IVPProgram extends DomainModel {
                 }
             }
         }
-        
-        for(int i = 0; i < attLines.size(); i++){
-            
+        for (int i = 0; i < attLines.size(); i++) {
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
             if (attLine.getLeftVariableType() != (Short) ret.get(0) && varRef.getReferencedVariable().equals(id)) {
@@ -464,13 +461,11 @@ public class IVPProgram extends DomainModel {
                 AttributionLineUI attLineUI = (AttributionLineUI) Services.getService().getViewMapping().get(attLines.get(i));
                 attLineUI.updateHoldingType((Short) ret.get(0));
             }
-            
         }
-        
         for (int i = 1; i < ret.size(); i++) {
             String restoredID = (String) ret.get(i);
             String holderID = ((Expression) Services.getService().getModelMapping().get(ret.get(i))).getParentID();
-            System.out.println("restoredID " + restoredID + " holder " + holderID);
+            System.out.println("restoredID " + restoredID + " holder " + holderID + ret.get(i));
             restoreExpression(restoredID, holderID, "", true, state);
             state.add((DomainObject) Services.getService().getModelMapping().get((String) ret.get(i)));
         }

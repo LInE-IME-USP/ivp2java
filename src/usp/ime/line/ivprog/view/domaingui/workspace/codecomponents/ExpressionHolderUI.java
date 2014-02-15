@@ -430,6 +430,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     public void expressionRestoredFromCleaning(String holder, String id, String context) {
         String lastExpID = null;
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
+            Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             setExpression(restoredExp);
             isContentSet = true;

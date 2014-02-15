@@ -281,10 +281,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             }
         } else {
             if (indexMap.containsValue(v.getVariableName())) {
-                if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible()) {
+                if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible() || !nameLabel.isVisible() && v.getVariableName().equals(varList.getSelectedItem())) {
+                    lastRemoved = v.getVariableName();
                     updateValuesFromVariableList();
+                    System.out.println("chegou aqui... deveria estar vermelho..." + lastRemoved);
                     turnWaningStateON();
-                }else{
+                } else {
                     updateValuesFromVariableList();
                 }
             } else {
@@ -293,6 +295,13 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     isUpdate = true;
                     updateVariableList("", "");
                     isUpdate = false;
+                    if (v.getVariableName().equals(lastRemoved)) {
+                        System.out.println("deveria estar aqui> " + lastRemoved);
+                        turnWaningStateOFF();
+                        isUpdate = true;
+                        varList.setSelectedItem(lastRemoved);
+                        isUpdate = false;
+                    }
                 }
             }
         }
@@ -381,6 +390,13 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private void turnWaningStateOFF() {
         varList.setBorder(null);
         warningState = false;
+        if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
+            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else {
+            editStateOn();
+        }
     }
     
     private void updateVariableList(String newName, String lastName) {
