@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import java.util.Vector;
+
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
@@ -7,6 +9,7 @@ import ilm.framework.domain.DomainModel;
 public class ChangeVariableType extends DomainAction {
     private IVPProgram model;
     private short      lastType;
+    private Vector     returnedVector;
     private short      newType;
     private String     variableID;
     
@@ -19,11 +22,17 @@ public class ChangeVariableType extends DomainAction {
     }
     
     protected void executeAction() {
-        lastType = model.changeVariableType(variableID, newType, _currentState);
+        System.out.println("executou a troca");
+        if(isRedo()){
+            model.changeVariableType(variableID, newType, _currentState);
+        }else{
+            returnedVector = model.changeVariableType(variableID, newType, _currentState);
+        }
+        
     }
     
     protected void undoAction() {
-        model.changeVariableType(variableID, lastType, _currentState);
+        model.restoreVariableType(variableID, returnedVector, _currentState);
     }
     
     public boolean equals(DomainAction a) {

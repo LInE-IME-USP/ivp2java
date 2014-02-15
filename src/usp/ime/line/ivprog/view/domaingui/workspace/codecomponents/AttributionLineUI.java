@@ -15,7 +15,6 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.Font;
 
 public class AttributionLineUI extends CodeBaseUI {
-    
     private JPanel             contentPanel;
     private JLabel             codeLabel;
     private VariableSelectorUI varSelector;
@@ -96,5 +95,9 @@ public class AttributionLineUI extends CodeBaseUI {
         } else {
             blockContent();
         }
+    }
+    
+    public void updateHoldingType(short type) {
+        expression.setHoldingType(type);
     }
 }

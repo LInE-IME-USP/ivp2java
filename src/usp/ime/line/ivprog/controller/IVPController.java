@@ -3,31 +3,26 @@ package usp.ime.line.ivprog.controller;
 import ilm.framework.domain.DomainModel;
 
 import java.awt.Cursor;
-import java.awt.event.ComponentListener;
 import java.util.HashMap;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
-import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
 import usp.ime.line.ivprog.model.domainaction.ChangeValue;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableInitValue;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableType;
+import usp.ime.line.ivprog.model.domainaction.CreateChild;
 import usp.ime.line.ivprog.model.domainaction.CreateExpression;
+import usp.ime.line.ivprog.model.domainaction.CreateVariable;
 import usp.ime.line.ivprog.model.domainaction.DeleteExpression;
 import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
-import usp.ime.line.ivprog.model.domainaction.CreateChild;
-import usp.ime.line.ivprog.model.domainaction.CreateVariable;
 import usp.ime.line.ivprog.model.domainaction.MoveComponent;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
-import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 
 public class IVPController {
     private IVPProgram   program = null;
@@ -252,7 +247,7 @@ public class IVPController {
         Services.getService().getML().setProtocol(interactionProtocol);
     }
     
-    public void updateAttLineType(String attLineID, short newType){
+    public void updateAttLineType(String attLineID, short newType) {
         program.updateAttLineType(attLineID, newType);
     }
 };

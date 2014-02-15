@@ -18,7 +18,6 @@ public abstract class Expression extends DataObject {
     public static final short EXPRESSION_DOUBLE                   = 14;
     public static final short EXPRESSION_STRING                   = 15;
     public static final short EXPRESSION_BOOLEAN                  = 16;
-    
     protected short           expressionType                      = -1;
     
     public Expression(String name, String description) {

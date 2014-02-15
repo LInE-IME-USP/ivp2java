@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
@@ -11,6 +12,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
@@ -58,13 +60,13 @@ public class IVPRenderer {
         VariableSelectorUI var;
         OperationUI exp;
         ConstantUI constant;
-        if (expressionModel.getExpressionType() == Expression.EXPRESSION_VARIABLE) {
+        if (expressionModel instanceof VariableReference) {
             var = new VariableSelectorUI(expressionModel.getParentID());
             var.setModelID(expressionModel.getUniqueID());
             var.setScopeID(expressionModel.getScopeID());
             Services.getService().getViewMapping().put(expressionModel.getUniqueID(), var);
             return var;
-        } else if (expressionModel.getExpressionType() >= Expression.EXPRESSION_INTEGER && expressionModel.getExpressionType() <= Expression.EXPRESSION_BOOLEAN) {
+        } else if (expressionModel instanceof Constant) {
             constant = new ConstantUI(expressionModel.getUniqueID());
             constant.setExpressionType(expressionModel.getExpressionType());
             constant.setModelScope(expressionModel.getScopeID());

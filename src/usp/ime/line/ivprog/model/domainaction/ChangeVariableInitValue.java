@@ -5,7 +5,6 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableInitValue extends DomainAction {
-    
     private IVPProgram model;
     private String     variableID;
     private String     lastValue;

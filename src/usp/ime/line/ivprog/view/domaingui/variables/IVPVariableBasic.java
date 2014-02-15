@@ -175,6 +175,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     
     public void setVariableType(short type) {
         variable.setVariableType(type);
+        System.out.println("na variavel " + type);
         changeVariableType();
     }
     

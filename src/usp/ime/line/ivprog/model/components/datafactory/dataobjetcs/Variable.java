@@ -8,7 +8,6 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
 
 public class Variable extends Expression {
-    
     public static final String STRING_CLASS       = "variable";
     private String             variableName       = "";
     private short              variableType       = -1;

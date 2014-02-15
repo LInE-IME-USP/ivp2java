@@ -108,7 +108,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToAND = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_AND,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_AND, (short) -1, operationContext);
             }
         };
         changeToAND.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.AND.tip"));
@@ -116,7 +116,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToOR = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_OR,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_OR, (short) -1, operationContext);
             }
         };
         changeToOR.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.OR.tip"));
@@ -141,7 +141,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createAddition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_ADDITION, (short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_ADDITION, (short) -1, operationContext);
             }
         };
         createAddition.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createAddition.tip"));
@@ -149,7 +149,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createSubtraction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, (short) -1, operationContext);
             }
         };
         createSubtraction.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createSubtraction.tip"));
@@ -157,7 +157,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createMultiplication = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, (short) -1, operationContext);
             }
         };
         createMultiplication.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createMultiplication.tip"));
@@ -165,7 +165,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action createDivision = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION, (short) -1, operationContext);
             }
         };
         createDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.createDivision.tip"));
@@ -181,7 +181,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToLEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ, (short) -1, operationContext);
             }
         };
         changeToLEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LEQ.tip"));
@@ -189,7 +189,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToLES = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES, (short) -1, operationContext);
             }
         };
         changeToLES.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.LES.tip"));
@@ -197,7 +197,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToEQU = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU, (short) -1, operationContext);
             }
         };
         changeToEQU.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.EQU.tip"));
@@ -205,7 +205,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToNEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ, (short) -1, operationContext);
             }
         };
         changeToNEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.NEQ.tip"));
@@ -213,7 +213,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToGEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ, (short) -1, operationContext);
             }
         };
         changeToGEQ.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GEQ.tip"));
@@ -221,7 +221,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         Action changeToGRE = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE,(short)-1, operationContext);
+                Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE, (short) -1, operationContext);
             }
         };
         changeToGRE.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.GRE.tip"));
@@ -246,7 +246,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionBaseUI.action.variableHasBeenChosen.text"));
         Action valueHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Services.getService().getController().createExpression("", parentModelID, holdingType,(short)-1, operationContext);
+                Services.getService().getController().createExpression("", parentModelID, holdingType, (short) -1, operationContext);
             }
         };
         valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionBaseUI.action.valueHasBeensChosen.tip"));

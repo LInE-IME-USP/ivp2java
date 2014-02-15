@@ -4,10 +4,9 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class AttributionLine extends CodeComponent {
-    
     private String             leftVariable     = "";
     private String             rightExpression  = "";
-    private short             leftVariableType = -1;
+    private short              leftVariableType = -1;
     public static final String STRING_CLASS     = "attline";
     
     public AttributionLine(String name, String description) {

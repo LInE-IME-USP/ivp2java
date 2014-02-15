@@ -36,6 +36,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private String            scopeModelID;
     private String            referencedID;
     private String            context;
+    private String            lastRemoved      = "";
     private JComboBox         varList;
     private TreeMap           indexMap;
     private JLabel            nameLabel;
@@ -47,7 +48,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private JLabel            iconLabel;
     private boolean           drawBorder       = true;
     private boolean           editState        = true;
-    //private short             expressionType;
     private short             referencedType;
     
     public VariableSelectorUI(String parent) {
@@ -154,93 +154,30 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             indexMap = new TreeMap();
             for (int i = 0; i < variables.size(); i++) {
                 Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
-                if(referencedType == var.getVariableType()){
+                if (referencedType == var.getVariableType()) {
                     indexMap.put(var.getUniqueID(), var.getVariableName());
-                }else if(referencedType == Expression.EXPRESSION_DOUBLE && var.getVariableType() == Expression.EXPRESSION_INTEGER){
+                } else if (referencedType == Expression.EXPRESSION_DOUBLE && var.getVariableType() == Expression.EXPRESSION_INTEGER) {
                     indexMap.put(var.getUniqueID(), var.getVariableName());
                 }
             }
+            isUpdate = true;
+            updateVariableList("", "");
+            isUpdate = false;
         }
     }
     
     // END: initialization methods
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (drawBorder) {
-            FlowLayout layout = (FlowLayout) getLayout();
-            layout.setVgap(3);
-            layout.setHgap(3);
-            revalidate();
-            g.setColor(borderColor);
-            java.awt.Rectangle bounds = getBounds();
-            for (int i = 0; i < bounds.width; i += 6) {
-                g.drawLine(i, 0, i + 3, 0);
-                g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
-            }
-            for (int i = 0; i < bounds.height; i += 6) {
-                g.drawLine(0, i, 0, i + 3);
-                g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
-            }
-        } else {
-            FlowLayout layout = (FlowLayout) getLayout();
-            layout.setVgap(0);
-            layout.setHgap(0);
-        }
-    }
-    
-    // BEGIN: Mouse listener
-    private class ExpressionMouseListener implements MouseListener {
-        private JPanel container;
-        private int    clickCounter = 0;
-        
-        public ExpressionMouseListener(JPanel c) {
-            container = c;
-        }
-        
-        public void mouseEntered(MouseEvent e) {
-            if (editState || isIsolated) {
-                setBackground(hoverColor);
-                e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
-        }
-        
-        public void mouseExited(MouseEvent e) {
-            if (editState || isIsolated) {
-                if (drawBorder) {
-                    setBackground(FlatUIColors.MAIN_BG);
-                } else {
-                    setBackground(FlatUIColors.CODE_BG);
-                }
-                e.getComponent().setCursor(Cursor.getDefaultCursor());
-            }
-        }
-        
-        public void mouseClicked(MouseEvent arg0) {
-            if (editState) {
-                editStateOn();
-                varList.requestFocus();
-            }
-        }
-        
-        public void mousePressed(MouseEvent arg0) {
-        }
-        
-        public void mouseReleased(MouseEvent arg0) {
-        }
-    }
-    
-    // END: Mouse listener
     // BEGIN: Variable listener methods
     public void addedVariable(String id) {
         Variable v = ((Variable) Services.getService().getModelMapping().get(id));
         String name = "";
-        if(isIsolated){
+        if (isIsolated) {
             name = v.getVariableName();
             indexMap.put(id, name);
             isUpdate = true;
             updateVariableList("", "");
             isUpdate = false;
-        }else{
+        } else {
             if (v.getVariableType() == referencedType) {
                 name = v.getVariableName();
                 indexMap.put(id, name);
@@ -253,8 +190,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     
     public void changeVariable(String id) {
     }
-    
-    private String lastRemoved = "";
     
     public void removedVariable(String id) {
         String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
@@ -302,7 +237,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void updateReference(String id) {
-        
         if (id == currentModelID) {
             String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
             isUpdate = true;
@@ -315,12 +249,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                         ((AttributionLineUI) Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(false);
                         drawBorder = true;
                         setBackground(FlatUIColors.MAIN_BG);
-                        Services.getService().getController().updateAttLineType(parentModelID, (short) -1);
+                        System.out.println("pedi pra colocar o -1...");
+                        // Services.getService().getController().updateAttLineType(parentModelID, (short) -1);
                     } else {
                         drawBorder = false;
                         setBackground(FlatUIColors.CODE_BG);
                         ((AttributionLineUI) Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(true);
-                        Services.getService().getController().updateAttLineType(parentModelID, referencedType);
+                        referencedType = ((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType();
+                        // Services.getService().getController().updateAttLineType(parentModelID, referencedType);
                     }
                 }
             } else {
@@ -337,30 +273,27 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         }
     }
     
-    public void changeVariableValue(String id, String value) {
-    }
-    
     public void changeVariableType(String id, short type) {
-        
-        
-        
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
-        if(isIsolated) {
-            
-            
-            if(type != referencedType) {
-                if (referencedType == Expression.EXPRESSION_INTEGER && type == Expression.EXPRESSION_DOUBLE) {
-                    referencedType = type;
-                } else { // tenho que remover a expressao da direita...
-                    referencedType = type;
-                    AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(parentModelID);
-                    Services.getService().getController().deleteExpression(attLine.getRightExpressionID(), parentModelID, "", true, false);
-                }
-            } 
-        } else {
-            if(indexMap.containsValue(v.getVariableName())){
+        if (isIsolated) {
+            if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible()) {
                 referencedType = type;
-                updateValuesFromVariableList();
+            }
+        } else {
+            if (indexMap.containsValue(v.getVariableName())) {
+                if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible()) {
+                    updateValuesFromVariableList();
+                    turnWaningStateON();
+                }else{
+                    updateValuesFromVariableList();
+                }
+            } else {
+                if (v.getVariableType() == referencedType) {
+                    indexMap.put(v.getUniqueID(), v.getVariableName());
+                    isUpdate = true;
+                    updateVariableList("", "");
+                    isUpdate = false;
+                }
             }
         }
     }
@@ -398,6 +331,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             revalidate();
             repaint();
         }
+    }
+    
+    public void changeVariableValue(String id, String value) {
     }
     
     // END: Variable listener methods
@@ -544,11 +480,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     public short referenceType() {
         return ((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType();
     }
-
+    
     public short getReferencedType() {
         return referencedType;
     }
-
+    
     public void setReferencedType(short referencedType) {
         this.referencedType = referencedType;
         updateValuesFromVariableList();
@@ -556,4 +492,70 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         updateVariableList("", "");
         isUpdate = false;
     }
+    
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (drawBorder) {
+            FlowLayout layout = (FlowLayout) getLayout();
+            layout.setVgap(3);
+            layout.setHgap(3);
+            revalidate();
+            g.setColor(borderColor);
+            java.awt.Rectangle bounds = getBounds();
+            for (int i = 0; i < bounds.width; i += 6) {
+                g.drawLine(i, 0, i + 3, 0);
+                g.drawLine(i + 3, bounds.height - 1, i + 6, bounds.height - 1);
+            }
+            for (int i = 0; i < bounds.height; i += 6) {
+                g.drawLine(0, i, 0, i + 3);
+                g.drawLine(bounds.width - 1, i + 3, bounds.width - 1, i + 6);
+            }
+        } else {
+            FlowLayout layout = (FlowLayout) getLayout();
+            layout.setVgap(0);
+            layout.setHgap(0);
+        }
+    }
+    
+    // BEGIN: Mouse listener
+    private class ExpressionMouseListener implements MouseListener {
+        private JPanel container;
+        private int    clickCounter = 0;
+        
+        public ExpressionMouseListener(JPanel c) {
+            container = c;
+        }
+        
+        public void mouseEntered(MouseEvent e) {
+            if (editState || isIsolated) {
+                setBackground(hoverColor);
+                e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+        }
+        
+        public void mouseExited(MouseEvent e) {
+            if (editState || isIsolated) {
+                if (drawBorder) {
+                    setBackground(FlatUIColors.MAIN_BG);
+                } else {
+                    setBackground(FlatUIColors.CODE_BG);
+                }
+                e.getComponent().setCursor(Cursor.getDefaultCursor());
+            }
+        }
+        
+        public void mouseClicked(MouseEvent arg0) {
+            if (editState) {
+                editStateOn();
+                varList.requestFocus();
+            }
+        }
+        
+        public void mousePressed(MouseEvent arg0) {
+        }
+        
+        public void mouseReleased(MouseEvent arg0) {
+        }
+    }
+    // END: Mouse listener
 }

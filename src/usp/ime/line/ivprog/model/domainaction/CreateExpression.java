@@ -12,7 +12,7 @@ public class CreateExpression extends DomainAction {
     private String     removedExpression;
     private String     context;
     private short      expressionType;
-    private short primitiveType;
+    private short      primitiveType;
     
     public CreateExpression(String name, String description) {
         super(name, description);
@@ -69,11 +69,11 @@ public class CreateExpression extends DomainAction {
     public String getContext() {
         return context;
     }
-
+    
     public short getPrimitiveType() {
         return primitiveType;
     }
-
+    
     public void setPrimitiveType(short primitiveType) {
         this.primitiveType = primitiveType;
     }
