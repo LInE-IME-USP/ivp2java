@@ -22,7 +22,6 @@ public class ChangeVariableType extends DomainAction {
     }
     
     protected void executeAction() {
-        System.out.println("executou a troca");
         if (isRedo()) {
             model.changeVariableType(variableID, newType, _currentState);
         } else {

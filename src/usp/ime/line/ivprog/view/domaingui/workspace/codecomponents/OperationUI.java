@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IOperationListener;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.view.FlatUIColors;
 
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {
@@ -225,5 +226,21 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         this.expressionType = expressionType;
         expressionBaseUI_1.setHoldingType(expressionType);
         expressionBaseUI_2.setHoldingType(expressionType);
+    }
+    
+    public boolean isBothContentSet(){
+        System.out.println("MODEL CONTENT SET > "+Services.getService().getModelMapping().get(expressionBaseUI_1.getCurrentModelID()));
+        String ref1 = null, ref2 = null;
+        
+        if(Services.getService().getModelMapping().get(expressionBaseUI_1.getCurrentModelID()) instanceof VariableReference){
+            ref1 = ((VariableReference)Services.getService().getModelMapping().get(expressionBaseUI_1.getCurrentModelID())).getReferencedVariable();
+            System.out.println("isBothContentSet 1 "+ref1);
+        }
+        if(Services.getService().getModelMapping().get(expressionBaseUI_2.getCurrentModelID()) instanceof VariableReference){
+            ref2 = ((VariableReference)Services.getService().getModelMapping().get(expressionBaseUI_2.getCurrentModelID())).getReferencedVariable();
+            System.out.println("isBothContentSet 2 "+ref2);
+        }
+        System.out.println("result "+ (ref1 != null || ref2 != null));
+        return (ref1 != null || ref2 != null);
     }
 }

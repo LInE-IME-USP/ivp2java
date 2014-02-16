@@ -4,6 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class VariableReference extends Reference {
+    
     private String             referencedVariableID = null;
     public static final String STRING_CLASS         = "variablereference";
     

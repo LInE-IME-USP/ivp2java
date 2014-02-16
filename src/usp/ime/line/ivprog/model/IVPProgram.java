@@ -282,6 +282,7 @@ public class IVPProgram extends DomainModel {
         } else {
             exp = (Expression) dataFactory.createExpression();
             exp.setExpressionType(expressionType);
+            System.out.println(">>> " + expressionType);
             if (leftExpID != "") {
                 ((Expression) Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
                 ((Operation) exp).setExpressionA(leftExpID);
@@ -424,7 +425,11 @@ public class IVPProgram extends DomainModel {
         for (int i = 0; i < attLines.size(); i++) { // ta errado... só posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
-            if (attLine.getLeftVariableType() != newType && varRef.getReferencedVariable().equals(id)) {
+            System.out.println("-----");
+            System.out.println(attLine);
+            System.out.println(varRef);
+            System.out.println("-----");
+            if (attLine.getLeftVariableType() != newType && id.equals(varRef.getReferencedVariable())) {
                 state.remove((DomainObject) Services.getService().getModelMapping().get(attLine.getRightExpressionID()));
                 attLine.setLeftVariableType(newType);
                 AttributionLineUI attLineUI = (AttributionLineUI) Services.getService().getViewMapping().get(attLines.get(i));
@@ -456,7 +461,7 @@ public class IVPProgram extends DomainModel {
         for (int i = 0; i < attLines.size(); i++) {
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
-            if (attLine.getLeftVariableType() != (Short) ret.get(0) && varRef.getReferencedVariable().equals(id)) {
+            if (attLine.getLeftVariableType() != (Short) ret.get(0) && id.equals(varRef.getReferencedVariable())) {
                 attLine.setLeftVariableType((Short) ret.get(0));
                 AttributionLineUI attLineUI = (AttributionLineUI) Services.getService().getViewMapping().get(attLines.get(i));
                 attLineUI.updateHoldingType((Short) ret.get(0));

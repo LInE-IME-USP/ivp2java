@@ -24,6 +24,7 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHol
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.StringOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.WhileUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.PrintUI;
@@ -73,8 +74,10 @@ public class IVPRenderer {
             Services.getService().getViewMapping().put(expressionModel.getUniqueID(), constant);
             return constant;
         } else {// It's an operation
-            if (expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND) {
+            if (expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND && expressionModel.getExpressionType() != Expression.EXPRESSION_OPERATION_CONCAT) {
                 exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
+            } else if (expressionModel.getExpressionType() == Expression.EXPRESSION_OPERATION_CONCAT) {
+                exp = new StringOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
             } else {
                 exp = new ArithmeticOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
             }

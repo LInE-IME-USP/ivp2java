@@ -38,10 +38,8 @@ public class PrintUI extends CodeBaseUI {
         contentPanel.add(codeBlockName);
         String printableExpression = ((Print) Services.getService().getModelMapping().get(getModelID())).getPrintableObject();
         initialExpression = (VariableSelectorUI) Services.getService().getRenderer().paint(printableExpression);
-        expressionFieldUI = new ExpressionFieldUI(getModelID(), getModelScope());
-        expressionFieldUI.setHolderContent(initialExpression);
-        expressionFieldUI.setBlocked(false);
-        contentPanel.add(expressionFieldUI);
+        initialExpression.setIsolationMode(true);
+        contentPanel.add(initialExpression);
         addContentPanel(contentPanel);
     }
     

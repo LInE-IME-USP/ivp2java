@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class BooleanOperationUI extends OperationUI {
@@ -61,7 +62,7 @@ public class BooleanOperationUI extends OperationUI {
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToEQU.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.EQU.tip"));
-        changeToEQU.putValue(Action.NAME, "=");
+        changeToEQU.putValue(Action.NAME, "\u003D\u003D");
         Action changeToNEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_NEQ, context);
@@ -120,7 +121,7 @@ public class BooleanOperationUI extends OperationUI {
         } else if (type == Expression.EXPRESSION_OPERATION_EQU) {
             disableComparison();
             operationSignMenu = operationComparisonMenu;
-            sign = "\u003D";
+            sign = "\u003D\u003D";
         } else if (type == Expression.EXPRESSION_OPERATION_NEQ) {
             disableComparison();
             operationSignMenu = operationComparisonMenu;
@@ -152,4 +153,5 @@ public class BooleanOperationUI extends OperationUI {
             setModelID(id);
         }
     }
+    
 }

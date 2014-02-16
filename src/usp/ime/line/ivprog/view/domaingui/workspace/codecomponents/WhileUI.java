@@ -86,6 +86,7 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         expressionField = new ExpressionFieldUI(this.getModelID(), this.getModelScope());
         expressionField.setHolderContent(booleanOperationUI);
         expressionField.setComparison(true);
+        expressionField.setBlocked(false);
         header.add(expressionField);
     }
     

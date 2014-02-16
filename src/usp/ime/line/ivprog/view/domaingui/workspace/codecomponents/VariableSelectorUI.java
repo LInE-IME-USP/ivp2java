@@ -25,6 +25,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
+import usp.ime.line.ivprog.model.domainaction.ExpressionTypeChanged;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -48,7 +49,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private JLabel            iconLabel;
     private boolean           drawBorder       = true;
     private boolean           editState        = true;
-    private short             referencedType;
+    private short             referencedType = -1;
     
     public VariableSelectorUI(String parent) {
         this.parentModelID = parent;
@@ -147,8 +148,10 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         isUpdate = false;
     }
     
-    private void updateValuesFromVariableList() { // ainda tenho que olhar aqui se o meu tipo é double
-        if (!isIsolated && referencedType != -1) {
+    private void updateValuesFromVariableList() { 
+        System.out.println("VariableSelectorUI.updateValuesFromVariableList "+ referencedType);
+        if (!isIsolated && (referencedType != -1 && referencedType != 0)) {
+            System.out.println("VariableSelectorUI.updateValuesFromVariableList : entrou");
             Function f = (Function) Services.getService().getModelMapping().get(getScopeID());
             Vector variables = f.getLocalVariableMap().toVector();
             indexMap = new TreeMap();
@@ -178,7 +181,17 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             updateVariableList("", "");
             isUpdate = false;
         } else {
+            System.out.println("VariableSelectorUI.addVariable "+v);
+            System.out.println("VariableSelectorUI.addVariable "+v.getVariableType());
+            System.out.println("VariableSelectorUI.addVariable "+referencedType);
             if (v.getVariableType() == referencedType) {
+                name = v.getVariableName();
+                indexMap.put(id, name);
+                isUpdate = true;
+                updateVariableList("", "");
+                isUpdate = false;
+            } else if(referencedType == -1 || referencedType == 0){
+                System.out.println("VariableSelectorUI.addVariable "+"");
                 name = v.getVariableName();
                 indexMap.put(id, name);
                 isUpdate = true;
@@ -189,6 +202,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void changeVariable(String id) {
+        
     }
     
     public void removedVariable(String id) {
@@ -242,6 +256,13 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             isUpdate = true;
             varList.setSelectedItem(name);
             isUpdate = false;
+            if(referencedType == 0 || referencedType == -1){
+                referencedType = ((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType();
+                updateValuesFromVariableList();
+                isUpdate = true;
+                updateVariableList("", "");
+                isUpdate = false;
+            }
             if (isIsolated) {
                 editStateOff(name);
                 if (Services.getService().getViewMapping().get(parentModelID) instanceof AttributionLineUI) {
@@ -249,14 +270,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                         ((AttributionLineUI) Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(false);
                         drawBorder = true;
                         setBackground(FlatUIColors.MAIN_BG);
-                        System.out.println("pedi pra colocar o -1...");
-                        // Services.getService().getController().updateAttLineType(parentModelID, (short) -1);
                     } else {
                         drawBorder = false;
                         setBackground(FlatUIColors.CODE_BG);
                         ((AttributionLineUI) Services.getService().getViewMapping().get(parentModelID)).setLeftVarSet(true);
                         referencedType = ((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType();
-                        // Services.getService().getController().updateAttLineType(parentModelID, referencedType);
                     }
                 }
             } else {
@@ -269,6 +287,23 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     nameLabel.revalidate();
                     nameLabel.repaint();
                 }
+                if(Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
+                    if(getNewVarID() != null && !"".equals(getNewVarID())){
+                        ((OperationUI)Services.getService().getViewMapping().get(parentModelID)).setExpressionType(((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType());
+                    }else{
+                        if(Services.getService().getViewMapping().get(parentModelID) instanceof BooleanOperationUI){
+                            if(!((BooleanOperationUI)Services.getService().getViewMapping().get(parentModelID)).isBothContentSet()){
+                                ((OperationUI)Services.getService().getViewMapping().get(parentModelID)).setExpressionType((short)-1);
+                                System.out.println("CHEGOU AQUI... DEVERIA FUNCIONAR... ");
+                                referencedType = -1;
+                                initValues();
+                                isUpdate = true;
+                                updateVariableList("", "");
+                                isUpdate = false;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -280,13 +315,16 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 referencedType = type;
             }
         } else {
+            System.out.println("VariableSelectorUI.changeVariableType ");
             if (indexMap.containsValue(v.getVariableName())) {
+                System.out.println("VariableSelectorUI.changeVariableType : está no indexMap");
                 if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible() || !nameLabel.isVisible() && v.getVariableName().equals(varList.getSelectedItem())) {
                     lastRemoved = v.getVariableName();
                     updateValuesFromVariableList();
-                    System.out.println("chegou aqui... deveria estar vermelho..." + lastRemoved);
                     turnWaningStateON();
+                    System.out.println("VariableSelectorUI.changeVariableType : está no indexMap e está visível");
                 } else {
+                    System.out.println("VariableSelectorUI.changeVariableType : está no indexMap não está visível, então ficou doido");
                     updateValuesFromVariableList();
                 }
             } else {
@@ -296,7 +334,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     updateVariableList("", "");
                     isUpdate = false;
                     if (v.getVariableName().equals(lastRemoved)) {
-                        System.out.println("deveria estar aqui> " + lastRemoved);
                         turnWaningStateOFF();
                         isUpdate = true;
                         varList.setSelectedItem(lastRemoved);
