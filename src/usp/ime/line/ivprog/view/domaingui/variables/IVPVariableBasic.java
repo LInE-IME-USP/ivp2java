@@ -136,11 +136,11 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     
     private void initValueContainer() {
         value = new EditInPlace();
-        value.setValue("1");
         value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
+        value.setValue("1");
         value.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
-                Services.getService().getController().changeVariableInitialValue(currentModelID, value);
+                
             }
         });
         add(value);

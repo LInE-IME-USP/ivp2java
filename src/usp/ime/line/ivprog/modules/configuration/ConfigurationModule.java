@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog.view.configuration;
+package usp.ime.line.ivprog.modules.configuration;
 
 import ilm.framework.modules.IlmModule;
 

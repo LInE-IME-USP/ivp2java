@@ -10,6 +10,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
@@ -24,6 +25,7 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHol
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ReadUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.StringOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.WhileUI;
@@ -47,6 +49,8 @@ public class IVPRenderer {
             return renderExpresion((Expression) codeElementModel);
         } else if (codeElementModel instanceof Reference) {
             return renderReference((Reference) codeElementModel);
+        } else if (codeElementModel instanceof ReadData) {
+            return renderRead((ReadData) codeElementModel);
         }
         return null;
     }
@@ -124,6 +128,12 @@ public class IVPRenderer {
         PrintUI print = new PrintUI(p.getUniqueID(), p.getParentID(), p.getScopeID());
         Services.getService().getViewMapping().put(p.getUniqueID(), print);
         return print;
+    }
+    
+    private JComponent renderRead(ReadData r){
+        ReadUI read = new ReadUI(r.getUniqueID(), r.getParentID(), r.getScopeID());
+        Services.getService().getViewMapping().put(r.getUniqueID(), read);
+        return read;
     }
     
     private JComponent renderVariable(Variable object) {

@@ -8,10 +8,12 @@ import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ReadUI extends CodeBaseUI {
+    
     private JPanel             contentPanel;
     private JLabel             codeBlockName;
     private String             context;
@@ -29,18 +31,17 @@ public class ReadUI extends CodeBaseUI {
     
     private void initialization(String id) {
         contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        codeBlockName = new JLabel(ResourceBundleIVP.getString("PrintUI.text"));
+        codeBlockName = new JLabel(ResourceBundleIVP.getString("ReadUI.text"));
         setBackground(FlatUIColors.MAIN_BG);
     }
     
     private void addComponents() {
         contentPanel.setOpaque(false);
         contentPanel.add(codeBlockName);
-        String printableExpression = ((Print) Services.getService().getModelMapping().get(getModelID())).getPrintableObject();
-        initialExpression = (VariableSelectorUI) Services.getService().getRenderer().paint(printableExpression);
-        expressionFieldUI = new ExpressionFieldUI(getModelID(), getModelScope());
-        expressionFieldUI.setHolderContent(initialExpression);
-        contentPanel.add(expressionFieldUI);
+        String writableExpression = ((ReadData) Services.getService().getModelMapping().get(getModelID())).getWritableObject();
+        initialExpression = (VariableSelectorUI) Services.getService().getRenderer().paint(writableExpression);
+        initialExpression.setIsolationMode(true);
+        contentPanel.add(initialExpression);
         addContentPanel(contentPanel);
     }
     

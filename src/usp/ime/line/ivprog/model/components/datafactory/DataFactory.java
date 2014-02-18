@@ -15,6 +15,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IVPVectorRef
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReturnStatement;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
@@ -123,6 +124,17 @@ public class DataFactory implements IDataFactory {
         Print print = new Print(Print.STRING_CLASS, Print.STRING_CLASS);
         print.setUniqueID("" + objectID++);
         return print;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see usp.ime.line.ivprog.components.databuilder.dataobjetcs.IDataFactory# createRead()
+     */
+    public DataObject createRead() {
+        ReadData read = new ReadData(ReadData.STRING_CLASS, ReadData.STRING_CLASS);
+        read.setUniqueID(""+ objectID++);
+        return read;
     }
     
     /*

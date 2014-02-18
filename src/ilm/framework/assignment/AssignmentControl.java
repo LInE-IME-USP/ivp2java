@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.zip.ZipFile;
 
-import usp.ime.line.ivprog.view.configuration.ConfigurationModule;
+import usp.ime.line.ivprog.modules.configuration.ConfigurationModule;
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.comm.ICommunication;

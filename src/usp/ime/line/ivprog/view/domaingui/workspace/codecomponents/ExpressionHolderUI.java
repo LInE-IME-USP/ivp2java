@@ -472,6 +472,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     }
     
     public void expressionRestoredFromCleaning(String holder, String id, String context) {
+        
         String lastExpID = null;
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
             Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);
@@ -481,12 +482,17 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         }
         revalidate();
         repaint();
+        
     }
     
     public void expressionRestored(String holder, String id, String context) {
         String lastExpID = null;
+        
+        System.out.println(">>>>> aqui fudeu... "+parentModelID+ " "+id+ " " + context+ " | " + holder +"operationContext.equals(context)"+operationContext.equals(context));
+        
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
+            Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);
             if (restoredExp instanceof OperationUI) {
                 ((OperationUI) restoredExp).setExpressionBaseUI_1(expression);
             } else if (restoredExp instanceof ConstantUI) {

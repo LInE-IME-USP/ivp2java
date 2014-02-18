@@ -31,12 +31,17 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
 import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
+import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameBoolean;
+import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameDouble;
+import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameInteger;
+import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameString;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
@@ -53,6 +58,10 @@ public class IVPProgram extends DomainModel {
     private List        operationListeners;
     private Interpreter interpreter;
     private String      currentScope        = "0";
+    private AskUserFrameInteger readInteger;
+    private AskUserFrameDouble readDouble;
+    private AskUserFrameString readString;
+    private AskUserFrameBoolean readBoolean;
     
     public IVPProgram() {
         globalVariables = new HashMap();
@@ -64,6 +73,18 @@ public class IVPProgram extends DomainModel {
         expressionListeners = new Vector();
         operationListeners = new Vector();
         interpreter = new Interpreter();
+        readInteger = new AskUserFrameInteger();
+        readDouble = new AskUserFrameDouble();
+        readString = new AskUserFrameString();
+        readBoolean = new AskUserFrameBoolean();
+        try {
+            interpreter.set("readInteger", readInteger);
+            interpreter.set("readDouble", readDouble);
+            interpreter.set("readString", readString);
+            interpreter.set("readBoolean", readBoolean);
+        } catch (EvalError e) {
+            e.printStackTrace();
+        }
     }
     
     public void initializeModel() {
@@ -105,6 +126,10 @@ public class IVPProgram extends DomainModel {
             codeBlock = (DataObject) dataFactory.createAttributionLine();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "leftVar", state);
+        } else if(classID == IVPConstants.MODEL_READ){
+            codeBlock = (DataObject) dataFactory.createRead();
+            initCodeBlock(containerID, codeBlock);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "writable", state);
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         container.addChild(codeBlock.getUniqueID());
@@ -264,6 +289,8 @@ public class IVPProgram extends DomainModel {
             ((AttributionLine) Services.getService().getModelMapping().get(holder)).setLeftVariableID(exp.getUniqueID());
         } else if (context.equals("printable")) {
             ((Print) Services.getService().getModelMapping().get(holder)).setPrintableObject(exp.getUniqueID());
+        } else if (context.equals("writable")) {
+            ((ReadData) Services.getService().getModelMapping().get(holder)).setWritableObject(exp.getUniqueID());
         } else if (context.equals("while")) {
             ((While) Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
         }

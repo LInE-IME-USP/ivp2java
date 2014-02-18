@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog.view.configuration;
+package usp.ime.line.ivprog.modules.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
