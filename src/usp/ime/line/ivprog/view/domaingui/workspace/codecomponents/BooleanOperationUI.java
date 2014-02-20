@@ -153,5 +153,4 @@ public class BooleanOperationUI extends OperationUI {
             setModelID(id);
         }
     }
-    
 }

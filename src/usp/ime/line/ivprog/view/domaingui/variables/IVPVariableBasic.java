@@ -140,7 +140,6 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         value.setValue("1");
         value.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
-                
             }
         });
         add(value);

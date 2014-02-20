@@ -13,7 +13,6 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ReadUI extends CodeBaseUI {
-    
     private JPanel             contentPanel;
     private JLabel             codeBlockName;
     private String             context;

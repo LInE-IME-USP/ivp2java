@@ -8,6 +8,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
@@ -24,6 +25,7 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ConstantUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IfElseUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ReadUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.StringOperationUI;
@@ -41,6 +43,8 @@ public class IVPRenderer {
             return renderVariable((Variable) codeElementModel);
         } else if (codeElementModel instanceof While) {
             return renderWhile((While) codeElementModel);
+        }else if (codeElementModel instanceof IfElse) {
+            return renderIfElse((IfElse) codeElementModel);
         } else if (codeElementModel instanceof Print) {
             return renderWrite((Print) codeElementModel);
         } else if (codeElementModel instanceof AttributionLine) {
@@ -55,6 +59,8 @@ public class IVPRenderer {
         return null;
     }
     
+  
+
     private JComponent renderReference(Reference referenceModel) {
         // acho que isso aqui poderia renderizar uma label com o nome da variável...
         // seria a label que vai
@@ -111,6 +117,14 @@ public class IVPRenderer {
         return w;
     }
     
+    private JComponent renderIfElse(IfElse object) {
+        IfElseUI i = new IfElseUI(object.getUniqueID());
+        i.setModelParent(object.getParentID());
+        i.setModelScope(object.getScopeID());
+        Services.getService().getViewMapping().put(object.getUniqueID(), i);
+        return i;
+    }
+    
     public FunctionBodyUI renderFunction(Function f) {
         FunctionBodyUI function;
         if (f.getFunctionName().equals(ResourceBundleIVP.getString("mainFunctionName"))) {
@@ -130,7 +144,7 @@ public class IVPRenderer {
         return print;
     }
     
-    private JComponent renderRead(ReadData r){
+    private JComponent renderRead(ReadData r) {
         ReadUI read = new ReadUI(r.getUniqueID(), r.getParentID(), r.getScopeID());
         Services.getService().getViewMapping().put(r.getUniqueID(), read);
         return read;

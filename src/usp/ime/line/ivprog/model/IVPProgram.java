@@ -29,6 +29,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Print;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.ReadData;
@@ -48,19 +49,19 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelec
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPProgram extends DomainModel {
-    private HashMap     globalVariables     = null;
-    private HashMap     preDefinedFunctions = null;
-    private HashMap     functionMap         = null;
-    private DataFactory dataFactory         = null;
-    private List        variableListeners;
-    private List        functionListeners;
-    private List        expressionListeners;
-    private List        operationListeners;
-    private Interpreter interpreter;
-    private String      currentScope        = "0";
+    private HashMap             globalVariables     = null;
+    private HashMap             preDefinedFunctions = null;
+    private HashMap             functionMap         = null;
+    private DataFactory         dataFactory         = null;
+    private List                variableListeners;
+    private List                functionListeners;
+    private List                expressionListeners;
+    private List                operationListeners;
+    private Interpreter         interpreter;
+    private String              currentScope        = "0";
     private AskUserFrameInteger readInteger;
-    private AskUserFrameDouble readDouble;
-    private AskUserFrameString readString;
+    private AskUserFrameDouble  readDouble;
+    private AskUserFrameString  readString;
     private AskUserFrameBoolean readBoolean;
     
     public IVPProgram() {
@@ -122,11 +123,15 @@ public class IVPProgram extends DomainModel {
             codeBlock = (DataObject) dataFactory.createPrint();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "printable", state);
-        } else if (classID == IVPConstants.MODEL_ATTLINE) {
+        } else if (classID == IVPConstants.MODEL_IFELSE) {
+            codeBlock = (DataObject) dataFactory.createIfElse();
+            initCodeBlock(containerID, codeBlock);
+            createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_OPERATION_EQU, (short) -1, "ifElse", state);
+        }else if (classID == IVPConstants.MODEL_ATTLINE) {
             codeBlock = (DataObject) dataFactory.createAttributionLine();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "leftVar", state);
-        } else if(classID == IVPConstants.MODEL_READ){
+        } else if (classID == IVPConstants.MODEL_READ) {
             codeBlock = (DataObject) dataFactory.createRead();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "writable", state);
@@ -293,6 +298,8 @@ public class IVPProgram extends DomainModel {
             ((ReadData) Services.getService().getModelMapping().get(holder)).setWritableObject(exp.getUniqueID());
         } else if (context.equals("while")) {
             ((While) Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
+        } else if (context.equals("ifElse")) {
+            ((IfElse) Services.getService().getModelMapping().get(holder)).setComparison(exp.getUniqueID());
         }
     }
     

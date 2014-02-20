@@ -30,7 +30,6 @@ import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class ExpressionHolderUI extends JPanel implements IExpressionListener {
-    
     public static final Color borderColor         = new Color(230, 126, 34);
     public static final Color hoverColor          = FlatUIColors.HOVER_COLOR;
     private boolean           drawBorder          = true;
@@ -274,12 +273,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         valueHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.valueHasBeensChosen.text"));
         contentMenuWithValue.add(variableHasBeenChosen);
         contentMenuWithValue.add(valueHasBeenChosen);
-        
         contentMenuWithoutValue = new JPopupMenu();
         valueHasBeenChosen.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionHolderUI.action.valueHasBeensChosen.tip"));
         valueHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.valueHasBeensChosen.text"));
         contentMenuWithoutValue.add(variableHasBeenChosen);
-        
     }
     
     private void initChangeContentBtn() {
@@ -364,10 +361,10 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         
         public void mouseClicked(MouseEvent arg0) {
             if (isEditing && !isContentSet) {
-                if(holdingType != -1){
+                if (holdingType != -1) {
                     contentMenuWithValue.show(container, 0, container.getHeight());
                     contentMenuWithValue.requestFocus();
-                }else{
+                } else {
                     contentMenuWithoutValue.show(container, 0, container.getHeight());
                     contentMenuWithoutValue.requestFocus();
                 }
@@ -392,10 +389,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             expression = Services.getService().getRenderer().paint(id);
             populatedExpressionHolder();
             add(expression, 0);
-            
-            System.out.println("ExpressionHolderUI.expressionCreated "+Services.getService().getModelMapping().get(currentModelID));
-            System.out.println("ExpressionHolderUI.expressionCreated "+Services.getService().getModelMapping().get(parentModelID));
-            
+            System.out.println("ExpressionHolderUI.expressionCreated " + Services.getService().getModelMapping().get(currentModelID));
+            System.out.println("ExpressionHolderUI.expressionCreated " + Services.getService().getModelMapping().get(parentModelID));
             if (expression instanceof VariableSelectorUI) {
                 if (isEditing)
                     ((VariableSelectorUI) expression).editStateOn();
@@ -425,7 +420,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 } else {
                     ((OperationUI) expression).disableEdition();
                 }
-                if(lastExp != null && !"".equals(lastExp)){
+                if (lastExp != null && !"".equals(lastExp)) {
                     ((IDomainObjectUI) lastExp).setModelParent(currentModelID);
                 }
             }
@@ -472,7 +467,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     }
     
     public void expressionRestoredFromCleaning(String holder, String id, String context) {
-        
         String lastExpID = null;
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
             Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);
@@ -482,14 +476,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         }
         revalidate();
         repaint();
-        
     }
     
     public void expressionRestored(String holder, String id, String context) {
         String lastExpID = null;
-        
-        System.out.println(">>>>> aqui fudeu... "+parentModelID+ " "+id+ " " + context+ " | " + holder +"operationContext.equals(context)"+operationContext.equals(context));
-        
+        System.out.println(">>>>> aqui fudeu... " + parentModelID + " " + id + " " + context + " | " + holder + "operationContext.equals(context)" + operationContext.equals(context));
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);
@@ -645,9 +636,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     public boolean isContentSet() {
         return isContentSet;
     }
-
+    
     public void setContentSet(boolean isContentSet) {
         this.isContentSet = isContentSet;
     }
-
 }

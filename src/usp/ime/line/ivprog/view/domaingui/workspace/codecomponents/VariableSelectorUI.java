@@ -49,7 +49,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private JLabel            iconLabel;
     private boolean           drawBorder       = true;
     private boolean           editState        = true;
-    private short             referencedType = -1;
+    private short             referencedType   = -1;
     
     public VariableSelectorUI(String parent) {
         this.parentModelID = parent;
@@ -148,8 +148,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         isUpdate = false;
     }
     
-    private void updateValuesFromVariableList() { 
-        System.out.println("VariableSelectorUI.updateValuesFromVariableList "+ referencedType);
+    private void updateValuesFromVariableList() {
+        System.out.println("VariableSelectorUI.updateValuesFromVariableList " + referencedType);
         if (!isIsolated && (referencedType != -1 && referencedType != 0)) {
             System.out.println("VariableSelectorUI.updateValuesFromVariableList : entrou");
             Function f = (Function) Services.getService().getModelMapping().get(getScopeID());
@@ -181,17 +181,17 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             updateVariableList("", "");
             isUpdate = false;
         } else {
-            System.out.println("VariableSelectorUI.addVariable "+v);
-            System.out.println("VariableSelectorUI.addVariable "+v.getVariableType());
-            System.out.println("VariableSelectorUI.addVariable "+referencedType);
+            System.out.println("VariableSelectorUI.addVariable " + v);
+            System.out.println("VariableSelectorUI.addVariable " + v.getVariableType());
+            System.out.println("VariableSelectorUI.addVariable " + referencedType);
             if (v.getVariableType() == referencedType) {
                 name = v.getVariableName();
                 indexMap.put(id, name);
                 isUpdate = true;
                 updateVariableList("", "");
                 isUpdate = false;
-            } else if(referencedType == -1 || referencedType == 0){
-                System.out.println("VariableSelectorUI.addVariable "+"");
+            } else if (referencedType == -1 || referencedType == 0) {
+                System.out.println("VariableSelectorUI.addVariable " + "");
                 name = v.getVariableName();
                 indexMap.put(id, name);
                 isUpdate = true;
@@ -202,7 +202,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void changeVariable(String id) {
-        
     }
     
     public void removedVariable(String id) {
@@ -256,7 +255,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             isUpdate = true;
             varList.setSelectedItem(name);
             isUpdate = false;
-            if(referencedType == 0 || referencedType == -1){
+            if (referencedType == 0 || referencedType == -1) {
                 referencedType = ((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType();
                 updateValuesFromVariableList();
                 isUpdate = true;
@@ -287,13 +286,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     nameLabel.revalidate();
                     nameLabel.repaint();
                 }
-                if(Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI){
-                    if(getNewVarID() != null && !"".equals(getNewVarID())){
-                        ((OperationUI)Services.getService().getViewMapping().get(parentModelID)).setExpressionType(((Variable) Services.getService().getModelMapping().get(getNewVarID())).getVariableType());
-                    }else{
-                        if(Services.getService().getViewMapping().get(parentModelID) instanceof BooleanOperationUI){
-                            if(!((BooleanOperationUI)Services.getService().getViewMapping().get(parentModelID)).isBothContentSet()){
-                                ((OperationUI)Services.getService().getViewMapping().get(parentModelID)).setExpressionType((short)-1);
+                if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+                    if (getNewVarID() != null && !"".equals(getNewVarID())) {
+                        ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).setExpressionType(((Variable) Services.getService().getModelMapping().get(getNewVarID()))
+                                .getVariableType());
+                    } else {
+                        if (Services.getService().getViewMapping().get(parentModelID) instanceof BooleanOperationUI) {
+                            if (!((BooleanOperationUI) Services.getService().getViewMapping().get(parentModelID)).isBothContentSet()) {
+                                ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).setExpressionType((short) -1);
                                 System.out.println("CHEGOU AQUI... DEVERIA FUNCIONAR... ");
                                 referencedType = -1;
                                 initValues();

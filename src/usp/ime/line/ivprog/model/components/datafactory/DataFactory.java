@@ -133,7 +133,7 @@ public class DataFactory implements IDataFactory {
      */
     public DataObject createRead() {
         ReadData read = new ReadData(ReadData.STRING_CLASS, ReadData.STRING_CLASS);
-        read.setUniqueID(""+ objectID++);
+        read.setUniqueID("" + objectID++);
         return read;
     }
     

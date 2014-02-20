@@ -4,9 +4,8 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class ReadData extends CodeComponent {
-    
     private String             writableObject = null;
-    public static final String STRING_CLASS      = "read";
+    public static final String STRING_CLASS   = "read";
     
     public ReadData(String name, String description) {
         super(name, description);
@@ -14,6 +13,7 @@ public class ReadData extends CodeComponent {
     
     /**
      * Return the printable object.
+     * 
      * @return the printableObject
      */
     public String getWritableObject() {
@@ -22,7 +22,9 @@ public class ReadData extends CodeComponent {
     
     /**
      * Set the printable object.
-     * @param printableObject the printableObject to set
+     * 
+     * @param printableObject
+     *            the printableObject to set
      */
     public void setWritableObject(String printableObject) {
         this.writableObject = printableObject;
@@ -43,22 +45,22 @@ public class ReadData extends CodeComponent {
     }
     
     public String toJavaString() {
-        String str = "";  
+        String str = "";
         VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(writableObject);
         str = getStrForType(varRef.getReferencedType(), varRef);
         return str;
     }
     
-    private String getStrForType(short type, VariableReference varRef){
+    private String getStrForType(short type, VariableReference varRef) {
         String str = "";
-        if(type == Expression.EXPRESSION_INTEGER){
-            str += "readInteger.showAskUser();"+ varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
-        }else if(type == Expression.EXPRESSION_DOUBLE){
-            str += "readDouble.showAskUser();"+ varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
-        }else if(type == Expression.EXPRESSION_BOOLEAN){
-            str += "readBoolean.showAskUser();"+ varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readDouble.isInterrupt()) return;";
-        }else if(type == Expression.EXPRESSION_STRING){
-            str += "readString.showAskUser();"+ varRef.toJavaString() + " = readString.getFinalValue(); if(readDouble.isInterrupt()) return;";
+        if (type == Expression.EXPRESSION_INTEGER) {
+            str += "readInteger.showAskUser();" + varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
+        } else if (type == Expression.EXPRESSION_DOUBLE) {
+            str += "readDouble.showAskUser();" + varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
+        } else if (type == Expression.EXPRESSION_BOOLEAN) {
+            str += "readBoolean.showAskUser();" + varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readDouble.isInterrupt()) return;";
+        } else if (type == Expression.EXPRESSION_STRING) {
+            str += "readString.showAskUser();" + varRef.toJavaString() + " = readString.getFinalValue(); if(readDouble.isInterrupt()) return;";
         }
         return str;
     }
