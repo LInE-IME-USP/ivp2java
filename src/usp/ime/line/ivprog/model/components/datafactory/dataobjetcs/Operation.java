@@ -4,6 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Operation extends Expression {
+    
     private String             expressionAID = null;
     private String             expressionBID = null;
     public static final String STRING_CLASS  = "operation";
@@ -108,7 +109,7 @@ public class Operation extends Expression {
         case Operation.EXPRESSION_OPERATION_CONCAT:
             return "+";
         }
-        return null;
+        return "";
     }
     
     public boolean equals(DomainObject o) {
@@ -116,10 +117,10 @@ public class Operation extends Expression {
     }
     
     public void removeExpression(String expression) {
-        if (expressionAID != null && expressionAID.equals(expression)) {
-            expressionAID = null;
+        if (expressionAID != null && expressionAID.equals(expression) && "".equals(expressionAID)) {
+            expressionAID = "";
         } else {
-            expressionBID = null;
+            expressionBID = "";
         }
     }
     

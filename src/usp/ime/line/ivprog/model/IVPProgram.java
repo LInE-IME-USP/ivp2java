@@ -63,10 +63,12 @@ public class IVPProgram extends DomainModel {
     private AskUserFrameDouble  readDouble;
     private AskUserFrameString  readString;
     private AskUserFrameBoolean readBoolean;
+    private HashMap             codeListeners;
     
     public IVPProgram() {
         globalVariables = new HashMap();
         preDefinedFunctions = new HashMap();
+        codeListeners = new HashMap();
         functionMap = new HashMap();
         dataFactory = new DataFactory();
         variableListeners = new Vector();
@@ -113,7 +115,7 @@ public class IVPProgram extends DomainModel {
         functionMap.remove(name);
     }
     
-    public String newChild(String containerID, short classID, AssignmentState state) {
+    public String newChild(String containerID, short classID, String context, AssignmentState state) {
         DataObject codeBlock = null;
         if (classID == IVPConstants.MODEL_WHILE) {
             codeBlock = (CodeComposite) dataFactory.createWhile();
@@ -127,7 +129,7 @@ public class IVPProgram extends DomainModel {
             codeBlock = (DataObject) dataFactory.createIfElse();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_OPERATION_EQU, (short) -1, "ifElse", state);
-        }else if (classID == IVPConstants.MODEL_ATTLINE) {
+        } else if (classID == IVPConstants.MODEL_ATTLINE) {
             codeBlock = (DataObject) dataFactory.createAttributionLine();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "leftVar", state);
@@ -138,6 +140,8 @@ public class IVPProgram extends DomainModel {
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         container.addChild(codeBlock.getUniqueID());
+        ICodeListener listener = (ICodeListener) codeListeners.get(containerID);
+        listener.addChild(codeBlock.getUniqueID(), context);
         // Framework
         state.add(codeBlock);
         return codeBlock.getUniqueID();
@@ -149,32 +153,63 @@ public class IVPProgram extends DomainModel {
         Services.getService().getModelMapping().put(codeBlock.getUniqueID(), codeBlock);
     }
     
-    public int moveChild(String component, String origin, String destiny, int dropIndex, AssignmentState _currentState) {
+    public int moveChild(String component, String origin, String destiny, String originContext, String destinyContext, int dropIndex, AssignmentState _currentState) {
         CodeComposite destinyCode = (CodeComposite) Services.getService().getModelMapping().get(destiny);
         CodeComposite originCode = (CodeComposite) Services.getService().getModelMapping().get(origin);
         CodeComponent componentCode = (CodeComponent) Services.getService().getModelMapping().get(component);
-        int lastIndex;
+        int lastIndex = -1;
         ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny);
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
         if (origin != destiny) {
-            lastIndex = originCode.removeChild(component);
-            destinyCode.addChildToIndex(component, dropIndex);
-            originListener.childRemoved(component);
-            destinyListener.restoreChild(component, dropIndex);
+            if(originCode instanceof IfElse){
+                if(originContext.equals("if")){
+                    lastIndex = originCode.removeChild(component);        
+                }else if(originContext.equals("else")){
+                    lastIndex = ((IfElse) originCode).removeElseChild(component);
+                }
+            }else{
+                lastIndex = originCode.removeChild(component);
+            }
+            if(destinyCode instanceof IfElse){
+                if(destinyContext.equals("if")){
+                    destinyCode.addChildToIndex(component, dropIndex);
+                }else if(destinyContext.equals("else")){
+                    ((IfElse) destinyCode).addElseChildToIndex(component, dropIndex);
+                }
+            }else{
+                destinyCode.addChildToIndex(component, dropIndex);
+            }
+            originListener.childRemoved(component, originContext);
+            destinyListener.restoreChild(component, dropIndex, destinyContext);
         } else {
-            lastIndex = destinyCode.addChildToIndex(component, dropIndex);
-            destinyListener.restoreChild(component, dropIndex);
+            if(originCode instanceof IfElse){
+                if(originContext.equals("if")){
+                    lastIndex = originCode.removeChild(component);        
+                }else if(originContext.equals("else")){
+                    lastIndex = ((IfElse) originCode).removeElseChild(component);
+                }
+                if(destinyContext.equals("if")){
+                    destinyCode.addChildToIndex(component, dropIndex);
+                }else if(destinyContext.equals("else")){
+                    ((IfElse) destinyCode).addElseChildToIndex(component, dropIndex);
+                }
+            }else{
+                lastIndex = destinyCode.addChildToIndex(component, dropIndex);
+                destinyListener.restoreChild(component, dropIndex, destinyContext);
+            }
+            originListener.childRemoved(component, originContext);
+            destinyListener.restoreChild(component, dropIndex, destinyContext);
         }
         componentCode.setParentID(destiny);
         return lastIndex;
     }
     
-    public int removeChild(String containerID, String childID, AssignmentState state) {
+    public int removeChild(String containerID, String childID, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         int index = 0;
         index = parent.removeChild(childID);
-        ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
-        codeListener.childRemoved(childID);
+        ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
+        codeListener.childRemoved(childID, context);
         // Check child dependencies and remove them
         CodeComponent child = (CodeComponent) Services.getService().getModelMapping().get(childID);
         if (child instanceof AttributionLine) {
@@ -187,11 +222,11 @@ public class IVPProgram extends DomainModel {
         return index;
     }
     
-    public void restoreChild(String containerID, String childID, int index, AssignmentState state) {
+    public void restoreChild(String containerID, String childID, int index, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         parent.addChildToIndex(childID, index);
-        ICodeListener codeListener = (ICodeListener) Services.getService().getController().getCodeListener().get(containerID);
-        codeListener.restoreChild(childID, index);
+        ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
+        codeListener.restoreChild(childID, index, context);
     }
     
     // Function actions
@@ -316,7 +351,6 @@ public class IVPProgram extends DomainModel {
         } else {
             exp = (Expression) dataFactory.createExpression();
             exp.setExpressionType(expressionType);
-            System.out.println(">>> " + expressionType);
             if (leftExpID != "") {
                 ((Expression) Services.getService().getModelMapping().get(leftExpID)).setParentID(exp.getUniqueID());
                 ((Operation) exp).setExpressionA(leftExpID);
@@ -459,10 +493,6 @@ public class IVPProgram extends DomainModel {
         for (int i = 0; i < attLines.size(); i++) { // ta errado... só posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
-            System.out.println("-----");
-            System.out.println(attLine);
-            System.out.println(varRef);
-            System.out.println("-----");
             if (attLine.getLeftVariableType() != newType && id.equals(varRef.getReferencedVariable())) {
                 state.remove((DomainObject) Services.getService().getModelMapping().get(attLine.getRightExpressionID()));
                 attLine.setLeftVariableType(newType);
@@ -504,7 +534,6 @@ public class IVPProgram extends DomainModel {
         for (int i = 1; i < ret.size(); i++) {
             String restoredID = (String) ret.get(i);
             String holderID = ((Expression) Services.getService().getModelMapping().get(ret.get(i))).getParentID();
-            System.out.println("restoredID " + restoredID + " holder " + holderID + ret.get(i));
             restoreExpression(restoredID, holderID, "", true, state);
             state.add((DomainObject) Services.getService().getModelMapping().get((String) ret.get(i)));
         }
@@ -536,7 +565,13 @@ public class IVPProgram extends DomainModel {
     }
     
     public void updateParent(String parentModelID, String currentModelID, String newExp, String operationContext) {
-        ((CodeComponent) Services.getService().getModelMapping().get(parentModelID)).updateParent(currentModelID, newExp, operationContext);
+        DataObject parent = (DataObject) Services.getService().getModelMapping().get(parentModelID);
+        if(parent instanceof CodeComponent){
+            ((CodeComponent)parent).updateParent(currentModelID, newExp, operationContext);
+        }else if(parent instanceof Operation){
+            ((Operation)parent).updateParent(currentModelID, newExp, operationContext);
+        }
+        
     }
     
     public short updateAttLineType(String attLineID, short newType) {
@@ -556,12 +591,17 @@ public class IVPProgram extends DomainModel {
         } else if (type == Expression.EXPRESSION_INTEGER) {
             return "1";
         } else if (type == Expression.EXPRESSION_STRING) {
-            return "Hello, world!";
+            return ResourceBundleIVP.getString("helloWorld.text");
         }
         return "";
     }
     
-    public void addComponentListener() {
+    public void addComponentListener(ICodeListener listener, String id) {
+        codeListeners.put(id, listener);
+    }
+    
+    public HashMap getCodeListener() {
+        return codeListeners;
     }
     
     public void playCode() {

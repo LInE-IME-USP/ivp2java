@@ -9,6 +9,7 @@ public class CreateChild extends DomainAction {
     private String     containerID;
     private String     scopeID;
     private String     objectID;
+    private String     context;
     private short      classID;
     private int        index = 0;
     
@@ -22,14 +23,14 @@ public class CreateChild extends DomainAction {
     
     protected void executeAction() {
         if (isRedo()) {
-            model.restoreChild(containerID, objectID, index, _currentState);
+            model.restoreChild(containerID, objectID, index, context, _currentState);
         } else {
-            objectID = model.newChild(containerID, classID, _currentState);
+            objectID = model.newChild(containerID, classID, context, _currentState);
         }
     }
     
     protected void undoAction() {
-        index = model.removeChild(containerID, objectID, _currentState);
+        index = model.removeChild(containerID, objectID, context, _currentState);
     }
     
     public boolean equals(DomainAction a) {
@@ -58,5 +59,21 @@ public class CreateChild extends DomainAction {
     
     public void setContainerID(String containerID) {
         this.containerID = containerID;
+    }
+    
+    public String getContext() {
+        return context;
+    }
+    
+    public void setContext(String context) {
+        this.context = context;
+    }
+    
+    public String getScopeID() {
+        return scopeID;
+    }
+    
+    public void setScopeID(String scopeID) {
+        this.scopeID = scopeID;
     }
 }

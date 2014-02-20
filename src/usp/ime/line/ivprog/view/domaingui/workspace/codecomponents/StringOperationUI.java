@@ -39,7 +39,6 @@ public class StringOperationUI extends OperationUI {
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
         short type = op.getOperationType();
         if (type == Expression.EXPRESSION_OPERATION_CONCAT) {
-            System.out.println("teste 124...");
             sign = "\u002B";
         }
         expSign.setText(sign);

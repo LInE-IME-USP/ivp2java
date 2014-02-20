@@ -140,6 +140,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         value.setValue("1");
         value.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
+                Services.getService().getController().changeVariableInitialValue(currentModelID, value);
             }
         });
         add(value);
@@ -200,7 +201,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             } else if (variable.getVariableType() == Expression.EXPRESSION_STRING) {
                 value.setVisible(true);
                 value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_STRING);
-                value.setValue("Olá mundo!");
+                value.setValue(ResourceBundleIVP.getString("helloWorld.text"));
                 booleanValue.setVisible(false);
             } else if (variable.getVariableType() == Expression.EXPRESSION_BOOLEAN) {
                 value.setVisible(false);

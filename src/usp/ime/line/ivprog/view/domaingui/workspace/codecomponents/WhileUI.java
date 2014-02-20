@@ -48,10 +48,11 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         initContainer();
         addContentPanel(contentPanel);
         setBackground(FlatUIColors.MAIN_BG);
+        Services.getService().getController().addComponentListener(this, id);
     }
     
     private void initContainer() {
-        container = new IVPContainer(true, getModelID());
+        container = new IVPContainer(true, getModelID(), "");
         container.setContainerBackground(FlatUIColors.MAIN_BG);
         container.setVisible(false);
         contentPanel.add(container, BorderLayout.CENTER);
@@ -144,15 +145,15 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         return context;
     }
     
-    public void addChild(String childID) {
+    public void addChild(String childID, String context) {
         container.addChild(childID);
     }
     
-    public void childRemoved(String childID) {
+    public void childRemoved(String childID, String context) {
         container.childRemoved(childID);
     }
     
-    public void restoreChild(String childID, int index) {
+    public void restoreChild(String childID, int index, String context) {
         container.restoreChild(childID, index);
     }
 }

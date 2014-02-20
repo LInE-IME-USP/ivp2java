@@ -9,6 +9,7 @@ public class RemoveChild extends DomainAction {
     private String     containerID;
     private String     childID;
     private int        index;
+    private String     context;
     
     public RemoveChild(String name, String description) {
         super(name, description);
@@ -19,11 +20,11 @@ public class RemoveChild extends DomainAction {
     }
     
     protected void executeAction() {
-        index = model.removeChild(containerID, childID, _currentState);
+        index = model.removeChild(containerID, childID, context, _currentState);
     }
     
     protected void undoAction() {
-        model.restoreChild(containerID, childID, index, _currentState);
+        model.restoreChild(containerID, childID, index, context, _currentState);
     }
     
     public boolean equals(DomainAction a) {
@@ -44,5 +45,13 @@ public class RemoveChild extends DomainAction {
     
     public void setChildID(String childID) {
         this.childID = childID;
+    }
+    
+    public String getContext() {
+        return context;
+    }
+    
+    public void setContext(String context) {
+        this.context = context;
     }
 }

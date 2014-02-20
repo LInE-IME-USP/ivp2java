@@ -3,6 +3,7 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
@@ -32,11 +33,12 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
         setLayout(new BorderLayout(0, 0));
         variablesPanel = new IVPVariablePanel(functionID, isMain);
         add(variablesPanel, BorderLayout.NORTH);
-        canvas = new IVPContainer(false, functionID);
+        canvas = new IVPContainer(false, functionID, "");
         canvasHolder = new JScrollPane();
         canvasHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         canvasHolder.setViewportView(canvas);
         add(canvasHolder, BorderLayout.CENTER);
+        Services.getService().getController().addComponentListener(this, functionID);
     }
     
     public String getName() {
@@ -63,15 +65,15 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
         this.functionID = function;
     }
     
-    public void addChild(String childID) {
+    public void addChild(String childID, String context) {
         canvas.addChild(childID);
     }
     
-    public void childRemoved(String childID) {
+    public void childRemoved(String childID, String context) {
         canvas.childRemoved(childID);
     }
     
-    public void restoreChild(String childID, int index) {
+    public void restoreChild(String childID, int index, String context) {
         canvas.restoreChild(childID, index);
     }
 }

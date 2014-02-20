@@ -28,15 +28,9 @@ public class IVPController {
     private IVPProgram   program = null;
     private IVPDomainGUI gui     = null;
     private HashMap      actionList;
-    private HashMap      codeListener;
     
     public IVPController() {
         actionList = new HashMap();
-        codeListener = new HashMap();
-    }
-    
-    public HashMap getCodeListener() {
-        return codeListener;
     }
     
     public HashMap getActionList() {
@@ -73,19 +67,28 @@ public class IVPController {
         program.playCode();
     }
     
-    public void addChild(String containerID, short childType) {
+    public void addChild(String containerID, short childType, String context) {
         CreateChild newChild = (CreateChild) actionList.get("newchild");
         newChild.setClassID(childType);
         newChild.setContainerID(containerID);
+        newChild.setContext(context);
         newChild.execute();
-        ICodeListener listener = (ICodeListener) codeListener.get(containerID);
-        listener.addChild(newChild.getObjectID());
     }
     
-    public void moveChild(String child, String origin, String destiny, int dropIndex) {
+    public void removeChild(String containerID, String childID, String context) {
+        RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
+        removeChild.setChildID(childID);
+        removeChild.setContext(context);
+        removeChild.setContainerID(containerID);
+        removeChild.execute();
+    }
+    
+    public void moveChild(String child, String origin, String destiny, String originContext, String destinyContext, int dropIndex) {
         MoveComponent mv = (MoveComponent) actionList.get("movecomponent");
         mv.setComponent(child);
         mv.setOrigin(origin);
+        mv.setOriginContext(originContext);
+        mv.setDestinyContext(destinyContext);
         mv.setDestiny(destiny);
         mv.setDropY(dropIndex);
         mv.execute();
@@ -171,12 +174,7 @@ public class IVPController {
         changeExpression.execute();
     }
     
-    public void removeChild(String containerID, String childID) {
-        RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
-        removeChild.setChildID(childID);
-        removeChild.setContainerID(containerID);
-        removeChild.execute();
-    }
+    
     
     public void initDomainActionList(DomainModel model) {
         CreateVariable newVar = new CreateVariable("newvar", "newvar");
@@ -221,7 +219,7 @@ public class IVPController {
     }
     
     public void addComponentListener(ICodeListener listener, String id) {
-        codeListener.put(id, listener);
+        program.addComponentListener(listener, id);
     }
     
     public void setConsole(IVPConsoleUI ivpConsoleUI) {

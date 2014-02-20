@@ -26,13 +26,22 @@ public class IfElse extends CodeComposite {
     
     /**
      * Remove a child from the specified position and return it.
-     * 
      * @param index
      */
     public String removeElseChildFromIndex(int index) {
         String elseChild = (String) elseChildren.get(index);
         elseChildren.remove(index);
         return elseChild;
+    }
+    
+    /**
+     * Remove the specified child from the children vector and return it.
+     * @param child
+     */
+    public int removeElseChild(String childID) {
+        int index = elseChildren.indexOf(childID);
+        elseChildren.remove(childID);
+        return index;
     }
     
     /**
@@ -80,7 +89,21 @@ public class IfElse extends CodeComposite {
     }
     
     public String toJavaString() {
-        return null;
+        Expression e = ((Expression) Services.getService().getModelMapping().get(comparisonID));
+        String str = " if (";
+        str += e.toJavaString();
+        str += ") {";
+        for (int i = 0; i < getChildrenList().size(); i++) {
+            DataObject c = ((DataObject) Services.getService().getModelMapping().get(getChildrenList().get(i)));
+            str += c.toJavaString();
+        }
+        str += "} else {";
+        for (int i = 0; i < elseChildren.size(); i++) {
+            DataObject c = ((DataObject) Services.getService().getModelMapping().get(elseChildren.get(i)));
+            str += c.toJavaString();
+        }
+        str += "}";
+        return str;
     }
     
     public boolean equals(DomainObject o) {
@@ -90,5 +113,11 @@ public class IfElse extends CodeComposite {
     public void updateParent(String lastExp, String newExp, String operationContext) {
         if (comparisonID == lastExp)
             comparisonID = newExp;
+    }
+    
+    public String getChildContext(String childID){
+        if(elseChildren.contains(childID)) return "else";
+        else if (getChildrenList().contains(childID)) return "if";
+        else return "";
     }
 }

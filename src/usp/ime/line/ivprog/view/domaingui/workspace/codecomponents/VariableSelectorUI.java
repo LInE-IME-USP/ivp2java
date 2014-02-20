@@ -149,9 +149,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     private void updateValuesFromVariableList() {
-        System.out.println("VariableSelectorUI.updateValuesFromVariableList " + referencedType);
         if (!isIsolated && (referencedType != -1 && referencedType != 0)) {
-            System.out.println("VariableSelectorUI.updateValuesFromVariableList : entrou");
             Function f = (Function) Services.getService().getModelMapping().get(getScopeID());
             Vector variables = f.getLocalVariableMap().toVector();
             indexMap = new TreeMap();
@@ -181,9 +179,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             updateVariableList("", "");
             isUpdate = false;
         } else {
-            System.out.println("VariableSelectorUI.addVariable " + v);
-            System.out.println("VariableSelectorUI.addVariable " + v.getVariableType());
-            System.out.println("VariableSelectorUI.addVariable " + referencedType);
             if (v.getVariableType() == referencedType) {
                 name = v.getVariableName();
                 indexMap.put(id, name);
@@ -191,7 +186,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 updateVariableList("", "");
                 isUpdate = false;
             } else if (referencedType == -1 || referencedType == 0) {
-                System.out.println("VariableSelectorUI.addVariable " + "");
                 name = v.getVariableName();
                 indexMap.put(id, name);
                 isUpdate = true;
@@ -294,7 +288,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                         if (Services.getService().getViewMapping().get(parentModelID) instanceof BooleanOperationUI) {
                             if (!((BooleanOperationUI) Services.getService().getViewMapping().get(parentModelID)).isBothContentSet()) {
                                 ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).setExpressionType((short) -1);
-                                System.out.println("CHEGOU AQUI... DEVERIA FUNCIONAR... ");
                                 referencedType = -1;
                                 initValues();
                                 isUpdate = true;
@@ -315,16 +308,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 referencedType = type;
             }
         } else {
-            System.out.println("VariableSelectorUI.changeVariableType ");
             if (indexMap.containsValue(v.getVariableName())) {
-                System.out.println("VariableSelectorUI.changeVariableType : está no indexMap");
                 if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible() || !nameLabel.isVisible() && v.getVariableName().equals(varList.getSelectedItem())) {
                     lastRemoved = v.getVariableName();
                     updateValuesFromVariableList();
                     turnWaningStateON();
-                    System.out.println("VariableSelectorUI.changeVariableType : está no indexMap e está visível");
                 } else {
-                    System.out.println("VariableSelectorUI.changeVariableType : está no indexMap não está visível, então ficou doido");
                     updateValuesFromVariableList();
                 }
             } else {

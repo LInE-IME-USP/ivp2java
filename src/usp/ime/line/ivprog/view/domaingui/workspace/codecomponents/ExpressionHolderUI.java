@@ -389,8 +389,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             expression = Services.getService().getRenderer().paint(id);
             populatedExpressionHolder();
             add(expression, 0);
-            System.out.println("ExpressionHolderUI.expressionCreated " + Services.getService().getModelMapping().get(currentModelID));
-            System.out.println("ExpressionHolderUI.expressionCreated " + Services.getService().getModelMapping().get(parentModelID));
             if (expression instanceof VariableSelectorUI) {
                 if (isEditing)
                     ((VariableSelectorUI) expression).editStateOn();
@@ -480,7 +478,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public void expressionRestored(String holder, String id, String context) {
         String lastExpID = null;
-        System.out.println(">>>>> aqui fudeu... " + parentModelID + " " + id + " " + context + " | " + holder + "operationContext.equals(context)" + operationContext.equals(context));
         if (holder.equals(parentModelID) && operationContext.equals(context)) {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             Services.getService().getController().updateParent(parentModelID, currentModelID, id, operationContext);

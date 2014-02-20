@@ -27,18 +27,20 @@ import java.util.Vector;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-public class IVPContainer extends JPanel implements ICodeListener {
+public class IVPContainer extends JPanel {
     private static final long serialVersionUID = 1L;
     private Vector            children;
     private boolean           isInternalCanvas = false;
     private boolean           isInternal       = false;
     private String            codeCompositeID;
     private IVPContextMenu    menu;
+    private String context;
     
-    public IVPContainer(boolean isInternal, String codeCompositeID) {
+    public IVPContainer(boolean isInternal, String codeCompositeID, String context) {
         setBorder(new EmptyBorder(5, 0, 0, 0));
         isInternalCanvas = isInternal;
         children = new Vector();
+        this.context = context;
         this.codeCompositeID = codeCompositeID;
         initLayout();
         initialization();
@@ -47,7 +49,6 @@ public class IVPContainer extends JPanel implements ICodeListener {
     }
     
     private void initialization() {
-        Services.getService().getController().addComponentListener(this, codeCompositeID);
         addMouseListener(new MouseListener() {
             public void mouseReleased(MouseEvent arg0) {
                 IVPContainer.this.requestFocus();
@@ -66,7 +67,7 @@ public class IVPContainer extends JPanel implements ICodeListener {
             public void mouseEntered(MouseEvent arg0) {
             }
         });
-        children.add(new IVPContextMenu(this));
+        children.add(new IVPContextMenu(this, this.context));
         relayout();
     }
     
@@ -201,5 +202,13 @@ public class IVPContainer extends JPanel implements ICodeListener {
             index++;
         }
         return index;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
     }
 }

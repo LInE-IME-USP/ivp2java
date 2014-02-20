@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 
 public class IVPMouseListener extends MouseAdapter {
@@ -97,7 +98,11 @@ public class IVPMouseListener extends MouseAdapter {
     
     private void dropComponent(IVPContainer target, int dropY) {
         String origin = ((DataObject) Services.getService().getModelMapping().get(holdingComponent)).getParentID();
-        Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), target.getDropIndex(dropY));
+        String destiny = target.getCodeComposite();
+        DataObject holdingParent = ((DataObject) Services.getService().getModelMapping().get(origin));
+        String originContext = (holdingParent instanceof IfElse) ? ((IfElse)holdingParent).getChildContext(holdingComponent) : "";
+        String destinyContext = ("".equals(target.getContext())) ? "" : target.getContext();
+        Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), originContext, destinyContext, target.getDropIndex(dropY));
         holdingComponent = "";
         isHolding = false;
         lastEnteredComponent = null;

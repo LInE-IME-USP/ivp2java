@@ -9,6 +9,8 @@ public class MoveComponent extends DomainAction {
     private IVPProgram model;
     private String     component;
     private String     destiny;
+    private String     destinyContext;
+    private String     originContext;
     private String     origin;
     private int        originIndex;
     private int        dropIndex = 0;
@@ -22,11 +24,13 @@ public class MoveComponent extends DomainAction {
     }
     
     protected void executeAction() {
-        originIndex = model.moveChild(component, origin, destiny, dropIndex, _currentState);
+        
+        originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
     }
     
     protected void undoAction() {
-        model.moveChild(component, destiny, origin, originIndex, _currentState);
+        
+        model.moveChild(component, destiny, origin, destinyContext ,originContext , originIndex, _currentState);
     }
     
     public boolean equals(DomainAction a) {
@@ -63,5 +67,21 @@ public class MoveComponent extends DomainAction {
     
     public void setDropY(int dropY) {
         this.dropIndex = dropY;
+    }
+    
+    public String getDestinyContext() {
+        return destinyContext;
+    }
+    
+    public void setDestinyContext(String destinyContext) {
+        this.destinyContext = destinyContext;
+    }
+    
+    public String getOriginContext() {
+        return originContext;
+    }
+    
+    public void setOriginContext(String originContext) {
+        this.originContext = originContext;
     }
 }

@@ -43,7 +43,7 @@ public class IVPRenderer {
             return renderVariable((Variable) codeElementModel);
         } else if (codeElementModel instanceof While) {
             return renderWhile((While) codeElementModel);
-        }else if (codeElementModel instanceof IfElse) {
+        } else if (codeElementModel instanceof IfElse) {
             return renderIfElse((IfElse) codeElementModel);
         } else if (codeElementModel instanceof Print) {
             return renderWrite((Print) codeElementModel);
@@ -59,8 +59,6 @@ public class IVPRenderer {
         return null;
     }
     
-  
-
     private JComponent renderReference(Reference referenceModel) {
         // acho que isso aqui poderia renderizar uma label com o nome da variável...
         // seria a label que vai

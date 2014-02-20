@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.FlatUIColors;
@@ -20,7 +21,7 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Dimension;
 
-public class IfElseUI extends CodeBaseUI {
+public class IfElseUI extends CodeBaseUI implements ICodeListener {
     private JPanel             contentPanel;
     private JPanel             header;
     private IVPContainer       ifContainer;
@@ -33,9 +34,9 @@ public class IfElseUI extends CodeBaseUI {
     private Icon               down;
     private String             context;
     private BooleanOperationUI booleanOperationUI;
-    private JPanel contentPanelHolder;
-    private JPanel elseHeader;
-    private JLabel lblSeno;
+    private JPanel             contentPanelHolder;
+    private JPanel             elseHeader;
+    private JLabel             lblSeno;
     
     public IfElseUI(String modelID) {
         super(modelID);
@@ -49,16 +50,17 @@ public class IfElseUI extends CodeBaseUI {
         initElseHeader();
         initContentPanelHolder();
         setBackground(FlatUIColors.MAIN_BG);
+        Services.getService().getController().addComponentListener(this, modelID);
     }
-
+    
     private void initElseHeader() {
         elseHeader = new JPanel();
         FlowLayout flowLayout = (FlowLayout) elseHeader.getLayout();
         flowLayout.setAlignment(FlowLayout.LEFT);
-        lblSeno = new JLabel(ResourceBundleIVP.getString("IfElse.lblSeno.text")); 
+        lblSeno = new JLabel(ResourceBundleIVP.getString("IfElse.lblSeno.text"));
         elseHeader.add(lblSeno);
     }
-
+    
     private void initContentPanelHolder() {
         contentPanelHolder = new JPanel();
         contentPanelHolder.setVisible(false);
@@ -70,9 +72,9 @@ public class IfElseUI extends CodeBaseUI {
     }
     
     private void initContainer() {
-        ifContainer = new IVPContainer(true, getModelID());
+        ifContainer = new IVPContainer(true, getModelID(), "if");
         ifContainer.setContainerBackground(FlatUIColors.MAIN_BG);
-        elseContainer = new IVPContainer(true, getModelID());
+        elseContainer = new IVPContainer(true, getModelID(), "else");
         elseContainer.setContainerBackground(FlatUIColors.MAIN_BG);
     }
     
@@ -163,15 +165,27 @@ public class IfElseUI extends CodeBaseUI {
         return context;
     }
     
-    public void addChild(String childID) {
-        ifContainer.addChild(childID);
+    public void addChild(String childID, String context) {
+        if (context.equals("if")) {
+            ifContainer.addChild(childID);
+        } else if (context.equals("else")) {
+            elseContainer.addChild(childID);
+        }
     }
     
-    public void childRemoved(String childID) {
-        ifContainer.childRemoved(childID);
+    public void childRemoved(String childID, String context) {
+        if (context.equals("if")) {
+            ifContainer.childRemoved(childID);
+        } else if (context.equals("else")) {
+            elseContainer.childRemoved(childID);
+        }
     }
     
-    public void restoreChild(String childID, int index) {
-        ifContainer.restoreChild(childID, index);
+    public void restoreChild(String childID, int index, String context) {
+        if (context.equals("if")) {
+            ifContainer.restoreChild(childID, index);
+        } else if (context.equals("else")) {
+            elseContainer.restoreChild(childID, index);
+        }
     }
 }
