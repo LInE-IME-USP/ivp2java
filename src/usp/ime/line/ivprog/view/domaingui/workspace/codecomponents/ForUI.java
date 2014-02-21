@@ -1,9 +1,9 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -15,17 +15,10 @@ import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
-import usp.ime.line.ivprog.view.utils.BlueishButtonUI;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.ResourceBundle;
-
-import javax.swing.JToolBar;
-
-public class WhileUI extends CodeBaseUI implements ICodeListener {
+public class ForUI extends CodeBaseUI implements ICodeListener {
     
     private JPanel             contentPanel;
     private JPanel             header;
@@ -38,8 +31,9 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     private Icon               down;
     private String             context;
     private BooleanOperationUI booleanOperationUI;
+    private JLabel timesLabel;
     
-    public WhileUI(String id) {
+    public ForUI(String id) {
         super(id);
         setModelID(id);
         initContentPanel();
@@ -134,8 +128,11 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     }
     
     private void initCodeBlockLabel() {
-        codeBlockName = new JLabel(ResourceBundleIVP.getString("WhileUI.text"));
+        codeBlockName = new JLabel(ResourceBundleIVP.getString("ForUI.for.text"));
         header.add(codeBlockName);
+        timesLabel = new JLabel(ResourceBundleIVP.getString("ForUI.times.text")); 
+        header.add(timesLabel);
+        
     }
     
     public void setContext(String context) {
@@ -157,4 +154,5 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     public void restoreChild(String childID, int index, String context) {
         container.restoreChild(childID, index);
     }
+
 }
