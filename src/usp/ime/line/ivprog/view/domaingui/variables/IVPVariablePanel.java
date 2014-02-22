@@ -23,6 +23,7 @@ import javax.swing.border.MatteBorder;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IVariableListener;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
@@ -169,44 +170,62 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     }
     
     public void addedVariable(String id) {
-        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
-        varMap.put(id, variable);
-        repaintVarPanel();
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
+            varMap.put(id, variable);
+            repaintVarPanel();
+        }
     }
     
     public void changeVariable(String id) {
     }
     
     public void removedVariable(String id) {
-        varMap.put(id, null);
-        repaintVarPanel();
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            varMap.put(id, null);
+            repaintVarPanel();
+        }
     }
     
     public void changeVariableName(String id, String name, String lastName) {
-        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-        if (variable != null) {
-            variable.setVariableName(name);
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+            if (variable != null) {
+                variable.setVariableName(name);
+            }
         }
     }
     
     public void changeVariableValue(String id, String value) {
-        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-        if (variable != null) {
-            variable.setVariableValue(value);
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+            if (variable != null) {
+                variable.setVariableValue(value);
+            }
         }
     }
     
     public void changeVariableType(String id, short type) {
-        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-        if (variable != null) {
-            variable.setVariableType(type);
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+            if (variable != null) {
+                variable.setVariableType(type);
+            }
         }
     }
     
     public void variableRestored(String id) {
-        IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
-        varMap.put(id, variable);
-        repaintVarPanel();
+        Variable var = (Variable) Services.getService().getModelMapping().get(id);
+        if(!var.getVariableName().contains("#@ivprog@#!")){
+            IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
+            varMap.put(id, variable);
+            repaintVarPanel();
+        }
     }
     
     public void updateReference(String id) {

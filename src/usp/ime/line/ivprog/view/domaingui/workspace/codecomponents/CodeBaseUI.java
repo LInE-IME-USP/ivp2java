@@ -43,10 +43,9 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         trashCanPanel = new JPanel(new BorderLayout());
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                if(Services.getService().getModelMapping().get(parentModelID) instanceof IfElse){
-                    Services.getService().getController().removeChild(parentModelID, thisModelID, "");    
+                if (Services.getService().getModelMapping().get(parentModelID) instanceof IfElse) {
+                    Services.getService().getController().removeChild(parentModelID, thisModelID, "");
                 }
-                
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(CodeBaseUI.class.getResource("/usp/ime/line/resources/icons/trash16x16.png")));

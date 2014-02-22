@@ -108,4 +108,16 @@ public class ExpressionFieldUI extends JPanel {
     public short getHoldingType() {
         return expressionHolderUI.getHoldingType();
     }
+    
+    public void hideMenu(boolean hide) {
+        expressionHolderUI.setHideMenu(hide);
+    }
+    
+    public void setForHeader(boolean b) {
+        expressionHolderUI.setForHeader(b);
+    }
+    
+    public void setForContext(String s) {
+        expressionHolderUI.setForContext(s);
+    }
 }

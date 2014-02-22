@@ -24,13 +24,11 @@ public class MoveComponent extends DomainAction {
     }
     
     protected void executeAction() {
-        
         originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
     }
     
     protected void undoAction() {
-        
-        model.moveChild(component, destiny, origin, destinyContext ,originContext , originIndex, _currentState);
+        model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
     }
     
     public boolean equals(DomainAction a) {

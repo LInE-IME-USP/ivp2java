@@ -130,7 +130,11 @@ public class Variable extends Expression {
     public String toJavaString() {
         String str = "";
         str += " " + getTypeAsString();
-        str += " " + getVariableName();
+        if(getVariableName().contains("#@ivprog@#!")){
+            str+=" "+getVariableName().substring(getVariableName().indexOf("!"));
+        }else{
+            str+=" "+getVariableName();
+        }
         if (variableType == Expression.EXPRESSION_STRING) {
             str += " = \"" + getVariableValue() + "\";";
         } else {

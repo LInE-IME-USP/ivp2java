@@ -28,6 +28,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposit
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.For;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
@@ -137,6 +138,10 @@ public class IVPProgram extends DomainModel {
             codeBlock = (DataObject) dataFactory.createRead();
             initCodeBlock(containerID, codeBlock);
             createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, (short) -1, "writable", state);
+        } else if (classID == IVPConstants.MODEL_FOR) {
+            codeBlock = (DataObject) dataFactory.createFor();
+            initCodeBlock(containerID, codeBlock);
+            createForExpressions((For) codeBlock, state);
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         container.addChild(codeBlock.getUniqueID());
@@ -145,6 +150,18 @@ public class IVPProgram extends DomainModel {
         // Framework
         state.add(codeBlock);
         return codeBlock.getUniqueID();
+    }
+    
+    private void createForExpressions(For codeBlock, AssignmentState state) {
+        Expression increment = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
+        Expression lowerBound = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
+        String index = createForIndex(currentScope, "1", state);
+        Variable var = (Variable) Services.getService().getModelMapping().get(index);
+        codeBlock.setIncrementExpression(index);
+        updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forIncrement", state, increment);
+        updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forLowerBound", state, lowerBound);
+        putExpressionOnRightPlace(codeBlock.getUniqueID(), "forIncrement", increment);
+        putExpressionOnRightPlace(codeBlock.getUniqueID(), "forLowerBound", lowerBound);
     }
     
     private void initCodeBlock(String containerID, DataObject codeBlock) {
@@ -161,39 +178,39 @@ public class IVPProgram extends DomainModel {
         ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny);
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
         if (origin != destiny) {
-            if(originCode instanceof IfElse){
-                if(originContext.equals("if")){
-                    lastIndex = originCode.removeChild(component);        
-                }else if(originContext.equals("else")){
+            if (originCode instanceof IfElse) {
+                if (originContext.equals("if")) {
+                    lastIndex = originCode.removeChild(component);
+                } else if (originContext.equals("else")) {
                     lastIndex = ((IfElse) originCode).removeElseChild(component);
                 }
-            }else{
+            } else {
                 lastIndex = originCode.removeChild(component);
             }
-            if(destinyCode instanceof IfElse){
-                if(destinyContext.equals("if")){
+            if (destinyCode instanceof IfElse) {
+                if (destinyContext.equals("if")) {
                     destinyCode.addChildToIndex(component, dropIndex);
-                }else if(destinyContext.equals("else")){
+                } else if (destinyContext.equals("else")) {
                     ((IfElse) destinyCode).addElseChildToIndex(component, dropIndex);
                 }
-            }else{
+            } else {
                 destinyCode.addChildToIndex(component, dropIndex);
             }
             originListener.childRemoved(component, originContext);
             destinyListener.restoreChild(component, dropIndex, destinyContext);
         } else {
-            if(originCode instanceof IfElse){
-                if(originContext.equals("if")){
-                    lastIndex = originCode.removeChild(component);        
-                }else if(originContext.equals("else")){
+            if (originCode instanceof IfElse) {
+                if (originContext.equals("if")) {
+                    lastIndex = originCode.removeChild(component);
+                } else if (originContext.equals("else")) {
                     lastIndex = ((IfElse) originCode).removeElseChild(component);
                 }
-                if(destinyContext.equals("if")){
+                if (destinyContext.equals("if")) {
                     destinyCode.addChildToIndex(component, dropIndex);
-                }else if(destinyContext.equals("else")){
+                } else if (destinyContext.equals("else")) {
                     ((IfElse) destinyCode).addElseChildToIndex(component, dropIndex);
                 }
-            }else{
+            } else {
                 lastIndex = destinyCode.addChildToIndex(component, dropIndex);
                 destinyListener.restoreChild(component, dropIndex, destinyContext);
             }
@@ -239,7 +256,24 @@ public class IVPProgram extends DomainModel {
     public String createVariable(String scopeID, String initialValue, AssignmentState state) {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         Variable newVar = (Variable) dataFactory.createVariable();
-        newVar.setVariableName("newVar" + f.getVariableCount());
+        newVar.setVariableName("variavel" + f.getVariableCount());
+        newVar.setVariableType(Expression.EXPRESSION_INTEGER);
+        newVar.setVariableValue(initialValue);
+        newVar.setScopeID(currentScope);
+        Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
+        f.addLocalVariable(newVar.getUniqueID());
+        for (int i = 0; i < variableListeners.size(); i++) {
+            IVariableListener listener = (IVariableListener) variableListeners.get(i);
+            listener.addedVariable(newVar.getUniqueID());
+        }
+        state.add(newVar);
+        return newVar.getUniqueID();
+    }
+    
+    public String createForIndex(String scopeID, String initialValue, AssignmentState state) {
+        Function f = (Function) Services.getService().getModelMapping().get(scopeID);
+        Variable newVar = (Variable) dataFactory.createVariable();
+        newVar.setVariableName("#@ivprog@#!index"+For.getForCount());
         newVar.setVariableType(Expression.EXPRESSION_INTEGER);
         newVar.setVariableValue(initialValue);
         newVar.setScopeID(currentScope);
@@ -295,6 +329,7 @@ public class IVPProgram extends DomainModel {
     }
     
     public String createExpression(String leftExpID, String holder, short expressionType, short primitiveType, String context, AssignmentState state) {
+        System.out.println("criou uma expressao: contextO " + context);
         Expression exp = createExpression(leftExpID, holder, expressionType, primitiveType);
         updateExpressionListeners(holder, expressionType, context, state, exp);
         putExpressionOnRightPlace(holder, context, exp);
@@ -335,6 +370,14 @@ public class IVPProgram extends DomainModel {
             ((While) Services.getService().getModelMapping().get(holder)).setCondition(exp.getUniqueID());
         } else if (context.equals("ifElse")) {
             ((IfElse) Services.getService().getModelMapping().get(holder)).setComparison(exp.getUniqueID());
+        } else if (context.equals("forIndex")) {
+            ((For) Services.getService().getModelMapping().get(holder)).setIndexExpression(exp.getUniqueID());
+        } else if (context.equals("forLowerBound")) {
+            ((For) Services.getService().getModelMapping().get(holder)).setLowerBoundExpression(exp.getUniqueID());
+        } else if (context.equals("forUpperBound")) {
+            ((For) Services.getService().getModelMapping().get(holder)).setUpperBoundExpression(exp.getUniqueID());
+        } else if (context.equals("forIncrement")) {
+            ((For) Services.getService().getModelMapping().get(holder)).setIncrementExpression(exp.getUniqueID());
         }
     }
     
@@ -349,6 +392,7 @@ public class IVPProgram extends DomainModel {
             exp.setExpressionType(expressionType);
             ((Constant) exp).setConstantValue(getInitvalue(expressionType));
         } else {
+            System.out.println("identificou que era uma expressao do tipo operação; contexto: ");
             exp = (Expression) dataFactory.createExpression();
             exp.setExpressionType(expressionType);
             if (leftExpID != "") {
@@ -374,6 +418,9 @@ public class IVPProgram extends DomainModel {
         } else if (dataHolder instanceof Operation) {
             ((Operation) dataHolder).removeExpression(expression);
             lastExpressionID = ((Operation) dataHolder).getExpressionA();
+        } else if (dataHolder instanceof For) {
+            System.out.println("encontrou que era pra remover do For");
+            ((For) dataHolder).removeExpression(expression, context);
         }
         for (int i = 0; i < expressionListeners.size(); i++) {
             ((IExpressionListener) expressionListeners.get(i)).expressionDeleted(expression, context, isClean);
@@ -384,7 +431,11 @@ public class IVPProgram extends DomainModel {
             if (!isComparison) {
                 newExp = (Expression) dataFactory.createVarReference();
                 newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
-                ((VariableReference) newExp).setReferencedType(((AttributionLine) dataHolder).getLeftVariableType());
+                if (dataHolder instanceof For) {
+                    ((VariableReference) newExp).setReferencedType(Expression.EXPRESSION_INTEGER);
+                }else{
+                    ((VariableReference) newExp).setReferencedType(((AttributionLine) dataHolder).getLeftVariableType());
+                }
             } else {
                 newExp = (Expression) dataFactory.createExpression();
                 newExp.setExpressionType(Expression.EXPRESSION_OPERATION_EQU);
@@ -566,12 +617,11 @@ public class IVPProgram extends DomainModel {
     
     public void updateParent(String parentModelID, String currentModelID, String newExp, String operationContext) {
         DataObject parent = (DataObject) Services.getService().getModelMapping().get(parentModelID);
-        if(parent instanceof CodeComponent){
-            ((CodeComponent)parent).updateParent(currentModelID, newExp, operationContext);
-        }else if(parent instanceof Operation){
-            ((Operation)parent).updateParent(currentModelID, newExp, operationContext);
+        if (parent instanceof CodeComponent) {
+            ((CodeComponent) parent).updateParent(currentModelID, newExp, operationContext);
+        } else if (parent instanceof Operation) {
+            ((Operation) parent).updateParent(currentModelID, newExp, operationContext);
         }
-        
     }
     
     public short updateAttLineType(String attLineID, short newType) {

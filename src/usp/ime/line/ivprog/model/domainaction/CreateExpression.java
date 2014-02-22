@@ -23,6 +23,7 @@ public class CreateExpression extends DomainAction {
     }
     
     protected void executeAction() {
+        System.out.println("createExpression DO " + context);
         if (isRedo()) {
             model.restoreExpression(removedExpression, holder, context, false, _currentState);
         } else {
@@ -31,6 +32,7 @@ public class CreateExpression extends DomainAction {
     }
     
     protected void undoAction() {
+        System.out.println("createExpression UNDO " + context + "");
         removedExpression = model.deleteExpression(newExpression, holder, context, false, false, _currentState);
     }
     

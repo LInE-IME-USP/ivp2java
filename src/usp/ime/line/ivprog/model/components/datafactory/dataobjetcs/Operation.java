@@ -4,7 +4,6 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Operation extends Expression {
-    
     private String             expressionAID = null;
     private String             expressionBID = null;
     public static final String STRING_CLASS  = "operation";

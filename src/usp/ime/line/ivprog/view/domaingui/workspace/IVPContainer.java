@@ -34,7 +34,7 @@ public class IVPContainer extends JPanel {
     private boolean           isInternal       = false;
     private String            codeCompositeID;
     private IVPContextMenu    menu;
-    private String context;
+    private String            context;
     
     public IVPContainer(boolean isInternal, String codeCompositeID, String context) {
         setBorder(new EmptyBorder(5, 0, 0, 0));
@@ -67,7 +67,8 @@ public class IVPContainer extends JPanel {
             public void mouseEntered(MouseEvent arg0) {
             }
         });
-        children.add(new IVPContextMenu(this, this.context));
+        menu = new IVPContextMenu(this, this.context);
+        children.add(menu);
         relayout();
     }
     
@@ -90,6 +91,8 @@ public class IVPContainer extends JPanel {
         gbc.gridy = row++;
         gbc.insets = new Insets(4, 3, 2, 5);
         initCanvasHeight();
+        children.remove(menu);
+        children.add(menu);
         for (int i_i = 0; i_i < children.size(); i_i++) {
             gbc.gridy = row++;
             JComponent c = (JComponent) children.get(i_i);
@@ -100,15 +103,13 @@ public class IVPContainer extends JPanel {
         gbc.gridy = row++;
         Component strut = Box.createVerticalStrut(1);
         add(strut, gbc);
-        // Isso aqui é pra disparar o relayout recursivo
-        // escope.updateFunctionEditorPanel();
         revalidate();
         repaint();
     }
     
     private void initCanvasHeight() {
         if (children.size() == 0) {
-            setPreferredSize(new Dimension(10, 30));
+            setPreferredSize(new Dimension(10, 25));
         } else {
             setPreferredSize(null);
         }
@@ -146,6 +147,7 @@ public class IVPContainer extends JPanel {
         }
         childrenList.clear();
         childrenList.addAll(orderedPanels);
+        childrenList.add(childrenList.size(), menu);
         relayout();
     }
     
@@ -203,11 +205,11 @@ public class IVPContainer extends JPanel {
         }
         return index;
     }
-
+    
     public String getContext() {
         return context;
     }
-
+    
     public void setContext(String context) {
         this.context = context;
     }

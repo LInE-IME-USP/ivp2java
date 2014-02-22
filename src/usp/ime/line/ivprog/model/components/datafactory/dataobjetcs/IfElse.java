@@ -26,6 +26,7 @@ public class IfElse extends CodeComposite {
     
     /**
      * Remove a child from the specified position and return it.
+     * 
      * @param index
      */
     public String removeElseChildFromIndex(int index) {
@@ -36,6 +37,7 @@ public class IfElse extends CodeComposite {
     
     /**
      * Remove the specified child from the children vector and return it.
+     * 
      * @param child
      */
     public int removeElseChild(String childID) {
@@ -115,9 +117,12 @@ public class IfElse extends CodeComposite {
             comparisonID = newExp;
     }
     
-    public String getChildContext(String childID){
-        if(elseChildren.contains(childID)) return "else";
-        else if (getChildrenList().contains(childID)) return "if";
-        else return "";
+    public String getChildContext(String childID) {
+        if (elseChildren.contains(childID))
+            return "else";
+        else if (getChildrenList().contains(childID))
+            return "if";
+        else
+            return "";
     }
 }

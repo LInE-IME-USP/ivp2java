@@ -7,6 +7,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionL
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.For;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
@@ -24,6 +25,7 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.BooleanOperat
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ConstantUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ExpressionHolderUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ArithmeticOperationUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.ForUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IfElseUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
@@ -55,6 +57,8 @@ public class IVPRenderer {
             return renderReference((Reference) codeElementModel);
         } else if (codeElementModel instanceof ReadData) {
             return renderRead((ReadData) codeElementModel);
+        } else if (codeElementModel instanceof For) {
+            return renderFor((For) codeElementModel);
         }
         return null;
     }
@@ -113,6 +117,14 @@ public class IVPRenderer {
         w.setModelScope(object.getScopeID());
         Services.getService().getViewMapping().put(object.getUniqueID(), w);
         return w;
+    }
+    
+    private JComponent renderFor(For object) {
+        ForUI f = new ForUI(object.getUniqueID());
+        f.setModelParent(object.getParentID());
+        f.setModelScope(object.getScopeID());
+        Services.getService().getViewMapping().put(object.getUniqueID(), f);
+        return f;
     }
     
     private JComponent renderIfElse(IfElse object) {

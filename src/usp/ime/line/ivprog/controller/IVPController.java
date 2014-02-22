@@ -174,8 +174,6 @@ public class IVPController {
         changeExpression.execute();
     }
     
-    
-    
     public void initDomainActionList(DomainModel model) {
         CreateVariable newVar = new CreateVariable("newvar", "newvar");
         newVar.setDomainModel(model);

@@ -100,7 +100,7 @@ public class IVPMouseListener extends MouseAdapter {
         String origin = ((DataObject) Services.getService().getModelMapping().get(holdingComponent)).getParentID();
         String destiny = target.getCodeComposite();
         DataObject holdingParent = ((DataObject) Services.getService().getModelMapping().get(origin));
-        String originContext = (holdingParent instanceof IfElse) ? ((IfElse)holdingParent).getChildContext(holdingComponent) : "";
+        String originContext = (holdingParent instanceof IfElse) ? ((IfElse) holdingParent).getChildContext(holdingComponent) : "";
         String destinyContext = ("".equals(target.getContext())) ? "" : target.getContext();
         Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), originContext, destinyContext, target.getDropIndex(dropY));
         holdingComponent = "";
