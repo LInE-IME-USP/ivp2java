@@ -43,7 +43,14 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         trashCanPanel = new JPanel(new BorderLayout());
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                //need to check
                 if (Services.getService().getModelMapping().get(parentModelID) instanceof IfElse) {
+                    IfElse ifelse = (IfElse) Services.getService().getModelMapping().get(parentModelID);
+                    String context = ifelse.getChildContext(thisModelID);
+                    System.out.println("achou o ifElse "+context);
+                    Services.getService().getController().removeChild(parentModelID, thisModelID, context);
+                }else{
+                    
                     Services.getService().getController().removeChild(parentModelID, thisModelID, "");
                 }
             }

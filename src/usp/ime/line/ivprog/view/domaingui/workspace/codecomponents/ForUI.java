@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -291,4 +292,10 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLessOptions.setVisible(false);
         btnMoreOptions.setVisible(true);
     }
+
+    public void moveChild(String childID, String context, int index) {
+        container.moveChild(childID, index);
+    }
+    
+    
 }

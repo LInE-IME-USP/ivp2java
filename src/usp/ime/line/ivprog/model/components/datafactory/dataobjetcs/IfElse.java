@@ -21,7 +21,19 @@ public class IfElse extends CodeComposite {
      * @param aChild
      */
     public void addElseChildToIndex(String aChildID, int index) {
+        System.out.println("adicionou no else");
         elseChildren.add(index, aChildID);
+        
+        
+        
+    }
+    
+    /**
+     * Append a child at the end elseChildren's vector.
+     * @param aChild
+     */
+    public void addElseChildT(String aChildID) {
+        elseChildren.add(aChildID);
     }
     
     /**
@@ -74,6 +86,18 @@ public class IfElse extends CodeComposite {
         comparisonID = compID;
     }
     
+    public int moveElseChild(String child, int index){
+        int lastIndex = elseChildren.indexOf(child);
+        if (index >= lastIndex) {
+            elseChildren.add(index, child);
+            elseChildren.remove(lastIndex);
+        } else {
+            elseChildren.remove(child);
+            elseChildren.add(index, child);
+        }
+        return lastIndex;
+    }
+    
     public String toXML() {
         Operation comp = (Operation) Services.getService().getModelMapping().get(comparisonID);
         String str = "<dataobject class=\"ifelse\">" + "<id>" + getUniqueID() + "</id>" + "<comparison>" + comp.toXML() + "</comparison>" + "<ifchildren>";
@@ -118,11 +142,16 @@ public class IfElse extends CodeComposite {
     }
     
     public String getChildContext(String childID) {
-        if (elseChildren.contains(childID))
+        
+        System.out.println("pedi o contexto ");
+        
+        if (elseChildren.contains(childID)){
+            System.out.println("elllllseeee");
             return "else";
-        else if (getChildrenList().contains(childID))
+        } else if (getChildrenList().contains(childID)){
+            System.out.println("iffeeeeeeeee");
             return "if";
-        else
+        } else
             return "";
     }
 }

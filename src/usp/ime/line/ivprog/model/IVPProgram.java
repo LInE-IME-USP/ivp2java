@@ -144,7 +144,15 @@ public class IVPProgram extends DomainModel {
             createForExpressions((For) codeBlock, state);
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-        container.addChild(codeBlock.getUniqueID());
+        if(container instanceof IfElse){
+            if(context.equals("if")){
+                container.addChild(codeBlock.getUniqueID());
+            }else if(context.equals("else")){
+                ((IfElse)container).addElseChildT(codeBlock.getUniqueID());
+            }
+        }else{
+            container.addChild(codeBlock.getUniqueID());
+        }
         ICodeListener listener = (ICodeListener) codeListeners.get(containerID);
         listener.addChild(codeBlock.getUniqueID(), context);
         // Framework
@@ -177,6 +185,7 @@ public class IVPProgram extends DomainModel {
         int lastIndex = -1;
         ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny);
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
+        System.out.println("ta reclamando daqui em diante: "+origin+" "+destiny);
         if (origin != destiny) {
             if (originCode instanceof IfElse) {
                 if (originContext.equals("if")) {
@@ -201,21 +210,14 @@ public class IVPProgram extends DomainModel {
         } else {
             if (originCode instanceof IfElse) {
                 if (originContext.equals("if")) {
-                    lastIndex = originCode.removeChild(component);
+                    lastIndex = originCode.moveChild(component, dropIndex);
                 } else if (originContext.equals("else")) {
-                    lastIndex = ((IfElse) originCode).removeElseChild(component);
-                }
-                if (destinyContext.equals("if")) {
-                    destinyCode.addChildToIndex(component, dropIndex);
-                } else if (destinyContext.equals("else")) {
-                    ((IfElse) destinyCode).addElseChildToIndex(component, dropIndex);
+                    lastIndex = ((IfElse) originCode).moveElseChild(component, dropIndex);
                 }
             } else {
-                lastIndex = destinyCode.addChildToIndex(component, dropIndex);
-                destinyListener.restoreChild(component, dropIndex, destinyContext);
+                lastIndex = originCode.moveChild(component, dropIndex);
             }
-            originListener.childRemoved(component, originContext);
-            destinyListener.restoreChild(component, dropIndex, destinyContext);
+            originListener.moveChild(component, originContext, dropIndex);
         }
         componentCode.setParentID(destiny);
         return lastIndex;
@@ -224,7 +226,15 @@ public class IVPProgram extends DomainModel {
     public int removeChild(String containerID, String childID, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         int index = 0;
-        index = parent.removeChild(childID);
+        if(parent instanceof IfElse){
+            if(context.equals("if")){
+                index = parent.removeChild(childID); 
+            }else if(context.equals("else")){
+                index = ((IfElse) parent).removeElseChild(childID); 
+            }
+        }else{
+            index = parent.removeChild(childID);    
+        }
         ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
         codeListener.childRemoved(childID, context);
         // Check child dependencies and remove them
@@ -241,7 +251,13 @@ public class IVPProgram extends DomainModel {
     
     public void restoreChild(String containerID, String childID, int index, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-        parent.addChildToIndex(childID, index);
+        if(parent instanceof IfElse){
+            if(context.equals("if")){
+                parent.addChildToIndex(childID, index);
+            }else if(context.equals("else")){
+                ((IfElse)parent).addElseChildToIndex(childID, index);
+            }
+        }
         ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
         codeListener.restoreChild(childID, index, context);
     }

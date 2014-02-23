@@ -124,11 +124,20 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         String item = (String) varList.getSelectedItem();
         for (int i = 0; i < variables.size(); i++) {
             Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
-            if (var.getVariableName().equals(item)) {
+            String name = getVariableViewName(var);
+            if (name.equals(item)) {
                 return var.getUniqueID();
             }
         }
         return null;
+    }
+
+    private String getVariableViewName(Variable var) {
+        String name = var.getVariableName();
+        if(name.contains("#@ivprog@#!")){
+            name = name.substring(name.indexOf("!")+1);
+        }
+        return name;
     }
     
     private void initValues() {
@@ -140,7 +149,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         Vector variables = f.getLocalVariableMap().toVector();
         for (int i = 0; i < variables.size(); i++) {
             Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
-            String name = (var).getVariableName();
+            String name = getVariableViewName(var);
             indexMap.put(var.getUniqueID(), name);
         }
         isUpdate = true;
@@ -155,10 +164,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             indexMap = new TreeMap();
             for (int i = 0; i < variables.size(); i++) {
                 Variable var = (Variable) Services.getService().getModelMapping().get(variables.get(i));
+                String name = getVariableViewName(var);
                 if (referencedType == var.getVariableType()) {
-                    indexMap.put(var.getUniqueID(), var.getVariableName());
+                    indexMap.put(var.getUniqueID(), name);
                 } else if (referencedType == Expression.EXPRESSION_DOUBLE && var.getVariableType() == Expression.EXPRESSION_INTEGER) {
-                    indexMap.put(var.getUniqueID(), var.getVariableName());
+                    indexMap.put(var.getUniqueID(), name);
                 }
             }
             isUpdate = true;
@@ -173,20 +183,20 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         Variable v = ((Variable) Services.getService().getModelMapping().get(id));
         String name = "";
         if (isIsolated) {
-            name = v.getVariableName();
+            name = getVariableViewName(v);
             indexMap.put(id, name);
             isUpdate = true;
             updateVariableList("", "");
             isUpdate = false;
         } else {
             if (v.getVariableType() == referencedType) {
-                name = v.getVariableName();
+                name = getVariableViewName(v);
                 indexMap.put(id, name);
                 isUpdate = true;
                 updateVariableList("", "");
                 isUpdate = false;
             } else if (referencedType == -1 || referencedType == 0) {
-                name = v.getVariableName();
+                name = getVariableViewName(v);
                 indexMap.put(id, name);
                 isUpdate = true;
                 updateVariableList("", "");
@@ -199,7 +209,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void removedVariable(String id) {
-        String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+        String name = getVariableViewName(((Variable) Services.getService().getModelMapping().get(id)));
         if (indexMap.containsKey(id)) {
             indexMap.put(id, null);
             if (isIsolated) {
@@ -304,12 +314,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     public void changeVariableType(String id, short type) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         if (isIsolated) {
-            if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible()) {
+            if (getVariableViewName(v).equals(nameLabel.getText()) && nameLabel.isVisible()) {
                 referencedType = type;
             }
         } else {
             if (indexMap.containsValue(v.getVariableName())) {
-                if (v.getVariableName().equals(nameLabel.getText()) && nameLabel.isVisible() || !nameLabel.isVisible() && v.getVariableName().equals(varList.getSelectedItem())) {
+                if (getVariableViewName(v).equals(nameLabel.getText()) && nameLabel.isVisible() || !nameLabel.isVisible() && getVariableViewName(v).equals(varList.getSelectedItem())) {
                     lastRemoved = v.getVariableName();
                     updateValuesFromVariableList();
                     turnWaningStateON();
@@ -318,11 +328,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 }
             } else {
                 if (v.getVariableType() == referencedType) {
-                    indexMap.put(v.getUniqueID(), v.getVariableName());
+                    indexMap.put(v.getUniqueID(), getVariableViewName(v));
                     isUpdate = true;
                     updateVariableList("", "");
                     isUpdate = false;
-                    if (v.getVariableName().equals(lastRemoved)) {
+                    if (getVariableViewName(v).equals(lastRemoved)) {
                         turnWaningStateOFF();
                         isUpdate = true;
                         varList.setSelectedItem(lastRemoved);
@@ -334,7 +344,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void variableRestored(String id) {
-        String name = ((Variable) Services.getService().getModelMapping().get(id)).getVariableName();
+        String name = getVariableViewName(((Variable) Services.getService().getModelMapping().get(id)));
         if (indexMap.containsKey(id)) {
             indexMap.put(id, name);
             isUpdate = true;

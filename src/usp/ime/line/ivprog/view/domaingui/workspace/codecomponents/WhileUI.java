@@ -156,4 +156,8 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     public void restoreChild(String childID, int index, String context) {
         container.restoreChild(childID, index);
     }
+    
+    public void moveChild(String childID, String context, int index) {
+        container.moveChild(childID, index);
+    }
 }

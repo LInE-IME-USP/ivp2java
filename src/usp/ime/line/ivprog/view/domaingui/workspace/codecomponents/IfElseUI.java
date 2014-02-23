@@ -188,4 +188,14 @@ public class IfElseUI extends CodeBaseUI implements ICodeListener {
             elseContainer.restoreChild(childID, index);
         }
     }
+    
+    public void moveChild(String childID, String context, int index) {
+        if(context.equals("if")){
+            ifContainer.moveChild(childID, index);    
+        }else{
+            elseContainer.moveChild(childID, index); 
+        }
+        
+    }
+    
 }

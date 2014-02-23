@@ -22,6 +22,8 @@ public class CreateChild extends DomainAction {
     }
     
     protected void executeAction() {
+        System.out.println("na ação o contexto é: "+context);
+        
         if (isRedo()) {
             model.restoreChild(containerID, objectID, index, context, _currentState);
         } else {

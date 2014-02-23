@@ -178,6 +178,21 @@ public class IVPContainer extends JPanel {
         relayout();
     }
     
+    public void moveChild(String childID, int toIndex){
+        JComponent c = (JComponent) Services.getService().getViewMapping().get(childID);
+        int lastIndex = children.indexOf(c);
+        
+        if (toIndex >= lastIndex) {
+            children.add(toIndex, c);
+            children.remove(lastIndex);
+        } else {
+            children.remove(c);
+            children.add(toIndex, c);
+        }
+        System.out.println("LAST INDEX "+lastIndex+" newIndex "+toIndex);
+        relayout();
+    }
+    
     public void restoreChild(String childID, int index) {
         JComponent child = (JComponent) Services.getService().getViewMapping().get(childID);
         if (children.contains(child)) {

@@ -24,7 +24,7 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
     private String            name             = null;
     private String            type             = "-1";
     private IVPVariablePanel  variablesPanel;
-    private IVPContainer      canvas;
+    private IVPContainer      container;
     private JScrollPane       canvasHolder;
     private String            functionID       = null;
     
@@ -33,10 +33,10 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
         setLayout(new BorderLayout(0, 0));
         variablesPanel = new IVPVariablePanel(functionID, isMain);
         add(variablesPanel, BorderLayout.NORTH);
-        canvas = new IVPContainer(false, functionID, "");
+        container = new IVPContainer(false, functionID, "");
         canvasHolder = new JScrollPane();
         canvasHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        canvasHolder.setViewportView(canvas);
+        canvasHolder.setViewportView(container);
         add(canvasHolder, BorderLayout.CENTER);
         Services.getService().getController().addComponentListener(this, functionID);
     }
@@ -66,14 +66,18 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
     }
     
     public void addChild(String childID, String context) {
-        canvas.addChild(childID);
+        container.addChild(childID);
     }
     
     public void childRemoved(String childID, String context) {
-        canvas.childRemoved(childID);
+        container.childRemoved(childID);
     }
     
     public void restoreChild(String childID, int index, String context) {
-        canvas.restoreChild(childID, index);
+        container.restoreChild(childID, index);
+    }
+    
+    public void moveChild(String childID, String context, int index) {
+        container.moveChild(childID, index);
     }
 }
