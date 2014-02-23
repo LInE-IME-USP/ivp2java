@@ -163,9 +163,6 @@ public class IVPProgram extends DomainModel {
     private void createForExpressions(For codeBlock, AssignmentState state) {
         Expression increment = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
         Expression lowerBound = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
-        String index = createForIndex(currentScope, "1", state);
-        Variable var = (Variable) Services.getService().getModelMapping().get(index);
-        codeBlock.setIncrementExpression(index);
         updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forIncrement", state, increment);
         updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forLowerBound", state, lowerBound);
         putExpressionOnRightPlace(codeBlock.getUniqueID(), "forIncrement", increment);
@@ -273,23 +270,6 @@ public class IVPProgram extends DomainModel {
         Function f = (Function) Services.getService().getModelMapping().get(scopeID);
         Variable newVar = (Variable) dataFactory.createVariable();
         newVar.setVariableName("variavel" + f.getVariableCount());
-        newVar.setVariableType(Expression.EXPRESSION_INTEGER);
-        newVar.setVariableValue(initialValue);
-        newVar.setScopeID(currentScope);
-        Services.getService().getModelMapping().put(newVar.getUniqueID(), newVar);
-        f.addLocalVariable(newVar.getUniqueID());
-        for (int i = 0; i < variableListeners.size(); i++) {
-            IVariableListener listener = (IVariableListener) variableListeners.get(i);
-            listener.addedVariable(newVar.getUniqueID());
-        }
-        state.add(newVar);
-        return newVar.getUniqueID();
-    }
-    
-    public String createForIndex(String scopeID, String initialValue, AssignmentState state) {
-        Function f = (Function) Services.getService().getModelMapping().get(scopeID);
-        Variable newVar = (Variable) dataFactory.createVariable();
-        newVar.setVariableName("#@ivprog@#!index"+For.getForCount());
         newVar.setVariableType(Expression.EXPRESSION_INTEGER);
         newVar.setVariableValue(initialValue);
         newVar.setScopeID(currentScope);

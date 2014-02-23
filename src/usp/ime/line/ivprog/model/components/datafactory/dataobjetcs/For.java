@@ -12,13 +12,13 @@ public class For extends CodeComposite {
     private String             upperBoundExpression = "";
     private String             incrementExpression  = "";
     public static final String STRING_CLASS         = "for";
-    private static int forCount = 0;
-    private int indexCount;
+    
+    public static int FOR_MODE_1 = 0;
+    public static int FOR_MODE_2 = 1;
+    public static int FOR_MODE_3 = 2;
     
     public For(String name, String description) {
         super(name, description);
-        setIndexCount(forCount);
-        setForCount(getForCount() + 1);
     }
     
     /**
@@ -139,19 +139,4 @@ public class For extends CodeComposite {
         }
     }
 
-    public static int getForCount() {
-        return forCount;
-    }
-
-    public static void setForCount(int forCount) {
-        For.forCount = forCount;
-    }
-
-    public int getIndexCount() {
-        return indexCount;
-    }
-
-    public void setIndexCount(int indexCount) {
-        this.indexCount = indexCount;
-    }
 }

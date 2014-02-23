@@ -28,25 +28,38 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private JPanel            contentPanel;
     private JPanel            header;
     private IVPContainer      container;
-    private JLabel            codeBlockName;
     private JButton           expandBtnUP;
     private JButton           expandBtnDOWN;
     private Icon              up;
     private Icon              down;
     private Icon              dot;
     private Icon              ellipsis;
+    private Icon              mode2;
     private String            context;
+
+    private JLabel            codeBlockName;
     private JLabel            timesLabel;
+    private JLabel            timesIncrementing;
+    private JLabel            oneByOne;
     private JLabel            fromLbl;
     private JLabel            upToLbl;
     private JLabel            stepLbl;
     private JLabel            lastParLbl;
+    private JLabel            codeBlockName_using;
+    
     private ExpressionFieldUI lowerBoundField;
     private ExpressionFieldUI upperBoundField;
     private ExpressionFieldUI incrementField;
-    private JButton           btnMoreOptions;
-    private JButton           btnLessOptions;
-    private JLabel indexLbl;
+    private ExpressionFieldUI indexField;
+    
+    private ExpressionFieldUI mode_1and2_upperBound;
+    
+    private JButton           btnLvl3;
+    private JButton           btnLvl2;
+    private JButton           btnLvl1;
+    
+    private int forMode = -1;
+
     
     public ForUI(String id) {
         super(id);
@@ -73,6 +86,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         down = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/expand_down.png"));
         dot = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/dot.png"));
         ellipsis = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/ellipsis.png"));
+        mode2 = new javax.swing.ImageIcon(getClass().getResource("/usp/ime/line/resources/icons/mode2.png"));
     }
     
     private void initContentPanel() {
@@ -91,11 +105,8 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         initCodeBlockLabel();
     }
     
-    private void initExpressionHolder() {
-    }
-    
-    private void initExpression() {
-    }
+    private void initExpressionHolder() {}
+    private void initExpression() {}
     
     private void initExpandBtnUP() {
         expandBtnUP = new JButton();
@@ -141,7 +152,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private void initFieldsAndLabels() {
         String increment;
         increment = ((For) Services.getService().getModelMapping().get(getModelID())).getIncrementExpression();
-        initIndexLabel();
+        initIndexField();
         codeBlockName = new JLabel(ResourceBundleIVP.getString("ForUI.for.text"));
         timesLabel = new JLabel(ResourceBundleIVP.getString("ForUI.times.text"));
         fromLbl = new JLabel(ResourceBundleIVP.getString("ForUI.from.text"));
@@ -149,31 +160,57 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         initLowerBound();
         upToLbl = new JLabel(ResourceBundleIVP.getString("ForUI.upTo.text"));
         upToLbl.setVisible(false);
+        initMode1UppderBound();
         initUpperBound();
         stepLbl = new JLabel(ResourceBundleIVP.getString("ForUI.step.text"));
         stepLbl.setVisible(false);
         initIncrementField(increment);
         lastParLbl = new JLabel(ResourceBundleIVP.getString("ForUI.step2.text"));
         lastParLbl.setVisible(false);
+        timesIncrementing = new JLabel(ResourceBundleIVP.getString("ForUI.timesIncrementing.text"));
+        timesIncrementing.setVisible(false);
+        oneByOne = new JLabel(ResourceBundleIVP.getString("ForUI.oneByOne.text"));
+        oneByOne.setVisible(false);
+        codeBlockName_using = new JLabel(ResourceBundleIVP.getString("ForUI.forUsing.text"));
+        codeBlockName_using.setVisible(false);
         initBtns();
     }
     
     private void initBtns() {
-        btnMoreOptions = new JButton(ellipsis);
-        btnMoreOptions.setUI(new IconButtonUI());
-        btnMoreOptions.addActionListener(new ActionListener() {
+        btnLvl3 = new JButton(ellipsis);
+        btnLvl3.setUI(new IconButtonUI());
+        btnLvl3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                complexFor();
+                level3Action();
             }
         });
-        btnLessOptions = new JButton(dot);
-        btnLessOptions.setUI(new IconButtonUI());
-        btnLessOptions.addActionListener(new ActionListener() {
+        btnLvl3.setVisible(false);
+        btnLvl2 = new JButton(mode2);
+        btnLvl2.setUI(new IconButtonUI());
+        btnLvl2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                level2Action();
+            }
+        });
+        btnLvl2.setVisible(true);
+        btnLvl1 = new JButton(dot);
+        btnLvl1.setUI(new IconButtonUI());
+        btnLvl1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                simpleFor();
+                level1Action();
             }
         });
-        btnLessOptions.setVisible(false);
+        btnLvl1.setVisible(false);
+    }
+    
+    private void initMode1UppderBound(){
+        mode_1and2_upperBound = new ExpressionFieldUI(this.getModelID(), this.getModelScope());
+        mode_1and2_upperBound.setBlocked(false);
+        mode_1and2_upperBound.setVisible(true);
+        mode_1and2_upperBound.setHoldingType(Expression.EXPRESSION_INTEGER);
+        mode_1and2_upperBound.setForHeader(true);
+        mode_1and2_upperBound.hideMenu(true);
+        mode_1and2_upperBound.setForContext("mode1_forUpperBound");
     }
     
     private void initIncrementField(String increment) {
@@ -189,7 +226,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private void initUpperBound() {
         upperBoundField = new ExpressionFieldUI(this.getModelID(), this.getModelScope());
         upperBoundField.setBlocked(false);
-        upperBoundField.setVisible(true);
+        upperBoundField.setVisible(false);
         upperBoundField.setHoldingType(Expression.EXPRESSION_INTEGER);
         upperBoundField.setForHeader(true);
         upperBoundField.setForContext("forUpperBound");
@@ -204,17 +241,24 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         lowerBoundField.setForContext("forLowerBound");
     }
     
-    private void initIndexLabel() {
-        For f = (For) Services.getService().getModelMapping().get(getModelID());
-        indexLbl = new JLabel(ResourceBundleIVP.getString("ForUI.index.text")+f.getIndexCount()); 
-        indexLbl.setFont(new Font("Tahoma", Font.BOLD, 11));
-        indexLbl.setForeground(Color.BLUE);
-        indexLbl.setVisible(false);
+    private void initIndexField() {
+        indexField = new ExpressionFieldUI(getModelID(), this.getModelScope());
+        indexField.setBlocked(false);
+        indexField.setHoldingType(Expression.EXPRESSION_INTEGER);
+        indexField.setVisible(false);
+        indexField.setForHeader(true);
+        indexField.hideMenu(true);
+        indexField.setForContext("forIndex");
     }
     
-    private void complexFor() {
-        timesLabel.setVisible(false);
-        indexLbl.setVisible(true);
+    private void level3Action() {
+        codeBlockName.setVisible(false);
+        codeBlockName_using.setVisible(true);
+        timesLabel.setVisible(true);
+        indexField.setVisible(true);
+        oneByOne.setVisible(false);
+        mode_1and2_upperBound.setVisible(false);
+        timesIncrementing.setVisible(false);
         fromLbl.setVisible(true);
         lowerBoundField.setVisible(true);
         upToLbl.setVisible(true);
@@ -222,27 +266,55 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         stepLbl.setVisible(true);
         incrementField.setVisible(true);
         lastParLbl.setVisible(true);
-        btnLessOptions.setVisible(true);
-        btnMoreOptions.setVisible(false);
+        btnLvl1.setVisible(true);
+        btnLvl2.setVisible(false);
+        btnLvl3.setVisible(false);
     }
     
-    private void simpleFor() {
+    private void level2Action() {
+        codeBlockName.setVisible(true);
+        codeBlockName_using.setVisible(false);
+        timesLabel.setVisible(false);
+        indexField.setVisible(true);
+        oneByOne.setVisible(true);
+        mode_1and2_upperBound.setVisible(true);
+        timesIncrementing.setVisible(true);
+        fromLbl.setVisible(false);
+        lowerBoundField.setVisible(false);
+        upToLbl.setVisible(false);
+        upperBoundField.setVisible(false);
+        stepLbl.setVisible(false);
+        incrementField.setVisible(false);
+        lastParLbl.setVisible(false);
+        btnLvl1.setVisible(false);
+        btnLvl2.setVisible(false);
+        btnLvl3.setVisible(true);
+    }
+    
+    private void level1Action() {
+        codeBlockName.setVisible(true);
+        codeBlockName_using.setVisible(false);
         timesLabel.setVisible(true);
+        mode_1and2_upperBound.setVisible(false);
         fromLbl.setVisible(false);
         lowerBoundField.setVisible(false);
         upToLbl.setVisible(false);
         upperBoundField.setVisible(true);
-        indexLbl.setVisible(false);
         stepLbl.setVisible(false);
         incrementField.setVisible(false);
         lastParLbl.setVisible(false);
-        btnLessOptions.setVisible(false);
-        btnMoreOptions.setVisible(true);
+        btnLvl1.setVisible(false);
+        btnLvl2.setVisible(true);
+        btnLvl3.setVisible(false);
     }
     
     private void initCodeBlockLabel() {
+        header.add(codeBlockName_using);
         header.add(codeBlockName);
-        header.add(indexLbl);
+        header.add(mode_1and2_upperBound);
+        header.add(timesIncrementing);
+        header.add(indexField);
+        header.add(oneByOne);
         header.add(fromLbl);
         header.add(lowerBoundField);
         header.add(upToLbl);
@@ -251,8 +323,9 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         header.add(incrementField);
         header.add(lastParLbl);
         header.add(timesLabel);
-        header.add(btnMoreOptions);
-        header.add(btnLessOptions);
+        header.add(btnLvl3);
+        header.add(btnLvl2);
+        header.add(btnLvl1);
     }
     
     public void setContext(String context) {
@@ -276,26 +349,25 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     }
     
     public void valueAsIndex() {
-        simpleFor();
-        btnLessOptions.setVisible(false);
-        btnMoreOptions.setVisible(false);
+        level1Action();
+        btnLvl1.setVisible(false);
+        btnLvl3.setVisible(false);
     }
     
     public void nothingAsIndex() {
-        simpleFor();
-        btnLessOptions.setVisible(false);
-        btnMoreOptions.setVisible(true);
+        level1Action();
+        btnLvl1.setVisible(false);
+        btnLvl3.setVisible(true);
     }
     
     public void variableAsIndex() {
-        simpleFor();
-        btnLessOptions.setVisible(false);
-        btnMoreOptions.setVisible(true);
+        level1Action();
+        btnLvl1.setVisible(false);
+        btnLvl3.setVisible(true);
     }
 
     public void moveChild(String childID, String context, int index) {
         container.moveChild(childID, index);
     }
-    
     
 }
