@@ -254,7 +254,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private void level3Action() {
         codeBlockName.setVisible(false);
         codeBlockName_using.setVisible(true);
-        timesLabel.setVisible(true);
+        timesLabel.setVisible(false);
         indexField.setVisible(true);
         oneByOne.setVisible(false);
         mode_1and2_upperBound.setVisible(false);
@@ -295,11 +295,12 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         codeBlockName.setVisible(true);
         codeBlockName_using.setVisible(false);
         timesLabel.setVisible(true);
-        mode_1and2_upperBound.setVisible(false);
+        mode_1and2_upperBound.setVisible(true);
         fromLbl.setVisible(false);
+        indexField.setVisible(false);
         lowerBoundField.setVisible(false);
         upToLbl.setVisible(false);
-        upperBoundField.setVisible(true);
+        upperBoundField.setVisible(false);
         stepLbl.setVisible(false);
         incrementField.setVisible(false);
         lastParLbl.setVisible(false);
