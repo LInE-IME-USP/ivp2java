@@ -8,7 +8,9 @@ import java.util.HashMap;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
+import usp.ime.line.ivprog.model.domainaction.ChangeForMode;
 import usp.ime.line.ivprog.model.domainaction.ChangeValue;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableInitValue;
 import usp.ime.line.ivprog.model.domainaction.ChangeVariableName;
@@ -23,6 +25,7 @@ import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
 import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
 public class IVPController {
     private IVPProgram   program = null;
@@ -214,6 +217,9 @@ public class IVPController {
         MoveComponent mv = new MoveComponent("movecomponent", "movecomponent");
         mv.setDomainModel(model);
         actionList.put("movecomponent", mv);
+        ChangeForMode changeFor = new ChangeForMode("changeformode", "changeformode");
+        changeFor.setDomainModel(model);
+        actionList.put("changeformode", changeFor);
     }
     
     public void addComponentListener(ICodeListener listener, String id) {
@@ -246,4 +252,34 @@ public class IVPController {
     public void updateAttLineType(String attLineID, short newType) {
         program.updateAttLineType(attLineID, newType);
     }
-};
+    
+    public void changeForMode(int forMode, String modelID) {
+        ChangeForMode change = (ChangeForMode) actionList.get("changeformode");
+        change.setNewMode(forMode);
+        change.setForID(modelID);
+        change.execute();
+    }
+    
+    public void printError(String errorMessage) {
+        program.printError(errorMessage);
+    }
+    
+    public boolean validateVariableName(String modelScopeID, String value) {
+        return program.validateVariableName(modelScopeID, value);
+    }
+    
+    public boolean isContentSet() {
+        // TODO: aqui dá pra criar uma mensagem pra olhar quais funções deverão ter os campos verificados.
+        boolean isCSet = true;
+        Object[] functions = program.getFunctionMap().values().toArray();
+        for (int i = 0; i < functions.length; i++) {
+            FunctionBodyUI f = (FunctionBodyUI) Services.getService().getViewMapping().get(((Function) functions[i]).getUniqueID());
+            if (!f.checkContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+        }
+        return isCSet;
+    }
+}

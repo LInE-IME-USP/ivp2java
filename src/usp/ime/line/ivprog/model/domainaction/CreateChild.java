@@ -22,17 +22,18 @@ public class CreateChild extends DomainAction {
     }
     
     protected void executeAction() {
-        System.out.println("na ação o contexto é: "+context);
-        
         if (isRedo()) {
+            System.out.println("CreateChild.REDO tentando colocar no index " + index);
             model.restoreChild(containerID, objectID, index, context, _currentState);
         } else {
+            System.out.println("CreateChild.DO ");
             objectID = model.newChild(containerID, classID, context, _currentState);
         }
     }
     
     protected void undoAction() {
         index = model.removeChild(containerID, objectID, context, _currentState);
+        System.out.println("CreateChild.UNDO > index de onde saiu " + index);
     }
     
     public boolean equals(DomainAction a) {

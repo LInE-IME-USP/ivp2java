@@ -21,12 +21,10 @@ public class ChangeValue extends DomainAction {
     }
     
     protected void executeAction() {
-        System.out.println("context " + context + " id " + id + " newValue " + newValue);
         lastValue = model.changeValue(id, newValue, _currentState);
     }
     
     protected void undoAction() {
-        System.out.println("context " + context + " id " + id + " newValue " + newValue);
         model.changeValue(id, lastValue, _currentState);
     }
     

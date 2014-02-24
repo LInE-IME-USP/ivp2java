@@ -21,15 +21,12 @@ public class IfElse extends CodeComposite {
      * @param aChild
      */
     public void addElseChildToIndex(String aChildID, int index) {
-        System.out.println("adicionou no else");
         elseChildren.add(index, aChildID);
-        
-        
-        
     }
     
     /**
      * Append a child at the end elseChildren's vector.
+     * 
      * @param aChild
      */
     public void addElseChildT(String aChildID) {
@@ -86,7 +83,7 @@ public class IfElse extends CodeComposite {
         comparisonID = compID;
     }
     
-    public int moveElseChild(String child, int index){
+    public int moveElseChild(String child, int index) {
         int lastIndex = elseChildren.indexOf(child);
         if (index >= lastIndex) {
             elseChildren.add(index, child);
@@ -142,14 +139,9 @@ public class IfElse extends CodeComposite {
     }
     
     public String getChildContext(String childID) {
-        
-        System.out.println("pedi o contexto ");
-        
-        if (elseChildren.contains(childID)){
-            System.out.println("elllllseeee");
+        if (elseChildren.contains(childID)) {
             return "else";
-        } else if (getChildrenList().contains(childID)){
-            System.out.println("iffeeeeeeeee");
+        } else if (getChildrenList().contains(childID)) {
             return "if";
         } else
             return "";

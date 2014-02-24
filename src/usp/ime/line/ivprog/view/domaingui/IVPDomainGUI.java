@@ -117,7 +117,6 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         consolePanel.add(consoleContainer, BorderLayout.CENTER);
         consoleContainer.setLayout(new BorderLayout(0, 0));
         consoleField = new IVPConsoleUI();
-        consoleField.setLineWrap(false);
         consoleContainer.add(consoleField);
     }
     

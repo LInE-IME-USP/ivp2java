@@ -11,6 +11,7 @@ public abstract class CodeComposite extends CodeComponent {
     
     /**
      * Append a child at the end of children's vector.
+     * 
      * @param aChild
      */
     public void addChild(String aChildID) {
@@ -19,13 +20,13 @@ public abstract class CodeComposite extends CodeComponent {
     
     /**
      * Put the child at the specified position.
+     * 
      * @param holdingComponent
      * @param index
      * @return
      */
     public int addChildToIndex(String holdingComponentID, int index) {
         int lastIndex = -1;
-        System.out.println("ta falando que não está.. "+children);
         if (children.contains(holdingComponentID)) {
             lastIndex = children.indexOf(holdingComponentID);
             if (index >= lastIndex) {
@@ -42,11 +43,13 @@ public abstract class CodeComposite extends CodeComponent {
         }
     }
     
-    public int moveChild(String child, int index){
+    public int moveChild(String child, int index) {
         int lastIndex = children.indexOf(child);
+        System.out.println("CodeComposite > " + lastIndex + " para " + index);
         if (index >= lastIndex) {
             children.add(index, child);
-            children.remove(lastIndex);
+            if (lastIndex != -1)
+                children.remove(lastIndex);
         } else {
             children.remove(child);
             children.add(index, child);

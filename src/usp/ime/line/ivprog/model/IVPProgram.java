@@ -7,6 +7,7 @@ import ilm.framework.domain.DomainModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -65,6 +66,7 @@ public class IVPProgram extends DomainModel {
     private AskUserFrameString  readString;
     private AskUserFrameBoolean readBoolean;
     private HashMap             codeListeners;
+    private IVPConsoleUI        console;
     
     public IVPProgram() {
         globalVariables = new HashMap();
@@ -144,13 +146,13 @@ public class IVPProgram extends DomainModel {
             createForExpressions((For) codeBlock, state);
         }
         CodeComposite container = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-        if(container instanceof IfElse){
-            if(context.equals("if")){
+        if (container instanceof IfElse) {
+            if (context.equals("if")) {
                 container.addChild(codeBlock.getUniqueID());
-            }else if(context.equals("else")){
-                ((IfElse)container).addElseChildT(codeBlock.getUniqueID());
+            } else if (context.equals("else")) {
+                ((IfElse) container).addElseChildT(codeBlock.getUniqueID());
             }
-        }else{
+        } else {
             container.addChild(codeBlock.getUniqueID());
         }
         ICodeListener listener = (ICodeListener) codeListeners.get(containerID);
@@ -182,7 +184,6 @@ public class IVPProgram extends DomainModel {
         int lastIndex = -1;
         ICodeListener destinyListener = (ICodeListener) Services.getService().getViewMapping().get(destiny);
         ICodeListener originListener = (ICodeListener) Services.getService().getViewMapping().get(origin);
-        System.out.println("ta reclamando daqui em diante: "+origin+" "+destiny);
         if (origin != destiny) {
             if (originCode instanceof IfElse) {
                 if (originContext.equals("if")) {
@@ -223,14 +224,14 @@ public class IVPProgram extends DomainModel {
     public int removeChild(String containerID, String childID, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
         int index = 0;
-        if(parent instanceof IfElse){
-            if(context.equals("if")){
-                index = parent.removeChild(childID); 
-            }else if(context.equals("else")){
-                index = ((IfElse) parent).removeElseChild(childID); 
+        if (parent instanceof IfElse) {
+            if (context.equals("if")) {
+                index = parent.removeChild(childID);
+            } else if (context.equals("else")) {
+                index = ((IfElse) parent).removeElseChild(childID);
             }
-        }else{
-            index = parent.removeChild(childID);    
+        } else {
+            index = parent.removeChild(childID);
         }
         ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
         codeListener.childRemoved(childID, context);
@@ -248,12 +249,14 @@ public class IVPProgram extends DomainModel {
     
     public void restoreChild(String containerID, String childID, int index, String context, AssignmentState state) {
         CodeComposite parent = (CodeComposite) Services.getService().getModelMapping().get(containerID);
-        if(parent instanceof IfElse){
-            if(context.equals("if")){
+        if (parent instanceof IfElse) {
+            if (context.equals("if")) {
                 parent.addChildToIndex(childID, index);
-            }else if(context.equals("else")){
-                ((IfElse)parent).addElseChildToIndex(childID, index);
+            } else if (context.equals("else")) {
+                ((IfElse) parent).addElseChildToIndex(childID, index);
             }
+        } else {
+            parent.addChildToIndex(childID, index);
         }
         ICodeListener codeListener = (ICodeListener) codeListeners.get(containerID);
         codeListener.restoreChild(childID, index, context);
@@ -325,7 +328,6 @@ public class IVPProgram extends DomainModel {
     }
     
     public String createExpression(String leftExpID, String holder, short expressionType, short primitiveType, String context, AssignmentState state) {
-        System.out.println("criou uma expressao: contextO " + context);
         Expression exp = createExpression(leftExpID, holder, expressionType, primitiveType);
         updateExpressionListeners(holder, expressionType, context, state, exp);
         putExpressionOnRightPlace(holder, context, exp);
@@ -388,7 +390,6 @@ public class IVPProgram extends DomainModel {
             exp.setExpressionType(expressionType);
             ((Constant) exp).setConstantValue(getInitvalue(expressionType));
         } else {
-            System.out.println("identificou que era uma expressao do tipo operação; contexto: ");
             exp = (Expression) dataFactory.createExpression();
             exp.setExpressionType(expressionType);
             if (leftExpID != "") {
@@ -415,7 +416,6 @@ public class IVPProgram extends DomainModel {
             ((Operation) dataHolder).removeExpression(expression);
             lastExpressionID = ((Operation) dataHolder).getExpressionA();
         } else if (dataHolder instanceof For) {
-            System.out.println("encontrou que era pra remover do For");
             ((For) dataHolder).removeExpression(expression, context);
         }
         for (int i = 0; i < expressionListeners.size(); i++) {
@@ -429,7 +429,7 @@ public class IVPProgram extends DomainModel {
                 newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
                 if (dataHolder instanceof For) {
                     ((VariableReference) newExp).setReferencedType(Expression.EXPRESSION_INTEGER);
-                }else{
+                } else {
                     ((VariableReference) newExp).setReferencedType(((AttributionLine) dataHolder).getLeftVariableType());
                 }
             } else {
@@ -599,6 +599,13 @@ public class IVPProgram extends DomainModel {
         return lastValue;
     }
     
+    public int changeForMode(int newMode, String forID, AssignmentState state) {
+        For f = (For) Services.getService().getModelMapping().get(forID);
+        int lastMode = f.getCurrentForMode();
+        f.setCurrentForMode(newMode);
+        return lastMode;
+    }
+    
     public AssignmentState getNewAssignmentState() {
         return new AssignmentState();
     }
@@ -609,6 +616,7 @@ public class IVPProgram extends DomainModel {
     
     public void setConsoleListener(IVPConsoleUI ivpConsoleUI) {
         interpreter.setConsole(ivpConsoleUI);
+        console = ivpConsoleUI;
     }
     
     public void updateParent(String parentModelID, String currentModelID, String newExp, String operationContext) {
@@ -651,18 +659,47 @@ public class IVPProgram extends DomainModel {
     }
     
     public void playCode() {
-        String code = " ";
-        Object[] functionList = functionMap.values().toArray();
-        for (int i = 0; i < functionList.length; i++) {
-            code += " " + ((Function) functionList[i]).toJavaString() + " ";
+        if (Services.getService().getController().isContentSet()) {
+            String code = " ";
+            Object[] functionList = functionMap.values().toArray();
+            for (int i = 0; i < functionList.length; i++) {
+                code += " " + ((Function) functionList[i]).toJavaString() + " ";
+            }
+            code += " Principal(); ";
+            String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
+            System.out.println(finalCode);
+            console.clean();
+            try {
+                interpreter.eval(finalCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
         }
-        code += " Principal(); ";
-        String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
-        System.out.println(finalCode);
-        try {
-            interpreter.eval(finalCode);
-        } catch (Exception e) {
-            e.printStackTrace();
+    }
+    
+    public void printError(String errorMessage) {
+        console.printError(errorMessage);
+    }
+    
+    public boolean validateVariableName(String modelScopeID, String value) {
+        // TODO: generalize. each scope has to have s single localVarMap. It's easier to check for each scope;
+        Function f = (Function) Services.getService().getModelMapping().get(modelScopeID);
+        Vector v = f.getLocalVariableMap().toVector();
+        for (int i = 0; i < v.size(); i++) {
+            Variable var = (Variable) Services.getService().getModelMapping().get(v.get(i));
+            if (var.getVariableName().equals(value))
+                return false;
         }
+        return true;
+    }
+    
+    public HashMap getFunctionMap() {
+        return functionMap;
+    }
+    
+    public void setFunctionMap(HashMap functionMap) {
+        this.functionMap = functionMap;
     }
 }

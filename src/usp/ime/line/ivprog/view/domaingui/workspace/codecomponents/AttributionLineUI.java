@@ -100,4 +100,15 @@ public class AttributionLineUI extends CodeBaseUI {
     public void updateHoldingType(short type) {
         expression.setHoldingType(type);
     }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!varSelector.isContentSet()) {
+            isCSet = false;
+        }
+        if (!expression.isContentSet()) {
+            isCSet = false;
+        }
+        return isCSet;
+    }
 }

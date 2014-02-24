@@ -162,4 +162,8 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
             valueLabel.setText(value);
         }
     }
+    
+    public boolean isContentSet() {
+        return true;
+    }
 }

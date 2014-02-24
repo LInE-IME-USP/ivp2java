@@ -80,4 +80,9 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
     public void moveChild(String childID, String context, int index) {
         container.moveChild(childID, index);
     }
+    
+    public boolean checkContentSet() {
+        boolean isContentSet = container.isContentSet();
+        return isContentSet;
+    }
 }

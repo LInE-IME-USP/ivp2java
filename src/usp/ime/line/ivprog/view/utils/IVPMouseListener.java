@@ -18,6 +18,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPMouseListener extends MouseAdapter {
     private String             currentProtocol             = INTERACTION_PROTOCOL_DND;
@@ -102,7 +103,12 @@ public class IVPMouseListener extends MouseAdapter {
         DataObject holdingParent = ((DataObject) Services.getService().getModelMapping().get(origin));
         String originContext = (holdingParent instanceof IfElse) ? ((IfElse) holdingParent).getChildContext(holdingComponent) : "";
         String destinyContext = ("".equals(target.getContext())) ? "" : target.getContext();
-        Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), originContext, destinyContext, target.getDropIndex(dropY));
+        JComponent holdingJComponent = (JComponent) Services.getService().getViewMapping().get(holdingComponent);
+        if (holdingJComponent.isAncestorOf(target)) {
+            Services.getService().getController().printError(ResourceBundleIVP.getString("Error.dropCodeInsideItSelf"));
+        } else {
+            Services.getService().getController().moveChild(holdingComponent, origin, target.getCodeComposite(), originContext, destinyContext, target.getDropIndex(dropY, holdingJComponent));
+        }
         holdingComponent = "";
         isHolding = false;
         lastEnteredComponent = null;

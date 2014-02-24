@@ -8,6 +8,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.view.FlatUIColors;
+import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.Color;
@@ -178,10 +179,9 @@ public class IVPContainer extends JPanel {
         relayout();
     }
     
-    public void moveChild(String childID, int toIndex){
+    public void moveChild(String childID, int toIndex) {
         JComponent c = (JComponent) Services.getService().getViewMapping().get(childID);
         int lastIndex = children.indexOf(c);
-        
         if (toIndex >= lastIndex) {
             children.add(toIndex, c);
             children.remove(lastIndex);
@@ -189,7 +189,6 @@ public class IVPContainer extends JPanel {
             children.remove(c);
             children.add(toIndex, c);
         }
-        System.out.println("LAST INDEX "+lastIndex+" newIndex "+toIndex);
         relayout();
     }
     
@@ -199,25 +198,40 @@ public class IVPContainer extends JPanel {
             int ind = children.indexOf(child);
             if (index >= ind) {
                 children.add(index, child);
-                children.remove(ind);
+                if (ind != -1)
+                    children.remove(ind);
             } else {
                 children.remove(child);
                 children.add(index, child);
             }
         } else {
-            children.add(index, child);
+            if (index != -1)
+                children.add(index, child);
+            else
+                children.add(child);
         }
         relayout();
     }
     
-    public int getDropIndex(int dropY) {
-        int index = 0;
-        while (index < children.size() - 1) {
-            if (((JPanel) children.get(index)).getY() > dropY) {
+    public int getDropIndex(int dropY, JComponent c) {
+        children.remove(menu);
+        int index;
+        for (index = 0; index < children.size(); index++) {
+            if (dropY < ((JPanel) children.get(index)).getY()) {
+                if (index > 0) {
+                    if (c.equals(children.get(index - 1))) {
+                        return index - 1;
+                    }
+                }
                 return index;
             }
-            index++;
         }
+        if (index > 0) {
+            if (c.equals(children.get(index - 1))) {
+                return index - 1;
+            }
+        }
+        children.add(menu);
         return index;
     }
     
@@ -227,5 +241,17 @@ public class IVPContainer extends JPanel {
     
     public void setContext(String context) {
         this.context = context;
+    }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        for (int i = 0; i < children.size() - 1; i++) {
+            if (!((IDomainObjectUI) children.get(i)).isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+        }
+        return isCSet;
     }
 }

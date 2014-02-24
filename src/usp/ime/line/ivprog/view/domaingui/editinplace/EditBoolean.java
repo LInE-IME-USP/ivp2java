@@ -177,4 +177,8 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
     public String getContext() {
         return context;
     }
+    
+    public boolean isContentSet() {
+        return true;
+    }
 }

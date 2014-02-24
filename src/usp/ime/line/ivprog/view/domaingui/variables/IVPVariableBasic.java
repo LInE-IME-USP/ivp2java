@@ -161,7 +161,12 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         name = new EditInPlace();
         name.setValueListener(new IValueListener() {
             public void valueChanged(String value) {
-                Services.getService().getController().changeVariableName(currentModelID, value);
+                if (Services.getService().getController().validateVariableName(modelScopeID, value)) {
+                    Services.getService().getController().changeVariableName(currentModelID, value);
+                } else {
+                    Services.getService().getController().printError(ResourceBundleIVP.getString("Error.sameVariableName") + " " + value);
+                    name.resetTextField();
+                }
             }
         });
         name.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_NAME);
@@ -275,5 +280,9 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         super.setBackgroundColor(bg);
         revalidate();
         repaint();
+    }
+    
+    public boolean isContentSet() {
+        return true;
     }
 }

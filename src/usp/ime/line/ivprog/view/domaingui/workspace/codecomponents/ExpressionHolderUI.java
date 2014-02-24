@@ -492,20 +492,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 if (holdingType != -1) {
                     ((VariableSelectorUI) expression).setReferencedType(holdingType);
                 }
-                if (context.equals("forUpperBound")) {
-                    ((ForUI) Services.getService().getViewMapping().get(parentModelID)).variableAsIndex();
-                }
             } else if (expression instanceof ConstantUI) {
                 if (isEditing)
                     ((ConstantUI) expression).editStateOn();
                 else {
                     ((ConstantUI) expression).editStateOff("");
                 }
-                if (context.equals("forUpperBound")) {
-                    ((ForUI) Services.getService().getViewMapping().get(parentModelID)).valueAsIndex();
-                }
             } else {
-                System.out.println("identificou que era uma operação, mas se perdeu;;;");
                 if (holdingType == -1) {
                     correctHoldingType(lastExp);
                 }
@@ -554,11 +547,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     private void expressionDeletedFor(String id, String context, boolean isClean) {
         if (expression != null) {
-            System.out.println("chegou no listener para remover..." + context + " " + isClean);
             if (currentModelID.equals(id) && forContext.equals(context)) {
-                if (forContext.equals("forUpperBound")) {
-                    ((ForUI) Services.getService().getViewMapping().get(parentModelID)).nothingAsIndex();
-                }
                 remove(expression);
                 isContentSet = false;
                 if (!isClean) {
@@ -608,17 +597,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     private void expressionRestoredFromCleaningFor(String holder, String id, String context) {
         String lastExpID = null;
-        System.out.println("expressionRestoredFromCleaningFor " + context);
         if (holder.equals(parentModelID) && forContext.equals(context)) {
             Services.getService().getController().updateParent(parentModelID, currentModelID, id, forContext);
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
-            if (context.equals("forUpperBound")) {
-                if(restoredExp instanceof VariableSelectorUI){
-                    ((ForUI) Services.getService().getViewMapping().get(parentModelID)).variableAsIndex();
-                } else if(restoredExp instanceof ConstantUI){
-                    ((ForUI) Services.getService().getViewMapping().get(parentModelID)).valueAsIndex();
-                } 
-            }
             setExpression(restoredExp);
             isContentSet = true;
         }
@@ -814,10 +795,13 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public void warningStateOn() {
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
+            System.out.println("falou que o parent é expression holder");
             ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+            System.out.println("falou que o parent é expression operation");
             ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (getParent() instanceof ExpressionFieldUI) {
+            System.out.println("falou que o parent é expression expressionField");
             ((ExpressionFieldUI) getParent()).setEdition(true);
             enableEdition();
         }
@@ -829,6 +813,19 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public void setHoldingType(short holdingType) {
         this.holdingType = holdingType;
+    }
+    
+    public boolean isCSet() {
+        boolean isCSet = true;
+        if(isContentSet){
+            if(!((IDomainObjectUI)expression).isContentSet()){
+                isCSet = false;
+            }
+        }else{
+            isCSet = false;
+            warningStateOn();
+        }
+        return isCSet;
     }
     
     public boolean isContentSet() {
@@ -859,4 +856,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     public void setForContext(String forContext) {
         this.forContext = forContext;
     }
+    
+    
 }

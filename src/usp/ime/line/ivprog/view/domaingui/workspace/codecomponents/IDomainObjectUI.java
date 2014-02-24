@@ -16,4 +16,6 @@ public interface IDomainObjectUI {
     public void setContext(String context);
     
     public String getContext();
+    
+    public boolean isContentSet();
 }

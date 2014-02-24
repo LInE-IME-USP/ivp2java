@@ -194,4 +194,8 @@ public class EditInPlace extends JPanel implements KeyListener {
     public void setCurrentPattern(int currentPattern) {
         this.currentPattern = currentPattern;
     }
+    
+    public void resetTextField() {
+        nameField.setText(nameLabel.getText());
+    }
 }

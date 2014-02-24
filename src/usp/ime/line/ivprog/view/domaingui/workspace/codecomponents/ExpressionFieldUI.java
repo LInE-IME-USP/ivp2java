@@ -120,4 +120,12 @@ public class ExpressionFieldUI extends JPanel {
     public void setForContext(String s) {
         expressionHolderUI.setForContext(s);
     }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!expressionHolderUI.isCSet()) {
+            isCSet = false;
+        }
+        return isCSet;
+    }
 }

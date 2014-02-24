@@ -153,4 +153,16 @@ public class BooleanOperationUI extends OperationUI {
             setModelID(id);
         }
     }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!expressionBaseUI_1.isCSet()) {
+            isCSet = false;
+        }
+        if (!expressionBaseUI_2.isCSet()) {
+            if (isCSet)
+                isCSet = false;
+        }
+        return isCSet;
+    }
 }

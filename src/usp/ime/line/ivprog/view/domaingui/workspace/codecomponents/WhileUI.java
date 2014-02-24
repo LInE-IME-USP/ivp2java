@@ -160,4 +160,12 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
     public void moveChild(String childID, String context, int index) {
         container.moveChild(childID, index);
     }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!expressionField.isContentSet()) {
+            isCSet = false;
+        }
+        return isCSet;
+    }
 }

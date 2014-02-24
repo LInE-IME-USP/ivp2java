@@ -190,12 +190,18 @@ public class IfElseUI extends CodeBaseUI implements ICodeListener {
     }
     
     public void moveChild(String childID, String context, int index) {
-        if(context.equals("if")){
-            ifContainer.moveChild(childID, index);    
-        }else{
-            elseContainer.moveChild(childID, index); 
+        if (context.equals("if")) {
+            ifContainer.moveChild(childID, index);
+        } else {
+            elseContainer.moveChild(childID, index);
         }
-        
     }
     
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!expressionField.isContentSet()) {
+            isCSet = false;
+        }
+        return isCSet;
+    }
 }

@@ -12,10 +12,10 @@ public class For extends CodeComposite {
     private String             upperBoundExpression = "";
     private String             incrementExpression  = "";
     public static final String STRING_CLASS         = "for";
-    
-    public static int FOR_MODE_1 = 0;
-    public static int FOR_MODE_2 = 1;
-    public static int FOR_MODE_3 = 2;
+    public static int          FOR_MODE_1           = 0;
+    public static int          FOR_MODE_2           = 1;
+    public static int          FOR_MODE_3           = 2;
+    private int                currentForMode       = 0;
     
     public For(String name, String description) {
         super(name, description);
@@ -90,12 +90,19 @@ public class For extends CodeComposite {
     }
     
     public String toJavaString() {
-        Variable index = (Variable) Services.getService().getModelMapping().get(indexExpression);
+        Expression index = (Expression) Services.getService().getModelMapping().get(indexExpression);
         Expression upper = (Expression) Services.getService().getModelMapping().get(upperBoundExpression);
         Expression lower = (Expression) Services.getService().getModelMapping().get(lowerBoundExpression);
         Expression inc = (Expression) Services.getService().getModelMapping().get(incrementExpression);
         String str = "";
-        str+=" for ( "+index.getVariableName()+" = "+lower.toJavaString()+";"+index.getVariableName()+" < " + upper.toJavaString() + "; " + index.getVariableName() + " += " + inc.toJavaString() + " ) {";
+        if (currentForMode == FOR_MODE_1) {
+            str += "for(i = 0; i < " + upper.toJavaString() + "; i++){";
+        } else if (currentForMode == FOR_MODE_2) {
+            str += "for(" + index.toJavaString() + " = 0; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "++){";
+        } else if (currentForMode == FOR_MODE_3) {
+            str += "for(" + index.toJavaString() + " = " + lower.toJavaString() + "; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "+=" + inc.toJavaString()
+                    + ") {";
+        }
         for (int i = 0; i < getChildrenList().size(); i++) {
             DataObject c = ((DataObject) Services.getService().getModelMapping().get(getChildrenList().get(i)));
             str += c.toJavaString();
@@ -127,6 +134,14 @@ public class For extends CodeComposite {
         this.lowerBoundExpression = lowerBoundExpression;
     }
     
+    public int getCurrentForMode() {
+        return currentForMode;
+    }
+    
+    public void setCurrentForMode(int currentForMode) {
+        this.currentForMode = currentForMode;
+    }
+    
     public void removeExpression(String expression, String context) {
         if (context.equals("forUpperBound")) {
             upperBoundExpression = "";
@@ -138,5 +153,4 @@ public class For extends CodeComposite {
             incrementExpression = "";
         }
     }
-
 }

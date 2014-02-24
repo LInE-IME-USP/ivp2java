@@ -24,7 +24,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class ForUI extends CodeBaseUI implements ICodeListener {
-    
     private JPanel            contentPanel;
     private JPanel            header;
     private IVPContainer      container;
@@ -36,7 +35,6 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private Icon              ellipsis;
     private Icon              mode2;
     private String            context;
-
     private JLabel            codeBlockName;
     private JLabel            timesLabel;
     private JLabel            timesIncrementing;
@@ -46,20 +44,15 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     private JLabel            stepLbl;
     private JLabel            lastParLbl;
     private JLabel            codeBlockName_using;
-    
     private ExpressionFieldUI lowerBoundField;
     private ExpressionFieldUI upperBoundField;
     private ExpressionFieldUI incrementField;
     private ExpressionFieldUI indexField;
-    
     private ExpressionFieldUI mode_1and2_upperBound;
-    
     private JButton           btnLvl3;
     private JButton           btnLvl2;
     private JButton           btnLvl1;
-    
-    private int forMode = -1;
-
+    private int               forMode = For.FOR_MODE_1;
     
     public ForUI(String id) {
         super(id);
@@ -105,8 +98,11 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         initCodeBlockLabel();
     }
     
-    private void initExpressionHolder() {}
-    private void initExpression() {}
+    private void initExpressionHolder() {
+    }
+    
+    private void initExpression() {
+    }
     
     private void initExpandBtnUP() {
         expandBtnUP = new JButton();
@@ -203,7 +199,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl1.setVisible(false);
     }
     
-    private void initMode1UppderBound(){
+    private void initMode1UppderBound() {
         mode_1and2_upperBound = new ExpressionFieldUI(this.getModelID(), this.getModelScope());
         mode_1and2_upperBound.setBlocked(false);
         mode_1and2_upperBound.setVisible(true);
@@ -269,6 +265,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl1.setVisible(true);
         btnLvl2.setVisible(false);
         btnLvl3.setVisible(false);
+        Services.getService().getController().changeForMode(For.FOR_MODE_3, getModelID());
     }
     
     private void level2Action() {
@@ -289,6 +286,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl1.setVisible(false);
         btnLvl2.setVisible(false);
         btnLvl3.setVisible(true);
+        Services.getService().getController().changeForMode(For.FOR_MODE_2, getModelID());
     }
     
     private void level1Action() {
@@ -307,6 +305,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl1.setVisible(false);
         btnLvl2.setVisible(true);
         btnLvl3.setVisible(false);
+        Services.getService().getController().changeForMode(For.FOR_MODE_1, getModelID());
     }
     
     private void initCodeBlockLabel() {
@@ -349,26 +348,48 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         container.restoreChild(childID, index);
     }
     
-    public void valueAsIndex() {
-        level1Action();
-        btnLvl1.setVisible(false);
-        btnLvl3.setVisible(false);
-    }
-    
-    public void nothingAsIndex() {
-        level1Action();
-        btnLvl1.setVisible(false);
-        btnLvl3.setVisible(true);
-    }
-    
-    public void variableAsIndex() {
-        level1Action();
-        btnLvl1.setVisible(false);
-        btnLvl3.setVisible(true);
-    }
-
     public void moveChild(String childID, String context, int index) {
         container.moveChild(childID, index);
     }
     
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        System.out.println(forMode);
+        if (forMode == For.FOR_MODE_1) {
+            if (!mode_1and2_upperBound.isContentSet()) {
+                isCSet = false;
+            }
+        } else if (forMode == For.FOR_MODE_2) {
+            if (!mode_1and2_upperBound.isContentSet()) {
+                isCSet = false;
+            }
+            if (!indexField.isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+        } else {
+            if (!indexField.isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+            if (!lowerBoundField.isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+            if (!upperBoundField.isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+            if (!incrementField.isContentSet()) {
+                if (isCSet) {
+                    isCSet = false;
+                }
+            }
+        }
+        return isCSet;
+    }
 }

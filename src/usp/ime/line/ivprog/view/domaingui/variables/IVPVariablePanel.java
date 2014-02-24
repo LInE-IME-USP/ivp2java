@@ -171,7 +171,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void addedVariable(String id) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getRenderer().paint(id);
             varMap.put(id, variable);
             repaintVarPanel();
@@ -183,7 +183,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void removedVariable(String id) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             varMap.put(id, null);
             repaintVarPanel();
         }
@@ -191,7 +191,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void changeVariableName(String id, String name, String lastName) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
             if (variable != null) {
                 variable.setVariableName(name);
@@ -201,7 +201,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void changeVariableValue(String id, String value) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
             if (variable != null) {
                 variable.setVariableValue(value);
@@ -211,7 +211,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void changeVariableType(String id, short type) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
             if (variable != null) {
                 variable.setVariableType(type);
@@ -221,7 +221,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void variableRestored(String id) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if(!var.getVariableName().contains("#@ivprog@#!")){
+        if (!var.getVariableName().contains("#@ivprog@#!")) {
             IVPVariableBasic variable = (IVPVariableBasic) Services.getService().getViewMapping().get(id);
             varMap.put(id, variable);
             repaintVarPanel();

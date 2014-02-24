@@ -15,7 +15,6 @@ public class PrintUI extends CodeBaseUI {
     private JPanel             contentPanel;
     private JLabel             codeBlockName;
     private String             context;
-    private ExpressionFieldUI  expressionFieldUI;
     private VariableSelectorUI initialExpression;
     
     public PrintUI(String id, String parentID, String scopeID) {
@@ -49,5 +48,13 @@ public class PrintUI extends CodeBaseUI {
     
     public String getContext() {
         return context;
+    }
+    
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (!initialExpression.isContentSet()) {
+            isCSet = false;
+        }
+        return isCSet;
     }
 }

@@ -46,7 +46,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     private boolean           warningState     = false;
     private boolean           isOnlyOneElement = false;
     private boolean           isIsolated       = false;
-    private JLabel            iconLabel;
     private boolean           drawBorder       = true;
     private boolean           editState        = true;
     private short             referencedType   = -1;
@@ -71,14 +70,6 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         initVector();
         initLabel();
         initConfigMenu();
-        initIconLabel();
-    }
-    
-    private void initIconLabel() {
-        iconLabel = new JLabel();
-        iconLabel.setIcon(new ImageIcon(VariableSelectorUI.class.getResource("/usp/ime/line/resources/icons/attention.png")));
-        add(iconLabel);
-        iconLabel.setVisible(false);
     }
     
     private void initVector() {
@@ -131,11 +122,11 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         }
         return null;
     }
-
+    
     private String getVariableViewName(Variable var) {
         String name = var.getVariableName();
-        if(name.contains("#@ivprog@#!")){
-            name = name.substring(name.indexOf("!")+1);
+        if (name.contains("#@ivprog@#!")) {
+            name = name.substring(name.indexOf("!") + 1);
         }
         return name;
     }
@@ -609,5 +600,22 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         public void mouseReleased(MouseEvent arg0) {
         }
     }
+    
     // END: Mouse listener
+    public boolean isContentSet() {
+        boolean isCSet = true;
+        if (nameLabel.isVisible() && nameLabel.getText().equals(ResourceBundleIVP.getString("variableSelectorInitialLabel"))) {
+            isCSet = false;
+            turnWaningStateON();
+        }
+        if (!nameLabel.isVisible()){
+            if(varList.getSelectedItem().equals("")){
+                if(isCSet){
+                    isCSet = false;
+                    turnWaningStateON();
+                }
+            }
+        }
+        return isCSet;
+    }
 }

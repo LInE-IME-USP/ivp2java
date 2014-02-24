@@ -13,17 +13,33 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import bsh.ConsoleInterface;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 
-public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
-    private OutputStream outPipe;
-    private InputStream  inPipe;
-    private InputStream  in;
-    private PrintStream  out;
+public class IVPConsoleUI extends JTextPane implements ConsoleInterface {
+    private OutputStream   outPipe;
+    private InputStream    inPipe;
+    private InputStream    in;
+    private PrintStream    out;
+    private StyledDocument doc;
+    private String[]       styles;
+    final StyleContext     cont        = StyleContext.getDefaultStyleContext();
+    final AttributeSet     attrRed     = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
+    final AttributeSet     attrRegular = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
+    final AttributeSet     attrYellow  = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.YELLOW);
+    private Icon           alert;
     
     public InputStream getInputStream() {
         return in;
@@ -31,11 +47,12 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
     
     public IVPConsoleUI() {
         this(null, null);
+        doc = getStyledDocument();
     }
     
     public IVPConsoleUI(InputStream cin, OutputStream cout) {
+        doc = getStyledDocument();
         setFont(new Font("Consolas", Font.BOLD, 12));
-        setForeground(Color.WHITE);
         setBackground(FlatUIColors.CONSOLE_COLOR);
         setEditable(false);
         Services.getService().getController().setConsole(this);
@@ -81,13 +98,20 @@ public class IVPConsoleUI extends JTextArea implements ConsoleInterface {
     }
     
     public void print(final Object o) {
-        append(String.valueOf(o));
+        try {
+            doc.insertString(doc.getLength(), String.valueOf(o), attrRegular);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
     
     public void printError(Object o) {
-        setForeground(Color.red);
-        print(o);
-        setForeground(Color.white);
+        try {
+            doc.insertString(doc.getLength(), ">(!)< ", attrYellow);
+            doc.insertString(doc.getLength(), String.valueOf(o) + "\n", attrYellow);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
     
     public static class BlockingPipedInputStream extends PipedInputStream {

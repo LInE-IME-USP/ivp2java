@@ -25,10 +25,12 @@ public class MoveComponent extends DomainAction {
     
     protected void executeAction() {
         originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
+        System.out.println("do move: dropAT" + dropIndex + " originIndex" + originIndex);
     }
     
     protected void undoAction() {
         model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
+        System.out.println("undo move: originIndex" + originIndex);
     }
     
     public boolean equals(DomainAction a) {
