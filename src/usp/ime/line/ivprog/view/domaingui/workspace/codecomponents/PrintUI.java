@@ -57,4 +57,8 @@ public class PrintUI extends CodeBaseUI {
         }
         return isCSet;
     }
+
+    public void lockDownCode() {
+        initialExpression.editStateOff(initialExpression.getVarListSelectedItem());
+    }
 }

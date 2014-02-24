@@ -146,9 +146,9 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     }
     
     private void initFieldsAndLabels() {
-        String increment;
-        increment = ((For) Services.getService().getModelMapping().get(getModelID())).getIncrementExpression();
-        initIndexField();
+        String index;
+        index = ((For) Services.getService().getModelMapping().get(getModelID())).getIndexExpression();
+        initIndexField(index);
         codeBlockName = new JLabel(ResourceBundleIVP.getString("ForUI.for.text"));
         timesLabel = new JLabel(ResourceBundleIVP.getString("ForUI.times.text"));
         fromLbl = new JLabel(ResourceBundleIVP.getString("ForUI.from.text"));
@@ -160,7 +160,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         initUpperBound();
         stepLbl = new JLabel(ResourceBundleIVP.getString("ForUI.step.text"));
         stepLbl.setVisible(false);
-        initIncrementField(increment);
+        initIncrementField();
         lastParLbl = new JLabel(ResourceBundleIVP.getString("ForUI.step2.text"));
         lastParLbl.setVisible(false);
         timesIncrementing = new JLabel(ResourceBundleIVP.getString("ForUI.timesIncrementing.text"));
@@ -209,10 +209,9 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         mode_1and2_upperBound.setForContext("mode1_forUpperBound");
     }
     
-    private void initIncrementField(String increment) {
+    private void initIncrementField() {
         incrementField = new ExpressionFieldUI(getModelID(), this.getModelScope());
         incrementField.setBlocked(false);
-        incrementField.setHolderContent(Services.getService().getRenderer().paint(increment));
         incrementField.setHoldingType(Expression.EXPRESSION_INTEGER);
         incrementField.setVisible(false);
         incrementField.setForHeader(true);
@@ -237,10 +236,11 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         lowerBoundField.setForContext("forLowerBound");
     }
     
-    private void initIndexField() {
+    private void initIndexField(String index) {
         indexField = new ExpressionFieldUI(getModelID(), this.getModelScope());
         indexField.setBlocked(false);
         indexField.setHoldingType(Expression.EXPRESSION_INTEGER);
+        indexField.setHolderContent(Services.getService().getRenderer().paint(index));
         indexField.setVisible(false);
         indexField.setForHeader(true);
         indexField.hideMenu(true);
@@ -266,6 +266,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl2.setVisible(false);
         btnLvl3.setVisible(false);
         Services.getService().getController().changeForMode(For.FOR_MODE_3, getModelID());
+        forMode = For.FOR_MODE_3;
     }
     
     private void level2Action() {
@@ -287,6 +288,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl2.setVisible(false);
         btnLvl3.setVisible(true);
         Services.getService().getController().changeForMode(For.FOR_MODE_2, getModelID());
+        forMode = For.FOR_MODE_2;
     }
     
     private void level1Action() {
@@ -306,6 +308,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl2.setVisible(true);
         btnLvl3.setVisible(false);
         Services.getService().getController().changeForMode(For.FOR_MODE_1, getModelID());
+        forMode = For.FOR_MODE_1;
     }
     
     private void initCodeBlockLabel() {
@@ -359,6 +362,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
             if (!mode_1and2_upperBound.isContentSet()) {
                 isCSet = false;
             }
+            System.out.println("ta entrando aqui?!");
         } else if (forMode == For.FOR_MODE_2) {
             if (!mode_1and2_upperBound.isContentSet()) {
                 isCSet = false;
@@ -390,6 +394,21 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
                 }
             }
         }
+        if(!container.isContentSet()){
+            if (isCSet) {
+                isCSet = false;
+            }
+        }
+        
         return isCSet;
+    }
+
+    public void lockDownCode() {
+        indexField.setEdition(false);
+        incrementField.setEdition(false);
+        upperBoundField.setEdition(false);
+        lowerBoundField.setEdition(false);
+        mode_1and2_upperBound.setEdition(false);
+        container.lockCodeDown();
     }
 }

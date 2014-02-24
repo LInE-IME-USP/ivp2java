@@ -58,4 +58,8 @@ public class ReadUI extends CodeBaseUI {
         }
         return isCSet;
     }
+    
+    public void lockDownCode() {
+        initialExpression.editStateOff(initialExpression.getVarListSelectedItem());
+    }
 }

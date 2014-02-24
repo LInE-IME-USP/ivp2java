@@ -85,4 +85,8 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
         boolean isContentSet = container.isContentSet();
         return isContentSet;
     }
+
+    public void lockCodeDown() {
+        container.lockCodeDown();
+    }
 }

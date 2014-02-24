@@ -18,4 +18,6 @@ public interface IDomainObjectUI {
     public String getContext();
     
     public boolean isContentSet();
+    
+    public void lockDownCode();
 }

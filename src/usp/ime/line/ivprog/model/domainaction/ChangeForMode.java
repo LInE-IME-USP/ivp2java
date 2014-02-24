@@ -19,6 +19,8 @@ public class ChangeForMode extends DomainAction {
     }
     
     protected void executeAction() {
+        System.out.println("mudou o modo: "+newMode);
+        
         lastMode = model.changeForMode(newMode, forID, _currentState);
     }
     

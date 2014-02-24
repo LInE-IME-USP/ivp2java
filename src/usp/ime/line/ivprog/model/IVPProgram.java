@@ -163,12 +163,9 @@ public class IVPProgram extends DomainModel {
     }
     
     private void createForExpressions(For codeBlock, AssignmentState state) {
-        Expression increment = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
-        Expression lowerBound = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, Expression.EXPRESSION_INTEGER);
-        updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forIncrement", state, increment);
-        updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forLowerBound", state, lowerBound);
-        putExpressionOnRightPlace(codeBlock.getUniqueID(), "forIncrement", increment);
-        putExpressionOnRightPlace(codeBlock.getUniqueID(), "forLowerBound", lowerBound);
+        Expression index = createExpression("", codeBlock.getUniqueID(), Expression.EXPRESSION_VARIABLE, Expression.EXPRESSION_INTEGER);
+        updateExpressionListeners(codeBlock.getUniqueID(), Expression.EXPRESSION_INTEGER, "forIndex", state, index);
+        putExpressionOnRightPlace(codeBlock.getUniqueID(), "forIndex", index);
     }
     
     private void initCodeBlock(String containerID, DataObject codeBlock) {
@@ -657,9 +654,10 @@ public class IVPProgram extends DomainModel {
     public HashMap getCodeListener() {
         return codeListeners;
     }
-    
+    boolean error = false;
     public void playCode() {
         if (Services.getService().getController().isContentSet()) {
+            Services.getService().getController().lockCodeDown();
             String code = " ";
             Object[] functionList = functionMap.values().toArray();
             for (int i = 0; i < functionList.length; i++) {
@@ -668,13 +666,17 @@ public class IVPProgram extends DomainModel {
             code += " Principal(); ";
             String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
             System.out.println(finalCode);
-            console.clean();
+            if(error){
+                console.clean();
+                error = false;
+            }
             try {
                 interpreter.eval(finalCode);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else{
+            error = true;
             printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
         }
     }

@@ -56,4 +56,8 @@ public class StringOperationUI extends OperationUI {
         }
         return isCSet;
     }
+    
+    public void lockDownCode() {
+        disableEdition();
+    }
 }

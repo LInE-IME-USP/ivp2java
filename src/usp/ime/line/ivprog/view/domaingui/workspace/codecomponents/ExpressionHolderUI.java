@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -54,6 +55,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private short             holdingType         = -1;
     private boolean           isForHeader         = false;
     private String            forContext          = "";
+    private boolean warningState = false;
     
     public ExpressionHolderUI(String parent, String scopeID) {
         init(parent, scopeID);
@@ -213,10 +215,24 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         };
         createDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionHolderUI.action.createDivision.tip"));
         createDivision.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createDivision.text"));
+        Action createIntDiv = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                String expressionID = ((IDomainObjectUI) expression).getModelID();
+                if (isForHeader) {
+                    Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_INTDIV, (short) -1, forContext);
+                } else {
+                    Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_INTDIV, (short) -1, operationContext);
+                }
+            }
+        };
+        createIntDiv.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionHolderUI.action.createIntDiv.tip"));
+        createIntDiv.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createIntDiv.text"));
         menu.add(createAddition);
         menu.add(createSubtraction);
         menu.add(createDivision);
         menu.add(createMultiplication);
+        menu.addSeparator();
+        menu.add(createIntDiv);
         menu.addSeparator();
     }
     
@@ -469,6 +485,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             isContentSet = true;
+            System.out.println("criou expressao... deveria retirar a borda...");
+            if(warningState) setBorder(null);
             revalidate();
             repaint();
         }
@@ -524,6 +542,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             isContentSet = true;
+            System.out.println("criou expressao... deveria retirar a borda...");
+            if(warningState) setBorder(null);
             revalidate();
             repaint();
         }
@@ -794,17 +814,23 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     }
     
     public void warningStateOn() {
-        if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
-            System.out.println("falou que o parent é expression holder");
-            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
-            System.out.println("falou que o parent é expression operation");
-            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        warningState = true;
+        if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).enableEdition();
         } else if (getParent() instanceof ExpressionFieldUI) {
-            System.out.println("falou que o parent é expression expressionField");
-            ((ExpressionFieldUI) getParent()).setEdition(true);
-            enableEdition();
+            ((ExpressionFieldUI)getParent()).setEdition(true);
         }
+        setBorder(BorderFactory.createLineBorder(Color.red));
+        enableEdition();
+        revalidate();
+        repaint();
+    }
+    
+    public void warningStateOFF(){
+        warningState = false;
+        setBorder(null);
+        revalidate();
+        repaint();
     }
     
     public short getHoldingType() {

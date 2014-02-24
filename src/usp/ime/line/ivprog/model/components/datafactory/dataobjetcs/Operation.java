@@ -107,6 +107,8 @@ public class Operation extends Expression {
             return "||";
         case Operation.EXPRESSION_OPERATION_CONCAT:
             return "+";
+        case Operation.EXPRESSION_OPERATION_INTDIV:
+            return "%";
         }
         return "";
     }

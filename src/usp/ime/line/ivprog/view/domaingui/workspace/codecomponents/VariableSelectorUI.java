@@ -64,6 +64,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         flowLayout.setHgap(3);
         setLayout(flowLayout);
         addMouseListener(new ExpressionMouseListener(this));
+        setBackground(FlatUIColors.MAIN_BG);
     }
     
     private void initComponents() {
@@ -276,10 +277,12 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                     nameLabel.setText(name);
                     nameLabel.revalidate();
                     nameLabel.repaint();
+                    setBackground(FlatUIColors.MAIN_BG);
                 } else {
                     nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
                     nameLabel.revalidate();
                     nameLabel.repaint();
+                    setBackground(FlatUIColors.CODE_BG);
                 }
                 if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
                     if (getNewVarID() != null && !"".equals(getNewVarID())) {
@@ -300,6 +303,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 }
             }
         }
+        revalidate();
+        repaint();
     }
     
     public void changeVariableType(String id, short type) {
@@ -332,6 +337,8 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                 }
             }
         }
+        revalidate();
+        repaint();
     }
     
     public void variableRestored(String id) {
@@ -402,28 +409,26 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     private void turnWaningStateON() {
-        varList.setBorder(BorderFactory.createLineBorder(Color.red));
         warningState = true;
-        editStateOn();
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
             ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
-            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else {
-            editStateOn();
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).enableEdition();
         }
+        editStateOn();
+        varList.setBorder(BorderFactory.createLineBorder(Color.red));
+        revalidate();
+        repaint();
     }
     
     private void turnWaningStateOFF() {
-        varList.setBorder(null);
         warningState = false;
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
-            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
-            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else {
-            editStateOn();
-        }
+            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOFF();
+        } 
+        varList.setBorder(null);
+        revalidate();
+        repaint();
     }
     
     private void updateVariableList(String newName, String lastName) {
@@ -589,6 +594,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         
         public void mouseClicked(MouseEvent arg0) {
             if (editState) {
+                setBorder(null);
+                revalidate();
+                repaint();
                 editStateOn();
                 varList.requestFocus();
             }
@@ -609,7 +617,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             turnWaningStateON();
         }
         if (!nameLabel.isVisible()){
-            if(varList.getSelectedItem().equals("")){
+            if("".equals(varList.getSelectedItem()) || varList.getSelectedItem() == null){
                 if(isCSet){
                     isCSet = false;
                     turnWaningStateON();
@@ -617,5 +625,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             }
         }
         return isCSet;
+    }
+    
+    public void lockDownCode() {
+        editStateOff(getVarListSelectedItem());
     }
 }

@@ -285,4 +285,8 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     public boolean isContentSet() {
         return true;
     }
+
+    public void lockDownCode() {
+        
+    }
 }

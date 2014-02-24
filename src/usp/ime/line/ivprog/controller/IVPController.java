@@ -282,4 +282,12 @@ public class IVPController {
         }
         return isCSet;
     }
+
+    public void lockCodeDown() {
+        Object[] functions = program.getFunctionMap().values().toArray();
+        for (int i = 0; i < functions.length; i++) {
+            FunctionBodyUI f = (FunctionBodyUI) Services.getService().getViewMapping().get(((Function) functions[i]).getUniqueID());
+            f.lockCodeDown();
+        }
+    }
 }

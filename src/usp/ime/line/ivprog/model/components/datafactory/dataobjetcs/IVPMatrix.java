@@ -103,7 +103,6 @@ public class IVPMatrix extends Collection {
         this.dimension = dimension;
     }
     
-    @Override
     public boolean equals(DomainObject o) {
         // TODO Auto-generated method stub
         return false;

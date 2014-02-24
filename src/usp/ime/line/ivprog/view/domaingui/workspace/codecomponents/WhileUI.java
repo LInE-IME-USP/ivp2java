@@ -166,6 +166,17 @@ public class WhileUI extends CodeBaseUI implements ICodeListener {
         if (!expressionField.isContentSet()) {
             isCSet = false;
         }
+        if(!container.isContentSet()){
+            if (isCSet) {
+                isCSet = false;
+            }
+        }
         return isCSet;
     }
+
+    public void lockDownCode() {
+        expressionField.setEdition(false);
+        container.lockCodeDown();
+    }
+    
 }

@@ -2,11 +2,13 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 
@@ -85,6 +87,7 @@ public class ExpressionFieldUI extends JPanel {
             lockerIcon.setIcon(open);
         } else {
             lockerIcon.setIcon(closed);
+            expressionHolderUI.disableEdition();
         }
         isEditing = edit;
     }
@@ -128,4 +131,5 @@ public class ExpressionFieldUI extends JPanel {
         }
         return isCSet;
     }
+    
 }

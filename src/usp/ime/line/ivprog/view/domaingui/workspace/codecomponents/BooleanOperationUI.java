@@ -165,4 +165,8 @@ public class BooleanOperationUI extends OperationUI {
         }
         return isCSet;
     }
+
+    public void lockDownCode() {
+        disableEdition();
+    }
 }

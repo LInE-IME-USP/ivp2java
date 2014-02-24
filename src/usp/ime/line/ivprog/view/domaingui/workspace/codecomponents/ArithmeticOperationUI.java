@@ -31,7 +31,6 @@ public class ArithmeticOperationUI extends OperationUI {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_ADDITION, context);
             }
         };
-        // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToAddition.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
         changeToAddition.putValue(Action.NAME, "\u002B");
         Action changeToDivision = new AbstractAction() {
@@ -39,7 +38,6 @@ public class ArithmeticOperationUI extends OperationUI {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_DIVISION, context);
             }
         };
-        // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
         changeToDivision.putValue(Action.NAME, "\u00F7");
         Action changeToMultiplication = new AbstractAction() {
@@ -47,7 +45,6 @@ public class ArithmeticOperationUI extends OperationUI {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, context);
             }
         };
-        // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToMultiplication.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
         changeToMultiplication.putValue(Action.NAME, "\u00D7");
         Action changeToSubtraction = new AbstractAction() {
@@ -55,13 +52,22 @@ public class ArithmeticOperationUI extends OperationUI {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, context);
             }
         };
-        // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
         changeToSubtraction.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
         changeToSubtraction.putValue(Action.NAME, "\u002D");
+        Action changeToIntDiv = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_INTDIV, context);
+            }
+        };
+        changeToIntDiv.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
+        changeToIntDiv.putValue(Action.NAME, "\u0025");
         operationSignMenu.add(changeToAddition);
         operationSignMenu.add(changeToDivision);
         operationSignMenu.add(changeToMultiplication);
         operationSignMenu.add(changeToSubtraction);
+        operationSignMenu.addSeparator();
+        operationSignMenu.add(changeToIntDiv);
+        
     }
     
     public void initSignal() {
@@ -76,6 +82,8 @@ public class ArithmeticOperationUI extends OperationUI {
             sign = "\u00D7";
         } else if (type == Expression.EXPRESSION_OPERATION_SUBTRACTION) {
             sign = "\u002D";
+        } else if (type == Expression.EXPRESSION_OPERATION_INTDIV) {
+            sign = "\u0025";
         }
         expSign.setText(sign);
     }
@@ -97,5 +105,9 @@ public class ArithmeticOperationUI extends OperationUI {
             }
         }
         return isCSet;
+    }
+
+    public void lockDownCode() {
+        disableEdition();
     }
 }

@@ -206,17 +206,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         expressionBaseUI_2.disableEdition();
     }
     
-    public void warningStateOn() {
-        if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
-            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
-            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
-        } else if (getParent() instanceof ExpressionHolderUI) {
-            ((ExpressionHolderUI) getParent()).warningStateOn();
-        } else {
-            enableEdition();
-        }
-    }
+    
     
     public short getExpressionType() {
         return expressionType;
@@ -238,4 +228,5 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         }
         return (ref1 != null || ref2 != null);
     }
+    
 }
