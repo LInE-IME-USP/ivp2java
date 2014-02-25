@@ -25,6 +25,13 @@ public class Function extends CodeComposite {
         references = new Vector();
     }
     
+    public Function() {
+        super(STRING_CLASS, STRING_CLASS);
+        parameters = new IVPVariableMap(false);
+        localVariables = new IVPVariableMap(true);
+        references = new Vector();
+    }
+    
     /**
      * Returns the function name.
      * 

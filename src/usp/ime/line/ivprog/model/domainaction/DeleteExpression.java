@@ -6,27 +6,25 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteExpression extends DomainAction {
-    private String     holder;
-    private String     expression;
-    private boolean    isClean;
-    private boolean    isComparison;
-    private IVPProgram model;
-    private String     context;
+    private String  holder;
+    private String  expression;
+    private boolean isClean;
+    private boolean isComparison;
+    private String  context;
     
     public DeleteExpression(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        model.deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
+        Services.getService().getController().getProgram().deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
     }
     
     protected void undoAction() {
-        model.restoreExpression(expression, holder, context, isClean, _currentState);
+        Services.getService().getController().getProgram().restoreExpression(expression, holder, context, isClean, _currentState);
     }
     
     public boolean equals(DomainAction a) {

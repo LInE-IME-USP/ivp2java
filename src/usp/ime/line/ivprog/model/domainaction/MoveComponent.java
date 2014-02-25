@@ -1,35 +1,33 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
-import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class MoveComponent extends DomainAction {
-    private IVPProgram model;
-    private String     component;
-    private String     destiny;
-    private String     destinyContext;
-    private String     originContext;
-    private String     origin;
-    private int        originIndex;
-    private int        dropIndex = 0;
+    private String component;
+    private String destiny;
+    private String destinyContext;
+    private String originContext;
+    private String origin;
+    private int    originIndex;
+    private int    dropIndex = 0;
     
     public MoveComponent(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
+        originIndex = Services.getService().getController().getProgram().moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
         System.out.println("do move: dropAT" + dropIndex + " originIndex" + originIndex);
     }
     
     protected void undoAction() {
-        model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
+        Services.getService().getController().getProgram().moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
         System.out.println("undo move: originIndex" + originIndex);
     }
     

@@ -2,7 +2,6 @@ package usp.ime.line.ivprog.view.domaingui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,9 +13,6 @@ import java.io.PrintStream;
 import java.io.Reader;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -24,22 +20,22 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import bsh.ConsoleInterface;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
+import bsh.ConsoleInterface;
 
 public class IVPConsoleUI extends JTextPane implements ConsoleInterface {
-    private OutputStream   outPipe;
-    private InputStream    inPipe;
-    private InputStream    in;
-    private PrintStream    out;
-    private StyledDocument doc;
-    private String[]       styles;
-    final StyleContext     cont        = StyleContext.getDefaultStyleContext();
-    final AttributeSet     attrRed     = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
-    final AttributeSet     attrRegular = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
-    final AttributeSet     attrYellow  = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.YELLOW);
-    private Icon           alert;
+    private transient OutputStream   outPipe;
+    private transient InputStream    inPipe;
+    private transient InputStream    in;
+    private transient PrintStream    out;
+    private transient StyledDocument doc;
+    private transient String[]       styles;
+    private transient StyleContext     cont ;
+    private transient AttributeSet     attrRed      ;
+    private transient AttributeSet     attrRegular ;
+    private transient AttributeSet     attrYellow  ;
+    private transient Icon           alert;
     
     public InputStream getInputStream() {
         return in;
@@ -48,6 +44,10 @@ public class IVPConsoleUI extends JTextPane implements ConsoleInterface {
     public IVPConsoleUI() {
         this(null, null);
         doc = getStyledDocument();
+        cont        = StyleContext.getDefaultStyleContext();
+        attrRed     = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
+        attrRegular = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
+        attrYellow  = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.YELLOW);
     }
     
     public IVPConsoleUI(InputStream cin, OutputStream cout) {

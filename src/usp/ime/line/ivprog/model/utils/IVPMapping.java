@@ -1,8 +1,9 @@
 package usp.ime.line.ivprog.model.utils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class IVPMapping {
+public class IVPMapping implements Serializable{
     private HashMap mapping;
     
     public IVPMapping() {

@@ -5,6 +5,8 @@ import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Observable;
+
+
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.assignment.model.DomainAction;
@@ -14,6 +16,7 @@ import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 
 public class HistoryModule extends AssignmentModule implements Serializable {
+    
     private Vector _history;
     
     public HistoryModule() {
@@ -23,8 +26,21 @@ public class HistoryModule extends AssignmentModule implements Serializable {
         _observerType = ACTION_OBSERVER;
     }
     
-    Vector getHistory() {
+    public Vector getHistory() {
         return (Vector) _history.get(_assignmentIndex);
+    }
+    
+    public void setHistory(Vector history) {
+        int index = 0;
+        if (_history.size() == index) {
+            addAssignment();
+        }
+        Vector actionArray = history;
+        for (int i = 0; i < actionArray.size(); i++) {
+            ((DomainAction) actionArray.get(i)).addObserver(this);
+            ((DomainAction) actionArray.get(i)).execute();
+        }
+        _history.add(history);
     }
     
     public void update(Observable o, Object arg) {
@@ -70,6 +86,7 @@ public class HistoryModule extends AssignmentModule implements Serializable {
             return "<" + _name + "/>";
         }
         String string = "<" + _name + ">";
+        System.out.println("teste ><<< ");
         string += converter.convertActionToString((Vector) _history.get(index));
         string += "</" + _name + ">";
         return string;

@@ -16,6 +16,10 @@ public class FunctionReference extends Reference {
         super(name, description);
     }
     
+    public FunctionReference() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Set the referenced function.
      * 

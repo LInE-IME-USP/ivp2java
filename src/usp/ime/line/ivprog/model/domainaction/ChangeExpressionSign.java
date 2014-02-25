@@ -1,30 +1,29 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeExpressionSign extends DomainAction {
-    private IVPProgram model;
-    private String     expressionID;
-    private String     context;
-    private short      lastType;
-    private short      newType;
+    private String expressionID;
+    private String context;
+    private short  lastType;
+    private short  newType;
     
     public ChangeExpressionSign(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        lastType = model.changeOperationSign(expressionID, context, newType, _currentState);
+        lastType = Services.getService().getController().getProgram().changeOperationSign(expressionID, context, newType, _currentState);
     }
     
     protected void undoAction() {
-        model.changeOperationSign(expressionID, context, lastType, _currentState);
+        Services.getService().getController().getProgram().changeOperationSign(expressionID, context, lastType, _currentState);
     }
     
     public boolean equals(DomainAction a) {
@@ -62,4 +61,5 @@ public class ChangeExpressionSign extends DomainAction {
     public void setContext(String context) {
         this.context = context;
     }
+    
 }

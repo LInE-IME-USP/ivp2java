@@ -254,11 +254,10 @@ public class IVPContainer extends JPanel {
         }
         return isCSet;
     }
-
+    
     public void lockCodeDown() {
         for (int i = 0; i < children.size() - 1; i++) {
-            ((IDomainObjectUI) children.get(i)).lockDownCode();            
+            ((IDomainObjectUI) children.get(i)).lockDownCode();
         }
     }
-    
 }

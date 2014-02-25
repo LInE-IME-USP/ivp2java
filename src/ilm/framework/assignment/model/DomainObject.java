@@ -11,6 +11,9 @@ public abstract class DomainObject {
         _description = description;
     }
     
+    public DomainObject() {
+    }
+    
     /**
      * @return the object's name
      */

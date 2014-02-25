@@ -1,5 +1,8 @@
 package ilm.framework.gui;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,10 +11,13 @@ import java.util.Observable;
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.Assignment;
 import ilm.framework.assignment.model.AssignmentState;
+import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.gui.BaseGUI;
+import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 import ilm.framework.modules.assignment.HistoryModule;
+import ilm.framework.modules.assignment.UndoRedoModule;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -30,11 +36,18 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.FlowLayout;
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class IlmBaseGUI extends BaseGUI {
     private static final long serialVersionUID = 1L;
@@ -222,20 +235,61 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     protected void openAssignmentFile(String fileName) {
-        if (fileName == null) {
-            return;
+        FileInputStream f_in = null;
+        ObjectInputStream obj_in = null;
+        Vector historyStack = new Vector();
+        Vector undoStack = new Vector();
+        Vector redoStack = new Vector();
+        String correction = "";
+        try {
+            f_in = new FileInputStream(fileName);
+            obj_in = new ObjectInputStream(f_in);
+            historyStack = (Vector) obj_in.readObject();
+            redoStack = (Vector) obj_in.readObject();
+            undoStack = (Vector) obj_in.readObject();
+            correction = (String) obj_in.readObject();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        int initialIndex = _assignments.openAssignmentPackage(fileName);
-        for (int i = initialIndex; i < _assignments.getNumberOfAssignments(); i++) {
-            if (_domainGUIList.size() == 1) {
-                panel.removeAll();
-                panel.add(tabbedPane);
-                tabbedPane.setVisible(true);
-                tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
+        System.out.println("-----------------");
+        System.out.println(historyStack);
+        System.out.println(redoStack);
+        System.out.println(undoStack);
+        System.out.println(correction);
+        System.out.println("-----------------");
+        Iterator valuesIterator = ((HashMap) _assignments.getIlmModuleList()).values().iterator();
+        
+        while (valuesIterator.hasNext()) {
+            IlmModule m = (IlmModule) valuesIterator.next();
+            if (m instanceof AssignmentModule) {
+                for (int i = 0; i < 1; i++) {
+                    Stack stack = (Stack) undoStack.get(i);
+                    for (int j = 0; j < stack.size(); j++) {
+                        DomainAction action = (DomainAction) stack.get(j);
+                        action.addObserver((AssignmentModule) m);
+                    }
+                }
+                for (int i = 0; i < 1; i++) {
+                    Stack stack = (Stack) redoStack.get(i);
+                    for (int j = 0; j < stack.size(); j++) {
+                        DomainAction action = (DomainAction) stack.get(j);
+                        action.addObserver((AssignmentModule) m);
+                    }
+                }
             }
-            initAssignment(_assignments.getCurrentState(i));
         }
-        updateCloseButton();
+        for (int i = 0; i < 1; i++) {
+            Stack stack = (Stack) undoStack.get(i);
+            for (int j = 0; j < stack.size(); j++) {
+                DomainAction action = (DomainAction) stack.get(j);
+                action.execute();
+            }
+        }
+        /*
+         * if (fileName == null) { return; } int initialIndex = _assignments.openAssignmentPackage(fileName); for (int i = initialIndex; i < _assignments.getNumberOfAssignments(); i++) { if
+         * (_domainGUIList.size() == 1) { panel.removeAll(); panel.add(tabbedPane); tabbedPane.setVisible(true); tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0)); }
+         * initAssignment(_assignments.getCurrentState(i)); } updateCloseButton();
+         */
     }
     
     private String getFileNameFromWindow(String option) {

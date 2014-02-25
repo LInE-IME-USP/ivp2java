@@ -394,15 +394,14 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
                 }
             }
         }
-        if(!container.isContentSet()){
+        if (!container.isContentSet()) {
             if (isCSet) {
                 isCSet = false;
             }
         }
-        
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         indexField.setEdition(false);
         incrementField.setEdition(false);

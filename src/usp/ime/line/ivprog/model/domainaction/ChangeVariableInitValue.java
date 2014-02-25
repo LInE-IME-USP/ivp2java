@@ -1,29 +1,28 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableInitValue extends DomainAction {
-    private IVPProgram model;
-    private String     variableID;
-    private String     lastValue;
-    private String     newValue;
+    private String variableID;
+    private String lastValue;
+    private String newValue;
     
     public ChangeVariableInitValue(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        lastValue = model.changeVariableInitialValue(variableID, newValue, _currentState);
+        lastValue = Services.getService().getController().getProgram().changeVariableInitialValue(variableID, newValue, _currentState);
     }
     
     protected void undoAction() {
-        model.changeVariableInitialValue(variableID, lastValue, _currentState);
+        Services.getService().getController().getProgram().changeVariableInitialValue(variableID, lastValue, _currentState);
     }
     
     public boolean equals(DomainAction a) {

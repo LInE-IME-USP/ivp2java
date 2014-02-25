@@ -18,8 +18,8 @@ public class Variable extends Expression {
     public static String       TYPESTRING_STRING  = "String";
     public static String       TYPESTRING_BOOLEAN = "boolean";
     
-    public Variable(String name, String description) {
-        super(name, description);
+    public Variable() {
+        super(STRING_CLASS, STRING_CLASS);
         variableReferenceList = new Vector();
     }
     

@@ -10,6 +10,10 @@ public class Constant extends Expression {
         super(name, description);
     }
     
+    public Constant() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     public String toXML() {
         return null;
     }

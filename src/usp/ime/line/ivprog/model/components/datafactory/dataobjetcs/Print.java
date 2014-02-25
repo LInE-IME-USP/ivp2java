@@ -11,6 +11,10 @@ public class Print extends CodeComponent {
         super(name, description);
     }
     
+    public Print() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the printable object.
      * 

@@ -13,6 +13,10 @@ public class IVPMatrixReference extends Reference {
         super(name, description);
     }
     
+    public IVPMatrixReference() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the referenced matrix.
      * 

@@ -11,6 +11,10 @@ public class AskUser extends CodeComponent {
         super(name, description);
     }
     
+    public AskUser() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the message that will be shown to user.
      * 

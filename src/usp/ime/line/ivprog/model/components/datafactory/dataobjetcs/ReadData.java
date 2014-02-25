@@ -11,6 +11,10 @@ public class ReadData extends CodeComponent {
         super(name, description);
     }
     
+    public ReadData() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the printable object.
      * 

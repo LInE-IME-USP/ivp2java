@@ -12,6 +12,10 @@ public class IVPVector extends Collection {
         super(name, description);
     }
     
+    public IVPVector() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Put the specified object into the specified array position. If there's a variable at that position it will be overwritten.
      * 

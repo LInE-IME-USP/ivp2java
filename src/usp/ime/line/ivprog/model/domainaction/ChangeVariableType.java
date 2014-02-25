@@ -2,35 +2,34 @@ package usp.ime.line.ivprog.model.domainaction;
 
 import java.util.Vector;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableType extends DomainAction {
-    private IVPProgram model;
-    private short      lastType;
-    private Vector     returnedVector;
-    private short      newType;
-    private String     variableID;
+    private short  lastType;
+    private Vector returnedVector;
+    private short  newType;
+    private String variableID;
     
     public ChangeVariableType(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
         if (isRedo()) {
-            model.changeVariableType(variableID, newType, _currentState);
+            Services.getService().getController().getProgram().changeVariableType(variableID, newType, _currentState);
         } else {
-            returnedVector = model.changeVariableType(variableID, newType, _currentState);
+            returnedVector = Services.getService().getController().getProgram().changeVariableType(variableID, newType, _currentState);
         }
     }
     
     protected void undoAction() {
-        model.restoreVariableType(variableID, returnedVector, _currentState);
+        Services.getService().getController().getProgram().restoreVariableType(variableID, returnedVector, _currentState);
     }
     
     public boolean equals(DomainAction a) {

@@ -1,12 +1,14 @@
 package usp.ime.line.ivprog.view.utils;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.view.FlatUIColors;
 
-public class RoundedJPanel extends JPanel {
+public class RoundedJPanel extends JPanel implements Serializable{
+    
     private static final long serialVersionUID = 1L;
     protected Dimension       arcs             = new Dimension(5, 5);
     protected static int      idCounter        = 0;

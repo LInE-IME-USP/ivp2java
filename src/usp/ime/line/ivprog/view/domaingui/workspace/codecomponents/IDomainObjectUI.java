@@ -1,6 +1,8 @@
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
-public interface IDomainObjectUI {
+import java.io.Serializable;
+
+public interface IDomainObjectUI extends Serializable {
     public String getModelID();
     
     public String getModelParent();

@@ -1,39 +1,35 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class CreateChild extends DomainAction {
-    private IVPProgram model;
-    private String     containerID;
-    private String     scopeID;
-    private String     objectID;
-    private String     context;
-    private short      classID;
-    private int        index = 0;
+    private String containerID;
+    private String scopeID;
+    private String objectID;
+    private String context;
+    private short  classID;
+    private int    index = 0;
     
     public CreateChild(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
         if (isRedo()) {
-            System.out.println("CreateChild.REDO tentando colocar no index " + index);
-            model.restoreChild(containerID, objectID, index, context, _currentState);
+            Services.getService().getController().getProgram().restoreChild(containerID, objectID, index, context, _currentState);
         } else {
-            System.out.println("CreateChild.DO ");
-            objectID = model.newChild(containerID, classID, context, _currentState);
+            objectID = Services.getService().getController().getProgram().newChild(containerID, classID, context, _currentState);
         }
     }
     
     protected void undoAction() {
-        index = model.removeChild(containerID, objectID, context, _currentState);
-        System.out.println("CreateChild.UNDO > index de onde saiu " + index);
+        index = Services.getService().getController().getProgram().removeChild(containerID, objectID, context, _currentState);
     }
     
     public boolean equals(DomainAction a) {

@@ -86,7 +86,8 @@ public class IVPRenderer {
             Services.getService().getViewMapping().put(expressionModel.getUniqueID(), constant);
             return constant;
         } else {// It's an operation
-            if (expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND && expressionModel.getExpressionType() != Expression.EXPRESSION_OPERATION_CONCAT && expressionModel.getExpressionType() != Expression.EXPRESSION_OPERATION_INTDIV) {
+            if (expressionModel.getExpressionType() >= Expression.EXPRESSION_OPERATION_AND && expressionModel.getExpressionType() != Expression.EXPRESSION_OPERATION_CONCAT
+                    && expressionModel.getExpressionType() != Expression.EXPRESSION_OPERATION_INTDIV) {
                 exp = new BooleanOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());
             } else if (expressionModel.getExpressionType() == Expression.EXPRESSION_OPERATION_CONCAT) {
                 exp = new StringOperationUI(expressionModel.getParentID(), expressionModel.getScopeID(), expressionModel.getUniqueID());

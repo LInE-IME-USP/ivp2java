@@ -12,6 +12,10 @@ public class IVPVectorReference extends Reference {
         super(name, description);
     }
     
+    public IVPVectorReference() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the referenced vector.
      * 

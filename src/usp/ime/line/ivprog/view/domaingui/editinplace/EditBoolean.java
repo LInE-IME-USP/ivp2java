@@ -181,8 +181,7 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
     public boolean isContentSet() {
         return true;
     }
-
+    
     public void lockDownCode() {
-        
     }
 }

@@ -15,6 +15,10 @@ public class IfElse extends CodeComposite {
         super(name, description);
     }
     
+    public IfElse() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Append a child at the specified position of elseChildren's vector.
      * 

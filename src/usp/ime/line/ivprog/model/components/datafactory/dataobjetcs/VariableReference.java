@@ -11,6 +11,10 @@ public class VariableReference extends Reference {
         super(name, description);
     }
     
+    public VariableReference() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the referenced variable.
      * 

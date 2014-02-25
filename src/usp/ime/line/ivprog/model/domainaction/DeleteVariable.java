@@ -1,29 +1,28 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteVariable extends DomainAction {
-    private IVPProgram model;
-    private String     scopeID;
-    private String     variableID;
-    private int        index;
+    private String scopeID;
+    private String variableID;
+    private int    index;
     
     public DeleteVariable(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        model.removeVariable(scopeID, variableID, _currentState);
+        Services.getService().getController().getProgram().removeVariable(scopeID, variableID, _currentState);
     }
     
     protected void undoAction() {
-        model.restoreVariable(scopeID, variableID, _currentState);
+        Services.getService().getController().getProgram().restoreVariable(scopeID, variableID, _currentState);
     }
     
     public boolean equals(DomainAction a) {

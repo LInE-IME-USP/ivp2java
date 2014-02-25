@@ -1,43 +1,34 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeValue extends DomainAction {
-    IVPProgram model;
-    String     id;
-    String     lastValue;
-    String     newValue;
-    String     context;
-    String     holder;
+    private String id;
+    private String lastValue;
+    private String newValue;
+    private String context;
+    private String holder;
     
     public ChangeValue(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        lastValue = model.changeValue(id, newValue, _currentState);
+        lastValue = Services.getService().getController().getProgram().changeValue(id, newValue, _currentState);
     }
     
     protected void undoAction() {
-        model.changeValue(id, lastValue, _currentState);
+        Services.getService().getController().getProgram().changeValue(id, lastValue, _currentState);
     }
     
     public boolean equals(DomainAction a) {
         return false;
-    }
-    
-    public IVPProgram getModel() {
-        return model;
-    }
-    
-    public void setModel(IVPProgram model) {
-        this.model = model;
     }
     
     public String getId() {
@@ -79,4 +70,5 @@ public class ChangeValue extends DomainAction {
     public void setHolder(String holder) {
         this.holder = holder;
     }
+    
 }

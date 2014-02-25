@@ -11,13 +11,14 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
-public class ExpressionFieldUI extends JPanel {
+public class ExpressionFieldUI extends JPanel implements Serializable{
     private JButton            btnEdit;
     private ExpressionHolderUI expressionHolderUI;
     private boolean            isEditing = false;
@@ -131,5 +132,4 @@ public class ExpressionFieldUI extends JPanel {
         }
         return isCSet;
     }
-    
 }

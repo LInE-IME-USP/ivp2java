@@ -206,8 +206,6 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         expressionBaseUI_2.disableEdition();
     }
     
-    
-    
     public short getExpressionType() {
         return expressionType;
     }
@@ -228,5 +226,4 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         }
         return (ref1 != null || ref2 != null);
     }
-    
 }

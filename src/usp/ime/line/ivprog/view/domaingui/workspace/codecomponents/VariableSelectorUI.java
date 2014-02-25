@@ -425,7 +425,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         warningState = false;
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
             ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOFF();
-        } 
+        }
         varList.setBorder(null);
         revalidate();
         repaint();
@@ -616,9 +616,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             isCSet = false;
             turnWaningStateON();
         }
-        if (!nameLabel.isVisible()){
-            if("".equals(varList.getSelectedItem()) || varList.getSelectedItem() == null){
-                if(isCSet){
+        if (!nameLabel.isVisible()) {
+            if ("".equals(varList.getSelectedItem()) || varList.getSelectedItem() == null) {
+                if (isCSet) {
                     isCSet = false;
                     turnWaningStateON();
                 }

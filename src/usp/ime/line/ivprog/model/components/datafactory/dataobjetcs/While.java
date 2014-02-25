@@ -11,6 +11,10 @@ public class While extends CodeComposite {
         super(name, description);
     }
     
+    public While() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the loop condition.
      * 

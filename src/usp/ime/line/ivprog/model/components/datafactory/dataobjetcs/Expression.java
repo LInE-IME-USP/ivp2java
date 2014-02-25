@@ -19,11 +19,14 @@ public abstract class Expression extends DataObject {
     public static final short EXPRESSION_STRING                   = 15;
     public static final short EXPRESSION_BOOLEAN                  = 16;
     public static final short EXPRESSION_OPERATION_CONCAT         = 17;
-    public static final short EXPRESSION_OPERATION_INTDIV = 18;
+    public static final short EXPRESSION_OPERATION_INTDIV         = 18;
     protected short           expressionType                      = -1;
     
     public Expression(String name, String description) {
         super(name, description);
+    }
+    
+    public Expression() {
     }
     
     public short getExpressionType() {

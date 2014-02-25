@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -30,7 +31,7 @@ import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
-public class ExpressionHolderUI extends JPanel implements IExpressionListener {
+public class ExpressionHolderUI extends JPanel implements IExpressionListener, Serializable {
     public static final Color borderColor         = new Color(230, 126, 34);
     public static final Color hoverColor          = FlatUIColors.HOVER_COLOR;
     private boolean           drawBorder          = true;
@@ -55,7 +56,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private short             holdingType         = -1;
     private boolean           isForHeader         = false;
     private String            forContext          = "";
-    private boolean warningState = false;
+    private boolean           warningState        = false;
     
     public ExpressionHolderUI(String parent, String scopeID) {
         init(parent, scopeID);
@@ -486,7 +487,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             }
             isContentSet = true;
             System.out.println("criou expressao... deveria retirar a borda...");
-            if(warningState) setBorder(null);
+            if (warningState)
+                setBorder(null);
             revalidate();
             repaint();
         }
@@ -543,7 +545,8 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             }
             isContentSet = true;
             System.out.println("criou expressao... deveria retirar a borda...");
-            if(warningState) setBorder(null);
+            if (warningState)
+                setBorder(null);
             revalidate();
             repaint();
         }
@@ -818,7 +821,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
             ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).enableEdition();
         } else if (getParent() instanceof ExpressionFieldUI) {
-            ((ExpressionFieldUI)getParent()).setEdition(true);
+            ((ExpressionFieldUI) getParent()).setEdition(true);
         }
         setBorder(BorderFactory.createLineBorder(Color.red));
         enableEdition();
@@ -826,7 +829,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         repaint();
     }
     
-    public void warningStateOFF(){
+    public void warningStateOFF() {
         warningState = false;
         setBorder(null);
         revalidate();
@@ -843,11 +846,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public boolean isCSet() {
         boolean isCSet = true;
-        if(isContentSet){
-            if(!((IDomainObjectUI)expression).isContentSet()){
+        if (isContentSet) {
+            if (!((IDomainObjectUI) expression).isContentSet()) {
                 isCSet = false;
             }
-        }else{
+        } else {
             isCSet = false;
             warningStateOn();
         }
@@ -882,6 +885,4 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     public void setForContext(String forContext) {
         this.forContext = forContext;
     }
-    
-    
 }

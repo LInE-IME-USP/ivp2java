@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Vector;
 import java.util.Observable;
 
-public final class AssignmentState extends Observable {
+public final class AssignmentState extends Observable implements Serializable {
     private Vector _objectList;
     
     public AssignmentState() {

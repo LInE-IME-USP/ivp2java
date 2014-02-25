@@ -15,7 +15,10 @@ public class IVPMatrix extends Collection {
     
     public IVPMatrix(String name, String description) {
         super(name, description);
-        // TODO Auto-generated constructor stub
+    }
+    
+    public IVPMatrix() {
+        super(STRING_CLASS, STRING_CLASS);
     }
     
     /**

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -22,7 +23,7 @@ import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 
-public class EditInPlace extends JPanel implements KeyListener {
+public class EditInPlace extends JPanel implements KeyListener, Serializable {
     private JLabel            nameLabel;
     private JPanel            nameContainer;
     private JTextField        nameField;

@@ -1,5 +1,6 @@
 package usp.ime.line.ivprog.model.utils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
@@ -7,7 +8,7 @@ import java.util.Vector;
 
 import usp.ime.line.ivprog.Services;
 
-public class IVPVariableMap {
+public class IVPVariableMap implements Serializable {
     private HashMap map;
     private boolean isLocalVarMap;
     

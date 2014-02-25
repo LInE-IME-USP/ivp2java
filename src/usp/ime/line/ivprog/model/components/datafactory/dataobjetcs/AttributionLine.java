@@ -13,6 +13,10 @@ public class AttributionLine extends CodeComponent {
         super(name, description);
     }
     
+    public AttributionLine() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * @return the leftVariable
      */

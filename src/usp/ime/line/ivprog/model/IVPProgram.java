@@ -4,17 +4,11 @@ import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.assignment.model.DomainObject;
 import ilm.framework.domain.DomainModel;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
-import bsh.ConsoleInterface;
-import bsh.EvalError;
-import bsh.Interpreter;
 import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
@@ -46,27 +40,29 @@ import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameDouble;
 import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameInteger;
 import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameString;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.AttributionLineUI;
-import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.OperationUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelectorUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
+import bsh.EvalError;
+import bsh.Interpreter;
 
-public class IVPProgram extends DomainModel {
+public class IVPProgram extends DomainModel implements Serializable {
+   
     private HashMap             globalVariables     = null;
     private HashMap             preDefinedFunctions = null;
     private HashMap             functionMap         = null;
-    private DataFactory         dataFactory         = null;
+    private transient DataFactory         dataFactory         = null;
     private List                variableListeners;
     private List                functionListeners;
     private List                expressionListeners;
     private List                operationListeners;
-    private Interpreter         interpreter;
+    private transient Interpreter         interpreter;
     private String              currentScope        = "0";
-    private AskUserFrameInteger readInteger;
-    private AskUserFrameDouble  readDouble;
-    private AskUserFrameString  readString;
-    private AskUserFrameBoolean readBoolean;
+    private transient AskUserFrameInteger readInteger;
+    private transient AskUserFrameDouble  readDouble;
+    private transient AskUserFrameString  readString;
+    private transient AskUserFrameBoolean readBoolean;
     private HashMap             codeListeners;
-    private IVPConsoleUI        console;
+    private transient IVPConsoleUI        console;
     
     public IVPProgram() {
         globalVariables = new HashMap();
@@ -654,7 +650,9 @@ public class IVPProgram extends DomainModel {
     public HashMap getCodeListener() {
         return codeListeners;
     }
+    
     boolean error = false;
+    
     public void playCode() {
         if (Services.getService().getController().isContentSet()) {
             Services.getService().getController().lockCodeDown();
@@ -666,7 +664,7 @@ public class IVPProgram extends DomainModel {
             code += " Principal(); ";
             String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
             System.out.println(finalCode);
-            if(error){
+            if (error) {
                 console.clean();
                 error = false;
             }
@@ -675,7 +673,7 @@ public class IVPProgram extends DomainModel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             error = true;
             printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
         }

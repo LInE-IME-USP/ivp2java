@@ -26,6 +26,7 @@ import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
 public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol, Serializable {
+    
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
@@ -158,7 +159,6 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
             Vector assignmentList = _comm.readAssignmentFiles(packageFileName, assignmentFileList);
             return parser.mergeMetadata(assignmentList, metadata);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -175,19 +175,38 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         Vector assignmentNameList = parser.getAssignmentFileList(metadataFileContent);
         Vector assignmentContentList = new Vector();
         String assignmentContent = "";
+        Vector atividades = new Vector();
+        
         for (int i = 0; i < assignmentList.size(); i++) {
+            Vector atividadeCompleta = new Vector();
+            atividadeCompleta.add(assignmentList.get(i));
+            atividadeCompleta.add(_moduleList);
+            atividades.add(atividadeCompleta);
+            /* Romenig adaptação
             assignmentContent = parser.convertAssignmentToString(_converter, (Assignment) assignmentList.get(i));
             if (((Assignment) assignmentList.get(i)).getExpectedAnswer() == null || ((Assignment) assignmentList.get(i)).getExpectedAnswer().getList().size() < 1
                     || !((Assignment) assignmentList.get(i)).getInitialState().equals(((Assignment) assignmentList.get(i)).getCurrentState())) {
                 assignmentContent = parser.getAssignmentModulesData(_converter, assignmentContent, _moduleList, i);
             }
             assignmentContentList.add(assignmentContent);
+            */
         }
+        FileOutputStream f_out = null;
+        ObjectOutputStream obj_out = null;
+        try{
+            f_out = new FileOutputStream(fileName);
+            obj_out = new ObjectOutputStream(f_out);
+            obj_out.writeObject(atividades);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        /*
         try {
             return _comm.writeAssignmentPackage(fileName, metadataFileContent, null, null, assignmentNameList, assignmentContentList);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         return null;
     }
     

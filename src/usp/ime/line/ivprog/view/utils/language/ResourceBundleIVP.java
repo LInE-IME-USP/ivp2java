@@ -1,9 +1,10 @@
 package usp.ime.line.ivprog.view.utils.language;
 
+import java.io.Serializable;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class ResourceBundleIVP {
+public class ResourceBundleIVP implements Serializable{
     private static final String         BUNDLE_NAME     = "usp.ime.line.ivprog.view.utils.language.ptBR"; //$NON-NLS-1$
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
     

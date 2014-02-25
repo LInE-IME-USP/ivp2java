@@ -1,37 +1,36 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class CreateExpression extends DomainAction {
-    private IVPProgram model;
-    private String     holder;
-    private String     lastExpression;
-    private String     newExpression;
-    private String     removedExpression;
-    private String     context;
-    private short      expressionType;
-    private short      primitiveType;
+    private String holder;
+    private String lastExpression;
+    private String newExpression;
+    private String removedExpression;
+    private String context;
+    private short  expressionType;
+    private short  primitiveType;
     
     public CreateExpression(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
         if (isRedo()) {
-            model.restoreExpression(removedExpression, holder, context, false, _currentState);
+            Services.getService().getController().getProgram().restoreExpression(removedExpression, holder, context, false, _currentState);
         } else {
-            newExpression = model.createExpression(lastExpression, holder, expressionType, primitiveType, context, _currentState);
+            newExpression = Services.getService().getController().getProgram().createExpression(lastExpression, holder, expressionType, primitiveType, context, _currentState);
         }
     }
     
     protected void undoAction() {
-        removedExpression = model.deleteExpression(newExpression, holder, context, false, false, _currentState);
+        removedExpression = Services.getService().getController().getProgram().deleteExpression(newExpression, holder, context, false, false, _currentState);
     }
     
     public boolean equals(DomainAction a) {

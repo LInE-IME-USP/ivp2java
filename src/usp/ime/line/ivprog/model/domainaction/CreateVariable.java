@@ -6,29 +6,27 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class CreateVariable extends DomainAction {
-    private IVPProgram model;
-    private String     scopeID;
-    private String     varID;
-    private String     initValue;
+    private String scopeID   = "";
+    private String varID     = "";
+    private String initValue = "";
     
     public CreateVariable(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
         if (isRedo()) {
-            model.restoreVariable(scopeID, varID, _currentState);
+            Services.getService().getController().getProgram().restoreVariable(scopeID, varID, _currentState);
         } else {
-            varID = model.createVariable(scopeID, initValue, _currentState);
+            varID = Services.getService().getController().getProgram().createVariable(scopeID, initValue, _currentState);
         }
     }
     
     protected void undoAction() {
-        model.removeVariable(scopeID, varID, _currentState);
+        Services.getService().getController().getProgram().removeVariable(scopeID, varID, _currentState);
     }
     
     public boolean equals(DomainAction a) {
@@ -58,4 +56,5 @@ public class CreateVariable extends DomainAction {
     public void setInitValue(String initValue) {
         this.initValue = initValue;
     }
+    
 }

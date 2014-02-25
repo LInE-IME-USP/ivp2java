@@ -15,9 +15,10 @@ import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 
 public class UndoRedoModule extends AssignmentModule implements Serializable {
+    
     private Stack _undoStack;
     private Stack _redoStack;
-    
+
     public UndoRedoModule() {
         _undoStack = new Stack();
         _redoStack = new Stack();
@@ -49,6 +50,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
     }
     
     public void update(Observable o, Object arg) {
+        System.out.println(o);
         if (o instanceof DomainAction) {
             DomainAction action = (DomainAction) o;
             if (action.isUndo()) {
@@ -178,5 +180,21 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
                 }
             }
         }
+    }
+    
+    public Stack get_undoStack() {
+        return _undoStack;
+    }
+
+    public void set_undoStack(Stack _undoStack) {
+        this._undoStack = _undoStack;
+    }
+    
+    public Stack get_redoStack() {
+        return _redoStack;
+    }
+
+    public void set_redoStack(Stack _redoStack) {
+        this._redoStack = _redoStack;
     }
 }

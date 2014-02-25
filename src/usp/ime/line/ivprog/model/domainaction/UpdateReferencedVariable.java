@@ -1,29 +1,28 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class UpdateReferencedVariable extends DomainAction {
-    private IVPProgram model;
-    private String     lastVarID;
-    private String     newVarID;
-    private String     referenceID;
+    private String lastVarID;
+    private String newVarID;
+    private String referenceID;
     
     public UpdateReferencedVariable(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        lastVarID = model.updateReferencedVariable(referenceID, newVarID, _currentState);
+        lastVarID = Services.getService().getController().getProgram().updateReferencedVariable(referenceID, newVarID, _currentState);
     }
     
     protected void undoAction() {
-        newVarID = model.updateReferencedVariable(referenceID, lastVarID, _currentState);
+        newVarID = Services.getService().getController().getProgram().updateReferencedVariable(referenceID, lastVarID, _currentState);
     }
     
     public boolean equals(DomainAction a) {

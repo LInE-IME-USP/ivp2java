@@ -12,6 +12,10 @@ public class Operation extends Expression {
         super(name, description);
     }
     
+    public Operation() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * An expression is formed by two other expressions, A and B -> (A "operator" B). Observation: a variable is also an expression (a terminal symbol). This method returns the left side of an
      * expression. In other words, it returns expression A.

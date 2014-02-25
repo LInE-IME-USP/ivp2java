@@ -166,7 +166,7 @@ public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListene
     public boolean isContentSet() {
         return true;
     }
-
+    
     public void lockDownCode() {
         editStateOff("");
     }

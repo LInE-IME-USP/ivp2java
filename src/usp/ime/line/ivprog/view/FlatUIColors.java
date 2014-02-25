@@ -1,8 +1,9 @@
 package usp.ime.line.ivprog.view;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public final class FlatUIColors {
+public final class FlatUIColors implements Serializable{
     public final static Color MAIN_BG                = new Color(255, 255, 255);
     public final static Color CODE_BG                = new Color(239, 239, 239);
     public final static Color CODE_BORDER_BG         = new Color(174, 174, 174);

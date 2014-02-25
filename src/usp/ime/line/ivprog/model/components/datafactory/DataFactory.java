@@ -44,7 +44,7 @@ public class DataFactory implements IDataFactory {
      * @see usp.ime.line.ivprog.components.databuilder.dataobjetcs.IDataFactory# createVariable()
      */
     public DataObject createVariable() {
-        Variable variable = new Variable(Variable.STRING_CLASS, Variable.STRING_CLASS);
+        Variable variable = new Variable();
         variable.setUniqueID("" + objectID++);
         return variable;
     }

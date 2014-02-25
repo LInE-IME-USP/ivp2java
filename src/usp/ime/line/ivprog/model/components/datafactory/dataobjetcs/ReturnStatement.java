@@ -12,6 +12,10 @@ public class ReturnStatement extends CodeComponent {
         super(name, description);
     }
     
+    public ReturnStatement() {
+        super(STRING_CLASS, STRING_CLASS);
+    }
+    
     /**
      * Return the expression to be returned by the return statement.
      * 

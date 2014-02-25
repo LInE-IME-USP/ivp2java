@@ -1,17 +1,22 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
 import ilm.framework.assignment.model.DomainObject;
 
-public abstract class DataObject extends DomainObject {
+public abstract class DataObject extends DomainObject implements Serializable {
     private String uniqueID;
     private String parentID;
     private String scopeID;
     
     public DataObject(String name, String description) {
         super(name, description);
+    }
+    
+    public DataObject() {
+        super("", "");
     }
     
     /**

@@ -1,30 +1,29 @@
 package usp.ime.line.ivprog.model.domainaction;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class RemoveChild extends DomainAction {
-    private IVPProgram model;
-    private String     containerID;
-    private String     childID;
-    private int        index;
-    private String     context;
+    private String containerID;
+    private String childID;
+    private int    index;
+    private String context;
     
     public RemoveChild(String name, String description) {
         super(name, description);
     }
     
     public void setDomainModel(DomainModel m) {
-        model = (IVPProgram) m;
     }
     
     protected void executeAction() {
-        index = model.removeChild(containerID, childID, context, _currentState);
+        index = Services.getService().getController().getProgram().removeChild(containerID, childID, context, _currentState);
     }
     
     protected void undoAction() {
-        model.restoreChild(containerID, childID, index, context, _currentState);
+        Services.getService().getController().getProgram().restoreChild(containerID, childID, index, context, _currentState);
     }
     
     public boolean equals(DomainAction a) {
