@@ -79,4 +79,17 @@ public class CreateChild extends DomainAction {
     public void setScopeID(String scopeID) {
         this.scopeID = scopeID;
     }
+
+    public String toString(){
+        String str = "";
+        str +=  "<createchild>\n" +
+                "   <containerid>"+containerID+"</containerid>\n"+
+                "   <scopeid>"+scopeID+"</scopeid>\n"+
+                "   <objectid>"+objectID+"</objectid>\n"+
+                "   <context>"+context+"</context>\n"+
+                "   <classid>"+classID+"</classid>\n"+
+                "   <index>"+index+"</index>\n"+
+                "</createchild>\n";
+        return str;
+    }
 }

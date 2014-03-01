@@ -45,4 +45,14 @@ public class ChangeVariableInitValue extends DomainAction {
     public void setNewValue(String newValue) {
         this.newValue = newValue;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<changevariableinitvalue>\n" +
+                "   <variableid>"+variableID+"</variableid>\n"+
+                "   <lastvalue>"+lastValue+"</lastvalue>\n"+
+                "   <newvalue>"+newValue+"</newvalue>\n"+
+                "</changevariableinitvalue>\n";
+        return str;
+    }
 }

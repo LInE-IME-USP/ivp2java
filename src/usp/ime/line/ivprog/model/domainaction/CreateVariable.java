@@ -58,4 +58,14 @@ public class CreateVariable extends DomainAction {
     public void setInitValue(String initValue) {
         this.initValue = initValue;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<createvariable>\n" +
+                "   <scopeid>"+scopeID+"</scopeid>\n"+
+                "   <varid>"+varID+"</varid>\n"+
+                "   <initvalue>"+initValue+"</initvalue>\n"+
+                "</createvariable>\n";
+        return str;
+    }
 }

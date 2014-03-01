@@ -52,4 +52,15 @@ public class ChangeVariableType extends DomainAction {
     public void setNewType(short expressionInteger) {
         this.newType = expressionInteger;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<changevariabletype>\n" +
+                "   <variableid>"+variableID+"</variableid>\n"+
+                "   <lasttype>"+lastType+"</lasttype>\n"+
+                "   <returnedvector>"+returnedVector.toString()+"</returnedvector>\n"+
+                "   <newtype>"+newType+"</newtype>\n"+
+                "</changevariabletype>\n";
+        return str;
+    }
 }

@@ -26,40 +26,32 @@ import javax.swing.JTextField;
 
 public class IlmAuthoringGUI extends AuthoringGUI {
     public void update(Observable arg0, Object arg1) {
-        // TODO Auto-generated method stub
     }
     
     protected void initFields() {
-        // TODO Auto-generated method stub
     }
     
     protected String getProposition() {
-        // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     protected String getAssignmentName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     protected AssignmentState getInitialState() {
-        // TODO Auto-generated method stub
         return null;
     }
     
     protected AssignmentState getExpectedAnswer() {
-        // TODO Auto-generated method stub
         return null;
     }
     
     protected HashMap getConfig() {
-        // TODO Auto-generated method stub
         return null;
     }
     
     protected HashMap getMetadata() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

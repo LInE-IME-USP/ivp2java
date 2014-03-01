@@ -54,4 +54,15 @@ public class RemoveChild extends DomainAction {
     public void setContext(String context) {
         this.context = context;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<removechild>\n" +
+                "   <containerid>"+containerID+"</containerid>\n"+
+                "   <childid>"+childID+"</childid>\n"+
+                "   <index>"+index+"</index>\n"+
+                "   <context>"+context+"</context>\n"+
+                "</removechild>\n";
+        return str;
+    }
 }

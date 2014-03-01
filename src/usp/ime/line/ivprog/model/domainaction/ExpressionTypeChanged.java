@@ -71,4 +71,16 @@ public class ExpressionTypeChanged extends DomainAction {
     public void setComparison(boolean isComparison) {
         this.isComparison = isComparison;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<expressiontypechanged>\n" +
+                "   <holder>"+holder+"</holder>\n"+
+                "   <expression>"+expression+"</expression>\n"+
+                "   <isclean>"+isClean+"</isclean>\n"+
+                "   <iscomparison>"+isComparison+"</iscomparison>\n"+
+                "   <context>"+context+"</context>\n"+
+                "</expressiontypechanged>\n";
+        return str;
+    }
 }

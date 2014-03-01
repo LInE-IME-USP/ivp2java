@@ -45,4 +45,14 @@ public class ChangeVariableName extends DomainAction {
     public void setNewName(String newName) {
         this.newName = newName;
     }
+
+    public String toString(){
+        String str = "";
+        str +=  "<changevariablename>\n" +
+                "   <lastname>"+lastName+"</lastname>\n"+
+                "   <newname>"+newName+"</newname>\n"+
+                "   <variableid>"+variableID+"</variableid>\n"+
+                "</changevariablename>\n";
+        return str;
+    }
 }

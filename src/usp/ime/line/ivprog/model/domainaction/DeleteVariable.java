@@ -45,4 +45,14 @@ public class DeleteVariable extends DomainAction {
     public void setVariableID(String variableID) {
         this.variableID = variableID;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<deletevariable>\n" +
+                "   <scopeid>"+scopeID+"</scopeid>\n"+
+                "   <variableid>"+variableID+"</variableid>\n"+
+                "   <index>"+index+"</index>\n"+
+                "</deletevariable>\n";
+        return str;
+    }
 }

@@ -5,12 +5,13 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeValue extends DomainAction {
-    IVPProgram model;
-    String     id;
-    String     lastValue;
-    String     newValue;
-    String     context;
-    String     holder;
+    
+    private IVPProgram model;
+    private String     id;
+    private String     lastValue;
+    private String     newValue;
+    private String     context;
+    private String     holder;
     
     public ChangeValue(String name, String description) {
         super(name, description);
@@ -78,5 +79,17 @@ public class ChangeValue extends DomainAction {
     
     public void setHolder(String holder) {
         this.holder = holder;
+    }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<changevalue>\n" +
+                "   <id>"+id+"</id>\n"+
+                "   <lastvalue>"+lastValue+"</lastvalue>\n"+
+                "   <newvalue>"+newValue+"</newvalue>\n"+
+                "   <context>"+context+"</context>\n"+
+                "   <holder>"+holder+"</holder>\n"+
+                "</changevalue>\n";
+        return str;
     }
 }

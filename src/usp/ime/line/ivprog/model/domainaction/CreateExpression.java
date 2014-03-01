@@ -77,4 +77,18 @@ public class CreateExpression extends DomainAction {
     public void setPrimitiveType(short primitiveType) {
         this.primitiveType = primitiveType;
     }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<createexpression>\n" +
+                "   <holder>"+holder+"</holder>\n"+
+                "   <lastexpression>"+lastExpression+"</lastexpression>\n"+
+                "   <newexpression>"+newExpression+"</newexpression>\n"+
+                "   <removedexpression>"+removedExpression+"</removedexpression>\n"+
+                "   <context>"+context+"</context>\n"+
+                "   <expressiontype>"+expressionType+"</expressiontype>\n"+
+                "   <primitivetype>"+primitiveType+"</primitivetype>\n"+
+                "</createexpression>\n";
+        return str;
+    }
 }

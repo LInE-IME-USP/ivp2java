@@ -25,12 +25,10 @@ public class MoveComponent extends DomainAction {
     
     protected void executeAction() {
         originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
-        System.out.println("do move: dropAT" + dropIndex + " originIndex" + originIndex);
     }
     
     protected void undoAction() {
         model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
-        System.out.println("undo move: originIndex" + originIndex);
     }
     
     public boolean equals(DomainAction a) {
@@ -83,5 +81,19 @@ public class MoveComponent extends DomainAction {
     
     public void setOriginContext(String originContext) {
         this.originContext = originContext;
+    }
+    
+    public String toString(){
+        String str = "";
+        str +=  "<movecomponent>\n" +
+                "   <component>"+component+"</component>\n"+
+                "   <destiny>"+destiny+"</destiny>\n"+
+                "   <destinycontext>"+destinyContext+"</destinycontext>\n"+
+                "   <origincontext>"+originContext+"</origincontext>\n"+
+                "   <origin>"+origin+"</origin>\n"+
+                "   <originindex>"+originIndex+"</originindex>\n"+
+                "   <dropindex>"+dropIndex+"</dropindex>\n"+
+                "</movecomponent>\n";
+        return str;
     }
 }

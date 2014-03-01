@@ -72,4 +72,17 @@ public class DeleteExpression extends DomainAction {
     public void setComparison(boolean isComparison) {
         this.isComparison = isComparison;
     }
+    
+    
+    public String toString(){
+        String str = "";
+        str +=  "<deleteexpression>\n" +
+                "   <holder>"+holder+"</holder>\n"+
+                "   <expression>"+expression+"</expression>\n"+
+                "   <isclean>"+isClean+"</isclean>\n"+
+                "   <iscomparison>"+isComparison+"</iscomparison>\n"+
+                "   <context>"+context+"</context>\n"+
+                "</deleteexpression>\n";
+        return str;
+    }
 }
