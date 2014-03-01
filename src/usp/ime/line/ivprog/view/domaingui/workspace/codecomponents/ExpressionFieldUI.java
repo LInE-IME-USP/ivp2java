@@ -18,6 +18,7 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public class ExpressionFieldUI extends JPanel {
+    
     private JButton            btnEdit;
     private ExpressionHolderUI expressionHolderUI;
     private boolean            isEditing = false;
@@ -85,6 +86,7 @@ public class ExpressionFieldUI extends JPanel {
     public void setEdition(boolean edit) {
         if (edit) {
             lockerIcon.setIcon(open);
+            expressionHolderUI.enableEdition();
         } else {
             lockerIcon.setIcon(closed);
             expressionHolderUI.disableEdition();

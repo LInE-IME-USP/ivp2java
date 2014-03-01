@@ -815,13 +815,16 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public void warningStateOn() {
         warningState = true;
+        System.out.println("TESTES >>> "+getParent());
         if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
-            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).enableEdition();
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (getParent() instanceof ExpressionFieldUI) {
             ((ExpressionFieldUI)getParent()).setEdition(true);
+        } else if (getParent() instanceof ExpressionHolderUI) {
+            ((ExpressionHolderUI)getParent()).warningStateOn();
         }
-        setBorder(BorderFactory.createLineBorder(Color.red));
-        enableEdition();
+        if(!isContentSet)
+            setBorder(BorderFactory.createLineBorder(Color.red));
         revalidate();
         repaint();
     }

@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.Observable;
 
 public final class AssignmentState extends Observable {
+    
     private Vector _objectList;
     
     public AssignmentState() {

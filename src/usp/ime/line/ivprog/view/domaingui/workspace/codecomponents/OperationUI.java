@@ -200,13 +200,25 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         expressionBaseUI_2.enableEdition();
     }
     
+    public void warningStateOn() {
+        if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
+            ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
+            ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
+        } else if (getParent() instanceof ExpressionHolderUI) {
+            ((ExpressionHolderUI) getParent()).warningStateOn();
+        } else if(getParent() instanceof ExpressionFieldUI){
+            ((ExpressionFieldUI)getParent()).setEdition(true);
+        } else{
+            enableEdition();
+        }
+    }
+    
     public void disableEdition() {
         isEditing = false;
         expressionBaseUI_1.disableEdition();
         expressionBaseUI_2.disableEdition();
     }
-    
-    
     
     public short getExpressionType() {
         return expressionType;
