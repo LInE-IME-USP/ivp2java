@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -31,14 +32,21 @@ public class IVPDomainConverter implements DomainConverter {
     public Vector convertStringToAction(String actionListDescription) {
         Document doc = null;
         try{
-            doc = loadXMLFromString(actionListDescription);
+            doc = loadXMLFromString("<gambi>"+actionListDescription+"</gambi>");
         }catch(Exception e){
             e.printStackTrace();
         }
-        Element elem = doc.getDocumentElement();
-        NodeList nl = elem.getElementsByTagName("gambi");
-        System.out.println(nl.getLength());
-
+        Element node = doc.getDocumentElement();
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            String value = currentNode.getNodeName().trim();
+            NodeList nodes = currentNode.getChildNodes();
+            for (int j = 0; j < nodes.getLength(); j++) {
+                Node cnode = nodes.item(j);
+                System.out.println(cnode.getNodeName());
+            }
+        }
         return new Vector();
     }
     
@@ -51,7 +59,6 @@ public class IVPDomainConverter implements DomainConverter {
     }
     
     public static Document loadXMLFromString(String xml) throws Exception {
-        xml = "<gambi>"+xml+"</gambi>";
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
