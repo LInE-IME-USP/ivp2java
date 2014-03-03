@@ -54,7 +54,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
                 }
             }
         }
-        initDomainGUI();
+        initDomainGUI(moduleList);
     }
     
     /**
@@ -62,7 +62,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
      * 
      * @see example.ilm.gui.IlmDomainGUI
      */
-    protected abstract void initDomainGUI();
+    protected abstract void initDomainGUI(Collection moduleList);
     
     /**
      * @return a list of domain objects selected by the user. It is used by authoringGUI to author a new assignment.

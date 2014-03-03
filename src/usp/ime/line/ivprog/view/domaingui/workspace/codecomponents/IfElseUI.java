@@ -202,21 +202,19 @@ public class IfElseUI extends CodeBaseUI implements ICodeListener {
         if (!expressionField.isContentSet()) {
             isCSet = false;
         }
-        if(!ifContainer.isContentSet()){
+        if (!ifContainer.isContentSet()) {
             if (isCSet) {
                 isCSet = false;
             }
         }
-        if(!elseContainer.isContentSet()){
+        if (!elseContainer.isContentSet()) {
             if (isCSet) {
                 isCSet = false;
             }
         }
-        
-        
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         expressionField.setEdition(false);
         ifContainer.lockCodeDown();

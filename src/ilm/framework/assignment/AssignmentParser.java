@@ -196,7 +196,7 @@ final class AssignmentParser {
     }
     
     /**
-     * CONVERSï¿½O DE DADOS DOS Mï¿½DULOS DE ATIVIDADES
+     * CONVERSÃO DE DADOS DOS MÓDULOS DE ATIVIDADE
      * 
      * @param converter
      * @param assignmentString
@@ -232,7 +232,10 @@ final class AssignmentParser {
         while (availableListIterator.hasNext()) {
             String key = (String) availableListIterator.next();
             if (availableList.get(key) instanceof AssignmentModule) {
-                string += ((AssignmentModule) availableList.get(key)).getStringContent(converter, assignmentIndex);
+                System.out.println(availableList.get(key));
+                String str = ((AssignmentModule) availableList.get(key)).getStringContent(converter, assignmentIndex);
+                System.out.println(str);
+                string += str;
             }
         }
         string += "</" + IlmProtocol.ASSIGNMENT_MODULES_NODE + ">";

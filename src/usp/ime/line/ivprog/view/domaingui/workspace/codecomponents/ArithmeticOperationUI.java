@@ -67,7 +67,6 @@ public class ArithmeticOperationUI extends OperationUI {
         operationSignMenu.add(changeToSubtraction);
         operationSignMenu.addSeparator();
         operationSignMenu.add(changeToIntDiv);
-        
     }
     
     public void initSignal() {
@@ -106,7 +105,7 @@ public class ArithmeticOperationUI extends OperationUI {
         }
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         disableEdition();
     }

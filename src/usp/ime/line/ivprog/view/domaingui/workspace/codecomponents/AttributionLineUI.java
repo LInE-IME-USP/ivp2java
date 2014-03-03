@@ -111,7 +111,7 @@ public class AttributionLineUI extends CodeBaseUI {
         }
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         varSelector.editStateOff(varSelector.getVarListSelectedItem());
         expression.setEdition(false);

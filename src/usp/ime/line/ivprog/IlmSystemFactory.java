@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.HashMap;
 
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.IVPProgramData;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import ilm.framework.SystemFactory;
 import ilm.framework.assignment.model.AssignmentState;
@@ -15,6 +16,7 @@ import ilm.framework.gui.AuthoringGUI;
 import ilm.framework.modules.IlmModule;
 
 public class IlmSystemFactory extends SystemFactory {
+    
     public DomainModel createDomainModel() {
         IVPProgram program = new IVPProgram();
         Services.getService().getController().setProgram(program);
@@ -26,10 +28,11 @@ public class IlmSystemFactory extends SystemFactory {
     }
     
     public DomainGUI createDomainGUI(SystemConfig config, DomainModel model) {
+        System.out.println("passou aqui1");
         IVPDomainGUI domainGUI = new IVPDomainGUI();
         Services.getService().getController().setGui(domainGUI);
-        Services.getService().getController().initializeModel();
         Services.getService().getController().initDomainActionList(model);
+        System.out.println("passou aqui2");
         return domainGUI;
     }
     

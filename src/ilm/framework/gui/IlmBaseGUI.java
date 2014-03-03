@@ -30,6 +30,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.IVPProgramData;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -70,17 +72,23 @@ public class IlmBaseGUI extends BaseGUI {
     protected void initAssignments() {
         if (_assignments.getNumberOfAssignments() == 1) {
             tabbedPane.setVisible(false);
+            System.out.println("antes de criar... ");
             _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
+            System.out.println("depois de criar... ");
             int index = _domainGUIList.size() - 1;
+            IVPProgramData.getData().addListInstance();
+            IVPProgramData.getData().setIndex(index+1);
             ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(0), _assignments.getCurrentState(0), _assignments.getIlmModuleList().values());
             panel.add((Component) _domainGUIList.get(index));
             _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(0), _assignments.getInitialState(0), _assignments.getCurrentState(0),
                     _assignments.getExpectedAnswer(0), _assignments.getConfig(0), _assignments.getMetadata(0)));
             setActiveAssignment();
+            Services.getService().getController().initializeModel();
         } else {
             panel.add(tabbedPane);
             for (int i = 0; i < _assignments.getNumberOfAssignments(); i++) {
                 tabbedPane.setVisible(true);
+                IVPProgramData.getData().setIndex(i+1);
                 initAssignment(_assignments.getCurrentState(i));
             }
         }
@@ -93,6 +101,7 @@ public class IlmBaseGUI extends BaseGUI {
         tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(index));
         tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
         setActiveAssignment();
+        Services.getService().getController().initializeModel();
         _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(index), _assignments.getInitialState(index),
                 _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index), _assignments.getConfig(index), _assignments.getMetadata(index)));
     }
@@ -127,8 +136,15 @@ public class IlmBaseGUI extends BaseGUI {
         int index = tabbedPane.getSelectedIndex();
         if (index == -1) {
             updateAssignmentIndex(0);
+            System.out.println("active 0");
+            IVPProgramData.getData().setIndex(0);
         } else {
             updateAssignmentIndex(index);
+            System.out.println("active "+index);
+            IVPProgramData.getData().setIndex(index);
+            System.out.println("teste ----------------------------");
+            System.out.println("<<< "+Services.getService().getModelMapping().values());
+            System.out.println("teste ---------------------------- <");
         }
     }
     
@@ -161,9 +177,8 @@ public class IlmBaseGUI extends BaseGUI {
             panel.removeAll();
             panel.add(tabbedPane);
             tabbedPane.setVisible(true);
-            tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
-            AssignmentState state = _assignments.newAssignment();
-            initAssignment(state);
+            tabbedPane.addTab("atividade " + (tabCount++), (Component) _domainGUIList.get(0));
+            initAssignment(_assignments.newAssignment());
         } else {
             initAssignment(_assignments.newAssignment());
         }

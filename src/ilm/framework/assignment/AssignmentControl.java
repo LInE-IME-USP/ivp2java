@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.zip.ZipFile;
 
+import usp.ime.line.ivprog.model.IVPProgramData;
 import usp.ime.line.ivprog.modules.configuration.ConfigurationModule;
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.model.AssignmentState;
@@ -26,6 +27,7 @@ import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
 public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol, Serializable {
+    
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
@@ -120,11 +122,11 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
                 if (((AssignmentModule) _moduleList.get(key)).getObserverType() != AssignmentModule.ACTION_OBSERVER) {
                     assignment.getCurrentState().addObserver((AssignmentModule) _moduleList.get(key));
                 }
+                ((AssignmentModule) _moduleList.get(key)).setState(assignment.getCurrentState());
                 if (((AssignmentModule) _moduleList.get(key)).getObserverType() != AssignmentModule.OBJECT_OBSERVER) {
                     ((AssignmentModule) _moduleList.get(key)).setDomainModel(_model);
                     ((AssignmentModule) _moduleList.get(key)).setActionObservers(_moduleList.values());
                 }
-                ((AssignmentModule) _moduleList.get(key)).setState(assignment.getCurrentState());
             }
         }
     }
@@ -166,7 +168,6 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     
     /**
      * @see IAssignment
-     * 
      * @return the index of newly created assignment requested by AuthoringGUI in BaseGUI
      */
     public ZipFile saveAssignmentPackage(Vector assignmentList, String fileName) {

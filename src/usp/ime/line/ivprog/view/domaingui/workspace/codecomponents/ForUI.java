@@ -24,7 +24,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class ForUI extends CodeBaseUI implements ICodeListener {
-    
     private JPanel            contentPanel;
     private JPanel            header;
     private IVPContainer      container;
@@ -395,15 +394,14 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
                 }
             }
         }
-        if(!container.isContentSet()){
+        if (!container.isContentSet()) {
             if (isCSet) {
                 isCSet = false;
             }
         }
-        
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         indexField.setEdition(false);
         incrementField.setEdition(false);
@@ -412,5 +410,4 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         mode_1and2_upperBound.setEdition(false);
         container.lockCodeDown();
     }
-    
 }

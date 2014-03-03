@@ -54,13 +54,10 @@ public class UpdateReferencedVariable extends DomainAction {
         this.referenceID = referenceID;
     }
     
-    public String toString(){
+    public String toString() {
         String str = "";
-        str +=  "<updatereferencedvariable>\n" +
-                "   <lastvarid>"+lastVarID+"</lastvarid>\n"+
-                "   <newvarid>"+newVarID+"</newvarid>\n"+
-                "   <referenceid>"+referenceID+"</referenceid>\n"+
-                "</updatereferencedvariable>\n";
+        str += "<updatereferencedvariable>\n" + "   <lastvarid>" + lastVarID + "</lastvarid>\n" + "   <newvarid>" + newVarID + "</newvarid>\n" + "   <referenceid>" + referenceID + "</referenceid>\n"
+                + "</updatereferencedvariable>\n";
         return str;
     }
 }

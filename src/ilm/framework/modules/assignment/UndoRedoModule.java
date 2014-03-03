@@ -15,6 +15,7 @@ import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 
 public class UndoRedoModule extends AssignmentModule implements Serializable {
+    
     private Stack _undoStack;
     private Stack _redoStack;
     
@@ -106,7 +107,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
     }
     
     public String getStringContent(DomainConverter converter, int index) {
-        if (((Stack) _undoStack.get(index)).size() == 0 & ((Stack) _redoStack.get(index)).size() == 0) {
+        if (((Stack) _undoStack.get(index)).size() == 0 && ((Stack) _redoStack.get(index)).size() == 0) {
             return "<" + _name + "/>";
         }
         String string = "<" + _name + ">";
@@ -117,7 +118,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         }
         if (((Stack) _redoStack.get(index)).size() > 0) {
             string += "<redostack>";
-            converter.convertActionToString((Vector) _redoStack.get(index));
+            string += converter.convertActionToString((Vector) _redoStack.get(index));
             string += "</redostack>";
         }
         string += "</" + _name + ">";
@@ -176,6 +177,22 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
                         action.addObserver((AssignmentModule) m);
                     }
                 }
+            }
+        }
+    }
+    
+    public void restoreFromFile(){
+        for (int i = 0; i < _redoStack.size(); i++) {
+            Stack stack = (Stack) _redoStack.get(i);
+            for (int j = 0; j < stack.size(); j++) {
+                DomainAction action = (DomainAction) stack.get(j);
+                boolean isRedo = action.isRedo();
+                action.setRedo(false);
+                action.execute();
+            }
+            for (int j = 0; j < stack.size(); j++) {
+                DomainAction action = (DomainAction) stack.get(j);
+                action.undo();
             }
         }
     }

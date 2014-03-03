@@ -1,7 +1,13 @@
 package usp.ime.line.ivprog.view.domaingui;
 
+import ilm.framework.IlmProtocol;
+import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.domain.DomainModel;
+import ilm.framework.modules.AssignmentModule;
+import ilm.framework.modules.IlmModule;
+import ilm.framework.modules.assignment.HistoryModule;
+import ilm.framework.modules.assignment.UndoRedoModule;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -11,6 +17,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -43,6 +51,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
+    
     private static final long serialVersionUID = 4725912646391705263L;
     private JPanel            workspaceContainer;
     private JTabbedPane       tabbedPane;
@@ -147,7 +156,29 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         }
     }
     
-    protected void initDomainGUI() {
+    protected void initDomainGUI(Collection moduleList) {
+        // gambiarra para restaurar o estado da atividade.
+        // pra mim faz muito sentido
+        Iterator moduleIterator = moduleList.iterator();
+        HistoryModule h = null;
+        UndoRedoModule u = null;
+        System.out.println("<<< "+Services.getService().getModelMapping().values());
+        while (moduleIterator.hasNext()) {
+            IlmModule module = (IlmModule) moduleIterator.next();
+            if (module instanceof AssignmentModule) {
+                if (module.getName().equals(IlmProtocol.HISTORY_MODULE_NAME)){
+                    h = (HistoryModule) module;
+                }else if(module.getName().equals(IlmProtocol.UNDO_REDO_MODULE_NAME)){
+                    u = (UndoRedoModule) module;
+                }
+            }
+        }
+        if(h != null)
+            h.executeActions();
+        if(u != null)
+            u.restoreFromFile();
+        revalidate();
+        repaint();
     }
     
     public Vector getSelectedObjects() {

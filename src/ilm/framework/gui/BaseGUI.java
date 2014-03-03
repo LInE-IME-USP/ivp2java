@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.model.IVPProgramData;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public abstract class BaseGUI extends JPanel implements Observer {
@@ -72,6 +73,7 @@ public abstract class BaseGUI extends JPanel implements Observer {
                 }
             }
         }
+        // IVPProgramData.getData().setIndex(index);
     }
     
     protected abstract void setAuthoringButton();

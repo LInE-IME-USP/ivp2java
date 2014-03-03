@@ -3,16 +3,19 @@ package usp.ime.line.ivprog;
 import java.util.HashMap;
 
 import usp.ime.line.ivprog.controller.IVPController;
+import usp.ime.line.ivprog.model.IVPProgramData;
 import usp.ime.line.ivprog.view.IVPRenderer;
 import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
+    
     private IVPController    controller;
     private IVPRenderer      render;
     private HashMap          modelHash;
     private HashMap          viewHash;
     private IVPMouseListener mL = null;
+    
     private static Services  instance;
     
     private Services() {
@@ -41,11 +44,11 @@ public class Services {
     }
     
     public HashMap getModelMapping() {
-        return modelHash;
+        return IVPProgramData.getData().getModelMapping();
     }
     
     public HashMap getViewMapping() {
-        return viewHash;
+        return IVPProgramData.getData().getViewMapping();
     }
     
     public IVPMouseListener getML() {

@@ -46,13 +46,18 @@ public class ChangeVariableInitValue extends DomainAction {
         this.newValue = newValue;
     }
     
-    public String toString(){
+    public String getLastValue() {
+        return lastValue;
+    }
+    
+    public void setLastValue(String lastValue) {
+        this.lastValue = lastValue;
+    }
+    
+    public String toString() {
         String str = "";
-        str +=  "<changevariableinitvalue>\n" +
-                "   <variableid>"+variableID+"</variableid>\n"+
-                "   <lastvalue>"+lastValue+"</lastvalue>\n"+
-                "   <newvalue>"+newValue+"</newvalue>\n"+
-                "</changevariableinitvalue>\n";
+        str += "<changevariableinitvalue>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lastvalue>" + lastValue + "</lastvalue>\n" + "   <newvalue>" + newValue + "</newvalue>\n"
+                + "</changevariableinitvalue>\n";
         return str;
     }
 }
