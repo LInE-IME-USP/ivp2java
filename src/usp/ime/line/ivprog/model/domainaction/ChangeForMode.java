@@ -6,7 +6,6 @@ import ilm.framework.domain.DomainModel;
 
 public class ChangeForMode extends DomainAction {
     private IVPProgram model;
-    
     private int        lastMode;
     private int        newMode;
     private String     forID;
@@ -47,14 +46,17 @@ public class ChangeForMode extends DomainAction {
         this.forID = forID;
     }
     
-    public String toString(){
+    public int getLastMode() {
+        return lastMode;
+    }
+    
+    public void setLastMode(int lastMode) {
+        this.lastMode = lastMode;
+    }
+    
+    public String toString() {
         String str = "";
-        str +=  "<changeformode>\n" +
-                "   <forid>"+forID+"</forid>\n"+
-                "   <lastmode>"+lastMode+"</lastmode>\n"+
-                "   <newmode>"+newMode+"</newmode>\n"+
-                "</changeformode>\n";
+        str += "<changeformode>\n" + "   <forid>" + forID + "</forid>\n" + "   <lastmode>" + lastMode + "</lastmode>\n" + "   <newmode>" + newMode + "</newmode>\n" + "</changeformode>\n";
         return str;
     }
-
 }

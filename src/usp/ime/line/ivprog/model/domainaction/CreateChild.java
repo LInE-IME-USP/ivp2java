@@ -23,17 +23,14 @@ public class CreateChild extends DomainAction {
     
     protected void executeAction() {
         if (isRedo()) {
-            System.out.println("CreateChild.REDO tentando colocar no index " + index);
             model.restoreChild(containerID, objectID, index, context, _currentState);
         } else {
-            System.out.println("CreateChild.DO ");
             objectID = model.newChild(containerID, classID, context, _currentState);
         }
     }
     
     protected void undoAction() {
         index = model.removeChild(containerID, objectID, context, _currentState);
-        System.out.println("CreateChild.UNDO > index de onde saiu " + index);
     }
     
     public boolean equals(DomainAction a) {
@@ -79,17 +76,19 @@ public class CreateChild extends DomainAction {
     public void setScopeID(String scopeID) {
         this.scopeID = scopeID;
     }
-
-    public String toString(){
+    
+    public int getIndex() {
+        return index;
+    }
+    
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    
+    public String toString() {
         String str = "";
-        str +=  "<createchild>\n" +
-                "   <containerid>"+containerID+"</containerid>\n"+
-                "   <scopeid>"+scopeID+"</scopeid>\n"+
-                "   <objectid>"+objectID+"</objectid>\n"+
-                "   <context>"+context+"</context>\n"+
-                "   <classid>"+classID+"</classid>\n"+
-                "   <index>"+index+"</index>\n"+
-                "</createchild>\n";
+        str += "<createchild>\n" + "   <containerid>" + containerID + "</containerid>\n" + "   <scopeid>" + scopeID + "</scopeid>\n" + "   <objectid>" + objectID + "</objectid>\n" + "   <context>"
+                + context + "</context>\n" + "   <classid>" + classID + "</classid>\n" + "   <index>" + index + "</index>\n" + "</createchild>\n";
         return str;
     }
 }

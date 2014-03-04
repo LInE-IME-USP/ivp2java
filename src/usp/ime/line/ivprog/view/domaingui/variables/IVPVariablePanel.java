@@ -183,9 +183,11 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
     
     public void removedVariable(String id) {
         Variable var = (Variable) Services.getService().getModelMapping().get(id);
-        if (!var.getVariableName().contains("#@ivprog@#!")) {
-            varMap.put(id, null);
-            repaintVarPanel();
+        if(var != null){
+            if (!var.getVariableName().contains("#@ivprog@#!")) {
+                varMap.put(id, null);
+                repaintVarPanel();
+            }
         }
     }
     

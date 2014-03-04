@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog;
 
+import ilm.framework.assignment.model.AssignmentState;
+
 import java.util.HashMap;
 
 import usp.ime.line.ivprog.controller.IVPController;
@@ -8,18 +10,16 @@ import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
+    
     private IVPController    controller;
     private IVPRenderer      render;
-    private HashMap          modelHash;
-    private HashMap          viewHash;
     private IVPMouseListener mL = null;
     private static Services  instance;
+    private AssignmentState current;
     
     private Services() {
         controller = new IVPController();
         render = new IVPRenderer();
-        modelHash = new HashMap();
-        viewHash = new HashMap();
         mL = new IVPMouseListener();
     }
     
@@ -41,14 +41,22 @@ public class Services {
     }
     
     public HashMap getModelMapping() {
-        return modelHash;
+        return current.getData().getModelHash();
     }
     
     public HashMap getViewMapping() {
-        return viewHash;
+        return current.getData().getViewHash();
     }
     
     public IVPMouseListener getML() {
         return mL;
+    }
+
+    public AssignmentState getCurrentState() {
+        return current;
+    }
+
+    public void setCurrentState(AssignmentState current) {
+        this.current = current;
     }
 }

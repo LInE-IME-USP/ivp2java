@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public abstract class BaseGUI extends JPanel implements Observer {
@@ -70,8 +71,10 @@ public abstract class BaseGUI extends JPanel implements Observer {
                 if (m.getObserverType() != AssignmentModule.ACTION_OBSERVER) {
                     m.update(_assignments.getCurrentState(index), null);
                 }
+                
             }
         }
+        Services.getService().setCurrentState(_assignments.getCurrentState(index));
     }
     
     protected abstract void setAuthoringButton();

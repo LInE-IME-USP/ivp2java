@@ -1,1 +1,41 @@
-<assignment><proposition></proposition><initial></initial><current></current><expected/><config></config><metadata></metadata><modules><history><createvariable><scopeid>0</scopeid><varid>1</varid><initvalue>1</initvalue></createvariable><createvariable><scopeid>0</scopeid><varid>2</varid><initvalue>1</initvalue></createvariable></history><undo_redo><undostack><createvariable><scopeid>0</scopeid><varid>1</varid><initvalue>1</initvalue></createvariable><createvariable><scopeid>0</scopeid><varid>2</varid><initvalue>1</initvalue></createvariable></undostack></undo_redo><object_list><objects></objects></object_list></modules></assignment>
+<assignment><proposition></proposition><initial></initial><current></current><expected/><config></config><metadata></metadata><modules><history><createvariable>
+   <scopeid>0</scopeid>
+   <varid>1</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+<createvariable>
+   <scopeid>0</scopeid>
+   <varid>2</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+<createvariable>
+   <scopeid>0</scopeid>
+   <varid>3</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+</history><undo_redo><undostack><createvariable>
+   <scopeid>0</scopeid>
+   <varid>1</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+<createvariable>
+   <scopeid>0</scopeid>
+   <varid>2</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+<createvariable>
+   <scopeid>0</scopeid>
+   <varid>3</varid>
+   <initvalue>1</initvalue>
+</createvariable>
+</undostack><redostack><changevariablename>
+   <lastname>variavel2</lastname>
+   <newname>julia</newname>
+   <variableid>3</variableid>
+</changevariablename>
+<changevariablename>
+   <lastname>variavel1</lastname>
+   <newname>romenig</newname>
+   <variableid>2</variableid>
+</changevariablename>
+</redostack></undo_redo><object_list><objects></objects></object_list></modules></assignment>

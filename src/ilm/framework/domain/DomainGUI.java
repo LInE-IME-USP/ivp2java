@@ -25,6 +25,7 @@ public abstract class DomainGUI extends JPanel implements Observer {
     private static final long serialVersionUID = 1L;
     protected String          _proposition;
     protected AssignmentState _state;
+    protected HashMap _actionList;
     
     /**
      * Defines the assignment-specific data that this user interface must keep. Also updates the communication among the framework components.
@@ -37,7 +38,6 @@ public abstract class DomainGUI extends JPanel implements Observer {
         _proposition = proposition;
         _state = curState;
         _state.addObserver(this);
-        HashMap _actionList = Services.getService().getController().getActionList();
         Iterator actionListIterator = _actionList.values().iterator();
         while (actionListIterator.hasNext()) {
             DomainAction action = (DomainAction) actionListIterator.next();

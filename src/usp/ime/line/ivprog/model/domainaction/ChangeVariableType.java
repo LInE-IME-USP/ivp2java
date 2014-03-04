@@ -53,14 +53,26 @@ public class ChangeVariableType extends DomainAction {
         this.newType = expressionInteger;
     }
     
-    public String toString(){
+    public short getLastType() {
+        return lastType;
+    }
+    
+    public void setLastType(short lastType) {
+        this.lastType = lastType;
+    }
+    
+    public String toString() {
         String str = "";
-        str +=  "<changevariabletype>\n" +
-                "   <variableid>"+variableID+"</variableid>\n"+
-                "   <lasttype>"+lastType+"</lasttype>\n"+
-                "   <returnedvector>"+returnedVector.toString()+"</returnedvector>\n"+
-                "   <newtype>"+newType+"</newtype>\n"+
-                "</changevariabletype>\n";
+        str += "<changevariabletype>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lasttype>" + lastType + "</lasttype>\n" + "   <returnedvector>" + returnedVector.toString()
+                + "</returnedvector>\n" + "   <newtype>" + newType + "</newtype>\n" + "</changevariabletype>\n";
         return str;
+    }
+    
+    public Vector getReturnedVector() {
+        return returnedVector;
+    }
+    
+    public void setReturnedVector(Vector returnedVector) {
+        this.returnedVector = returnedVector;
     }
 }

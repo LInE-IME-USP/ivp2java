@@ -6,6 +6,7 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class MoveComponent extends DomainAction {
+    
     private IVPProgram model;
     private String     component;
     private String     destiny;
@@ -83,17 +84,27 @@ public class MoveComponent extends DomainAction {
         this.originContext = originContext;
     }
     
-    public String toString(){
+    public int getOriginIndex() {
+        return originIndex;
+    }
+
+    public void setOriginIndex(int originIndex) {
+        this.originIndex = originIndex;
+    }
+
+    public int getDropIndex() {
+        return dropIndex;
+    }
+
+    public void setDropIndex(int dropIndex) {
+        this.dropIndex = dropIndex;
+    }
+
+    public String toString() {
         String str = "";
-        str +=  "<movecomponent>\n" +
-                "   <component>"+component+"</component>\n"+
-                "   <destiny>"+destiny+"</destiny>\n"+
-                "   <destinycontext>"+destinyContext+"</destinycontext>\n"+
-                "   <origincontext>"+originContext+"</origincontext>\n"+
-                "   <origin>"+origin+"</origin>\n"+
-                "   <originindex>"+originIndex+"</originindex>\n"+
-                "   <dropindex>"+dropIndex+"</dropindex>\n"+
-                "</movecomponent>\n";
+        str += "<movecomponent>\n" + "   <component>" + component + "</component>\n" + "   <destiny>" + destiny + "</destiny>\n" + "   <destinycontext>" + destinyContext + "</destinycontext>\n"
+                + "   <origincontext>" + originContext + "</origincontext>\n" + "   <origin>" + origin + "</origin>\n" + "   <originindex>" + originIndex + "</originindex>\n" + "   <dropindex>"
+                + dropIndex + "</dropindex>\n" + "</movecomponent>\n";
         return str;
     }
 }

@@ -45,7 +45,6 @@ public abstract class CodeComposite extends CodeComponent {
     
     public int moveChild(String child, int index) {
         int lastIndex = children.indexOf(child);
-        System.out.println("CodeComposite > " + lastIndex + " para " + index);
         if (index >= lastIndex) {
             children.add(index, child);
             if (lastIndex != -1)

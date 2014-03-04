@@ -28,16 +28,12 @@ import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
 public class IVPController {
-    private IVPProgram   program = null;
-    private IVPDomainGUI gui     = null;
-    private HashMap      actionList;
     
-    public IVPController() {
-        actionList = new HashMap();
-    }
+    private IVPProgram   program = null;
+    private IVPDomainGUI currentDomainGUI     = null;
     
     public HashMap getActionList() {
-        return actionList;
+        return currentDomainGUI.getActionList();
     }
     
     public IVPProgram getProgram() {
@@ -49,11 +45,11 @@ public class IVPController {
     }
     
     public IVPDomainGUI getGui() {
-        return gui;
+        return currentDomainGUI;
     }
     
     public void setGui(IVPDomainGUI gui) {
-        this.gui = gui;
+        this.currentDomainGUI = gui;
     }
     
     public void initializeModel() {
@@ -71,155 +67,62 @@ public class IVPController {
     }
     
     public void addChild(String containerID, short childType, String context) {
-        CreateChild newChild = (CreateChild) actionList.get("newchild");
-        newChild.setClassID(childType);
-        newChild.setContainerID(containerID);
-        newChild.setContext(context);
-        newChild.execute();
+        currentDomainGUI.addChild(containerID, childType, context);
     }
     
     public void removeChild(String containerID, String childID, String context) {
-        RemoveChild removeChild = (RemoveChild) actionList.get("removechild");
-        removeChild.setChildID(childID);
-        removeChild.setContext(context);
-        removeChild.setContainerID(containerID);
-        removeChild.execute();
+        currentDomainGUI.removeChild(containerID, childID, context);
     }
     
     public void moveChild(String child, String origin, String destiny, String originContext, String destinyContext, int dropIndex) {
-        MoveComponent mv = (MoveComponent) actionList.get("movecomponent");
-        mv.setComponent(child);
-        mv.setOrigin(origin);
-        mv.setOriginContext(originContext);
-        mv.setDestinyContext(destinyContext);
-        mv.setDestiny(destiny);
-        mv.setDropY(dropIndex);
-        mv.execute();
+        currentDomainGUI.moveChild(child, origin, destiny, originContext, destinyContext, dropIndex);
     }
     
     public void addParameter(String scopeID) {
     }
     
     public void addVariable(String scopeID, String initValue) {
-        CreateVariable newVar = (CreateVariable) actionList.get("newvar");
-        newVar.setScopeID(scopeID);
-        newVar.setInitValue(initValue);
-        newVar.execute();
+        currentDomainGUI.addVariable(scopeID, initValue);
     }
     
     public void deleteVariable(String scopeID, String id) {
-        DeleteVariable delVar = (DeleteVariable) actionList.get("delvar");
-        delVar.setScopeID(scopeID);
-        delVar.setVariableID(id);
-        delVar.execute();
+       currentDomainGUI.deleteVariable(scopeID, id);
     }
     
     public void changeVariableName(String id, String name) {
-        ChangeVariableName changeVarName = (ChangeVariableName) actionList.get("changeVarName");
-        changeVarName.setVariableID(id);
-        changeVarName.setNewName(name);
-        changeVarName.execute();
+       currentDomainGUI.changeVariableName(id, name);
     }
     
     public void changeVariableType(String id, short expressionInteger) {
-        ChangeVariableType changeVarType = (ChangeVariableType) actionList.get("changeVarType");
-        changeVarType.setVariableID(id);
-        changeVarType.setNewType(expressionInteger);
-        changeVarType.execute();
+        currentDomainGUI.changeVariableType(id, expressionInteger);
     }
     
     public void updateVariableReference(String referenceID, String newReferencedVar) {
-        UpdateReferencedVariable upVar = (UpdateReferencedVariable) actionList.get("updateReferencedVar");
-        upVar.setReferenceID(referenceID);
-        upVar.setNewVarID(newReferencedVar);
-        upVar.execute();
+        currentDomainGUI.updateVariableReference(referenceID, newReferencedVar);
     }
     
     public void changeVariableInitialValue(String id, String value) {
-        ChangeVariableInitValue change = (ChangeVariableInitValue) actionList.get("changevariableinitvalue");
-        change.setNewValue(value);
-        change.setVariableID(id);
-        change.execute();
+        currentDomainGUI.changeVariableInitialValue(id, value);
     }
     
     public void changeValue(String id, String newValue) {
-        ChangeValue chV = (ChangeValue) actionList.get("changevalue");
-        chV.setId(id);
-        chV.setNewValue(newValue);
-        chV.execute();
+        currentDomainGUI.changeValue(id, newValue);
     }
     
     public void createExpression(String leftExpID, String holder, short expressionType, short primitiveType, String context) {
-        CreateExpression createExpression = (CreateExpression) actionList.get("createexpression");
-        createExpression.setExp1(leftExpID);
-        createExpression.setHolder(holder);
-        createExpression.setExpressionType(expressionType);
-        createExpression.setContext(context);
-        createExpression.setPrimitiveType(primitiveType);
-        createExpression.execute();
+        currentDomainGUI.createExpression(leftExpID, holder, expressionType, primitiveType, context);
     }
     
     public void deleteExpression(String id, String holder, String context, boolean isClean, boolean isComparison) {
-        DeleteExpression deleteExpression = (DeleteExpression) actionList.get("deleteexpression");
-        deleteExpression.setExpression(id);
-        deleteExpression.setHolder(holder);
-        deleteExpression.setContext(context);
-        deleteExpression.setClean(isClean);
-        deleteExpression.setComparison(isComparison);
-        deleteExpression.execute();
+        currentDomainGUI.deleteExpression(id, holder, context, isClean, isComparison);
     }
     
     public void changeExpressionSign(String id, short expressionType, String context) {
-        ChangeExpressionSign changeExpression = (ChangeExpressionSign) actionList.get("changeexpressionsign");
-        changeExpression.setExpressionID(id);
-        changeExpression.setContext(context);
-        changeExpression.setNewType(expressionType);
-        changeExpression.execute();
+        currentDomainGUI.changeExpressionSign(id, expressionType, context);
     }
     
     public void initDomainActionList(DomainModel model) {
-        CreateVariable newVar = new CreateVariable("newvar", "newvar");
-        newVar.setDomainModel(model);
-        actionList.put("newvar", newVar);
-        DeleteVariable delVar = new DeleteVariable("delvar", "delvar");
-        delVar.setDomainModel(model);
-        actionList.put("delvar", delVar);
-        ChangeVariableName changeVarName = new ChangeVariableName("changeVarName", "changeVarName");
-        changeVarName.setDomainModel(model);
-        actionList.put("changeVarName", changeVarName);
-        ChangeVariableType changeVarType = new ChangeVariableType("changeVarType", "changeVarType");
-        changeVarType.setDomainModel(model);
-        actionList.put("changeVarType", changeVarType);
-        ChangeVariableInitValue change = new ChangeVariableInitValue("changevariableinitvalue", "changevariableinitvalue");
-        change.setDomainModel(model);
-        actionList.put("changevariableinitvalue", change);
-        CreateChild newChild = new CreateChild("newchild", "newchild");
-        newChild.setDomainModel(model);
-        actionList.put("newchild", newChild);
-        RemoveChild removeChild = new RemoveChild("removechild", "removechild");
-        removeChild.setDomainModel(model);
-        actionList.put("removechild", removeChild);
-        CreateExpression createExpression = new CreateExpression("createexpression", "createexpression");
-        createExpression.setDomainModel(model);
-        actionList.put("createexpression", createExpression);
-        DeleteExpression deleteExpression = new DeleteExpression("deleteexpression", "deleteexpression");
-        deleteExpression.setDomainModel(model);
-        actionList.put("deleteexpression", deleteExpression);
-        ChangeExpressionSign changeExpressionSign = new ChangeExpressionSign("changeexpressionsign", "changeexpressionsign");
-        changeExpressionSign.setDomainModel(model);
-        actionList.put("changeexpressionsign", changeExpressionSign);
-        UpdateReferencedVariable upVar = new UpdateReferencedVariable("updateReferencedVar", "updateReferencedVar");
-        upVar.setDomainModel(model);
-        actionList.put("updateReferencedVar", upVar);
-        ChangeValue chV = new ChangeValue("changevalue", "changevalue");
-        chV.setDomainModel(model);
-        actionList.put("changevalue", chV);
-        MoveComponent mv = new MoveComponent("movecomponent", "movecomponent");
-        mv.setDomainModel(model);
-        actionList.put("movecomponent", mv);
-        ChangeForMode changeFor = new ChangeForMode("changeformode", "changeformode");
-        changeFor.setDomainModel(model);
-        actionList.put("changeformode", changeFor);
+        
     }
     
     public void addComponentListener(ICodeListener listener, String id) {
@@ -238,11 +141,11 @@ public class IVPController {
     }
     
     public void changeCursor(int cursor) {
-        gui.setCursor(Cursor.getPredefinedCursor(cursor));
+        currentDomainGUI.setCursor(Cursor.getPredefinedCursor(cursor));
     }
     
     public void changeCursor(Cursor cursor) {
-        gui.setCursor(cursor);
+        currentDomainGUI.setCursor(cursor);
     }
     
     public void changeInteractionProtocol(String interactionProtocol) {
@@ -254,10 +157,7 @@ public class IVPController {
     }
     
     public void changeForMode(int forMode, String modelID) {
-        ChangeForMode change = (ChangeForMode) actionList.get("changeformode");
-        change.setNewMode(forMode);
-        change.setForID(modelID);
-        change.execute();
+        currentDomainGUI.changeForMode(forMode, modelID);
     }
     
     public void printError(String errorMessage) {

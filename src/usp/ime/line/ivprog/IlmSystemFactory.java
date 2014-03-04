@@ -15,6 +15,7 @@ import ilm.framework.gui.AuthoringGUI;
 import ilm.framework.modules.IlmModule;
 
 public class IlmSystemFactory extends SystemFactory {
+    
     public DomainModel createDomainModel() {
         IVPProgram program = new IVPProgram();
         Services.getService().getController().setProgram(program);
@@ -27,8 +28,8 @@ public class IlmSystemFactory extends SystemFactory {
     
     public DomainGUI createDomainGUI(SystemConfig config, DomainModel model) {
         IVPDomainGUI domainGUI = new IVPDomainGUI();
+        domainGUI.initDomainActionList(model);
         Services.getService().getController().setGui(domainGUI);
-        Services.getService().getController().initializeModel();
         Services.getService().getController().initDomainActionList(model);
         return domainGUI;
     }

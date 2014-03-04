@@ -111,4 +111,15 @@ public class HistoryModule extends AssignmentModule implements Serializable {
             }
         }
     }
+    
+ // romenig
+    public void executeActions() {
+        for (int i = 0; i < _history.size(); i++) {
+            Vector list = (Vector) _history.get(i);
+            for (int j = 0; j < list.size(); j++) {
+                DomainAction action = (DomainAction) list.get(j);
+                action.executeInSilence();
+            }
+        }
+    }
 }

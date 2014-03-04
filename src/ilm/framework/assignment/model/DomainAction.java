@@ -43,6 +43,15 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     }
     
     /**
+     * Silence!
+     */
+    public final void executeInSilence() {
+        executeAction();
+        _isUndo = false;
+        _isRedo = false;
+    }
+    
+    /**
      * Hook Method that must be implemented to call methods from DomainModel when this action is being executed
      * 
      * @see example.ilm.model.ActionAddSubString
@@ -57,6 +66,14 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
         _isUndo = true;
         setChanged();
         notifyObservers();
+    }
+    
+    /**
+     * Silence!!
+     */
+    public final void undoInSilence() {
+        undoAction();
+        _isUndo = true;
     }
     
     /**

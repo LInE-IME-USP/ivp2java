@@ -5,7 +5,6 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeValue extends DomainAction {
-    
     private IVPProgram model;
     private String     id;
     private String     lastValue;
@@ -81,15 +80,10 @@ public class ChangeValue extends DomainAction {
         this.holder = holder;
     }
     
-    public String toString(){
+    public String toString() {
         String str = "";
-        str +=  "<changevalue>\n" +
-                "   <id>"+id+"</id>\n"+
-                "   <lastvalue>"+lastValue+"</lastvalue>\n"+
-                "   <newvalue>"+newValue+"</newvalue>\n"+
-                "   <context>"+context+"</context>\n"+
-                "   <holder>"+holder+"</holder>\n"+
-                "</changevalue>\n";
+        str += "<changevalue>\n" + "   <id>" + id + "</id>\n" + "   <lastvalue>" + lastValue + "</lastvalue>\n" + "   <newvalue>" + newValue + "</newvalue>\n" + "   <context>" + context
+                + "</context>\n" + "   <holder>" + holder + "</holder>\n" + "</changevalue>\n";
         return str;
     }
 }

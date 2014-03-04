@@ -55,14 +55,18 @@ public class RemoveChild extends DomainAction {
         this.context = context;
     }
     
-    public String toString(){
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String toString() {
         String str = "";
-        str +=  "<removechild>\n" +
-                "   <containerid>"+containerID+"</containerid>\n"+
-                "   <childid>"+childID+"</childid>\n"+
-                "   <index>"+index+"</index>\n"+
-                "   <context>"+context+"</context>\n"+
-                "</removechild>\n";
+        str += "<removechild>\n" + "   <containerid>" + containerID + "</containerid>\n" + "   <childid>" + childID + "</childid>\n" + "   <index>" + index + "</index>\n" + "   <context>" + context
+                + "</context>\n" + "</removechild>\n";
         return str;
     }
 }

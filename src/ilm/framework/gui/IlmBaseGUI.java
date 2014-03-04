@@ -10,8 +10,10 @@ import ilm.framework.assignment.Assignment;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.gui.BaseGUI;
+import ilm.framework.modules.AssignmentModule;
 import ilm.framework.modules.IlmModule;
 import ilm.framework.modules.assignment.HistoryModule;
+import ilm.framework.modules.assignment.UndoRedoModule;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -30,7 +32,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
+import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.FlowLayout;
@@ -77,6 +82,7 @@ public class IlmBaseGUI extends BaseGUI {
             _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(0), _assignments.getInitialState(0), _assignments.getCurrentState(0),
                     _assignments.getExpectedAnswer(0), _assignments.getConfig(0), _assignments.getMetadata(0)));
             setActiveAssignment();
+            initModelAndUI(index);
         } else {
             panel.add(tabbedPane);
             for (int i = 0; i < _assignments.getNumberOfAssignments(); i++) {
@@ -84,6 +90,12 @@ public class IlmBaseGUI extends BaseGUI {
                 initAssignment(_assignments.getCurrentState(i));
             }
         }
+    }
+
+    private void initModelAndUI(int index) {
+        Services.getService().getController().getProgram().addFunctionListener( (IFunctionListener) _domainGUIList.get(index));
+        Services.getService().getController().initializeModel();
+        gambiarraDoRo(_assignments.getIlmModuleList().values());
     }
     
     private void initAssignment(AssignmentState curState) {
@@ -93,6 +105,7 @@ public class IlmBaseGUI extends BaseGUI {
         tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(index));
         tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
         setActiveAssignment();
+        initModelAndUI(index);
         _authoringGUIList.add(_factory.createAuthoringGUI((DomainGUI) _domainGUIList.get(index), _assignments.getProposition(index), _assignments.getInitialState(index),
                 _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index), _assignments.getConfig(index), _assignments.getMetadata(index)));
     }
@@ -127,8 +140,10 @@ public class IlmBaseGUI extends BaseGUI {
         int index = tabbedPane.getSelectedIndex();
         if (index == -1) {
             updateAssignmentIndex(0);
+            Services.getService().getController().setGui((IVPDomainGUI) _domainGUIList.get(0));
         } else {
             updateAssignmentIndex(index);
+            Services.getService().getController().setGui((IVPDomainGUI) _domainGUIList.get(index));
         }
     }
     
@@ -164,6 +179,7 @@ public class IlmBaseGUI extends BaseGUI {
             tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
             AssignmentState state = _assignments.newAssignment();
             initAssignment(state);
+            initModelAndUI(1);
         } else {
             initAssignment(_assignments.newAssignment());
         }
@@ -280,5 +296,29 @@ public class IlmBaseGUI extends BaseGUI {
             }
         }
         _assignments.saveAssignmentPackage(list, fileName);
+    }
+    
+    /**
+     * Gambiarra pra restaurar o estado da atividade.
+     * @param moduleList
+     */
+    public void gambiarraDoRo(Collection moduleList){
+        Iterator moduleIterator = moduleList.iterator();
+        HistoryModule h = null;
+        UndoRedoModule u = null;
+        while (moduleIterator.hasNext()) {
+            IlmModule module = (IlmModule) moduleIterator.next();
+            if (module instanceof AssignmentModule) {
+                if (module.getName().equals(IlmProtocol.HISTORY_MODULE_NAME)){
+                    h = (HistoryModule) module;
+                }else if(module.getName().equals(IlmProtocol.UNDO_REDO_MODULE_NAME)){
+                    u = (UndoRedoModule) module;
+                }
+            }
+        }
+        if(h != null)
+            h.executeActions();
+        if(u != null)
+            u.restoreFromFile();
     }
 }

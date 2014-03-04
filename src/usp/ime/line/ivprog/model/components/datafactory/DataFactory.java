@@ -25,7 +25,7 @@ public class DataFactory implements IDataFactory {
     /**
      * This integer grants an unique id for each DomainObject
      */
-    private static int objectID = 0;
+    private int objectID = 0;
     
     /*
      * (non-Javadoc)

@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.Vector;
 import java.util.Observable;
 
+import usp.ime.line.ivprog.model.IVPProgramData;
+
 public final class AssignmentState extends Observable {
     
     private Vector _objectList;
+    private IVPProgramData data;
     
     public AssignmentState() {
         _objectList = new Vector();
+        setData(new IVPProgramData());
     }
     
     public final void add(DomainObject object) {
@@ -79,5 +83,13 @@ public final class AssignmentState extends Observable {
     public void updateState(DomainObject o) {
         setChanged();
         notifyObservers(o);
+    }
+
+    public IVPProgramData getData() {
+        return data;
+    }
+
+    public void setData(IVPProgramData data) {
+        this.data = data;
     }
 }

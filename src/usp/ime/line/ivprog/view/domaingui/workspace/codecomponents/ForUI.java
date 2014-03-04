@@ -358,12 +358,10 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
     
     public boolean isContentSet() {
         boolean isCSet = true;
-        System.out.println(forMode);
         if (forMode == For.FOR_MODE_1) {
             if (!mode_1and2_upperBound.isContentSet()) {
                 isCSet = false;
             }
-            System.out.println("ta entrando aqui?!");
         } else if (forMode == For.FOR_MODE_2) {
             if (!mode_1and2_upperBound.isContentSet()) {
                 isCSet = false;

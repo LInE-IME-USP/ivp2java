@@ -5,6 +5,7 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteVariable extends DomainAction {
+    
     private IVPProgram model;
     private String     scopeID;
     private String     variableID;
@@ -46,13 +47,17 @@ public class DeleteVariable extends DomainAction {
         this.variableID = variableID;
     }
     
-    public String toString(){
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String toString() {
         String str = "";
-        str +=  "<deletevariable>\n" +
-                "   <scopeid>"+scopeID+"</scopeid>\n"+
-                "   <variableid>"+variableID+"</variableid>\n"+
-                "   <index>"+index+"</index>\n"+
-                "</deletevariable>\n";
+        str += "<deletevariable>\n" + "   <scopeid>" + scopeID + "</scopeid>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <index>" + index + "</index>\n" + "</deletevariable>\n";
         return str;
     }
 }

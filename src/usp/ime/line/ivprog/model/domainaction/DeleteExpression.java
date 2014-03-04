@@ -6,6 +6,7 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteExpression extends DomainAction {
+   
     private String     holder;
     private String     expression;
     private boolean    isClean;
@@ -73,16 +74,10 @@ public class DeleteExpression extends DomainAction {
         this.isComparison = isComparison;
     }
     
-    
-    public String toString(){
+    public String toString() {
         String str = "";
-        str +=  "<deleteexpression>\n" +
-                "   <holder>"+holder+"</holder>\n"+
-                "   <expression>"+expression+"</expression>\n"+
-                "   <isclean>"+isClean+"</isclean>\n"+
-                "   <iscomparison>"+isComparison+"</iscomparison>\n"+
-                "   <context>"+context+"</context>\n"+
-                "</deleteexpression>\n";
+        str += "<deleteexpression>\n" + "   <holder>" + holder + "</holder>\n" + "   <expression>" + expression + "</expression>\n" + "   <isclean>" + isClean + "</isclean>\n" + "   <iscomparison>"
+                + isComparison + "</iscomparison>\n" + "   <context>" + context + "</context>\n" + "</deleteexpression>\n";
         return str;
     }
 }

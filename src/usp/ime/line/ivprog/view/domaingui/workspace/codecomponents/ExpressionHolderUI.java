@@ -485,7 +485,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             isContentSet = true;
-            System.out.println("criou expressao... deveria retirar a borda...");
             if(warningState) setBorder(null);
             revalidate();
             repaint();
@@ -542,7 +541,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             isContentSet = true;
-            System.out.println("criou expressao... deveria retirar a borda...");
             if(warningState) setBorder(null);
             revalidate();
             repaint();
@@ -815,7 +813,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public void warningStateOn() {
         warningState = true;
-        System.out.println("TESTES >>> "+getParent());
         if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
             ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (getParent() instanceof ExpressionFieldUI) {
