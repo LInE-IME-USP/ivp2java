@@ -52,6 +52,7 @@ public class IlmBaseGUI extends BaseGUI {
     private JButton           openAssBtn;
     private JButton           saveAssBtn;
     private int               tabCount;
+    private boolean isOpening = false;
     
     public IlmBaseGUI() {
         setLayout(new BorderLayout(0, 0));
@@ -179,7 +180,6 @@ public class IlmBaseGUI extends BaseGUI {
             tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
             AssignmentState state = _assignments.newAssignment();
             initAssignment(state);
-            initModelAndUI(1);
         } else {
             initAssignment(_assignments.newAssignment());
         }
@@ -249,7 +249,9 @@ public class IlmBaseGUI extends BaseGUI {
                 tabbedPane.setVisible(true);
                 tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
             }
+            isOpening = true;
             initAssignment(_assignments.getCurrentState(i));
+            isOpening = false;
         }
         updateCloseButton();
     }
@@ -303,6 +305,8 @@ public class IlmBaseGUI extends BaseGUI {
      * @param moduleList
      */
     public void gambiarraDoRo(Collection moduleList){
+        if(!isOpening) return;
+        System.out.println("entrou na gambiarra...");
         Iterator moduleIterator = moduleList.iterator();
         HistoryModule h = null;
         UndoRedoModule u = null;

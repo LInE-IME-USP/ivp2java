@@ -49,6 +49,11 @@ public class IVPController {
     }
     
     public void setGui(IVPDomainGUI gui) {
+        if(currentDomainGUI!= null && currentDomainGUI.equals(gui)){
+            System.out.println("é a mesma....");
+        }else{
+            System.out.println("TROCOU");
+        }
         this.currentDomainGUI = gui;
     }
     
