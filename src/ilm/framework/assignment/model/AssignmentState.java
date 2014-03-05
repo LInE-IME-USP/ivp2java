@@ -7,8 +7,7 @@ import java.util.Observable;
 import usp.ime.line.ivprog.model.IVPProgramData;
 
 public final class AssignmentState extends Observable {
-    
-    private Vector _objectList;
+    private Vector         _objectList;
     private IVPProgramData data;
     
     public AssignmentState() {
@@ -84,11 +83,11 @@ public final class AssignmentState extends Observable {
         setChanged();
         notifyObservers(o);
     }
-
+    
     public IVPProgramData getData() {
         return data;
     }
-
+    
     public void setData(IVPProgramData data) {
         this.data = data;
     }

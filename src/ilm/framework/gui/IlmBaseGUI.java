@@ -52,7 +52,7 @@ public class IlmBaseGUI extends BaseGUI {
     private JButton           openAssBtn;
     private JButton           saveAssBtn;
     private int               tabCount;
-    private boolean isOpening = false;
+    private boolean           isOpening        = false;
     
     public IlmBaseGUI() {
         setLayout(new BorderLayout(0, 0));
@@ -92,9 +92,9 @@ public class IlmBaseGUI extends BaseGUI {
             }
         }
     }
-
+    
     private void initModelAndUI(int index) {
-        Services.getService().getController().getProgram().addFunctionListener( (IFunctionListener) _domainGUIList.get(index));
+        Services.getService().getController().getProgram().addFunctionListener((IFunctionListener) _domainGUIList.get(index));
         Services.getService().getController().initializeModel();
         gambiarraDoRo(_assignments.getIlmModuleList().values());
     }
@@ -302,27 +302,28 @@ public class IlmBaseGUI extends BaseGUI {
     
     /**
      * Gambiarra pra restaurar o estado da atividade.
+     * 
      * @param moduleList
      */
-    public void gambiarraDoRo(Collection moduleList){
-        if(!isOpening) return;
-        System.out.println("entrou na gambiarra...");
+    public void gambiarraDoRo(Collection moduleList) {
+        if (!isOpening)
+            return;
         Iterator moduleIterator = moduleList.iterator();
         HistoryModule h = null;
         UndoRedoModule u = null;
         while (moduleIterator.hasNext()) {
             IlmModule module = (IlmModule) moduleIterator.next();
             if (module instanceof AssignmentModule) {
-                if (module.getName().equals(IlmProtocol.HISTORY_MODULE_NAME)){
+                if (module.getName().equals(IlmProtocol.HISTORY_MODULE_NAME)) {
                     h = (HistoryModule) module;
-                }else if(module.getName().equals(IlmProtocol.UNDO_REDO_MODULE_NAME)){
+                } else if (module.getName().equals(IlmProtocol.UNDO_REDO_MODULE_NAME)) {
                     u = (UndoRedoModule) module;
                 }
             }
         }
-        if(h != null)
+        if (h != null)
             h.executeActions();
-        if(u != null)
+        if (u != null)
             u.restoreFromFile();
     }
 }

@@ -7,6 +7,7 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableType extends DomainAction {
+    
     private IVPProgram model;
     private short      lastType;
     private Vector     returnedVector;

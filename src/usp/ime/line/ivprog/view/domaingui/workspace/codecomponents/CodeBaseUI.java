@@ -3,6 +3,7 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -36,7 +37,7 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         initCompositePanel();
         initTrashCan();
         addMouseListener(Services.getService().getML());
-        addMouseMotionListener(Services.getService().getML());
+        addMouseMotionListener((MouseMotionListener) Services.getService().getML());
     }
     
     private void initTrashCan() {

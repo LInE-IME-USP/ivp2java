@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -43,7 +44,7 @@ public class GripArea extends JPanel {
             }
         });
         addMouseListener(Services.getService().getML());
-        addMouseMotionListener(Services.getService().getML());
+        addMouseMotionListener((MouseMotionListener) Services.getService().getML());
         try {
             ImageIcon icon = new ImageIcon(GripArea.class.getResource("/usp/ime/line/resources/icons/up_down_caret.png"));
             JLabel label = new JLabel("", icon, JLabel.CENTER);

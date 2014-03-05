@@ -14,6 +14,7 @@ import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
 
 public class Ilm extends JApplet implements IlmProtocol {
+    
     private static final long  serialVersionUID = 1L;
     private static IlmProtocol _ilmProtocol;
     

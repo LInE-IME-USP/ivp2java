@@ -4,9 +4,9 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPMatrixReference extends Reference {
-    private String             referencedMatrixID = null;
-    private String             lineExpID          = null;
-    private String             columnExpID        = null;
+    private String             referencedMatrixID = "";
+    private String             lineExpID          = "";
+    private String             columnExpID        = "";
     public static final String STRING_CLASS       = "matrixreference";
     
     public IVPMatrixReference(String name, String description) {

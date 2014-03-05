@@ -4,7 +4,8 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class VariableReference extends Reference {
-    private String             referencedVariableID = null;
+    
+    private String             referencedVariableID = "";
     public static final String STRING_CLASS         = "variablereference";
     
     public VariableReference(String name, String description) {
@@ -22,13 +23,14 @@ public class VariableReference extends Reference {
     
     /**
      * Set the referenced variable.
-     * 
      * @param referencedVar
      */
     public void setReferencedVariable(String referencedVar) {
         referencedVariableID = referencedVar;
-        if (referencedVar != null) {
+        if (referencedVar != null && !"".equals(referencedVar)) {
+            System.out.println(referencedVar);
             Variable var = (Variable) Services.getService().getModelMapping().get(referencedVar);
+            System.out.println(var);
             setReferencedName(var.getVariableName());
             setReferencedType(var.getVariableType());
         } else {

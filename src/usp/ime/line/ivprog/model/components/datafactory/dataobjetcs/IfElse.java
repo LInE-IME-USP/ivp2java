@@ -8,7 +8,7 @@ import usp.ime.line.ivprog.Services;
 
 public class IfElse extends CodeComposite {
     private Vector             elseChildren = new Vector();
-    private String             comparisonID = null;
+    private String             comparisonID = "";
     public static final String STRING_CLASS = "ifelse";
     
     public IfElse(String name, String description) {

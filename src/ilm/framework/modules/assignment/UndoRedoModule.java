@@ -180,7 +180,7 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
         }
     }
     
-    public void restoreFromFile(){
+    public void restoreFromFile() {
         for (int i = 0; i < _redoStack.size(); i++) {
             Stack stack = (Stack) _redoStack.get(i);
             for (int j = 0; j < stack.size(); j++) {
@@ -193,5 +193,4 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             }
         }
     }
-    
 }

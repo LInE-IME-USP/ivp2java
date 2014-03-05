@@ -58,6 +58,7 @@ public class ConfigurationGUI extends JFrame {
         rdBtnCnP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 rdBtnDnD.setSelected(false);
+                dispose();
                 Services.getService().getController().changeInteractionProtocol(IVPMouseListener.INTERACTION_PROTOCOL_CNP);
             }
         });
@@ -73,7 +74,8 @@ public class ConfigurationGUI extends JFrame {
         rdBtnDnD = new JRadioButton(ResourceBundleIVP.getString("rdBtnDnD.text"));
         rdBtnDnD.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                rdBtnDnD.setSelected(false);
+                rdBtnCnP.setSelected(false);
+                dispose();
                 Services.getService().getController().changeInteractionProtocol(IVPMouseListener.INTERACTION_PROTOCOL_DND);
             }
         });

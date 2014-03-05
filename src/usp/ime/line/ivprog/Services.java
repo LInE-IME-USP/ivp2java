@@ -10,12 +10,11 @@ import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
-    
     private IVPController    controller;
     private IVPRenderer      render;
     private IVPMouseListener mL = null;
     private static Services  instance;
-    private AssignmentState current;
+    private AssignmentState  current;
     
     private Services() {
         controller = new IVPController();
@@ -51,11 +50,11 @@ public class Services {
     public IVPMouseListener getML() {
         return mL;
     }
-
+    
     public AssignmentState getCurrentState() {
         return current;
     }
-
+    
     public void setCurrentState(AssignmentState current) {
         this.current = current;
     }

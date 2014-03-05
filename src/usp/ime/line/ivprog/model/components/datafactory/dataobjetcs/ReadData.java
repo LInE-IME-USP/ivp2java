@@ -4,7 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class ReadData extends CodeComponent {
-    private String             writableObject = null;
+    private String             writableObject = "";
     public static final String STRING_CLASS   = "read";
     
     public ReadData(String name, String description) {
@@ -34,7 +34,7 @@ public class ReadData extends CodeComponent {
      * Removes the printable object and return it.
      */
     public String removeWritableObject() {
-        writableObject = null;
+        writableObject = "";
         return writableObject;
     }
     

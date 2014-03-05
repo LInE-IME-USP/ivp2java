@@ -21,12 +21,12 @@ import javax.swing.ScrollPaneConstants;
 
 public class FunctionBodyUI extends JPanel implements ICodeListener {
     private static final long serialVersionUID = -1559611466195605109L;
-    private String            name             = null;
+    private String            name             = "";
     private String            type             = "-1";
     private IVPVariablePanel  variablesPanel;
     private IVPContainer      container;
     private JScrollPane       canvasHolder;
-    private String            functionID       = null;
+    private String            functionID       = "";
     
     public FunctionBodyUI(String functionID, boolean isMain) {
         this.functionID = functionID;
@@ -85,7 +85,7 @@ public class FunctionBodyUI extends JPanel implements ICodeListener {
         boolean isContentSet = container.isContentSet();
         return isContentSet;
     }
-
+    
     public void lockCodeDown() {
         container.lockCodeDown();
     }

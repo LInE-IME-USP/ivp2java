@@ -21,6 +21,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
@@ -46,7 +47,7 @@ public class IVPContainer extends JPanel {
         initLayout();
         initialization();
         addMouseListener(Services.getService().getML());
-        addMouseMotionListener(Services.getService().getML());
+        addMouseMotionListener((MouseMotionListener) Services.getService().getML());
     }
     
     private void initialization() {
@@ -254,11 +255,10 @@ public class IVPContainer extends JPanel {
         }
         return isCSet;
     }
-
+    
     public void lockCodeDown() {
         for (int i = 0; i < children.size() - 1; i++) {
-            ((IDomainObjectUI) children.get(i)).lockDownCode();            
+            ((IDomainObjectUI) children.get(i)).lockDownCode();
         }
     }
-    
 }

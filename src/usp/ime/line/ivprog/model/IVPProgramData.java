@@ -16,8 +16,8 @@ public class IVPProgramData {
     private List        expressionListeners;
     private List        operationListeners;
     private HashMap     codeListeners;
-    private HashMap          modelHash;
-    private HashMap          viewHash;
+    private HashMap     modelHash;
+    private HashMap     viewHash;
     
     public IVPProgramData() {
         setGlobalVariables(new HashMap());
@@ -104,19 +104,19 @@ public class IVPProgramData {
     public void setCodeListeners(HashMap codeListeners) {
         this.codeListeners = codeListeners;
     }
-
+    
     public HashMap getModelHash() {
         return modelHash;
     }
-
+    
     public void setModelHash(HashMap modelHash) {
         this.modelHash = modelHash;
     }
-
+    
     public HashMap getViewHash() {
         return viewHash;
     }
-
+    
     public void setViewHash(HashMap viewHash) {
         this.viewHash = viewHash;
     }

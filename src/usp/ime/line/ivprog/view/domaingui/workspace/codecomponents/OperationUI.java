@@ -207,9 +207,9 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
             ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (getParent() instanceof ExpressionHolderUI) {
             ((ExpressionHolderUI) getParent()).warningStateOn();
-        } else if(getParent() instanceof ExpressionFieldUI){
-            ((ExpressionFieldUI)getParent()).setEdition(true);
-        } else{
+        } else if (getParent() instanceof ExpressionFieldUI) {
+            ((ExpressionFieldUI) getParent()).setEdition(true);
+        } else {
             enableEdition();
         }
     }
@@ -231,14 +231,13 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
     }
     
     public boolean isBothContentSet() {
-        String ref1 = null, ref2 = null;
+        String ref1 = "", ref2 = "";
         if (Services.getService().getModelMapping().get(expressionBaseUI_1.getCurrentModelID()) instanceof VariableReference) {
             ref1 = ((VariableReference) Services.getService().getModelMapping().get(expressionBaseUI_1.getCurrentModelID())).getReferencedVariable();
         }
         if (Services.getService().getModelMapping().get(expressionBaseUI_2.getCurrentModelID()) instanceof VariableReference) {
             ref2 = ((VariableReference) Services.getService().getModelMapping().get(expressionBaseUI_2.getCurrentModelID())).getReferencedVariable();
         }
-        return (ref1 != null || ref2 != null);
+        return (!"".equals(ref1) || !"".equals(ref2));
     }
-    
 }

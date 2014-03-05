@@ -97,7 +97,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
                             editStateOff((String) item);
                         }
                         String newRefID = getNewVarID();
-                        if (newRefID != null) {
+                        if (!"".equals(newRefID)) {
                             Services.getService().getController().updateVariableReference(currentModelID, newRefID);
                         }
                         if (warningState) {
@@ -246,7 +246,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     }
     
     public void updateReference(String id) {
-        if (id == currentModelID) {
+        if (id.equals(currentModelID)) {
             String name = ((VariableReference) Services.getService().getModelMapping().get(id)).getReferencedName();
             isUpdate = true;
             varList.setSelectedItem(name);
@@ -395,7 +395,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
     
     public void editStateOff(String item) {
         varList.setVisible(false);
-        if (item != null && item != "")
+        if (item != null && !"".equals(item))
             nameLabel.setText(item);
         else
             nameLabel.setText(ResourceBundleIVP.getString("variableSelectorInitialLabel"));
@@ -425,7 +425,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         warningState = false;
         if (Services.getService().getViewMapping().get(parentModelID) instanceof ExpressionHolderUI) {
             ((ExpressionHolderUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOFF();
-        } 
+        }
         varList.setBorder(null);
         revalidate();
         repaint();
@@ -438,14 +438,14 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         int count = 0;
         for (int i = 0; i < keySetArray.length; i++) {
             String variableName = (String) indexMap.get(keySetArray[i]);
-            if (variableName != null) {
+            if (variableName != null && !variableName.equals("")) {
                 count++;
             }
         }
         isOnlyOneElement = count == 1 ? true : false;
         for (int i = 0; i < keySetArray.length; i++) {
             String variableName = (String) indexMap.get(keySetArray[i]);
-            if (variableName != null) {
+            if (variableName != null && !variableName.equals("")) {
                 varList.addItem(variableName);
             }
         }
@@ -616,9 +616,9 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
             isCSet = false;
             turnWaningStateON();
         }
-        if (!nameLabel.isVisible()){
-            if("".equals(varList.getSelectedItem()) || varList.getSelectedItem() == null){
-                if(isCSet){
+        if (!nameLabel.isVisible()) {
+            if ("".equals(varList.getSelectedItem()) || varList.getSelectedItem() == null) {
+                if (isCSet) {
                     isCSet = false;
                     turnWaningStateON();
                 }

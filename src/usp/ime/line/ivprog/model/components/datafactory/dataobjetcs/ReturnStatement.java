@@ -4,7 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class ReturnStatement extends CodeComponent {
-    private String             expressionToBeReturnedID = null;
+    private String             expressionToBeReturnedID = "";
     private short              type                     = -1;
     public static final String STRING_CLASS             = "returnstatement";
     

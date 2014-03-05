@@ -39,7 +39,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
-import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
+import usp.ime.line.ivprog.view.domaingui.IVPConsole;
 import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameBoolean;
 import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameDouble;
 import usp.ime.line.ivprog.view.domaingui.frames.AskUserFrameInteger;
@@ -50,15 +50,13 @@ import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.VariableSelec
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPProgram extends DomainModel {
-    
     private Interpreter         interpreter;
-    private String              currentScope        = "0";
+    private String              currentScope = "0";
     private AskUserFrameInteger readInteger;
     private AskUserFrameDouble  readDouble;
     private AskUserFrameString  readString;
     private AskUserFrameBoolean readBoolean;
-
-    private IVPConsoleUI        console;
+    private IVPConsole        console;
     
     public IVPProgram() {
         interpreter = new Interpreter();
@@ -295,20 +293,20 @@ public class IVPProgram extends DomainModel {
             IVariableListener listener = (IVariableListener) state.getData().getVariableListeners().get(i);
             listener.updateReference(refID);
         }
-        if (newVarRef != null) {
+        if (newVarRef != null && !"".equals(newVarRef)) {
             // significa que estou voltando ao estado inicial.
             Variable newReferenced = (Variable) Services.getService().getModelMapping().get(newVarRef);
             newReferenced.addVariableReference(refID);
         }
         Variable lastReferenced = (Variable) Services.getService().getModelMapping().get(lastReferencedVariable);
-        if (lastReferenced != null && !"".equals(lastReferenced)) {
+        if (lastReferenced != null) {
             lastReferenced.removeVariableReference(refID);
         }
         return lastReferencedVariable;
     }
     
     public String createExpression(String leftExpID, String holder, short expressionType, short primitiveType, String context, AssignmentState state) {
-        Expression exp = createExpression(leftExpID, holder, expressionType, primitiveType,state);
+        Expression exp = createExpression(leftExpID, holder, expressionType, primitiveType, state);
         updateExpressionListeners(holder, expressionType, context, state, exp);
         putExpressionOnRightPlace(holder, context, exp);
         state.add(exp);
@@ -389,9 +387,9 @@ public class IVPProgram extends DomainModel {
         String lastExpressionID;
         if (dataHolder instanceof AttributionLine) {
             ((AttributionLine) dataHolder).setRightExpression("");
-            lastExpressionID = null;
+            lastExpressionID = "";
         } else if (dataHolder instanceof Print) {
-            lastExpressionID = null;
+            lastExpressionID = "";
         } else if (dataHolder instanceof Operation) {
             ((Operation) dataHolder).removeExpression(expression);
             lastExpressionID = ((Operation) dataHolder).getExpressionA();
@@ -461,8 +459,6 @@ public class IVPProgram extends DomainModel {
         return lastValue;
     }
     
-    
-    
     public String changeVariableName(String id, String name, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         String lastName = v.getVariableName();
@@ -482,8 +478,8 @@ public class IVPProgram extends DomainModel {
     public Vector changeVariableType(String id, short newType, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
         short lastType = v.getVariableType();
-        Vector ret = new Vector();
-        ret.add(lastType);
+        Vector returnedVector = new Vector();
+        returnedVector.add(lastType);
         v.setVariableType(newType);
         v.setVariableValue(getInitvalue(newType));
         Vector attLines = new Vector();
@@ -507,11 +503,11 @@ public class IVPProgram extends DomainModel {
                 attLine.setLeftVariableType(newType);
                 AttributionLineUI attLineUI = (AttributionLineUI) Services.getService().getViewMapping().get(attLines.get(i));
                 attLineUI.updateHoldingType(newType);
-                ret.add(deleteExpression(attLine.getRightExpressionID(), attLine.getUniqueID(), "", true, false, state));
+                returnedVector.add(deleteExpression(attLine.getRightExpressionID(), attLine.getUniqueID(), "", true, false, state));
             }
         }
         state.updateState(v);
-        return ret;
+        return returnedVector;
     }
     
     public void restoreVariableType(String id, Vector ret, AssignmentState state) {
@@ -576,8 +572,12 @@ public class IVPProgram extends DomainModel {
         return 0;
     }
     
-    public void setConsoleListener(IVPConsoleUI ivpConsoleUI) {
-        interpreter.setConsole(ivpConsoleUI);
+    public void setConsoleListener(IVPConsole ivpConsoleUI) {
+        try {
+            interpreter.set("ivpConsole", ivpConsoleUI);
+        } catch (EvalError e) {
+            e.printStackTrace();
+        }
         console = ivpConsoleUI;
     }
     
@@ -660,7 +660,7 @@ public class IVPProgram extends DomainModel {
             }
             code += " Principal(); ";
             String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
-            if(error){
+            if (error) {
                 console.clean();
                 error = false;
             }
@@ -669,7 +669,7 @@ public class IVPProgram extends DomainModel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             error = true;
             printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
         }
@@ -690,6 +690,4 @@ public class IVPProgram extends DomainModel {
         }
         return true;
     }
-    
-   
 }

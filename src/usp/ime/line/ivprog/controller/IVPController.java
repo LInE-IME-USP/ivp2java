@@ -23,14 +23,13 @@ import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.MoveComponent;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
-import usp.ime.line.ivprog.view.domaingui.IVPConsoleUI;
+import usp.ime.line.ivprog.view.domaingui.IVPConsole;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;
 
 public class IVPController {
-    
-    private IVPProgram   program = null;
-    private IVPDomainGUI currentDomainGUI     = null;
+    private IVPProgram   program          = null;
+    private IVPDomainGUI currentDomainGUI = null;
     
     public HashMap getActionList() {
         return currentDomainGUI.getActionList();
@@ -49,11 +48,6 @@ public class IVPController {
     }
     
     public void setGui(IVPDomainGUI gui) {
-        if(currentDomainGUI!= null && currentDomainGUI.equals(gui)){
-            System.out.println("é a mesma....");
-        }else{
-            System.out.println("TROCOU");
-        }
         this.currentDomainGUI = gui;
     }
     
@@ -91,11 +85,11 @@ public class IVPController {
     }
     
     public void deleteVariable(String scopeID, String id) {
-       currentDomainGUI.deleteVariable(scopeID, id);
+        currentDomainGUI.deleteVariable(scopeID, id);
     }
     
     public void changeVariableName(String id, String name) {
-       currentDomainGUI.changeVariableName(id, name);
+        currentDomainGUI.changeVariableName(id, name);
     }
     
     public void changeVariableType(String id, short expressionInteger) {
@@ -127,14 +121,13 @@ public class IVPController {
     }
     
     public void initDomainActionList(DomainModel model) {
-        
     }
     
     public void addComponentListener(ICodeListener listener, String id) {
         program.addComponentListener(listener, id);
     }
     
-    public void setConsole(IVPConsoleUI ivpConsoleUI) {
+    public void setConsole(IVPConsole ivpConsoleUI) {
         program.setConsoleListener(ivpConsoleUI);
     }
     
@@ -187,7 +180,7 @@ public class IVPController {
         }
         return isCSet;
     }
-
+    
     public void lockCodeDown() {
         Object[] functions = program.getFunctionMap().values().toArray();
         for (int i = 0; i < functions.length; i++) {

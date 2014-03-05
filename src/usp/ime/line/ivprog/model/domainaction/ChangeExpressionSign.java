@@ -6,8 +6,8 @@ import ilm.framework.domain.DomainModel;
 
 public class ChangeExpressionSign extends DomainAction {
     private IVPProgram model;
-    private String     expressionID;
-    private String     context;
+    private String     expressionID = "";
+    private String     context = "";
     private short      lastType;
     private short      newType;
     
@@ -65,8 +65,8 @@ public class ChangeExpressionSign extends DomainAction {
     
     public String toString() {
         String str = "";
-        str += "<changeexpressionsign>\n" + "   <expressionid>" + expressionID + "</expressionid>\n" + "   <context>" + context + "</context>\n" + "   <lasttype>" + lastType + "</type>\n"
-                + "   <newType>" + newType + "</newType>\n" + "</changeexpressionsign>\n";
+        str += "<changeexpressionsign>\n" + "   <expressionid>" + expressionID + "</expressionid>\n" + "   <context>" + context + "</context>\n" + "   <lasttype>" + lastType + "</lasttype>\n"
+                + "   <newtype>" + newType + "</newtype>\n" + "</changeexpressionsign>\n";
         return str;
     }
 }

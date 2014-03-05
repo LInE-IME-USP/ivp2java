@@ -4,8 +4,8 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class IVPVectorReference extends Reference {
-    private String             referencedVectorID = null;
-    private String             positionExpID      = null;
+    private String             referencedVectorID = "";
+    private String             positionExpID      = "";
     public static final String STRING_CLASS       = "vectorreference";
     
     public IVPVectorReference(String name, String description) {

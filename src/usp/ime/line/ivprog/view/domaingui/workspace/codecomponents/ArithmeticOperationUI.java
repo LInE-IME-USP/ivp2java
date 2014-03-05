@@ -67,11 +67,10 @@ public class ArithmeticOperationUI extends OperationUI {
         operationSignMenu.add(changeToSubtraction);
         operationSignMenu.addSeparator();
         operationSignMenu.add(changeToIntDiv);
-        
     }
     
     public void initSignal() {
-        String sign = null;
+        String sign = "";
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
         short type = op.getOperationType();
         if (type == Expression.EXPRESSION_OPERATION_ADDITION) {
@@ -106,7 +105,7 @@ public class ArithmeticOperationUI extends OperationUI {
         }
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         disableEdition();
     }

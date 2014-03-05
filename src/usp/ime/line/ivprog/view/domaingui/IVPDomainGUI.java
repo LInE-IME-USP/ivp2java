@@ -59,14 +59,13 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
-    
     private static final long serialVersionUID = 4725912646391705263L;
     private JPanel            workspaceContainer;
     private JTabbedPane       tabbedPane;
     private JPanel            consolePanel;
     private JPanel            playAndConsolePanel;
     private RoundedJPanel     consoleContainer;
-    private IVPConsoleUI      consoleField;
+    private IVPConsole      consoleField;
     private JButton           btnPlay;
     private JLabel            lblNewLabel;
     private Component         verticalStrut;
@@ -132,13 +131,13 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         consoleContainer.setBorder(new EmptyBorder(5, 5, 5, 5));
         consolePanel.add(consoleContainer, BorderLayout.CENTER);
         consoleContainer.setLayout(new BorderLayout(0, 0));
-        consoleField = new IVPConsoleUI();
+        consoleField = new IVPConsole();
         consoleContainer.add(consoleField);
     }
     
     public void update(Observable model, Object o) {
-        if(o instanceof AssignmentState) {
-            _state = (AssignmentState)o;
+        if (o instanceof AssignmentState) {
+            _state = (AssignmentState) o;
         }
     }
     
@@ -164,7 +163,6 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     }
     
     protected void initDomainGUI() {
-        
     }
     
     public Vector getSelectedObjects() {
@@ -334,9 +332,8 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         change.setForID(modelID);
         change.execute();
     }
-
+    
     public HashMap getActionList() {
         return _actionList;
     }
-    
 }

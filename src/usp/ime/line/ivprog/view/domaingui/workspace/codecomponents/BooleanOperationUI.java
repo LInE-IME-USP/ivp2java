@@ -99,7 +99,7 @@ public class BooleanOperationUI extends OperationUI {
     }
     
     public void initSignal() {
-        String sign = null;
+        String sign = "";
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
         short type = op.getOperationType();
         if (type == Expression.EXPRESSION_OPERATION_AND) {
@@ -165,7 +165,7 @@ public class BooleanOperationUI extends OperationUI {
         }
         return isCSet;
     }
-
+    
     public void lockDownCode() {
         disableEdition();
     }

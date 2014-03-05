@@ -93,39 +93,39 @@ public class IVPDomainConverter implements DomainConverter {
             return parseCreateExpression(parameters);
         } else if (name.equals("createvariable")) {
             return parseCreateVariable(parameters);
-        } else if(name.equals("deleteexpression")){
+        } else if (name.equals("deleteexpression")) {
             return parseDeleteExpression(parameters);
-        } else if(name.equals("deletevariable")){
+        } else if (name.equals("deletevariable")) {
             return parseDeleteVariable(parameters);
-        } else if(name.equals("expressiontypechanged")){
+        } else if (name.equals("expressiontypechanged")) {
             return parseExpressionTypeChanged(parameters);
-        } else if(name.equals("movecomponent")){
+        } else if (name.equals("movecomponent")) {
             return parseMoveComponent(parameters);
-        } else if(name.equals("removechild")){
+        } else if (name.equals("removechild")) {
             return parseRemoveChild(parameters);
-        } else if(name.equals("updatereferencedvariable")){
+        } else if (name.equals("updatereferencedvariable")) {
             return parseUpdateReferencedVariable(parameters);
         }
         return null;
     }
     
     private DomainAction parseUpdateReferencedVariable(HashMap parameters) {
-        UpdateReferencedVariable action = new UpdateReferencedVariable("updatereferencedvariable","updatereferencedvariable");
+        UpdateReferencedVariable action = new UpdateReferencedVariable("updatereferencedvariable", "updatereferencedvariable");
         action.setLastVarID((String) parameters.get("lastvarid"));
         action.setNewVarID((String) parameters.get("newvarid"));
         action.setReferenceID((String) parameters.get("referenceid"));
         return action;
     }
-
+    
     private DomainAction parseRemoveChild(HashMap parameters) {
-        RemoveChild action = new RemoveChild("removechild","removechild");
+        RemoveChild action = new RemoveChild("removechild", "removechild");
         action.setChildID((String) parameters.get("childid"));
         action.setContainerID((String) parameters.get("containerid"));
         action.setContext((String) parameters.get("context"));
-        action.setIndex(Integer.parseInt((String)parameters.get("index")));
+        action.setIndex(Integer.parseInt((String) parameters.get("index")));
         return action;
     }
-
+    
     private DomainAction parseMoveComponent(HashMap parameters) {
         MoveComponent action = new MoveComponent("movecomponent", "movecomponent");
         action.setComponent((String) parameters.get("component"));
@@ -133,13 +133,13 @@ public class IVPDomainConverter implements DomainConverter {
         action.setDestinyContext((String) parameters.get("destinycontext"));
         action.setOrigin((String) parameters.get("origin"));
         action.setOriginContext((String) parameters.get("origincontext"));
-        action.setOriginIndex(Integer.parseInt((String)parameters.get("originindex")));
-        action.setDropIndex(Integer.parseInt((String)parameters.get("dropindex")));
+        action.setOriginIndex(Integer.parseInt((String) parameters.get("originindex")));
+        action.setDropIndex(Integer.parseInt((String) parameters.get("dropindex")));
         return action;
     }
-
+    
     private DomainAction parseExpressionTypeChanged(HashMap parameters) {
-        ExpressionTypeChanged action = new ExpressionTypeChanged("expressiontypechanged","expressiontypechanged");
+        ExpressionTypeChanged action = new ExpressionTypeChanged("expressiontypechanged", "expressiontypechanged");
         action.setClean(Boolean.parseBoolean((String) parameters.get("isclean")));
         action.setComparison(Boolean.parseBoolean((String) parameters.get("iscomparison")));
         action.setContext((String) parameters.get("context"));
@@ -147,7 +147,7 @@ public class IVPDomainConverter implements DomainConverter {
         action.setExpression((String) parameters.get("expression"));
         return action;
     }
-
+    
     private DomainAction parseDeleteVariable(HashMap parameters) {
         DeleteVariable action = new DeleteVariable("deletevariable", "deletevariable");
         action.setScopeID((String) parameters.get("scopeid"));
@@ -155,7 +155,7 @@ public class IVPDomainConverter implements DomainConverter {
         action.setIndex(Integer.parseInt((String) parameters.get("index")));
         return action;
     }
-
+    
     private DomainAction parseDeleteExpression(HashMap parameters) {
         DeleteExpression action = new DeleteExpression("deleteexpression", "deleteexpression");
         action.setClean(Boolean.parseBoolean((String) parameters.get("isclean")));
@@ -165,7 +165,7 @@ public class IVPDomainConverter implements DomainConverter {
         action.setExpression((String) parameters.get("expression"));
         return action;
     }
-
+    
     private DomainAction parseCreateVariable(HashMap parameters) {
         CreateVariable action = new CreateVariable("createvariable", "createvariable");
         action.setVarID((String) parameters.get("varid"));

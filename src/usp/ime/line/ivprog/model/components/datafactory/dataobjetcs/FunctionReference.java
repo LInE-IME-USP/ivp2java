@@ -7,7 +7,7 @@ import java.util.Vector;
 import usp.ime.line.ivprog.Services;
 
 public class FunctionReference extends Reference {
-    private String             referencedFunctionID   = null;
+    private String             referencedFunctionID   = "";
     private String             functionReferencedType = "-1";
     private Vector             parameterList          = new Vector();
     public static final String STRING_CLASS           = "functionreference";

@@ -96,7 +96,7 @@ public class For extends CodeComposite {
         Expression inc = (Expression) Services.getService().getModelMapping().get(incrementExpression);
         String str = "";
         if (currentForMode == FOR_MODE_1) {
-            str += "for(i"+getUniqueID()+ "= 0; i"+getUniqueID()+ " < " + upper.toJavaString() + "; i"+getUniqueID()+ "++){";
+            str += "for(i" + getUniqueID() + "= 0; i" + getUniqueID() + " < " + upper.toJavaString() + "; i" + getUniqueID() + "++){";
         } else if (currentForMode == FOR_MODE_2) {
             str += "for(" + index.toJavaString() + " = 0; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "++){";
         } else if (currentForMode == FOR_MODE_3) {

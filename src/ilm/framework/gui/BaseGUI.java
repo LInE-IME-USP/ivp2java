@@ -71,7 +71,6 @@ public abstract class BaseGUI extends JPanel implements Observer {
                 if (m.getObserverType() != AssignmentModule.ACTION_OBSERVER) {
                     m.update(_assignments.getCurrentState(index), null);
                 }
-                
             }
         }
         Services.getService().setCurrentState(_assignments.getCurrentState(index));

@@ -8,11 +8,210 @@
    <varid>2</varid>
    <initvalue>1</initvalue>
 </createvariable>
-<createvariable>
-   <scopeid>0</scopeid>
-   <varid>3</varid>
-   <initvalue>1</initvalue>
-</createvariable>
+<createchild>
+   <containerid>0</containerid>
+   <scopeid>null</scopeid>
+   <objectid>3</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<createchild>
+   <containerid>0</containerid>
+   <scopeid>null</scopeid>
+   <objectid>5</objectid>
+   <context></context>
+   <classid>21</classid>
+   <index>0</index>
+</createchild>
+<createexpression>
+   <holder>6</holder>
+   <lastexpression></lastexpression>
+   <newexpression>7</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>left</context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>7</referenceid>
+</updatereferencedvariable>
+<changeexpressionsign>
+   <expressionid>6</expressionid>
+   <context></context>
+   <lasttype>9</type>
+   <newType>8</newType>
+</changeexpressionsign>
+<createexpression>
+   <holder>6</holder>
+   <lastexpression></lastexpression>
+   <newexpression>8</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<changevalue>
+   <id>8</id>
+   <lastvalue>1</lastvalue>
+   <newvalue>10</newvalue>
+   <context></context>
+   <holder></holder>
+</changevalue>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>9</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>10</referenceid>
+</updatereferencedvariable>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>4</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>3</holder>
+   <lastexpression></lastexpression>
+   <newexpression>11</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>11</referenceid>
+</updatereferencedvariable>
+<updatereferencedvariable>
+   <lastvarid>2</lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>11</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>3</holder>
+   <lastexpression>11</lastexpression>
+   <newexpression>12</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>12</holder>
+   <lastexpression></lastexpression>
+   <newexpression>13</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<changevalue>
+   <id>13</id>
+   <lastvalue>1</lastvalue>
+   <newvalue>10</newvalue>
+   <context></context>
+   <holder></holder>
+</changevalue>
+<createexpression>
+   <holder>9</holder>
+   <lastexpression></lastexpression>
+   <newexpression>14</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>9</holder>
+   <lastexpression>14</lastexpression>
+   <newexpression>15</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>15</holder>
+   <lastexpression></lastexpression>
+   <newexpression>16</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>16</referenceid>
+</updatereferencedvariable>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>17</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>18</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>17</holder>
+   <lastexpression></lastexpression>
+   <newexpression>19</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>19</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>17</holder>
+   <lastexpression>19</lastexpression>
+   <newexpression>20</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>20</holder>
+   <lastexpression></lastexpression>
+   <newexpression>21</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>22</objectid>
+   <context></context>
+   <classid>23</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>23</referenceid>
+</updatereferencedvariable>
 </history><undo_redo><undostack><createvariable>
    <scopeid>0</scopeid>
    <varid>1</varid>
@@ -23,19 +222,208 @@
    <varid>2</varid>
    <initvalue>1</initvalue>
 </createvariable>
-<createvariable>
-   <scopeid>0</scopeid>
-   <varid>3</varid>
-   <initvalue>1</initvalue>
-</createvariable>
-</undostack><redostack><changevariablename>
-   <lastname>variavel2</lastname>
-   <newname>julia</newname>
-   <variableid>3</variableid>
-</changevariablename>
-<changevariablename>
-   <lastname>variavel1</lastname>
-   <newname>romenig</newname>
-   <variableid>2</variableid>
-</changevariablename>
-</redostack></undo_redo><object_list><objects></objects></object_list></modules></assignment>
+<createchild>
+   <containerid>0</containerid>
+   <scopeid>null</scopeid>
+   <objectid>3</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<createchild>
+   <containerid>0</containerid>
+   <scopeid>null</scopeid>
+   <objectid>5</objectid>
+   <context></context>
+   <classid>21</classid>
+   <index>0</index>
+</createchild>
+<createexpression>
+   <holder>6</holder>
+   <lastexpression></lastexpression>
+   <newexpression>7</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>left</context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>7</referenceid>
+</updatereferencedvariable>
+<changeexpressionsign>
+   <expressionid>6</expressionid>
+   <context></context>
+   <lasttype>9</type>
+   <newType>8</newType>
+</changeexpressionsign>
+<createexpression>
+   <holder>6</holder>
+   <lastexpression></lastexpression>
+   <newexpression>8</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<changevalue>
+   <id>8</id>
+   <lastvalue>1</lastvalue>
+   <newvalue>10</newvalue>
+   <context></context>
+   <holder></holder>
+</changevalue>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>9</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>10</referenceid>
+</updatereferencedvariable>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>4</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>3</holder>
+   <lastexpression></lastexpression>
+   <newexpression>11</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>11</referenceid>
+</updatereferencedvariable>
+<updatereferencedvariable>
+   <lastvarid>2</lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>11</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>3</holder>
+   <lastexpression>11</lastexpression>
+   <newexpression>12</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>12</holder>
+   <lastexpression></lastexpression>
+   <newexpression>13</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<changevalue>
+   <id>13</id>
+   <lastvalue>1</lastvalue>
+   <newvalue>10</newvalue>
+   <context></context>
+   <holder></holder>
+</changevalue>
+<createexpression>
+   <holder>9</holder>
+   <lastexpression></lastexpression>
+   <newexpression>14</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>9</holder>
+   <lastexpression>14</lastexpression>
+   <newexpression>15</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>15</holder>
+   <lastexpression></lastexpression>
+   <newexpression>16</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>16</referenceid>
+</updatereferencedvariable>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>17</objectid>
+   <context></context>
+   <classid>25</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>18</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>17</holder>
+   <lastexpression></lastexpression>
+   <newexpression>19</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>0</expressiontype>
+   <primitivetype>13</primitivetype>
+</createexpression>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>2</newvarid>
+   <referenceid>19</referenceid>
+</updatereferencedvariable>
+<createexpression>
+   <holder>17</holder>
+   <lastexpression>19</lastexpression>
+   <newexpression>20</newexpression>
+   <removedexpression>null</removedexpression>
+   <context></context>
+   <expressiontype>1</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createexpression>
+   <holder>20</holder>
+   <lastexpression></lastexpression>
+   <newexpression>21</newexpression>
+   <removedexpression>null</removedexpression>
+   <context>right</context>
+   <expressiontype>13</expressiontype>
+   <primitivetype>-1</primitivetype>
+</createexpression>
+<createchild>
+   <containerid>5</containerid>
+   <scopeid>null</scopeid>
+   <objectid>22</objectid>
+   <context></context>
+   <classid>23</classid>
+   <index>0</index>
+</createchild>
+<updatereferencedvariable>
+   <lastvarid></lastvarid>
+   <newvarid>1</newvarid>
+   <referenceid>23</referenceid>
+</updatereferencedvariable>
+</undostack></undo_redo><object_list><objects></objects></object_list></modules></assignment>

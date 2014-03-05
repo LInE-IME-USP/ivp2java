@@ -55,7 +55,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private short             holdingType         = -1;
     private boolean           isForHeader         = false;
     private String            forContext          = "";
-    private boolean warningState = false;
+    private boolean           warningState        = false;
     
     public ExpressionHolderUI(String parent, String scopeID) {
         init(parent, scopeID);
@@ -436,7 +436,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     }
     
     private void expressionCreatedNormal(String holder, String id, String context) {
-        if (holder == parentModelID && operationContext.equals(context)) {
+        if (holder.equals(parentModelID) && operationContext.equals(context)) {
             JComponent lastExp = expression;
             if (expression != null)
                 remove(expression);
@@ -465,7 +465,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
                 ((OperationUI) expression).setExpressionType(holdingType);
                 if (!isComparison) {
-                    if (lastExp != null)
+                    if (lastExp != null && !"".equals(lastExp))
                         ((OperationUI) expression).setExpressionBaseUI_1(lastExp);
                 }
                 if (isEditing) {
@@ -478,21 +478,23 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             if (Services.getService().getViewMapping().get(parentModelID) instanceof CodeBaseUI) { // nessa atualização tenho que olhar o contexto...
-                if (lastExp != null) {
+                if (lastExp != null && !"".equals(lastExp)) {
                     Services.getService().getController().updateParent(parentModelID, ((IDomainObjectUI) lastExp).getModelID(), id, operationContext);
                 } else {
                     Services.getService().getController().updateParent(parentModelID, "", id, operationContext);
                 }
             }
             isContentSet = true;
-            if(warningState) setBorder(null);
+            drawBorder = false;
+            if (warningState)
+                setBorder(null);
             revalidate();
             repaint();
         }
     }
     
     private void expressionCreatedFor(String holder, String id, String context) {
-        if (holder == parentModelID && forContext.equals(context)) {
+        if (holder.equals(parentModelID) && forContext.equals(context)) {
             JComponent lastExp = expression;
             if (expression != null)
                 remove(expression);
@@ -534,14 +536,16 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
                 }
             }
             if (Services.getService().getViewMapping().get(parentModelID) instanceof CodeBaseUI) { // nessa atualização tenho que olhar o contexto...
-                if (lastExp != null) {
+                if (lastExp != null && !"".equals(lastExp)) {
                     Services.getService().getController().updateParent(parentModelID, ((IDomainObjectUI) lastExp).getModelID(), id, forContext);
                 } else {
                     Services.getService().getController().updateParent(parentModelID, "", id, forContext);
                 }
             }
             isContentSet = true;
-            if(warningState) setBorder(null);
+            drawBorder = false;
+            if (warningState)
+                setBorder(null);
             revalidate();
             repaint();
         }
@@ -620,6 +624,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             JComponent restoredExp = (JComponent) Services.getService().getViewMapping().get(id);
             setExpression(restoredExp);
             isContentSet = true;
+            drawBorder = false;
         }
         revalidate();
         repaint();
@@ -816,17 +821,17 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         if (Services.getService().getViewMapping().get(parentModelID) instanceof OperationUI) {
             ((OperationUI) Services.getService().getViewMapping().get(parentModelID)).warningStateOn();
         } else if (getParent() instanceof ExpressionFieldUI) {
-            ((ExpressionFieldUI)getParent()).setEdition(true);
+            ((ExpressionFieldUI) getParent()).setEdition(true);
         } else if (getParent() instanceof ExpressionHolderUI) {
-            ((ExpressionHolderUI)getParent()).warningStateOn();
+            ((ExpressionHolderUI) getParent()).warningStateOn();
         }
-        if(!isContentSet)
+        if (!isContentSet)
             setBorder(BorderFactory.createLineBorder(Color.red));
         revalidate();
         repaint();
     }
     
-    public void warningStateOFF(){
+    public void warningStateOFF() {
         warningState = false;
         setBorder(null);
         revalidate();
@@ -843,11 +848,11 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     
     public boolean isCSet() {
         boolean isCSet = true;
-        if(isContentSet){
-            if(!((IDomainObjectUI)expression).isContentSet()){
+        if (isContentSet) {
+            if (!((IDomainObjectUI) expression).isContentSet()) {
                 isCSet = false;
             }
-        }else{
+        } else {
             isCSet = false;
             warningStateOn();
         }
@@ -882,6 +887,4 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     public void setForContext(String forContext) {
         this.forContext = forContext;
     }
-    
-    
 }

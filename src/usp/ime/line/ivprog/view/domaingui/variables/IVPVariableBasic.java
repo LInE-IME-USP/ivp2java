@@ -38,7 +38,6 @@ import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import java.awt.Color;
 
 public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
-    
     private JPanel      valueContainer;
     private JLabel      equalLabel;
     private EditInPlace name;
@@ -166,7 +165,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
                     Services.getService().getController().changeVariableName(currentModelID, value);
                 } else {
                     Variable v = (Variable) Services.getService().getModelMapping().get(currentModelID);
-                    if(!v.getVariableName().equals(value)){
+                    if (!v.getVariableName().equals(value)) {
                         Services.getService().getController().printError(ResourceBundleIVP.getString("Error.sameVariableName") + " " + value);
                     } else {
                         name.resetTextField();
@@ -290,8 +289,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     public boolean isContentSet() {
         return true;
     }
-
+    
     public void lockDownCode() {
-        
     }
 }

@@ -35,7 +35,7 @@ public class StringOperationUI extends OperationUI {
     }
     
     public void initSignal() {
-        String sign = null;
+        String sign = "";
         Operation op = (Operation) Services.getService().getModelMapping().get(currentModelID);
         short type = op.getOperationType();
         if (type == Expression.EXPRESSION_OPERATION_CONCAT) {

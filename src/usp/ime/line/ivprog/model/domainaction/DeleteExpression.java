@@ -6,7 +6,6 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteExpression extends DomainAction {
-   
     private String     holder;
     private String     expression;
     private boolean    isClean;

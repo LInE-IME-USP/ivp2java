@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 final class AssignmentParser {
     /**
-     * CONVERS√ÉO DE STRING PARA ATIVIDADE (LEITURA DE ARQUIVOS)
+     * CONVERS√O DE STRING PARA ATIVIDADE (LEITURA DE ARQUIVOS)
      * 
      * @param converter
      * @param assignmentString

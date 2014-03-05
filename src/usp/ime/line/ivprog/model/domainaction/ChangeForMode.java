@@ -8,7 +8,7 @@ public class ChangeForMode extends DomainAction {
     private IVPProgram model;
     private int        lastMode;
     private int        newMode;
-    private String     forID;
+    private String     forID = "";
     
     public ChangeForMode(String name, String description) {
         super(name, description);

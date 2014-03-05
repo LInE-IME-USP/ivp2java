@@ -1,9 +1,11 @@
 package ilm.framework.comm;
 
 import ilm.framework.IlmProtocol;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -18,38 +20,32 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class IlmDesktopFileRW implements ICommunication {
+    
     public String readMetadataFile(String packageName) throws IOException {
-        File sourceZipFile = new File(packageName);
         try {
-            ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
-            InputStream inMetadata = zipFile.getInputStream(zipFile.getEntry(IlmProtocol.METADATA_FILENAME));
-            String metadataContent = convertInputStreamToString(inMetadata);
-            zipFile.close();
-            return metadataContent;
+            InputStream f = new FileInputStream(packageName);
+            String fileString = convertInputStreamToString(f);
+            String metadata = fileString.substring(0, fileString.lastIndexOf("</package>"));
+            return metadata;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
     }
     
     public Vector readResourceFiles(String packageName, Vector resourceList) {
-        // TODO Auto-generated method stub
         return null;
     }
     
     public Vector readAssignmentFiles(String packageName, Vector assignmentFileList) throws IOException {
-        File sourceZipFile = new File(packageName);
+        Vector assignmentContentList = new Vector();
         try {
-            ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
-            InputStream in;
-            Vector assignmentContentList = new Vector();
-            for (int i = 0; i < assignmentFileList.size(); i++) {
-                String fileName = (String) assignmentFileList.get(i);
-                in = zipFile.getInputStream(zipFile.getEntry(fileName));
-                assignmentContentList.add(convertInputStreamToString(in));
-            }
-            zipFile.close();
+            //ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
+            String fullName = (packageName.indexOf(".ivp2") != -1)?packageName:packageName+".ivp2";
+            
+            InputStream f = new FileInputStream(fullName);
+            String fileString = convertInputStreamToString(f);
+            assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>")+1,fileString.length()-1));
             return assignmentContentList;
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -59,37 +55,12 @@ public class IlmDesktopFileRW implements ICommunication {
     }
     
     public ZipFile writeAssignmentPackage(String packageName, String metadata, Vector resourceNameList, Vector resourceList, Vector assignmentNameList, Vector assignmentList) {
-        writeFile(metadata, IlmProtocol.METADATA_FILENAME);
+        String str = metadata;
         for (int i = 0; i < assignmentNameList.size(); i++) {
-            writeFile((String) assignmentList.get(i), (String) assignmentNameList.get(i));
+            str += assignmentList.get(i);
         }
-        try {
-            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(packageName));
-            BufferedReader in = new BufferedReader(new FileReader(IlmProtocol.METADATA_FILENAME));
-            zos.putNextEntry(new ZipEntry(IlmProtocol.METADATA_FILENAME));
-            int c;
-            while ((c = in.read()) != -1)
-                zos.write(c);
-            in.close();
-            zos.closeEntry();
-            for (int i = 0; i < assignmentNameList.size(); i++) {
-                String fileName = (String) assignmentNameList.get(i);
-                in = new BufferedReader(new FileReader(fileName));
-                zos.putNextEntry(new ZipEntry(fileName));
-                while ((c = in.read()) != -1)
-                    zos.write(c);
-                in.close();
-                zos.closeEntry();
-            }
-            zos.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // TODO Return something meaningfull
+        String fullName = (packageName.indexOf(".ivp2") != -1)?packageName:packageName+".ivp2";
+        writeFile(str,fullName);        
         return null;
     }
     

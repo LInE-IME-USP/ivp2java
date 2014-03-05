@@ -4,7 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 import usp.ime.line.ivprog.Services;
 
 public class Print extends CodeComponent {
-    private String             printableObjectID = null;
+    private String             printableObjectID = "";
     public static final String STRING_CLASS      = "print";
     
     public Print(String name, String description) {
@@ -34,7 +34,7 @@ public class Print extends CodeComponent {
      * Removes the printable object and return it.
      */
     public String removePrintableObject() {
-        printableObjectID = null;
+        printableObjectID = "";
         return printableObjectID;
     }
     
@@ -45,7 +45,7 @@ public class Print extends CodeComponent {
     }
     
     public String toJavaString() {
-        String str = " bsh.console.println( \"> \"+";
+        String str = " ivpConsole.println( \"> \"+";
         Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
         str += e.toJavaString();
         str += ");";
