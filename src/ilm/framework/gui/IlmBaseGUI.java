@@ -7,6 +7,7 @@ import java.util.Observable;
 
 import ilm.framework.IlmProtocol;
 import ilm.framework.assignment.Assignment;
+import ilm.framework.assignment.AssignmentControl;
 import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.domain.DomainGUI;
 import ilm.framework.gui.BaseGUI;
@@ -100,6 +101,8 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     private void initAssignment(AssignmentState curState) {
+        
+        
         _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
         int index = _domainGUIList.size() - 1;
         ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(index), curState, _assignments.getIlmModuleList().values());
@@ -111,22 +114,26 @@ public class IlmBaseGUI extends BaseGUI {
                 _assignments.getCurrentState(index), _assignments.getExpectedAnswer(index), _assignments.getConfig(index), _assignments.getMetadata(index)));
     }
     
-    public void initToolbar(Collection moduleList) {
-        addToolBarButtons();
+    public void initToolbar(Collection moduleList, boolean isApplet) {
+        addToolBarButtons(isApplet);
         Iterator moduleIterator = moduleList.iterator();
         while (moduleIterator.hasNext()) {
             IlmModule module = (IlmModule) moduleIterator.next();
-            buttonsMenu.add(module.getGUI());
-            buttonsMenu.add(Box.createHorizontalStrut(50));
+            if (!(module instanceof HistoryModule)) {
+                buttonsMenu.add(module.getGUI());
+                buttonsMenu.add(Box.createHorizontalStrut(50));
+            }
         }
     }
     
-    private void addToolBarButtons() {
-        setAuthoringButton();
-        setNewAssignmentButton();
-        setCloseAssignmentButton();
-        setOpenAssignmentButton();
-        setSaveAssignmentButton();
+    private void addToolBarButtons(boolean isApplet) {
+        if (!isApplet) {
+            setAuthoringButton();
+            setNewAssignmentButton();
+            setCloseAssignmentButton();
+            setOpenAssignmentButton();
+            setSaveAssignmentButton();
+        }
     }
     
     public void update(Observable o, Object arg) {
@@ -177,7 +184,7 @@ public class IlmBaseGUI extends BaseGUI {
             panel.removeAll();
             panel.add(tabbedPane);
             tabbedPane.setVisible(true);
-            tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
+            tabbedPane.addTab("atividade " + (tabCount++), (Component) _domainGUIList.get(0));
             AssignmentState state = _assignments.newAssignment();
             initAssignment(state);
         } else {
@@ -247,13 +254,31 @@ public class IlmBaseGUI extends BaseGUI {
                 panel.removeAll();
                 panel.add(tabbedPane);
                 tabbedPane.setVisible(true);
-                tabbedPane.addTab("assign" + (tabCount++), (Component) _domainGUIList.get(0));
+                tabbedPane.addTab("atividade " + (tabCount++), (Component) _domainGUIList.get(0));
             }
             isOpening = true;
             initAssignment(_assignments.getCurrentState(i));
             isOpening = false;
         }
         updateCloseButton();
+    }
+    
+    public void openAssignmentFromURL(String file){
+        if (file == null) {
+            return;
+        }
+        int initialIndex = ((AssignmentControl)_assignments).openAssignmentPackageFromURL(file);
+        for (int i = initialIndex; i < _assignments.getNumberOfAssignments(); i++) {
+            if (_domainGUIList.size() == 1) {
+                panel.removeAll();
+                panel.add(tabbedPane);
+                tabbedPane.setVisible(true);
+                tabbedPane.addTab("atividade " + (tabCount++), (Component) _domainGUIList.get(0));
+            }
+            isOpening = true;
+            initAssignment(_assignments.getCurrentState(i));
+            isOpening = false;
+        }
     }
     
     private String getFileNameFromWindow(String option) {

@@ -56,7 +56,7 @@ public class IVPProgram extends DomainModel {
     private AskUserFrameDouble  readDouble;
     private AskUserFrameString  readString;
     private AskUserFrameBoolean readBoolean;
-    private IVPConsole        console;
+    private IVPConsole          console;
     
     public IVPProgram() {
         interpreter = new Interpreter();
@@ -653,21 +653,23 @@ public class IVPProgram extends DomainModel {
     public void playCode() {
         if (Services.getService().getController().isContentSet()) {
             Services.getService().getController().lockCodeDown();
-            String code = " ";
+            String code = "";
             Object[] functionList = Services.getService().getCurrentState().getData().getFunctionMap().values().toArray();
             for (int i = 0; i < functionList.length; i++) {
                 code += " " + ((Function) functionList[i]).toJavaString() + " ";
             }
             code += " Principal(); ";
-            String finalCode = "Runnable r = new Runnable(){ public void run() {" + code + "} }; Thread t = new Thread(r); t.run();";
             if (error) {
                 console.clean();
                 error = false;
             }
             try {
-                interpreter.eval(finalCode);
-            } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(code);
+                interpreter.eval(code);
+            } catch (EvalError e) {
+                System.out.println("causa "+e.getCause());
+                if(e.getCause().equals("/ by zero"));
+                    console.printError("Cuidado! Na linha "+e.getErrorLineNumber()+" ocorre uma divisão por 0.");
             }
         } else {
             error = true;

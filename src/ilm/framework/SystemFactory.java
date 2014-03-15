@@ -18,6 +18,7 @@ import ilm.framework.gui.IlmBaseGUI;
 import ilm.framework.modules.IlmModule;
 
 public abstract class SystemFactory {
+    
     private DomainModel     model;
     private DomainConverter converter;
     

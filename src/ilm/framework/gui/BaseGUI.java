@@ -42,14 +42,14 @@ public abstract class BaseGUI extends JPanel implements Observer {
         _activeAssignment = 0;
     }
     
-    public void initGUI() {
+    public void initGUI(boolean isApplet) {
         initAssignments();
-        initToolbar(_assignments.getIlmModuleList().values());
+        initToolbar(_assignments.getIlmModuleList().values(), isApplet);
     }
     
     protected abstract void initAssignments();
     
-    protected abstract void initToolbar(Collection moduleList);
+    protected abstract void initToolbar(Collection moduleList, boolean isApplet);
     
     public void startDesktop() {
         final JFrame frame = new JFrame();

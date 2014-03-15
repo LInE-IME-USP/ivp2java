@@ -18,17 +18,16 @@ import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 
-public class IVPConsole extends JPanel{
+public class IVPConsole extends JPanel {
+    private JTextPane          textPane;
+    private JScrollPane        scrollPane;
+    private StyledDocument     doc;
+    private String[]           styles;
+    private final StyleContext cont        = StyleContext.getDefaultStyleContext();
+    private final AttributeSet attrRed     = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
+    private final AttributeSet attrRegular = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
+    private final AttributeSet attrYellow  = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.YELLOW);
     
-    private JTextPane textPane;
-    private JScrollPane scrollPane;
-    private StyledDocument doc;
-    private String[]       styles;
-    private final StyleContext     cont        = StyleContext.getDefaultStyleContext();
-    private final AttributeSet     attrRed     = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
-    private final AttributeSet     attrRegular = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
-    private final AttributeSet     attrYellow  = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.YELLOW);
-
     public IVPConsole() {
         setLayout(new BorderLayout(0, 0));
         setBackground(FlatUIColors.CONSOLE_COLOR);
@@ -71,5 +70,4 @@ public class IVPConsole extends JPanel{
     public void clean() {
         textPane.setText("");
     }
-    
 }

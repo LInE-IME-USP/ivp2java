@@ -8,15 +8,21 @@
 package usp.ime.line.ivprog;
 
 import java.util.zip.ZipFile;
+
 import ilm.framework.IlmProtocol;
 import ilm.framework.SystemControl;
+import ilm.framework.gui.IlmBaseGUI;
+
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
 
+import usp.ime.line.ivprog.model.utils.StrUtilities;
+
 public class Ilm extends JApplet implements IlmProtocol {
-    
-    private static final long  serialVersionUID = 1L;
+    private static final long  serialVersionUID        = 1L;
     private static IlmProtocol _ilmProtocol;
+    private String             MA_PARAM_PropositionUrl = "";
+    private String             MA_PARAM_Proposition    = "";
     
     public static void main(String[] args) {
         final SystemControl ilmControl = new SystemControl();
@@ -36,16 +42,17 @@ public class Ilm extends JApplet implements IlmProtocol {
     public void init() {
         String[] args = GetParam();
         final SystemControl ilmControl = new SystemControl();
-        ilmControl.initialize(false, args, new IlmSystemFactory());
+        ilmControl.initialize(true, args, new IlmSystemFactory());
         _ilmProtocol = ilmControl.getProtocol();
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    add(ilmControl.getAppletGUI());
-                }
-            });
-        } catch (Exception e) {
-            System.err.println("createGUI didn't complete successfully");
+        IlmBaseGUI gui = (IlmBaseGUI)ilmControl.getAppletGUI();
+        add(gui);
+        String paramPropositionURL = "", // it is a string content of IVP or it is an URL of the content file
+        paramPropositionIsURL = ""; // if "true" => 'paramPropositionSTR' it is an URL with file address
+        paramPropositionURL = getParameter("MA_PARAM_Proposition");
+        paramPropositionIsURL = getParameter("MA_PARAM_PropositionURL");
+        String fileAsString = StrUtilities.readFromURL(this, paramPropositionURL);
+        if(fileAsString!=null && !"".equals(fileAsString)){
+            (gui).openAssignmentFromURL(fileAsString);
         }
     }
     

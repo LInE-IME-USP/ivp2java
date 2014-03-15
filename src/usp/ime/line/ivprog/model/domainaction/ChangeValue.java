@@ -6,11 +6,11 @@ import ilm.framework.domain.DomainModel;
 
 public class ChangeValue extends DomainAction {
     private IVPProgram model;
-    private String     id="";
-    private String     lastValue="";
-    private String     newValue="";
-    private String     context="";
-    private String     holder="";
+    private String     id        = "";
+    private String     lastValue = "";
+    private String     newValue  = "";
+    private String     context   = "";
+    private String     holder    = "";
     
     public ChangeValue(String name, String description) {
         super(name, description);

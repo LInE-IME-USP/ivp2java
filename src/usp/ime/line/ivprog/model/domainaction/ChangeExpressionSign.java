@@ -7,7 +7,7 @@ import ilm.framework.domain.DomainModel;
 public class ChangeExpressionSign extends DomainAction {
     private IVPProgram model;
     private String     expressionID = "";
-    private String     context = "";
+    private String     context      = "";
     private short      lastType;
     private short      newType;
     

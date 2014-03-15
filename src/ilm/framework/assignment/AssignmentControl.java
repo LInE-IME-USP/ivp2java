@@ -156,7 +156,8 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         HashMap metadata = parser.convertStringToMap(metadataFileContent, IlmProtocol.METADATA_LIST_NODE);
         try {
             Vector assignmentList = _comm.readAssignmentFiles(packageFileName, assignmentFileList);
-            return parser.mergeMetadata(assignmentList, metadata);
+            Vector parseReturned = parser.mergeMetadata(assignmentList, metadata);
+            return parseReturned;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -193,8 +194,24 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     
     public int openAssignmentPackage(String fileName) {
         int initIndex = _assignmentList.size();
-        _assignmentList.addAll(createAssignments(loadAssignmentFiles(fileName)));
+        Vector v = createAssignments(loadAssignmentFiles(fileName));
+        
+        Vector loadedFiles = loadAssignmentFiles(fileName);
+        Vector createdAssignments = createAssignments(loadedFiles);
+        _assignmentList.addAll(createdAssignments);
         getConfigFromMetadataFile(loadMetadataFile(fileName));
+        return initIndex;
+    }
+    
+    public int openAssignmentPackageFromURL(String file){
+        AssignmentParser parser = new AssignmentParser();
+        HashMap metadata = parser.convertStringToMap(file.substring(0, file.lastIndexOf("</package>")), IlmProtocol.METADATA_LIST_NODE);
+        int initIndex = _assignmentList.size();
+        Vector v = new Vector();
+        v.add(file.substring(file.lastIndexOf("</package>") + 1, file.length() - 1));
+        Vector created = createAssignments(v);
+        _assignmentList.addAll(created);
+        getConfigFromMetadataFile(file.substring(0, file.lastIndexOf("</package>")));
         return initIndex;
     }
     

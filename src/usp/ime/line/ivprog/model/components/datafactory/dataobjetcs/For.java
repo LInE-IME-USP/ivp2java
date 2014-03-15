@@ -96,16 +96,16 @@ public class For extends CodeComposite {
         Expression inc = (Expression) Services.getService().getModelMapping().get(incrementExpression);
         String str = "";
         if (currentForMode == FOR_MODE_1) {
-            str += "for(i" + getUniqueID() + "= 0; i" + getUniqueID() + " < " + upper.toJavaString() + "; i" + getUniqueID() + "++){";
+            str += "for(i" + getUniqueID() + "= 0; i" + getUniqueID() + " < " + upper.toJavaString() + "; i" + getUniqueID() + "++){\n";
         } else if (currentForMode == FOR_MODE_2) {
-            str += "for(" + index.toJavaString() + " = 0; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "++){";
+            str += "for(" + index.toJavaString() + " = 0; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "++){\n";
         } else if (currentForMode == FOR_MODE_3) {
             str += "for(" + index.toJavaString() + " = " + lower.toJavaString() + "; " + index.toJavaString() + "< " + upper.toJavaString() + "; " + index.toJavaString() + "+=" + inc.toJavaString()
-                    + ") {";
+                    + ") {\n";
         }
         for (int i = 0; i < getChildrenList().size(); i++) {
             DataObject c = ((DataObject) Services.getService().getModelMapping().get(getChildrenList().get(i)));
-            str += c.toJavaString();
+            str += c.toJavaString()+"\n";
         }
         str += "}";
         return str;

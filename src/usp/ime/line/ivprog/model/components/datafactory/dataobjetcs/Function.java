@@ -230,18 +230,19 @@ public class Function extends CodeComposite {
             Variable v = ((Variable) Services.getService().getModelMapping().get(paramList.get(i)));
             str += v.toJavaString();
         }
-        str += ") {";
+        str += ") {\n";
         // ---------------------------------------------------------- converting local variables
         Vector varList = localVariables.toVector();
         for (int i = 0; i < varList.size(); i++) {
             Variable v = ((Variable) Services.getService().getModelMapping().get(varList.get(i)));
             str += v.toJavaString();
         }
+        str+="\n";
         Vector children = getChildrenList();
         for (int i = 0; i < children.size(); i++) {
-            str += ((CodeComponent) Services.getService().getModelMapping().get(children.get(i))).toJavaString();
+            str += ((CodeComponent) Services.getService().getModelMapping().get(children.get(i))).toJavaString()+"\n";
         }
-        str += " } ";
+        str += " } "+"\n";
         return str;
     }
     

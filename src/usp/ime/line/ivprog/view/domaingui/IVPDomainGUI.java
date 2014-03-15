@@ -65,7 +65,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
     private JPanel            consolePanel;
     private JPanel            playAndConsolePanel;
     private RoundedJPanel     consoleContainer;
-    private IVPConsole      consoleField;
+    private IVPConsole        consoleField;
     private JButton           btnPlay;
     private JLabel            lblNewLabel;
     private Component         verticalStrut;

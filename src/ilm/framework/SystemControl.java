@@ -17,7 +17,7 @@ public final class SystemControl {
         if (isApplet) {
             parser = new AppletParameterListParser();
         } else {
-            parser = new DesktopParameterListParser();
+            parser = new ParameterListParser();
         }
         Map parsedParameterList = parser.Parse(parameterList);
         _config = new SystemConfig(isApplet, parsedParameterList);
@@ -34,13 +34,17 @@ public final class SystemControl {
         return _assignmentControl;
     }
     
+    public CommControl getCommunicationControl(){
+        return _comm;
+    }
+    
     public void startDesktopGUI() {
-        _gui.initGUI();
+        _gui.initGUI(false);
         _gui.startDesktop();
     }
     
     public BaseGUI getAppletGUI() {
-        _gui.initGUI();
+        _gui.initGUI(true);
         return _gui;
     }
 }

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Assignment implements Serializable {
+public class Assignment {
     private String          _proposition;
     private String          _name;
     private AssignmentState _initialState;

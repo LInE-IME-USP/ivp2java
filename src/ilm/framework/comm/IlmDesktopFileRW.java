@@ -21,6 +21,9 @@ import java.util.zip.ZipOutputStream;
 
 public class IlmDesktopFileRW implements ICommunication {
     
+    public IlmDesktopFileRW(){
+    }
+    
     public String readMetadataFile(String packageName) throws IOException {
         try {
             InputStream f = new FileInputStream(packageName);
@@ -40,12 +43,11 @@ public class IlmDesktopFileRW implements ICommunication {
     public Vector readAssignmentFiles(String packageName, Vector assignmentFileList) throws IOException {
         Vector assignmentContentList = new Vector();
         try {
-            //ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
-            String fullName = (packageName.indexOf(".ivp2") != -1)?packageName:packageName+".ivp2";
-            
+            // ZipFile zipFile = new ZipFile(sourceZipFile, ZipFile.OPEN_READ);
+            String fullName = (packageName.indexOf(".ivp2") != -1) ? packageName : packageName + ".ivp2";
             InputStream f = new FileInputStream(fullName);
             String fileString = convertInputStreamToString(f);
-            assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>")+1,fileString.length()-1));
+            assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>") + 1, fileString.length() - 1));
             return assignmentContentList;
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -59,8 +61,8 @@ public class IlmDesktopFileRW implements ICommunication {
         for (int i = 0; i < assignmentNameList.size(); i++) {
             str += assignmentList.get(i);
         }
-        String fullName = (packageName.indexOf(".ivp2") != -1)?packageName:packageName+".ivp2";
-        writeFile(str,fullName);        
+        String fullName = (packageName.indexOf(".ivp2") != -1) ? packageName : packageName + ".ivp2";
+        writeFile(str, fullName);
         return null;
     }
     

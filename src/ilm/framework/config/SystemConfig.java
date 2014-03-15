@@ -51,7 +51,10 @@ public final class SystemConfig extends Observable implements Serializable {
         }
         _isApplet = isApplet;
         setProperties(parameterList);
-        setLanguage(_parameters.getProperty("language"));
+        /*
+         * Não é usado por enquanto...
+         */
+        // setLanguage(_parameters.getProperty("lang"));
     }
     
     private Properties getDefaultProperties() throws InvalidParameterException, FileNotFoundException, IOException {

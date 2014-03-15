@@ -10,10 +10,12 @@ public class AppletParameterListParser implements IParameterListParser {
         String key;
         String value;
         for (int i = 0; i < parameterList.length; i++) {
-            equalsIndex = parameterList[i].lastIndexOf("=");
-            key = parameterList[i].substring(0, equalsIndex);
-            value = parameterList[i].substring(equalsIndex + 1);
-            result.put(key, value);
+            if (parameterList[i] != null && !"".equals(parameterList[i])) {
+                equalsIndex = parameterList[i].lastIndexOf("=");
+                key = parameterList[i].substring(0, equalsIndex);
+                value = parameterList[i].substring(equalsIndex + 1);
+                result.put(key, value);
+            }
         }
         return result;
     }

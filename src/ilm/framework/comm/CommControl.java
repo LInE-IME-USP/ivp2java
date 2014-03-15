@@ -24,7 +24,6 @@ public class CommControl implements ICommunication {
         try {
             return _fileRW.readMetadataFile(packageName);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -34,7 +33,6 @@ public class CommControl implements ICommunication {
         try {
             return _fileRW.readResourceFiles(packageName, resourceList);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -44,7 +42,6 @@ public class CommControl implements ICommunication {
         try {
             return _encrypter.decryptFromFile(_fileRW.readAssignmentFiles(packageName, assignmentList));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -54,7 +51,6 @@ public class CommControl implements ICommunication {
         try {
             return _fileRW.writeAssignmentPackage(packageName, metadata, resourceNameList, resourceList, assignmentNameList, _encrypter.encryptFileContent(assignmentList));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
