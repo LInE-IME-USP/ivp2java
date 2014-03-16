@@ -264,6 +264,10 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     public void openAssignmentFromURL(String file){
+        
+        panel.removeAll();
+        panel.add((Component) _domainGUIList.get(0));
+        ((JComponent) _domainGUIList.get(0)).setVisible(true);
         if (file == null) {
             return;
         }
@@ -279,6 +283,17 @@ public class IlmBaseGUI extends BaseGUI {
             initAssignment(_assignments.getCurrentState(i));
             isOpening = false;
         }
+        
+        /*teste pra ver se arruma o número de atividades abertas*/
+        int index = 0;
+        _assignments.closeAssignment(index);
+        tabbedPane.remove(index);
+        _domainGUIList.remove(index);
+        _authoringGUIList.remove(index);
+        setActiveAssignment();
+        panel.removeAll();
+        panel.add((Component) _domainGUIList.get(0));
+        ((JComponent) _domainGUIList.get(0)).setVisible(true);
     }
     
     private String getFileNameFromWindow(String option) {
@@ -327,7 +342,6 @@ public class IlmBaseGUI extends BaseGUI {
     
     /**
      * Gambiarra pra restaurar o estado da atividade.
-     * 
      * @param moduleList
      */
     public void gambiarraDoRo(Collection moduleList) {

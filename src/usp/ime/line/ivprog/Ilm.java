@@ -7,6 +7,9 @@
  */
 package usp.ime.line.ivprog;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.zip.ZipFile;
 
 import ilm.framework.IlmProtocol;
@@ -15,6 +18,7 @@ import ilm.framework.gui.IlmBaseGUI;
 
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
+import javax.xml.bind.DatatypeConverter;
 
 import usp.ime.line.ivprog.model.utils.StrUtilities;
 
@@ -23,6 +27,7 @@ public class Ilm extends JApplet implements IlmProtocol {
     private static IlmProtocol _ilmProtocol;
     private String             MA_PARAM_PropositionUrl = "";
     private String             MA_PARAM_Proposition    = "";
+    public static String       ENCODE_TYPE             = "UTF-8";
     
     public static void main(String[] args) {
         final SystemControl ilmControl = new SystemControl();
@@ -44,14 +49,17 @@ public class Ilm extends JApplet implements IlmProtocol {
         final SystemControl ilmControl = new SystemControl();
         ilmControl.initialize(true, args, new IlmSystemFactory());
         _ilmProtocol = ilmControl.getProtocol();
-        IlmBaseGUI gui = (IlmBaseGUI)ilmControl.getAppletGUI();
+        IlmBaseGUI gui = (IlmBaseGUI) ilmControl.getAppletGUI();
         add(gui);
         String paramPropositionURL = "", // it is a string content of IVP or it is an URL of the content file
         paramPropositionIsURL = ""; // if "true" => 'paramPropositionSTR' it is an URL with file address
         paramPropositionURL = getParameter("MA_PARAM_Proposition");
         paramPropositionIsURL = getParameter("MA_PARAM_PropositionURL");
         String fileAsString = StrUtilities.readFromURL(this, paramPropositionURL);
-        if(fileAsString!=null && !"".equals(fileAsString)){
+            byte[] decoded = DatatypeConverter.parseBase64Binary(fileAsString);
+            fileAsString = new String(decoded);
+            System.out.println("teste do tuts : "+fileAsString);
+        if (fileAsString != null && !"".equals(fileAsString)) {
             (gui).openAssignmentFromURL(fileAsString);
         }
     }
@@ -67,7 +75,12 @@ public class Ilm extends JApplet implements IlmProtocol {
     }
     
     public String getAnswer() {
-        return _ilmProtocol.getAnswer();
+        String str = _ilmProtocol.getAnswer();
+        System.out.println("O GET ANSWER DO ILM >>> "+str);
+        byte[] message = str.getBytes();
+        String encoded = DatatypeConverter.printBase64Binary(message);
+        System.out.println("O GET ANSWER DO ILM >>> "+encoded);
+        return encoded;
     }
     
     public ZipFile getAssignmentPackage() {

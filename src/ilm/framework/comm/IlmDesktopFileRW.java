@@ -19,6 +19,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import usp.ime.line.ivprog.Ilm;
+
 public class IlmDesktopFileRW implements ICommunication {
     
     public IlmDesktopFileRW(){
@@ -86,7 +88,7 @@ public class IlmDesktopFileRW implements ICommunication {
             StringWriter writer = new StringWriter();
             char[] buffer = new char[1024];
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 int n;
                 while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);

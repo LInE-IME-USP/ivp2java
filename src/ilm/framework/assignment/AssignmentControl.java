@@ -25,7 +25,7 @@ import ilm.framework.modules.assignment.ObjectListModule;
 import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
-public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol, Serializable {
+public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol {
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
@@ -294,16 +294,46 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         }
     }
     
+    /**
+     * Este método ainda não foi alterado no protocolo.
+     * Por enquanto, devolve um float entre 0 e 1.
+     */
     public float getEvaluation() {
         return ((AutomaticCheckingModule) _moduleList.get(IlmProtocol.AUTO_CHECKING_MODULE_NAME)).getEvaluation();
     }
     
+    /**
+     * Este método ainda não foi alterado no protocolo.
+     * Por enquanto, ainda chama a gravação do arquivo.
+     */
     public String getAnswer() {
-        return ((AutomaticCheckingModule) _moduleList.get(IlmProtocol.AUTO_CHECKING_MODULE_NAME)).getAnswer();
+        
+        System.out.println("Chamou o getAnswer... ");
+        
+        AssignmentParser parser = new AssignmentParser();
+        String metadataFileContent = parser.createMetadataFileContent(_assignmentList, _config.toString());
+        Vector assignmentNameList = parser.getAssignmentFileList(metadataFileContent);
+        Vector assignmentContentList = new Vector();
+        String assignmentContent = "";
+        for (int i = 0; i < _assignmentList.size(); i++) {
+            assignmentContent = parser.convertAssignmentToString(_converter, (Assignment) _assignmentList.get(i));
+            if (((Assignment) _assignmentList.get(i)).getExpectedAnswer() == null || ((Assignment) _assignmentList.get(i)).getExpectedAnswer().getList().size() < 1
+                    || !((Assignment) _assignmentList.get(i)).getInitialState().equals(((Assignment) _assignmentList.get(i)).getCurrentState())) {
+                assignmentContent = parser.getAssignmentModulesData(_converter, assignmentContent, _moduleList, i);
+            }
+            assignmentContentList.add(assignmentContent);
+        }
+        String str = metadataFileContent;
+        for (int i = 0; i < assignmentNameList.size(); i++) {
+            str += assignmentContentList.get(i);
+        }
+        
+        System.out.println("NO GETANSWER ELE DEVOLVE::::::::::::::::::::::::::::\n"+str);
+        
+        return str;
     }
     
     public ZipFile getAssignmentPackage() {
-        // TODO A better maybe random name generator
         String fileName = "skdjhf";
         return saveAssignmentPackage(_assignmentList, fileName);
     }
