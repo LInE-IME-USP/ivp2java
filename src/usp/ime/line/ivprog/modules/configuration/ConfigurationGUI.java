@@ -63,7 +63,6 @@ public class ConfigurationGUI extends JFrame {
                 dispose();
                 Services.getService().getController().changeInteractionProtocol(IVPMouseListener.INTERACTION_PROTOCOL_CNP);
                 Tracking.getInstance().track("event=CLICK;where=RDBTN_CNP;");
-                System.out.println("teste <<<< tem que imprimir essa porra aqui..");
             }
         });
         rdBtnCnP.setOpaque(false);

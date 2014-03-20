@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public class ExpressionFieldUI extends JPanel {
@@ -39,6 +40,7 @@ public class ExpressionFieldUI extends JPanel {
         lockerIcon.setIcon(closed);
         Action edition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CODE_EDITIONLOCKER_"+isBlocked+";");
                 if (!isBlocked) {
                     if (isEditing) {
                         expressionHolderUI.disableEdition();

@@ -7,6 +7,7 @@ import javax.swing.Action;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
@@ -26,6 +27,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToAND = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_AND, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_AND;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -34,6 +36,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToOR = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_OR, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_OR;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -42,6 +45,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToLEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_LEQ, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_LEQ;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -50,6 +54,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToLES = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_LES, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_LES;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -58,6 +63,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToEQU = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_EQU, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_EQU;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -66,6 +72,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToNEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_NEQ, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_NEQ;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -74,6 +81,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToGEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_GEQ, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_GEQ;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));
@@ -82,6 +90,7 @@ public class BooleanOperationUI extends OperationUI {
         Action changeToGRE = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_GRE, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_GRE;");
             }
         };
         // setConstantAction.putValue(Action.SMALL_ICON, new ImageIcon(ExpressionBase.class.getResource("/usp/ime/line/resources/icons/varDelete2.png")));

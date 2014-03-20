@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.For;
@@ -110,6 +111,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         expandBtnUP.setUI(new IconButtonUI());
         expandBtnUP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPAND_CODE;");
                 expandedActions();
             }
         });
@@ -123,6 +125,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         expandBtnDOWN.setUI(new IconButtonUI());
         expandBtnDOWN.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CONTRACT_CODE;");
                 notExpandedAction();
             }
         });
@@ -177,6 +180,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl3.setUI(new IconButtonUI());
         btnLvl3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_FOR_BTNLVL3;");
                 level3Action();
             }
         });
@@ -185,6 +189,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl2.setUI(new IconButtonUI());
         btnLvl2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_FOR_BTNLVL2;");
                 level2Action();
             }
         });
@@ -193,6 +198,7 @@ public class ForUI extends CodeBaseUI implements ICodeListener {
         btnLvl1.setUI(new IconButtonUI());
         btnLvl1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_FOR_BTNLVL1;");
                 level1Action();
             }
         });

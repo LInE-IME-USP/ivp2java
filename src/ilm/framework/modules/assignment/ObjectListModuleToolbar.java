@@ -24,7 +24,7 @@ public class ObjectListModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showWindow();
-                Tracking.getInstance().track("event=CLICK;where=BTN_OBJECT_LIST;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_OBJECT_LIST;");
             }
         });
         // add(button);

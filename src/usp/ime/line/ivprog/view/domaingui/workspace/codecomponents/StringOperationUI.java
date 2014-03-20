@@ -7,6 +7,7 @@ import javax.swing.Action;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -26,6 +27,7 @@ public class StringOperationUI extends OperationUI {
         operationSignMenu = new JPopupMenu();
         Action changeToAddition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_CONCAT;");
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_CONCAT, context);
             }
         };

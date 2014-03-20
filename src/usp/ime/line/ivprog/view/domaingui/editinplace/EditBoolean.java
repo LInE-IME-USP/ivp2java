@@ -91,7 +91,7 @@ public class EditBoolean extends JPanel implements IDomainObjectUI {
     private void initInputMap() {
         AbstractAction editDone = new AbstractAction() {
             public void actionPerformed(ActionEvent ae) {
-                Tracking.getInstance().track("event=FOCUSLOST;where=RDBTN_EDIT_DONE_BOOLEAN;");
+                Tracking.getInstance().track("event=FOCUSLOST;where=EDIT_BOOLEAN;");
                 nameField.setFocusable(false);
                 nameField.setFocusable(true);
             }

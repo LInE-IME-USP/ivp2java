@@ -30,6 +30,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
 import usp.ime.line.ivprog.model.domainaction.ChangeForMode;
@@ -100,6 +101,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         playAndConsolePanel.setLayout(new BoxLayout(playAndConsolePanel, BoxLayout.Y_AXIS));
         Action playAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXECUTE;");
                 Services.getService().getController().playCode();
             }
         };
@@ -117,6 +119,7 @@ public class IVPDomainGUI extends DomainGUI implements IFunctionListener {
         playAndConsolePanel.add(verticalStrut_1);
         Action cleanAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CLEAN;");
                 consoleField.clean();
             }
         };

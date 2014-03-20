@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.view.FlatUIColors;
@@ -88,6 +89,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().addParameter(scopeID);
+                Tracking.getInstance().track("event=CLICK;where=BTN_NEWPARAMETER;");
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_param.png")));
@@ -119,6 +121,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().addVariable(scopeID, "1");
+                Tracking.getInstance().track("event=CLICK;where=BTN_NEWVARIABLE;");
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));

@@ -166,7 +166,7 @@ public class IlmBaseGUI extends BaseGUI {
         authoringBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startAuthoring();
-                Tracking.getInstance().track("event=CLICK;where=BTN_AUTHORING;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_AUTHORING;");
             }
         });
     }
@@ -181,7 +181,7 @@ public class IlmBaseGUI extends BaseGUI {
         newAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addNewAssignment();
-                Tracking.getInstance().track("event=CLICK;where=BTN_NEW_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_NEW_ASSIGNMENT;");
             }
         });
     }
@@ -206,7 +206,7 @@ public class IlmBaseGUI extends BaseGUI {
         closeAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 closeAssignment(tabbedPane.getSelectedIndex());
-                Tracking.getInstance().track("event=CLICK;where=BTN_CLOSE_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_CLOSE_ASSIGNMENT;");
             }
         });
         updateCloseButton();
@@ -248,7 +248,7 @@ public class IlmBaseGUI extends BaseGUI {
         openAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openAssignmentFile(getFileNameFromWindow("Choose file"));
-                Tracking.getInstance().track("event=CLICK;where=BTN_OPEN_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_OPEN_ASSIGNMENT;");
             }
         });
     }
@@ -322,7 +322,7 @@ public class IlmBaseGUI extends BaseGUI {
         saveAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveAssignmentFile(getFileNameFromWindow("Choose filename"));
-                Tracking.getInstance().track("event=CLICK;where=BTN_SAVE_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_SAVE_ASSIGNMENT;");
             }
         });
     }

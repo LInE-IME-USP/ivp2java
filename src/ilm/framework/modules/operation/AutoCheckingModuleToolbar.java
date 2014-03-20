@@ -25,7 +25,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showEvaluation();
-                Tracking.getInstance().track("event=CLICK;where=BTN_AUTOMATIC_CHECKING;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_AUTOMATIC_CHECKING;");
             }
         });
         add(button);

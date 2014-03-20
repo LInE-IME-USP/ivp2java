@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
@@ -108,6 +109,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_CONCAT, (short) -1, operationContext);
+                Tracking.getInstance().track("event=CLICK;where=BTN_CODE_OPERATION_CONCAT;");
             }
         };
         changeToConcatenation.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionHolderUI.action.stringConcat.tip"));
@@ -121,6 +123,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().deleteExpression(expressionID, parentModelID, operationContext, true, true);
+                Tracking.getInstance().track("event=CLICK;where=BTN_CODE_CLEAN;");
             }
         };
         cleanContent.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ExpressionHolderUI.action.cleanContent.tip"));
@@ -133,6 +136,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_AND, (short) -1, operationContext);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_AND;");
             }
         };
         changeToAND.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.AND.tip"));
@@ -141,6 +145,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             public void actionPerformed(ActionEvent e) {
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_OR, (short) -1, operationContext);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_OR;");
             }
         };
         changeToOR.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("BooleanOperationUI.OR.tip"));
@@ -153,6 +158,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private void addCleanContent(JPopupMenu menu) {
         Action cleanContent = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CLEAN;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 if (isForHeader) {
                     Services.getService().getController().deleteExpression(expressionID, parentModelID, forContext, true, false);
@@ -169,6 +175,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private void addArithmeticOperations(JPopupMenu menu) {
         Action createAddition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEADDITION;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_ADDITION, (short) -1, forContext);
@@ -181,6 +188,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         createAddition.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createAddition.text"));
         Action createSubtraction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATESUBTRACTION;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, (short) -1, forContext);
@@ -193,6 +201,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         createSubtraction.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createSubtraction.text"));
         Action createMultiplication = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEMULTIPLICATION;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, (short) -1, forContext);
@@ -205,7 +214,9 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         createMultiplication.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createMultiplication.text"));
         Action createDivision = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEDIVISION;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
+                
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION, (short) -1, forContext);
                 } else {
@@ -217,6 +228,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         createDivision.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.createDivision.text"));
         Action createIntDiv = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEINTDIV;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_INTDIV, (short) -1, forContext);
@@ -239,6 +251,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private void addComparison(JPopupMenu menu) {
         Action changeToLEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATELEQ;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LEQ, (short) -1, operationContext);
             }
@@ -247,6 +260,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         changeToLEQ.putValue(Action.NAME, "\u2264");
         Action changeToLES = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATELES;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_LES, (short) -1, operationContext);
             }
@@ -255,6 +269,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         changeToLES.putValue(Action.NAME, "\u003C");
         Action changeToEQU = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEEQU;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_EQU, (short) -1, operationContext);
             }
@@ -263,6 +278,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         changeToEQU.putValue(Action.NAME, "=");
         Action changeToNEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATENEQ;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_NEQ, (short) -1, operationContext);
             }
@@ -271,6 +287,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         changeToNEQ.putValue(Action.NAME, "\u2260");
         Action changeToGEQ = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEGEQ;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GEQ, (short) -1, operationContext);
             }
@@ -279,6 +296,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         changeToGEQ.putValue(Action.NAME, "\u2265");
         Action changeToGRE = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CREATEGRE;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
                 Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_GRE, (short) -1, operationContext);
             }
@@ -298,6 +316,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         contentMenuWithValue = new JPopupMenu();
         Action variableHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_VARIABLEHASBEENCHOSEN;");
                 if (isForHeader) {
                     Services.getService().getController().createExpression("", parentModelID, Expression.EXPRESSION_VARIABLE, holdingType, forContext);
                 } else {
@@ -309,6 +328,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
         variableHasBeenChosen.putValue(Action.NAME, ResourceBundleIVP.getString("ExpressionHolderUI.action.variableHasBeenChosen.text"));
         Action valueHasBeenChosen = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_VALUEHASBEENCHOSEN;");
                 if (isForHeader) {
                     Services.getService().getController().createExpression("", parentModelID, holdingType, (short) -1, forContext);
                 } else {
@@ -329,6 +349,7 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
     private void initChangeContentBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_OPEN_OPERATIONMENU;");
                 if (!isComparison) {
                     if (isComparisonEnabled) {
                         comparisonMenu.show(operationsBtn, operationsBtn.getWidth(), operationsBtn.getHeight());

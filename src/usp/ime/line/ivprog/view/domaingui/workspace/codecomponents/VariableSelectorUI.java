@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
@@ -90,6 +91,7 @@ public class VariableSelectorUI extends JPanel implements IVariableListener, IDo
         varList.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (!isUpdate) {
+                    Tracking.getInstance().track("event=CLICK;where=BTN_VARIABLE_SELECTOR;");
                     JComboBox cb = (JComboBox) evt.getSource();
                     Object item = cb.getSelectedItem();
                     if (evt.getActionCommand().equals("comboBoxChanged")) {

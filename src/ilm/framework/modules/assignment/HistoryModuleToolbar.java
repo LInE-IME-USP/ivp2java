@@ -25,7 +25,7 @@ public class HistoryModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showWindow();
-                Tracking.getInstance().track("event=CLICK;where=BTN_HISTORY;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_HISTORY;");
             }
         });
         add(button);

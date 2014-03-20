@@ -27,7 +27,7 @@ public class ConfigurationToolBar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 frame.setVisible(true);
-                Tracking.getInstance().track("event=CLICK;where=BTN_CONFIGURATION;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
+                Tracking.getInstance().track("event=CLICK;where=BTN_CONFIGURATION;");
             }
         });
         add(button);

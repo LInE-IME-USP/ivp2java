@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -29,6 +30,7 @@ public class ArithmeticOperationUI extends OperationUI {
         Action changeToAddition = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_ADDITION, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_ADDITION;");
             }
         };
         changeToAddition.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
@@ -36,6 +38,7 @@ public class ArithmeticOperationUI extends OperationUI {
         Action changeToDivision = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_DIVISION, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_DIVISION;");
             }
         };
         changeToDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
@@ -43,6 +46,7 @@ public class ArithmeticOperationUI extends OperationUI {
         Action changeToMultiplication = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_MULTIPLICATION;");
             }
         };
         changeToMultiplication.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
@@ -50,6 +54,7 @@ public class ArithmeticOperationUI extends OperationUI {
         Action changeToSubtraction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_SUBTRACTION, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_SUBTRACTION;");
             }
         };
         changeToSubtraction.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
@@ -57,6 +62,7 @@ public class ArithmeticOperationUI extends OperationUI {
         Action changeToIntDiv = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_INTDIV, context);
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPRESSION_OPERATION_INTDIV;");
             }
         };
         changeToIntDiv.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));

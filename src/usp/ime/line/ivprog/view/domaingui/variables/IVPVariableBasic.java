@@ -226,6 +226,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
         public void actionPerformed(ActionEvent e) {
             configMenu.show(configBtn, 0, configBtn.getHeight());
             configMenu.requestFocus();
+            Tracking.getInstance().track("event=CLICK;where=BTN_CONFIG_VARIABLE;");
         }
     }
     
@@ -235,15 +236,19 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
             if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.integer"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_INTEGER);
                 changeVariableType();
+                Tracking.getInstance().track("event=CLICK;where=BTN_CHANGEVARTYPE_INT;");
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.double"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_DOUBLE);
                 changeVariableType();
+                Tracking.getInstance().track("event=CLICK;where=BTN_CHANGEVARTYPE_DOUBLE;");
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.string"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_STRING);
                 changeVariableType();
+                Tracking.getInstance().track("event=CLICK;where=BTN_CHANGEVARTYPE_STRIN;");
             } else if (command.equals(ResourceBundleIVP.getString("IVPVariableBasic.config.boolean"))) {
                 Services.getService().getController().changeVariableType(currentModelID, Expression.EXPRESSION_BOOLEAN);
                 changeVariableType();
+                Tracking.getInstance().track("event=CLICK;where=BTN_CHANGEVARTYPE_BOOLEAN;");
             }
         }
     }

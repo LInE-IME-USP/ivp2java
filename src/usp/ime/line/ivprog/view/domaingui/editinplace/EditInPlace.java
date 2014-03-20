@@ -108,7 +108,7 @@ public class EditInPlace extends JPanel implements KeyListener {
     private void initInputMap() {
         AbstractAction editDone = new AbstractAction() {
             public void actionPerformed(ActionEvent ae) {
-                Tracking.getInstance().track("event=FOCUSLOST;where=RDBTN_EDIT_DONE;");
+                Tracking.getInstance().track("event=FOCUSLOST;where=EDIT_DONE_EDITINPLACE;");
                 isUpdate = true;
                 nameField.setFocusable(false);
                 nameField.setFocusable(true);

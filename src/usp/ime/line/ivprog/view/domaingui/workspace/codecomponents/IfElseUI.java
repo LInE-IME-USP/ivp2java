@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
@@ -117,6 +118,7 @@ public class IfElseUI extends CodeBaseUI implements ICodeListener {
         expandBtnUP.setUI(new IconButtonUI());
         expandBtnUP.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_EXPAND_CODE;");
                 expandedActions();
             }
         });
@@ -130,6 +132,7 @@ public class IfElseUI extends CodeBaseUI implements ICodeListener {
         expandBtnDOWN.setUI(new IconButtonUI());
         expandBtnDOWN.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CONTRACT_CODE;");
                 notExpandedAction();
             }
         });

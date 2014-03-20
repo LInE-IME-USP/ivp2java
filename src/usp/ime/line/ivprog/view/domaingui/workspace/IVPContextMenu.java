@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
 import usp.ime.line.ivprog.view.FlatUIColors;
@@ -55,6 +56,7 @@ public class IVPContextMenu extends RoundedJPanel {
         menu.setBackground(FlatUIColors.MAIN_BG);
         Action createWhile = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_WHILE;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WHILE, context);
             }
         };
@@ -63,6 +65,7 @@ public class IVPContextMenu extends RoundedJPanel {
         createWhile.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.while.text"));
         Action createfOR = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_FOR;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_FOR, context);
             }
         };
@@ -71,6 +74,7 @@ public class IVPContextMenu extends RoundedJPanel {
         createfOR.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.for.text"));
         Action createifElse = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_IFELSE;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_IFELSE, context);
             }
         };
@@ -79,6 +83,7 @@ public class IVPContextMenu extends RoundedJPanel {
         createifElse.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.if.text"));
         Action createRead = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_READ;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_READ, context);
             }
         };
@@ -87,6 +92,7 @@ public class IVPContextMenu extends RoundedJPanel {
         createRead.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.read.text"));
         Action createPrint = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_WRITE;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_WRITE, context);
             }
         };
@@ -95,6 +101,7 @@ public class IVPContextMenu extends RoundedJPanel {
         createPrint.putValue(Action.NAME, ResourceBundleIVP.getString("IVPContextMenu.escrita.text"));
         Action createAtt = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_MODEL_ATTLINE;");
                 Services.getService().getController().addChild(container.getCodeComposite(), IVPConstants.MODEL_ATTLINE, context);
             }
         };
@@ -137,6 +144,7 @@ public class IVPContextMenu extends RoundedJPanel {
         plusBtn = new JButton();
         plusBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_OPEN_CODE_MENU;");
                 menu.show(plusBtn, 0, plusBtn.getHeight());
             }
         });

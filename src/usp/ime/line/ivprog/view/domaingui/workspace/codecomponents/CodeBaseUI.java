@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.utils.GripArea;
@@ -45,6 +46,7 @@ public abstract class CodeBaseUI extends RoundedJPanel implements IDomainObjectU
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 // need to check
+                Tracking.getInstance().track("event=CLICK;where=BTN_CODE_TRASHCAN;");
                 if (Services.getService().getModelMapping().get(parentModelID) instanceof IfElse) {
                     IfElse ifelse = (IfElse) Services.getService().getModelMapping().get(parentModelID);
                     String context = ifelse.getChildContext(thisModelID);
