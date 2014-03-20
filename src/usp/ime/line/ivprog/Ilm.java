@@ -55,6 +55,7 @@ public class Ilm extends JApplet implements IlmProtocol {
         paramPropositionIsURL = ""; // if "true" => 'paramPropositionSTR' it is an URL with file address
         paramPropositionURL = getParameter("MA_PARAM_Proposition");
         paramPropositionIsURL = getParameter("MA_PARAM_PropositionURL");
+        Tracking.getInstance().setBase(getParameter("MA_PARAM_addresPOST"));
         String fileAsString = StrUtilities.readFromURL(this, paramPropositionURL);
             byte[] decoded = DatatypeConverter.parseBase64Binary(fileAsString);
             fileAsString = new String(decoded);

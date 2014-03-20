@@ -5,11 +5,13 @@ import ilm.framework.modules.IlmModuleToolbar;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
@@ -23,6 +25,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showEvaluation();
+                Tracking.getInstance().track("event=CLICK;where=BTN_AUTOMATIC_CHECKING;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
             }
         });
         add(button);

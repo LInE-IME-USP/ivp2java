@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -33,7 +34,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import com.sun.media.sound.Toolkit;
+
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
@@ -43,6 +47,7 @@ import java.awt.FlowLayout;
 import java.awt.Color;
 
 public class IlmBaseGUI extends BaseGUI {
+    
     private static final long serialVersionUID = 1L;
     private JPanel            buttonsMenu;
     private JPanel            panel;
@@ -161,6 +166,7 @@ public class IlmBaseGUI extends BaseGUI {
         authoringBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startAuthoring();
+                Tracking.getInstance().track("event=CLICK;where=BTN_AUTHORING;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
     }
@@ -175,6 +181,7 @@ public class IlmBaseGUI extends BaseGUI {
         newAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addNewAssignment();
+                Tracking.getInstance().track("event=CLICK;where=BTN_NEW_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
     }
@@ -199,6 +206,7 @@ public class IlmBaseGUI extends BaseGUI {
         closeAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 closeAssignment(tabbedPane.getSelectedIndex());
+                Tracking.getInstance().track("event=CLICK;where=BTN_CLOSE_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
         updateCloseButton();
@@ -240,6 +248,7 @@ public class IlmBaseGUI extends BaseGUI {
         openAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openAssignmentFile(getFileNameFromWindow("Choose file"));
+                Tracking.getInstance().track("event=CLICK;where=BTN_OPEN_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
     }
@@ -313,6 +322,7 @@ public class IlmBaseGUI extends BaseGUI {
         saveAssBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveAssignmentFile(getFileNameFromWindow("Choose filename"));
+                Tracking.getInstance().track("event=CLICK;where=BTN_SAVE_ASSIGNMENT;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
     }

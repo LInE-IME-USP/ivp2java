@@ -6,11 +6,13 @@ import java.util.Observable;
 
 import javax.swing.JButton;
 
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 public class HistoryModuleToolbar extends IlmModuleToolbar {
     private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public class HistoryModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showWindow();
+                Tracking.getInstance().track("event=CLICK;where=BTN_HISTORY;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
         add(button);

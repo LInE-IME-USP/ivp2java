@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
@@ -107,6 +108,7 @@ public class EditInPlace extends JPanel implements KeyListener {
     private void initInputMap() {
         AbstractAction editDone = new AbstractAction() {
             public void actionPerformed(ActionEvent ae) {
+                Tracking.getInstance().track("event=FOCUSLOST;where=RDBTN_EDIT_DONE;");
                 isUpdate = true;
                 nameField.setFocusable(false);
                 nameField.setFocusable(true);

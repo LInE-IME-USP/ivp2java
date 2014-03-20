@@ -23,6 +23,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
@@ -100,6 +101,7 @@ public class IVPVariableBasic extends RoundedJPanel implements IDomainObjectUI {
     private void initDeleteBtn() {
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_DELETE_VARIABLE;");
                 Services.getService().getController().deleteVariable(modelScopeID, currentModelID);
             }
         };

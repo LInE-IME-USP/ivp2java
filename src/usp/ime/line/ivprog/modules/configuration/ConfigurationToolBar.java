@@ -2,12 +2,14 @@ package usp.ime.line.ivprog.modules.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import ilm.framework.modules.IlmModuleToolbar;
 
@@ -25,6 +27,7 @@ public class ConfigurationToolBar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 frame.setVisible(true);
+                Tracking.getInstance().track("event=CLICK;where=BTN_CONFIGURATION;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
             }
         });
         add(button);

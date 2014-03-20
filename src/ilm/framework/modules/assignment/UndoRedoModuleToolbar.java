@@ -6,11 +6,13 @@ import java.util.Observable;
 
 import javax.swing.JButton;
 
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 public class UndoRedoModuleToolbar extends IlmModuleToolbar {
     private static final long serialVersionUID = 1L;
@@ -24,6 +26,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
         _undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 _undoRedo.undo();
+                Tracking.getInstance().track("event=CLICK;where=BTN_UNDO;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
         _undoButton.setEnabled(false);
@@ -32,6 +35,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
         _redoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 _undoRedo.redo();
+                Tracking.getInstance().track("event=CLICK;where=BTN_REDO;posX="+((MouseEvent)e.getSource()).getX()+";posY="+((MouseEvent)e.getSource()).getY()+"");
             }
         });
         _redoButton.setEnabled(false);

@@ -1,11 +1,17 @@
 package ilm.framework.modules.assignment;
 
 import ilm.framework.modules.IlmModuleToolbar;
+
 import java.util.Observable;
+
 import javax.swing.JButton;
+
+import usp.ime.line.ivprog.Tracking;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 public class ObjectListModuleToolbar extends IlmModuleToolbar {
     private static final long   serialVersionUID = 1L;
@@ -18,6 +24,7 @@ public class ObjectListModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showWindow();
+                Tracking.getInstance().track("event=CLICK;where=BTN_OBJECT_LIST;posX="+((MouseEvent)arg0.getSource()).getX()+";posY="+((MouseEvent)arg0.getSource()).getY()+"");
             }
         });
         // add(button);

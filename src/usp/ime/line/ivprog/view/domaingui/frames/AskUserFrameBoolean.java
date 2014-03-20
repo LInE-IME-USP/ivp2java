@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
@@ -63,6 +64,7 @@ public class AskUserFrameBoolean extends JDialog implements IValueListener {
         buttons.add(btnOk);
         btnOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_OK_ASKUSERBOOLEAN;");
                 interrupt = false;
                 setVisible(false);
             }
@@ -71,6 +73,7 @@ public class AskUserFrameBoolean extends JDialog implements IValueListener {
         btnCancel.setToolTipText(ResourceBundleIVP.getString("AskUser.cancelBtn.tip"));
         btnCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CANCEL_ASKUSERBOOLEAN;");
                 interrupt = true;
                 setVisible(false);
             }

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
@@ -32,6 +33,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public class ConfigurationGUI extends JFrame {
@@ -60,6 +62,8 @@ public class ConfigurationGUI extends JFrame {
                 rdBtnDnD.setSelected(false);
                 dispose();
                 Services.getService().getController().changeInteractionProtocol(IVPMouseListener.INTERACTION_PROTOCOL_CNP);
+                Tracking.getInstance().track("event=CLICK;where=RDBTN_CNP;");
+                System.out.println("teste <<<< tem que imprimir essa porra aqui..");
             }
         });
         rdBtnCnP.setOpaque(false);
@@ -75,6 +79,7 @@ public class ConfigurationGUI extends JFrame {
         rdBtnDnD.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 rdBtnCnP.setSelected(false);
+                Tracking.getInstance().track("event=CLICK;where=RDBTN_DND;");
                 dispose();
                 Services.getService().getController().changeInteractionProtocol(IVPMouseListener.INTERACTION_PROTOCOL_DND);
             }
