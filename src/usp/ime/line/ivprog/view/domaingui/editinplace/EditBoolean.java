@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 

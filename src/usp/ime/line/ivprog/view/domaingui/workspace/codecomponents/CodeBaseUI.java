@@ -12,9 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;
 import usp.ime.line.ivprog.view.utils.GripArea;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;

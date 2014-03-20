@@ -4,9 +4,9 @@ import ilm.framework.assignment.model.DomainObject;
 
 import java.util.Vector;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
 import usp.ime.line.ivprog.model.utils.IVPVariableMap;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class Function extends CodeComposite {
     private String             functionName   = "";

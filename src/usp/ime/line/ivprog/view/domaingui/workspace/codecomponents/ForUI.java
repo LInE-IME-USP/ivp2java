@@ -10,12 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.For;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;

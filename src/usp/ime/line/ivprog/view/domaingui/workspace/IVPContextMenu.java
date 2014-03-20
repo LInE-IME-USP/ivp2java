@@ -22,10 +22,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.border.EmptyBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.controller.IVPController;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;

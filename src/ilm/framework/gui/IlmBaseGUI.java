@@ -36,9 +36,9 @@ import javax.swing.event.ChangeEvent;
 
 import com.sun.media.sound.Toolkit;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;

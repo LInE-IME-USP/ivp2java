@@ -21,10 +21,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;

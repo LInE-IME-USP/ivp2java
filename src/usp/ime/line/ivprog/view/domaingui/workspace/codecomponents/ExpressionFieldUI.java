@@ -14,8 +14,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public class ExpressionFieldUI extends JPanel {

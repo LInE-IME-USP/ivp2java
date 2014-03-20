@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;

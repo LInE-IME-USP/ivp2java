@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class GripArea extends JPanel {
     private static final long serialVersionUID = 1L;

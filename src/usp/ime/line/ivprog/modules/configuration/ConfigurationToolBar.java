@@ -8,8 +8,8 @@ import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 import ilm.framework.modules.IlmModuleToolbar;
 

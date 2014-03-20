@@ -4,7 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 
 import java.awt.Point;
 
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class IVPMatrix extends Collection {
     private Point              dimension    = null;

@@ -4,9 +4,9 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;

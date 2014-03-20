@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog;
+package usp.ime.line.ivprog.model.utils;
 
 
 public class Tracking {

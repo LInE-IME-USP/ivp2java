@@ -6,11 +6,11 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPopupMenu;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Operation;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class BooleanOperationUI extends OperationUI {

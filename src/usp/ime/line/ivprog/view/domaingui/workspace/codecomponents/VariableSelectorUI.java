@@ -17,8 +17,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IVariableListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
@@ -27,6 +25,8 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.domainaction.ExpressionTypeChanged;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 

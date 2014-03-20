@@ -1,7 +1,7 @@
 package usp.ime.line.ivprog.model.domainaction;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.utils.Services;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 

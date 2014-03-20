@@ -2,11 +2,11 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;

@@ -1,4 +1,4 @@
-package usp.ime.line.ivprog;
+package usp.ime.line.ivprog.model.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

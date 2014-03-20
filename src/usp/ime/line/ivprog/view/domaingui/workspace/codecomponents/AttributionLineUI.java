@@ -6,8 +6,8 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;

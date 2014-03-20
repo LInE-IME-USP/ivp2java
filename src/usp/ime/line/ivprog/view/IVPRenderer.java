@@ -2,7 +2,6 @@ package usp.ime.line.ivprog.view;
 
 import javax.swing.JComponent;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Constant;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
@@ -17,6 +16,7 @@ import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Reference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.While;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariableBasic;

@@ -4,8 +4,8 @@ import ilm.framework.assignment.model.DomainObject;
 
 import java.util.Vector;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.utils.IVPConstants;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class Variable extends Expression {
     public static final String STRING_CLASS       = "variable";

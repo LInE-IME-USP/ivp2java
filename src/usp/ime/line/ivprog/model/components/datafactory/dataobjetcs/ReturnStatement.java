@@ -1,7 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory.dataobjetcs;
 
 import ilm.framework.assignment.model.DomainObject;
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class ReturnStatement extends CodeComponent {
     private String             expressionToBeReturnedID = "";

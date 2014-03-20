@@ -29,8 +29,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
 import usp.ime.line.ivprog.model.domainaction.ChangeForMode;
@@ -46,6 +44,8 @@ import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.MoveComponent;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;

@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.IOperationListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 
 public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOperationListener {

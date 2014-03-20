@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Vector;
 
-import usp.ime.line.ivprog.Services;
-
 public class IVPVariableMap {
     private HashMap map;
     private boolean isLocalVarMap;

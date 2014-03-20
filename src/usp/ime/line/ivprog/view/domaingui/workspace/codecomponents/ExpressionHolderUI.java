@@ -18,12 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IExpressionListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.VariableReference;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;

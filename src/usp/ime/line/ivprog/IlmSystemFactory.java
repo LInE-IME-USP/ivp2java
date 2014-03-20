@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.HashMap;
 
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import ilm.framework.SystemFactory;
 import ilm.framework.assignment.model.AssignmentState;

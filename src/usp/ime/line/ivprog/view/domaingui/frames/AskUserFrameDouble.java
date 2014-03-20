@@ -12,8 +12,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;

@@ -5,7 +5,6 @@ import ilm.framework.domain.DomainModel;
 import java.awt.Cursor;
 import java.util.HashMap;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.IVPProgram;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
@@ -23,6 +22,7 @@ import usp.ime.line.ivprog.model.domainaction.DeleteVariable;
 import usp.ime.line.ivprog.model.domainaction.MoveComponent;
 import usp.ime.line.ivprog.model.domainaction.RemoveChild;
 import usp.ime.line.ivprog.model.domainaction.UpdateReferencedVariable;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.domaingui.IVPConsole;
 import usp.ime.line.ivprog.view.domaingui.IVPDomainGUI;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.FunctionBodyUI;

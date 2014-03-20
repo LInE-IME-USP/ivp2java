@@ -3,11 +3,11 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.listeners.ICodeListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.CodeComposite;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.domaingui.variables.IVPVariablePanel;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 

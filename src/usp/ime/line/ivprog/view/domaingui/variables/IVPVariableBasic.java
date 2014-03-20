@@ -22,12 +22,12 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
-import usp.ime.line.ivprog.Services;
-import usp.ime.line.ivprog.Tracking;
 import usp.ime.line.ivprog.listeners.IValueListener;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Expression;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Function;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Variable;
+import usp.ime.line.ivprog.model.utils.Services;
+import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;

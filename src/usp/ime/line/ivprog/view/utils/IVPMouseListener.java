@@ -14,9 +14,9 @@ import java.awt.event.MouseWheelEvent;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.DataObject;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.IfElse;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 

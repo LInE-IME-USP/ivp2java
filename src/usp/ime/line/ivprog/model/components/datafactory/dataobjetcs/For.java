@@ -4,7 +4,7 @@ import ilm.framework.assignment.model.DomainObject;
 
 import java.util.Vector;
 
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public class For extends CodeComposite {
     private String             indexExpression      = "";

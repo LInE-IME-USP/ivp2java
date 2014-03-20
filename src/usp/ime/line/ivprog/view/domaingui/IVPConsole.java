@@ -14,7 +14,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
 

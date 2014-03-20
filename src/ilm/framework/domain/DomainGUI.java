@@ -13,7 +13,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import usp.ime.line.ivprog.Services;
+import usp.ime.line.ivprog.model.utils.Services;
 
 public abstract class DomainGUI extends JPanel implements Observer {
     /**
