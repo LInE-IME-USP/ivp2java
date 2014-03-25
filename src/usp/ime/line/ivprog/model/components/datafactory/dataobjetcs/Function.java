@@ -237,12 +237,12 @@ public class Function extends CodeComposite {
             Variable v = ((Variable) Services.getService().getModelMapping().get(varList.get(i)));
             str += v.toJavaString();
         }
-        str+="\n";
+        str += "\n";
         Vector children = getChildrenList();
         for (int i = 0; i < children.size(); i++) {
-            str += ((CodeComponent) Services.getService().getModelMapping().get(children.get(i))).toJavaString()+"\n";
+            str += ((CodeComponent) Services.getService().getModelMapping().get(children.get(i))).toJavaString() + "\n";
         }
-        str += " } "+"\n";
+        str += " } " + "\n";
         return str;
     }
     

@@ -19,17 +19,21 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import javax.xml.bind.DatatypeConverter;
+
 import usp.ime.line.ivprog.Ilm;
+import usp.ime.line.ivprog.model.utils.StrUtilities;
 
 public class IlmDesktopFileRW implements ICommunication {
-    
-    public IlmDesktopFileRW(){
+    public IlmDesktopFileRW() {
     }
     
     public String readMetadataFile(String packageName) throws IOException {
         try {
             InputStream f = new FileInputStream(packageName);
             String fileString = convertInputStreamToString(f);
+            byte[] decoded = DatatypeConverter.parseBase64Binary(fileString);
+            fileString = new String(decoded);
             String metadata = fileString.substring(0, fileString.lastIndexOf("</package>"));
             return metadata;
         } catch (IOException e) {
@@ -49,6 +53,8 @@ public class IlmDesktopFileRW implements ICommunication {
             String fullName = (packageName.indexOf(".ivp2") != -1) ? packageName : packageName + ".ivp2";
             InputStream f = new FileInputStream(fullName);
             String fileString = convertInputStreamToString(f);
+            byte[] decoded = DatatypeConverter.parseBase64Binary(fileString);
+            fileString = new String(decoded);
             assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>") + 1, fileString.length() - 1));
             return assignmentContentList;
         } catch (IOException e) {
@@ -64,7 +70,9 @@ public class IlmDesktopFileRW implements ICommunication {
             str += assignmentList.get(i);
         }
         String fullName = (packageName.indexOf(".ivp2") != -1) ? packageName : packageName + ".ivp2";
-        writeFile(str, fullName);
+        byte[] message = str.getBytes();
+        String encoded = DatatypeConverter.printBase64Binary(message);
+        writeFile(encoded, fullName);
         return null;
     }
     

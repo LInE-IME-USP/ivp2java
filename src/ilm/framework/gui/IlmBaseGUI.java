@@ -36,6 +36,7 @@ import javax.swing.event.ChangeEvent;
 
 import com.sun.media.sound.Toolkit;
 
+import usp.ime.line.ivprog.IlmAuthoringGUI;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.model.utils.Tracking;
@@ -47,7 +48,6 @@ import java.awt.FlowLayout;
 import java.awt.Color;
 
 public class IlmBaseGUI extends BaseGUI {
-    
     private static final long serialVersionUID = 1L;
     private JPanel            buttonsMenu;
     private JPanel            panel;
@@ -106,8 +106,6 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     private void initAssignment(AssignmentState curState) {
-        
-        
         _domainGUIList.add(_factory.createDomainGUI(_config, _factory.getDomainModel(_config)));
         int index = _domainGUIList.size() - 1;
         ((DomainGUI) _domainGUIList.get(index)).setAssignment(_assignments.getProposition(index), curState, _assignments.getIlmModuleList().values());
@@ -254,6 +252,9 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     protected void openAssignmentFile(String fileName) {
+        panel.removeAll();
+        panel.add((Component) _domainGUIList.get(0));
+        ((JComponent) _domainGUIList.get(0)).setVisible(true);
         if (fileName == null) {
             return;
         }
@@ -270,17 +271,26 @@ public class IlmBaseGUI extends BaseGUI {
             isOpening = false;
         }
         updateCloseButton();
+        /* teste pra ver se arruma o número de atividades abertas */
+        int index = 0;
+        _assignments.closeAssignment(index);
+        tabbedPane.remove(index);
+        _domainGUIList.remove(index);
+        _authoringGUIList.remove(index);
+        setActiveAssignment();
+        panel.removeAll();
+        panel.add((Component) _domainGUIList.get(0));
+        ((JComponent) _domainGUIList.get(0)).setVisible(true);
     }
     
-    public void openAssignmentFromURL(String file){
-        
+    public void openAssignmentFromURL(String file) {
         panel.removeAll();
         panel.add((Component) _domainGUIList.get(0));
         ((JComponent) _domainGUIList.get(0)).setVisible(true);
         if (file == null) {
             return;
         }
-        int initialIndex = ((AssignmentControl)_assignments).openAssignmentPackageFromURL(file);
+        int initialIndex = ((AssignmentControl) _assignments).openAssignmentPackageFromURL(file);
         for (int i = initialIndex; i < _assignments.getNumberOfAssignments(); i++) {
             if (_domainGUIList.size() == 1) {
                 panel.removeAll();
@@ -292,8 +302,7 @@ public class IlmBaseGUI extends BaseGUI {
             initAssignment(_assignments.getCurrentState(i));
             isOpening = false;
         }
-        
-        /*teste pra ver se arruma o número de atividades abertas*/
+        /* teste pra ver se arruma o número de atividades abertas */
         int index = 0;
         _assignments.closeAssignment(index);
         tabbedPane.remove(index);
@@ -333,6 +342,7 @@ public class IlmBaseGUI extends BaseGUI {
         }
         Vector list = new Vector();
         for (int i = 0; i < _assignments.getNumberOfAssignments(); i++) {
+            //Adaptação para pegar o testcase
             if (((AuthoringGUI) _authoringGUIList.get(i)).getProposition().length() > 1) {
                 list.add(((AuthoringGUI) _authoringGUIList.get(i)).getAssignment());
             } else {
@@ -342,6 +352,7 @@ public class IlmBaseGUI extends BaseGUI {
                 } else {
                     a.setName(tabbedPane.getTitleAt(i));
                 }
+                a.setTestCase(((IlmAuthoringGUI) _authoringGUIList.get(i)).getTestCases());
                 a.setConfig(_assignments.getConfig(i));
                 a.setMetadata(_assignments.getMetadata(i));
                 list.add(a);
@@ -352,6 +363,7 @@ public class IlmBaseGUI extends BaseGUI {
     
     /**
      * Gambiarra pra restaurar o estado da atividade.
+     * 
      * @param moduleList
      */
     public void gambiarraDoRo(Collection moduleList) {

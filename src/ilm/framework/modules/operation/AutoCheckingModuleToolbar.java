@@ -15,6 +15,7 @@ import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
+    
     private static final long       serialVersionUID = 1L;
     private JButton                 button;
     private AutomaticCheckingModule _module;
@@ -38,10 +39,13 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     }
     
     public void update(Observable arg0, Object arg1) {
+        button.setEnabled(true);
+        /*
         if (_module.hasExpectedAnswer()) {
             button.setEnabled(true);
         } else {
             button.setEnabled(false);
         }
+        */
     }
 }

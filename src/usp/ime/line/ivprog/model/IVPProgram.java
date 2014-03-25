@@ -4,12 +4,22 @@ import ilm.framework.assignment.model.AssignmentState;
 import ilm.framework.assignment.model.DomainObject;
 import ilm.framework.domain.DomainModel;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Stack;
 import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import bsh.ConsoleInterface;
 import bsh.EvalError;
@@ -568,10 +578,6 @@ public class IVPProgram extends DomainModel {
         return new AssignmentState();
     }
     
-    public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
-        return 0;
-    }
-    
     public void setConsoleListener(IVPConsole ivpConsoleUI) {
         try {
             interpreter.set("ivpConsole", ivpConsoleUI);
@@ -665,11 +671,15 @@ public class IVPProgram extends DomainModel {
             }
             try {
                 System.out.println(code);
+                interpreter.set("isEvaluating", false);
                 interpreter.eval(code);
             } catch (EvalError e) {
-                System.out.println("causa "+e.getCause());
-                if(e.getCause().equals("/ by zero"));
-                    console.printError("Cuidado! Na linha "+e.getErrorLineNumber()+" ocorre uma divisão por 0.");
+                if(e.getCause() != null){
+                    if (e.getCause().equals("/ by zero")) {
+                        console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisão por 0.");
+                    }
+                } 
+                e.printStackTrace();
             }
         } else {
             error = true;
@@ -692,4 +702,135 @@ public class IVPProgram extends DomainModel {
         }
         return true;
     }
+
+    public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
+        return 0;
+    }
+
+    public float getEvaluation(String tests){
+        Stack input = new Stack();
+        Stack output = new Stack();
+        Stack interpreterOutput = new Stack();
+        System.out.println(tests);
+        int nTests = 0;
+        nTests = prepareInputAndOutput(tests, input, output);
+        Stack invertedInput = new Stack();
+        int size = input.size();
+        for(int i = 0; i < size; i++){
+            invertedInput.push(input.pop());
+        }
+        input = invertedInput;
+        System.out.println("inputStack "+input);
+        System.out.println("outputStack "+output);
+        int contador = 0;
+        while(contador < nTests){
+            if (Services.getService().getController().isContentSet()) {
+                Services.getService().getController().lockCodeDown();
+                String code = "";
+                Object[] functionList = Services.getService().getCurrentState().getData().getFunctionMap().values().toArray();
+                for (int i = 0; i < functionList.length; i++) {
+                    code += " " + ((Function) functionList[i]).toJavaString() + " ";
+                }
+                code += " Principal(); ";
+                if (error) {
+                    console.clean();
+                    error = false;
+                }
+                try {
+                    interpreter.set("isEvaluating", true);
+                    interpreter.set("interpreterOutput", interpreterOutput);
+                    interpreter.set("interpreterInput", input);
+                    System.out.println(code);
+                    interpreter.eval(code);
+                } catch (EvalError e) {
+                    if(e.getCause() != null){
+                        if (e.getCause().equals("/ by zero")) {
+                            console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisão por 0.");
+                        }
+                    } 
+                    e.printStackTrace();
+                }
+            } else {
+                error = true;
+                printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
+            }
+            contador++;
+        }
+        System.out.println("Tentativa de validação: ");
+        System.out.println(interpreterOutput);
+        System.out.println(output);
+        int match = 0;
+        for(int i = 0; i < nTests; i++){
+            Object o1 = interpreterOutput.pop();
+            Object o2 = output.pop();
+            System.out.println(o1.getClass() + " " + o2.getClass() + " " + o1.equals(o2));
+            System.out.println(o1.getClass() + " " + o2.getClass() + " " + o1.equals(o2));
+            if(o1.equals(o2)){
+                match++;
+                System.out.println("falou que está certo");
+            }else{
+                System.out.println("falou que está errado");
+            }
+        }
+        System.out.println("match "+match);
+        System.out.println("value "+(nTests*1.0/match));
+        return (float) (nTests*1.0/match);
+    }
+
+    private int prepareInputAndOutput(String tests, Stack input, Stack outputStack) {
+        Document doc = null;
+        try {
+            doc = loadXMLFromString(tests);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Element node = doc.getDocumentElement();
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            String value = currentNode.getNodeName().trim();
+            NodeList nodes = currentNode.getChildNodes();
+            HashMap parameters = new HashMap();
+            if (!value.equals("#text")) {
+                for (int j = 0; j < nodes.getLength(); j++) {
+                    Node cnode = nodes.item(j);
+                    if (!cnode.getNodeName().equals("#text")) {
+                        if(cnode.getNodeName().equals("input")){
+                            if(cnode.hasAttributes()){
+                                input.push(parseValue(cnode.getAttributes().getNamedItem("type").getTextContent(), cnode.getTextContent()));
+                            }
+                        }else if(cnode.getNodeName().equals("output")){
+                            if(cnode.hasAttributes()){
+                                outputStack.push(parseValue(cnode.getAttributes().getNamedItem("type").getTextContent(), cnode.getTextContent()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return nodeList.getLength()-1;
+    }
+    
+    private Object parseValue(String type, String value) {
+        if(type.equals("int")){
+            return ((Integer)new Integer(value)).intValue();
+        }else if(type.equals("double")){
+            return ((Double)new Double(value)).doubleValue();
+        }else if(type.equals("String")){
+            return new String(value);
+        }else if(type.equals("boolean")){
+            return ((Boolean)new Boolean(value)).booleanValue();
+        }else if(type.equals("float")){
+            return ((Float)new Float(value)).floatValue();
+        }
+        return null;
+    }
+
+    public static Document loadXMLFromString(String xml) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new ByteArrayInputStream(xml.getBytes()));
+    }
+    
 }

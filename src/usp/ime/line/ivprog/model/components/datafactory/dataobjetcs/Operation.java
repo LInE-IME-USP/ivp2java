@@ -74,7 +74,11 @@ public class Operation extends Expression {
         Expression expA = (Expression) Services.getService().getModelMapping().get(expressionAID);
         Expression expB = (Expression) Services.getService().getModelMapping().get(expressionBID);
         String str = "(";
-        str += expA.toJavaString() + " " + getOperationTypeAsString() + " ";
+        if(getOperationType() == Operation.EXPRESSION_OPERATION_DIVISION){
+            str += expA.toJavaString() + "*1.0 " + getOperationTypeAsString() + " ";
+        }else{
+            str += expA.toJavaString() + " " + getOperationTypeAsString() + " ";
+        }
         str += expB.toJavaString() + " )";
         return str;
     }

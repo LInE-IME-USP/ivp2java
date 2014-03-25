@@ -26,11 +26,13 @@ import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
 public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol {
+    
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
     private ICommunication  _comm;
     private Vector          _assignmentList;
+    
     private HashMap         _moduleList;
     
     public AssignmentControl(SystemConfig config, ICommunication comm, DomainModel model, DomainConverter converter) {
@@ -195,7 +197,6 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     public int openAssignmentPackage(String fileName) {
         int initIndex = _assignmentList.size();
         Vector v = createAssignments(loadAssignmentFiles(fileName));
-        
         Vector loadedFiles = loadAssignmentFiles(fileName);
         Vector createdAssignments = createAssignments(loadedFiles);
         _assignmentList.addAll(createdAssignments);
@@ -203,12 +204,12 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         return initIndex;
     }
     
-    public int openAssignmentPackageFromURL(String file){
+    public int openAssignmentPackageFromURL(String file) {
         AssignmentParser parser = new AssignmentParser();
         HashMap metadata = parser.convertStringToMap(file.substring(0, file.lastIndexOf("</package>")), IlmProtocol.METADATA_LIST_NODE);
         int initIndex = _assignmentList.size();
         Vector v = new Vector();
-        v.add(file.substring(file.lastIndexOf("</package>") + 1, file.length() - 1));
+        v.add(file.substring(file.lastIndexOf("</package>"), file.length()));
         Vector created = createAssignments(v);
         _assignmentList.addAll(created);
         getConfigFromMetadataFile(file.substring(0, file.lastIndexOf("</package>")));
@@ -295,21 +296,16 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     }
     
     /**
-     * Este método ainda não foi alterado no protocolo.
-     * Por enquanto, devolve um float entre 0 e 1.
+     * Este método ainda não foi alterado no protocolo. Por enquanto, devolve um float entre 0 e 1.
      */
     public float getEvaluation() {
         return ((AutomaticCheckingModule) _moduleList.get(IlmProtocol.AUTO_CHECKING_MODULE_NAME)).getEvaluation();
     }
     
     /**
-     * Este método ainda não foi alterado no protocolo.
-     * Por enquanto, ainda chama a gravação do arquivo.
+     * Este método ainda não foi alterado no protocolo. Por enquanto, ainda chama a gravação do arquivo.
      */
     public String getAnswer() {
-        
-        System.out.println("Chamou o getAnswer... ");
-        
         AssignmentParser parser = new AssignmentParser();
         String metadataFileContent = parser.createMetadataFileContent(_assignmentList, _config.toString());
         Vector assignmentNameList = parser.getAssignmentFileList(metadataFileContent);
@@ -327,9 +323,6 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         for (int i = 0; i < assignmentNameList.size(); i++) {
             str += assignmentContentList.get(i);
         }
-        
-        System.out.println("NO GETANSWER ELE DEVOLVE::::::::::::::::::::::::::::\n"+str);
-        
         return str;
     }
     
@@ -337,4 +330,13 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
         String fileName = "skdjhf";
         return saveAssignmentPackage(_assignmentList, fileName);
     }
+    
+    public Vector get_assignmentList() {
+        return _assignmentList;
+    }
+
+    public void set_assignmentList(Vector _assignmentList) {
+        this._assignmentList = _assignmentList;
+    }
+
 }

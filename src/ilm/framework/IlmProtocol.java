@@ -22,7 +22,7 @@ public interface IlmProtocol {
     public static final String METADATA_FILENAME         = "metadata.xml";
     public static final String PACKAGE_NODE              = "package";
     public static final String FILE_LIST_NODE            = "files";
-    public static final String ASSIGNMENT_FILE_NODE      = "assignment";
+    public static final String ASSIGNMENT_FILE_NODE      = "atividade";
     public static final String RESOURCE_FILE_NODE        = "resource";
     public static final String CONFIG_LIST_NODE          = "config";
     public static final String METADATA_LIST_NODE        = "metadata";

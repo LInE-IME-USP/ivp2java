@@ -1,28 +1,38 @@
 package ilm.framework.modules.operation;
 
 import ilm.framework.IlmProtocol;
+import ilm.framework.assignment.Assignment;
+import ilm.framework.assignment.AssignmentControl;
 import ilm.framework.assignment.IAssignment;
 import ilm.framework.assignment.IAssignmentOperator;
 import ilm.framework.domain.DomainModel;
 import ilm.framework.modules.OperationModule;
+
 import java.io.Serializable;
 import java.util.Vector;
 
+import usp.ime.line.ivprog.model.IVPProgram;
+
 public class AutomaticCheckingModule extends OperationModule implements Serializable {
+    
     private DomainModel _model;
     
-    public AutomaticCheckingModule(IAssignment assignments, IAssignmentOperator operator) {
-        setAssignmentList(assignments);
+    public AutomaticCheckingModule(IAssignment assignmentControl, IAssignmentOperator operator) {
+        setAssignmentList(assignmentControl);
         setAssignmentOperator(operator);
         _name = IlmProtocol.AUTO_CHECKING_MODULE_NAME;
         _gui = new AutoCheckingModuleToolbar(this);
     }
     
     public float getEvaluation() {
+        /*
         if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) {
             return 0;
         }
-        return _model.AutomaticChecking(_assignmentList.getCurrentState(_assignmentIndex), _assignmentList.getExpectedAnswer(_assignmentIndex));
+        */
+        Assignment a = (Assignment) ((AssignmentControl)_assignmentList).get_assignmentList().get(_assignmentIndex);
+        float resposta = (((IVPProgram)_model).getEvaluation(a.getTestCase()));
+        return resposta;
     }
     
     public String getAnswer() {

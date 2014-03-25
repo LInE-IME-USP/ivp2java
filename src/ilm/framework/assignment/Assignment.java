@@ -7,8 +7,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Assignment {
+    
     private String          _proposition;
     private String          _name;
+    /*
+     * Alteração por romenig.
+     * _testCase será utilizada para analisar a resposta.
+     */
+    private String          _testCase;
     private AssignmentState _initialState;
     private AssignmentState _currentState;
     private AssignmentState _expectedAnswer;
@@ -101,5 +107,13 @@ public class Assignment {
         while (metaDataIterator.hasNext()) {
             String key = (String) metaDataIterator.next();
         }
+    }
+
+    public String getTestCase() {
+        return _testCase;
+    }
+
+    public void setTestCase(String _testCase) {
+        this._testCase = _testCase;
     }
 }

@@ -21,7 +21,6 @@ import usp.ime.line.ivprog.view.domaingui.workspace.IVPContainer;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPMouseListener extends MouseAdapter {
-    
     private String             currentProtocol             = INTERACTION_PROTOCOL_DND;
     public static final String INTERACTION_PROTOCOL_DND    = "drag&drop";
     public static final String INTERACTION_PROTOCOL_CNP    = "catch&paste";

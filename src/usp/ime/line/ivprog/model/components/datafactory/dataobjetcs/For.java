@@ -105,7 +105,7 @@ public class For extends CodeComposite {
         }
         for (int i = 0; i < getChildrenList().size(); i++) {
             DataObject c = ((DataObject) Services.getService().getModelMapping().get(getChildrenList().get(i)));
-            str += c.toJavaString()+"\n";
+            str += c.toJavaString() + "\n";
         }
         str += "}";
         return str;

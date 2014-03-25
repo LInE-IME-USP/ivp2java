@@ -216,7 +216,6 @@ public class ExpressionHolderUI extends JPanel implements IExpressionListener {
             public void actionPerformed(ActionEvent e) {
                 Tracking.getInstance().track("event=CLICK;where=BTN_CREATEDIVISION;");
                 String expressionID = ((IDomainObjectUI) expression).getModelID();
-                
                 if (isForHeader) {
                     Services.getService().getController().createExpression(expressionID, parentModelID, Expression.EXPRESSION_OPERATION_DIVISION, (short) -1, forContext);
                 } else {

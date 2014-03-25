@@ -45,12 +45,29 @@ public class ReadData extends CodeComponent {
     }
     
     public String toJavaString() {
-        String str = "";
+        String str = "if (!isEvaluating){";
         VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(writableObject);
-        str = getStrForType(varRef.getReferencedType(), varRef);
+        str += getStrForType(varRef.getReferencedType(), varRef);
+        str +="}else{ "+varRef.toJavaString()+" = ";
+        str += getElseEvaluationStrForType(varRef.getReferencedType());
+        str += "}";
         return str;
     }
     
+    private String getElseEvaluationStrForType(short type) {
+        String str = "";
+        if (type == Expression.EXPRESSION_INTEGER) {
+            str += "((Integer) new Integer(interpreterInput.pop())).intValue();";
+        } else if (type == Expression.EXPRESSION_DOUBLE) {
+            str += "((Double) new Double(interpreterInput.pop())).doubleValue();";
+        } else if (type == Expression.EXPRESSION_BOOLEAN) {
+            str += "((Boolean) new Boolean(interpreterInput.pop())).booleanValue();";
+        } else if (type == Expression.EXPRESSION_STRING) {
+            str += "new String(interpreterInput.pop());";
+        }
+        return str;
+    }
+
     private String getStrForType(short type, VariableReference varRef) {
         String str = "";
         if (type == Expression.EXPRESSION_INTEGER) {

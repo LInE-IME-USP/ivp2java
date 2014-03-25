@@ -58,4 +58,5 @@ public class Services {
     public void setCurrentState(AssignmentState current) {
         this.current = current;
     }
+    
 }

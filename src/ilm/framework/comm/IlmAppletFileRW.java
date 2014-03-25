@@ -5,9 +5,7 @@ import java.util.Vector;
 import java.util.zip.ZipFile;
 
 public class IlmAppletFileRW implements ICommunication {
-    
     public String readMetadataFile(String file) {
-        
         return null;
     }
     

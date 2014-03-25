@@ -58,9 +58,8 @@ public class Ilm extends JApplet implements IlmProtocol {
         paramPropositionIsURL = getParameter("MA_PARAM_PropositionURL");
         Tracking.getInstance().setBase(getParameter("MA_PARAM_addresPOST"));
         String fileAsString = StrUtilities.readFromURL(this, paramPropositionURL);
-            byte[] decoded = DatatypeConverter.parseBase64Binary(fileAsString);
-            fileAsString = new String(decoded);
-            System.out.println("teste do tuts : "+fileAsString);
+        byte[] decoded = DatatypeConverter.parseBase64Binary(fileAsString);
+        fileAsString = new String(decoded);
         if (fileAsString != null && !"".equals(fileAsString)) {
             (gui).openAssignmentFromURL(fileAsString);
         }
@@ -73,15 +72,14 @@ public class Ilm extends JApplet implements IlmProtocol {
     }
     
     public float getEvaluation() {
-        return _ilmProtocol.getEvaluation();
+        float resposta =_ilmProtocol.getEvaluation(); 
+        return resposta;
     }
     
     public String getAnswer() {
         String str = _ilmProtocol.getAnswer();
-        System.out.println("O GET ANSWER DO ILM >>> "+str);
         byte[] message = str.getBytes();
         String encoded = DatatypeConverter.printBase64Binary(message);
-        System.out.println("O GET ANSWER DO ILM >>> "+encoded);
         return encoded;
     }
     

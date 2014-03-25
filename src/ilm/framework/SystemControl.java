@@ -34,7 +34,7 @@ public final class SystemControl {
         return _assignmentControl;
     }
     
-    public CommControl getCommunicationControl(){
+    public CommControl getCommunicationControl() {
         return _comm;
     }
     

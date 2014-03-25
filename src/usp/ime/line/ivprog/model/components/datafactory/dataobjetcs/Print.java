@@ -45,10 +45,12 @@ public class Print extends CodeComponent {
     }
     
     public String toJavaString() {
-        String str = " ivpConsole.println( \"> \"+";
         Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
+        String str = "if(!isEvaluating) {" +
+                " ivpConsole.println( \"> \"+";
         str += e.toJavaString();
-        str += ");";
+        str += "); } else {";
+        str += "interpreterOutput.push("+e.toJavaString()+");}";
         return str;
     }
     
