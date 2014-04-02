@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.view.domaingui.frames;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,7 @@ public class AskUserFrameBoolean extends JDialog implements IValueListener {
     private JPanel      header;
     private JLabel      plsInsertLabel;
     private JLabel      propertyLabel;
+    private JLabel      variableNameLabel;
     private String      finalValue = "true";
     private boolean     interrupt  = false;
     
@@ -50,6 +52,9 @@ public class AskUserFrameBoolean extends JDialog implements IValueListener {
         header.add(plsInsertLabel);
         propertyLabel = new JLabel(ResourceBundleIVP.getString("AskUser.boolean.propertyLabel"));
         header.add(propertyLabel);
+        variableNameLabel = new JLabel();
+        variableNameLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
+        header.add(variableNameLabel);
     }
     
     private void initHeader() {
@@ -108,19 +113,21 @@ public class AskUserFrameBoolean extends JDialog implements IValueListener {
     }
     
     public boolean getFinalValue() {
-        if (finalValue.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        boolean value = new Boolean(finalValue).booleanValue();
+        finalValue = "true";
+        return value;
     }
     
     public void setFinalValue(String finalValue) {
         this.finalValue = finalValue;
     }
     
-    public void showAskUser() {
-        value.setValue("" + finalValue + "");
+    public void showAskUser(String variableName) {
+        String str = variableName+": ";
+        variableNameLabel.setText(str);
+        variableNameLabel.repaint();
+        value.setValue(finalValue + "");
+        pack();
         setVisible(true);
     }
     

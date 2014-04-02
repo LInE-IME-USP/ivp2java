@@ -42,7 +42,7 @@ public class ArithmeticOperationUI extends OperationUI {
             }
         };
         changeToDivision.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("ArithmeticOperationUI.changeSignPanel.tip"));
-        changeToDivision.putValue(Action.NAME, "\u00F7");
+        changeToDivision.putValue(Action.NAME, "/");
         Action changeToMultiplication = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 Services.getService().getController().changeExpressionSign(currentModelID, Expression.EXPRESSION_OPERATION_MULTIPLICATION, context);
@@ -82,7 +82,7 @@ public class ArithmeticOperationUI extends OperationUI {
         if (type == Expression.EXPRESSION_OPERATION_ADDITION) {
             sign = "\u002B";
         } else if (type == Expression.EXPRESSION_OPERATION_DIVISION) {
-            sign = "\u00F7";
+            sign = "/";
         } else if (type == Expression.EXPRESSION_OPERATION_MULTIPLICATION) {
             sign = "\u00D7";
         } else if (type == Expression.EXPRESSION_OPERATION_SUBTRACTION) {

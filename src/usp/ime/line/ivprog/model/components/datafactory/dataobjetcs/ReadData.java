@@ -71,13 +71,13 @@ public class ReadData extends CodeComponent {
     private String getStrForType(short type, VariableReference varRef) {
         String str = "";
         if (type == Expression.EXPRESSION_INTEGER) {
-            str += "readInteger.showAskUser();" + varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
+            str += "readInteger.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_DOUBLE) {
-            str += "readDouble.showAskUser();" + varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readDouble.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_BOOLEAN) {
-            str += "readBoolean.showAskUser();" + varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readBoolean.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readDouble.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_STRING) {
-            str += "readString.showAskUser();" + varRef.toJavaString() + " = readString.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readString.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readString.getFinalValue(); if(readDouble.isInterrupt()) return;";
         }
         return str;
     }

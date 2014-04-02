@@ -29,7 +29,8 @@ public class AskUserFrameDouble extends JDialog implements IValueListener {
     private JPanel      header;
     private JLabel      plsInsertLabel;
     private JLabel      propertyLabel;
-    private double      finalValue = 1;
+    private JLabel      variableNameLabel;
+    private double      finalValue = 1.0;
     private boolean     interrupt  = false;
     
     public AskUserFrameDouble() {
@@ -50,6 +51,9 @@ public class AskUserFrameDouble extends JDialog implements IValueListener {
         header.add(plsInsertLabel);
         propertyLabel = new JLabel(ResourceBundleIVP.getString("AskUser.double.propertyLabel"));
         header.add(propertyLabel);
+        variableNameLabel = new JLabel();
+        variableNameLabel.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
+        header.add(variableNameLabel);
     }
     
     private void initHeader() {
@@ -109,15 +113,21 @@ public class AskUserFrameDouble extends JDialog implements IValueListener {
     }
     
     public double getFinalValue() {
-        return finalValue;
+        double value = finalValue;
+        finalValue = 1.0;
+        return value;
     }
     
     public void setFinalValue(double finalValue) {
         this.finalValue = finalValue;
     }
     
-    public void showAskUser() {
-        value.setValue("" + finalValue + "");
+    public void showAskUser(String variableName) {
+        String str = variableName+": ";
+        variableNameLabel.setText(str);
+        variableNameLabel.repaint();
+        pack();
+        value.setValue(finalValue + "");
         setVisible(true);
     }
     

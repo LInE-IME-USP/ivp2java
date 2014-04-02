@@ -3,6 +3,7 @@ package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -80,6 +81,7 @@ public abstract class OperationUI extends JPanel implements IDomainObjectUI, IOp
         add(expPanel);
         expSign = new JLabel();
         expSign.setForeground(FlatUIColors.CHANGEABLE_ITEMS_COLOR);
+        expSign.setFont(new Font("Tahoma", Font.BOLD, 12));
         expPanel.add(expSign);
     }
     

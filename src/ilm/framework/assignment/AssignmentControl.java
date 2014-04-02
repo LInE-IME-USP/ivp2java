@@ -196,7 +196,6 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     
     public int openAssignmentPackage(String fileName) {
         int initIndex = _assignmentList.size();
-        Vector v = createAssignments(loadAssignmentFiles(fileName));
         Vector loadedFiles = loadAssignmentFiles(fileName);
         Vector createdAssignments = createAssignments(loadedFiles);
         _assignmentList.addAll(createdAssignments);

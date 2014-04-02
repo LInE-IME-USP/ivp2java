@@ -767,13 +767,8 @@ public class IVPProgram extends DomainModel {
             System.out.println(o1.getClass() + " " + o2.getClass() + " " + o1.equals(o2));
             if(o1.equals(o2)){
                 match++;
-                System.out.println("falou que está certo");
-            }else{
-                System.out.println("falou que está errado");
             }
         }
-        System.out.println("match "+match);
-        System.out.println("value "+(nTests*1.0/match));
         return (float) (nTests*1.0/match);
     }
 

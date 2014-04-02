@@ -26,7 +26,7 @@ public class UndoRedoModuleToolbar extends IlmModuleToolbar {
         _undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 _undoRedo.undo();
-                Tracking.getInstance().track("event=CLICK;where=BTN_UNDO;posX=" + ((MouseEvent) e.getSource()).getX() + ";posY=" + ((MouseEvent) e.getSource()).getY() + "");
+                Tracking.getInstance().track("event=CLICK;where=BTN_UNDO;");
             }
         });
         _undoButton.setEnabled(false);

@@ -202,8 +202,22 @@ public class IVPDomainConverter implements DomainConverter {
         action.setNewType(Short.parseShort((String) parameters.get("newtype")));
         action.setLastType(Short.parseShort((String) parameters.get("newtype")));
         action.setVariableID((String) parameters.get("variableid"));
+        action.setReturnedVector(parseVector((String) parameters.get("returnedvector")));
         // TODO: set returned vector
         return action;
+    }
+    
+    private Vector parseVector(String vectorAsString){
+        Vector v = new Vector();
+        String vec = vectorAsString.substring(1, vectorAsString.length()-1);
+        System.out.println(vec);
+        String[] vecFinal = vec.trim().split(",");
+        v.add(Short.parseShort((String)vecFinal[0].trim()));
+        for(int i = 1; i < vecFinal.length; i++){
+            v.add(vecFinal[i].trim());
+        }
+        System.out.println("vector converted "+v);
+        return v;
     }
     
     private DomainAction parseChangeVariableName(HashMap parameters) {
