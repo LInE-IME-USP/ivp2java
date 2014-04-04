@@ -55,7 +55,7 @@ public class IlmDesktopFileRW implements ICommunication {
             String fileString = convertInputStreamToString(f);
             byte[] decoded = DatatypeConverter.parseBase64Binary(fileString);
             fileString = new String(decoded);
-            assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>") + 1, fileString.length() - 1));
+            assignmentContentList.add(fileString.substring(fileString.lastIndexOf("</package>"), fileString.length()));
             return assignmentContentList;
         } catch (IOException e) {
             // TODO Auto-generated catch block
