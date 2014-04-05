@@ -778,7 +778,7 @@ public class IVPProgram extends DomainModel {
         console.println("-------------------------------------------------");
         console.println("Número de testes: "+nTests);
         console.println("Passou em "+match+" testes.");
-        console.println("Aproveitamento: "+number);
+        console.println("Aproveitamento: "+number+"%.");
         console.println("-------------------------------------------------");
         return (float) (nTests*1.0/match);
     }
