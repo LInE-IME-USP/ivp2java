@@ -31,7 +31,9 @@ public class AutomaticCheckingModule extends OperationModule implements Serializ
         }
         */
         Assignment a = (Assignment) ((AssignmentControl)_assignmentList).get_assignmentList().get(_assignmentIndex);
-        float resposta = (((IVPProgram)_model).getEvaluation(a.getTestCase()));
+        float resposta = 0;
+        System.out.println("CHEGOU AQUI NA CHAMADA!");
+        resposta = (((IVPProgram)_model).getEvaluation(a.getTestCase()));
         return resposta;
     }
     

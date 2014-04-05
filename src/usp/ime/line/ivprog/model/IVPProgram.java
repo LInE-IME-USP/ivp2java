@@ -505,7 +505,7 @@ public class IVPProgram extends DomainModel {
                 }
             }
         }
-        for (int i = 0; i < attLines.size(); i++) { // ta errado... só posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
+        for (int i = 0; i < attLines.size(); i++) { // ta errado... sï¿½ posso mexer na attLine se eu estiver mostrando (na ref da esquerda) a var que mudou
             AttributionLine attLine = (AttributionLine) Services.getService().getModelMapping().get(attLines.get(i));
             VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(attLine.getLeftVariableID());
             if (attLine.getLeftVariableType() != newType && id.equals(varRef.getReferencedVariable())) {
@@ -676,7 +676,7 @@ public class IVPProgram extends DomainModel {
             } catch (EvalError e) {
                 if(e.getCause() != null){
                     if (e.getCause().equals("/ by zero")) {
-                        console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisão por 0.");
+                        console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisï¿½o por 0.");
                     }
                 } 
                 e.printStackTrace();
@@ -745,7 +745,7 @@ public class IVPProgram extends DomainModel {
                 } catch (EvalError e) {
                     if(e.getCause() != null){
                         if (e.getCause().equals("/ by zero")) {
-                            console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisão por 0.");
+                            console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisÃ£o por 0.");
                         }
                     } 
                     e.printStackTrace();
@@ -756,7 +756,7 @@ public class IVPProgram extends DomainModel {
             }
             contador++;
         }
-        System.out.println("Tentativa de validação: ");
+        System.out.println("Tentativa de validaÃ§Ã£o: ");
         System.out.println(interpreterOutput);
         System.out.println(output);
         int match = 0;
@@ -769,6 +769,17 @@ public class IVPProgram extends DomainModel {
                 match++;
             }
         }
+        
+        float resultado = (float) (nTests*1.0/match);
+        float porcentagem = resultado * 100;
+        String number = String.format("%.2f", porcentagem);
+        
+        console.clean();
+        console.println("-------------------------------------------------");
+        console.println("NÃºmero de testes: "+nTests);
+        console.println("Passou em "+match+" testes.");
+        console.println("Aproveitamento: "+number);
+        console.println("-------------------------------------------------");
         return (float) (nTests*1.0/match);
     }
 

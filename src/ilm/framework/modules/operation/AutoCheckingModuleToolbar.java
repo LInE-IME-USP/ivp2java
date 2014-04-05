@@ -18,7 +18,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     
     private static final long       serialVersionUID = 1L;
     private JButton                 button;
-    private AutomaticCheckingModule _module;
+    private static AutomaticCheckingModule _module;
     
     public AutoCheckingModuleToolbar(AutomaticCheckingModule module) {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -34,8 +34,8 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
         _module.addObserver(this);
     }
     
-    private void showEvaluation() {
-        JOptionPane.showMessageDialog(this, "Evaluation: " + _module.getEvaluation(), "Evaluation", JOptionPane.OK_OPTION);
+    public static void showEvaluation() {
+        _module.getEvaluation();
     }
     
     public void update(Observable arg0, Object arg1) {
