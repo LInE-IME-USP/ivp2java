@@ -12,6 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.zip.ZipFile;
 
+import netscape.javascript.JSObject;
 import ilm.framework.IlmProtocol;
 import ilm.framework.SystemControl;
 import ilm.framework.gui.IlmBaseGUI;
@@ -26,6 +27,7 @@ import usp.ime.line.ivprog.model.utils.Tracking;
 public class Ilm extends JApplet implements IlmProtocol {
     private static final long  serialVersionUID        = 1L;
     private static IlmProtocol _ilmProtocol;
+    private static Ilm instance;
     private String             MA_PARAM_PropositionUrl = "";
     private String             MA_PARAM_Proposition    = "";
     public static String       ENCODE_TYPE             = "UTF-8";
@@ -63,6 +65,7 @@ public class Ilm extends JApplet implements IlmProtocol {
         if (fileAsString != null && !"".equals(fileAsString)) {
             (gui).openAssignmentFromURL(fileAsString);
         }
+        instance = this;
     }
     
     private String[] GetParam() {
@@ -85,5 +88,9 @@ public class Ilm extends JApplet implements IlmProtocol {
     
     public ZipFile getAssignmentPackage() {
         return _ilmProtocol.getAssignmentPackage();
+    }
+    
+    public static Ilm getInstance(){
+        return instance;
     }
 }

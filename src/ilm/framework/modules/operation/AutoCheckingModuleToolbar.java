@@ -11,6 +11,8 @@ import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import netscape.javascript.JSObject;
+import usp.ime.line.ivprog.Ilm;
 import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
@@ -26,6 +28,10 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showEvaluation();
+                    
+                
+                
+                
                 Tracking.getInstance().track("event=CLICK;where=BTN_AUTOMATIC_CHECKING;");
             }
         });
@@ -35,7 +41,12 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     }
     
     public static void showEvaluation() {
-        _module.getEvaluation();
+        if(Ilm.getInstance()!=null){
+            JSObject window = JSObject.getWindow(Ilm.getInstance());
+            window.call("getEvaluationCallback", new Object[]{_module.getEvaluation()});    
+        }else{
+            _module.getEvaluation();
+        }
     }
     
     public void update(Observable arg0, Object arg1) {

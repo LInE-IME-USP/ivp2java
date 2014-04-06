@@ -745,7 +745,7 @@ public class IVPProgram extends DomainModel {
                 } catch (EvalError e) {
                     if(e.getCause() != null){
                         if (e.getCause().equals("/ by zero")) {
-                            console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divisÃ£o por 0.");
+                            console.printError("Cuidado! em algum trecho do seu código ocorre uma divisão por 0. Por favor, verifique!");
                         }
                     } 
                     e.printStackTrace();
@@ -756,31 +756,47 @@ public class IVPProgram extends DomainModel {
             }
             contador++;
         }
-        System.out.println("Tentativa de validaÃ§Ã£o: ");
+        System.out.println("Tentativa de validação: ");
         System.out.println(interpreterOutput);
         System.out.println(output);
         int match = 0;
         for(int i = 0; i < nTests; i++){
-            Object o1 = interpreterOutput.pop();
-            Object o2 = output.pop();
-            System.out.println(o1.getClass() + " " + o2.getClass() + " " + o1.equals(o2));
-            System.out.println(o1.getClass() + " " + o2.getClass() + " " + o1.equals(o2));
-            if(o1.equals(o2)){
+            Object o1 = null, o2 = null;
+            if(!interpreterOutput.isEmpty()){
+                o1 = interpreterOutput.pop();
+            }
+            if(!output.isEmpty()){
+                o2 = output.pop();
+            }
+            if(o1!= null && o2 != null && o1.equals(o2)){
                 match++;
             }
         }
+        float resultado = 0;
+        if(match!=0){
+            resultado = (float) (nTests*1.0/match);
+            float porcentagem = resultado * 100;
+            String number = String.format("%.2f", porcentagem);
+            console.clean();
+            console.println("-------------------------------------------------");
+            console.println("Número de testes: "+nTests);
+            console.println("Passou em "+match+" testes.");
+            console.println("Aproveitamento: "+number+"%.");
+            console.println("-------------------------------------------------");
+            return resultado;
+        }else{
+            resultado = (float) (nTests*1.0/match);
+            float porcentagem = resultado * 100;
+            String number = String.format("%.2f", porcentagem);
+            console.clean();
+            console.println("-------------------------------------------------");
+            console.println("Número de testes: "+nTests);
+            console.println("Passou em "+match+" testes.");
+            console.println("Aproveitamento: 0%.");
+            console.println("-------------------------------------------------");
+            return 0;
+        }
         
-        float resultado = (float) (nTests*1.0/match);
-        float porcentagem = resultado * 100;
-        String number = String.format("%.2f", porcentagem);
-        
-        console.clean();
-        console.println("-------------------------------------------------");
-        console.println("NÃºmero de testes: "+nTests);
-        console.println("Passou em "+match+" testes.");
-        console.println("Aproveitamento: "+number+"%.");
-        console.println("-------------------------------------------------");
-        return (float) (nTests*1.0/match);
     }
 
     private int prepareInputAndOutput(String tests, Stack input, Stack outputStack) {

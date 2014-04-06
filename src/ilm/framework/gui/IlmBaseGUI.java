@@ -34,8 +34,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-import com.sun.media.sound.Toolkit;
-
 import usp.ime.line.ivprog.IlmAuthoringGUI;
 import usp.ime.line.ivprog.listeners.IFunctionListener;
 import usp.ime.line.ivprog.model.utils.Services;
