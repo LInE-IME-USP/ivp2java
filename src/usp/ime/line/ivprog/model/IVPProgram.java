@@ -745,7 +745,7 @@ public class IVPProgram extends DomainModel {
                 } catch (EvalError e) {
                     if(e.getCause() != null){
                         if (e.getCause().equals("/ by zero")) {
-                            console.printError("Cuidado! em algum trecho do seu código ocorre uma divisão por 0. Por favor, verifique!");
+                            console.printError("Cuidado! em algum trecho do seu cï¿½digo ocorre uma divisï¿½o por 0. Por favor, verifique!");
                         }
                     } 
                     e.printStackTrace();
@@ -756,7 +756,7 @@ public class IVPProgram extends DomainModel {
             }
             contador++;
         }
-        System.out.println("Tentativa de validação: ");
+        System.out.println("Tentativa de validaï¿½ï¿½o: ");
         System.out.println(interpreterOutput);
         System.out.println(output);
         int match = 0;
@@ -779,7 +779,7 @@ public class IVPProgram extends DomainModel {
             String number = String.format("%.2f", porcentagem);
             console.clean();
             console.println("-------------------------------------------------");
-            console.println("Número de testes: "+nTests);
+            console.println("Total de testes: "+nTests);
             console.println("Passou em "+match+" testes.");
             console.println("Aproveitamento: "+number+"%.");
             console.println("-------------------------------------------------");
@@ -790,7 +790,7 @@ public class IVPProgram extends DomainModel {
             String number = String.format("%.2f", porcentagem);
             console.clean();
             console.println("-------------------------------------------------");
-            console.println("Número de testes: "+nTests);
+            console.println("Total de testes: "+nTests);
             console.println("Passou em "+match+" testes.");
             console.println("Aproveitamento: 0%.");
             console.println("-------------------------------------------------");
@@ -801,6 +801,7 @@ public class IVPProgram extends DomainModel {
 
     private int prepareInputAndOutput(String tests, Stack input, Stack outputStack) {
         Document doc = null;
+        int testCount = 0;
         try {
             doc = loadXMLFromString(tests);
         } catch (Exception e) {
@@ -810,11 +811,16 @@ public class IVPProgram extends DomainModel {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
+            if("testcase".equals(currentNode.getNodeName())){
+                testCount++;
+            }
             String value = currentNode.getNodeName().trim();
             NodeList nodes = currentNode.getChildNodes();
             HashMap parameters = new HashMap();
             if (!value.equals("#text")) {
+                
                 for (int j = 0; j < nodes.getLength(); j++) {
+                    
                     Node cnode = nodes.item(j);
                     if (!cnode.getNodeName().equals("#text")) {
                         if(cnode.getNodeName().equals("input")){
@@ -830,7 +836,7 @@ public class IVPProgram extends DomainModel {
                 }
             }
         }
-        return nodeList.getLength()-1;
+        return testCount;
     }
     
     private Object parseValue(String type, String value) {
