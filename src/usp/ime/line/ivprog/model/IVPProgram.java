@@ -768,13 +768,28 @@ public class IVPProgram extends DomainModel {
             if(!output.isEmpty()){
                 o2 = output.pop();
             }
-            if(o1!= null && o2 != null && o1.equals(o2)){
-                match++;
+            if(o1!= null && o2 != null){
+                String o1Str = "";
+                String o2Str = "";
+                if(o1 instanceof Double){
+                    o1Str = String.format("%.4f", o1);
+                }else{
+                    o1Str = new String(o1+"");
+                }
+                if(o1 instanceof Double){
+                    o2Str = String.format("%.4f", o2);
+                }else{
+                    o2Str = new String(o2+"");
+                }
+                System.out.println(o1Str + " " +o2Str);
+                if(o1Str.equals(o2Str)){
+                    match++;    
+                }
             }
         }
         float resultado = 0;
         if(match!=0){
-            resultado = (float) (nTests*1.0/match);
+            resultado = (float) (match*1.0/nTests);
             float porcentagem = resultado * 100;
             String number = String.format("%.2f", porcentagem);
             console.clean();
@@ -782,10 +797,11 @@ public class IVPProgram extends DomainModel {
             console.println("Total de testes: "+nTests);
             console.println("Passou em "+match+" testes.");
             console.println("Aproveitamento: "+number+"%.");
+            System.out.println(1.1*1.1);
             console.println("-------------------------------------------------");
             return resultado;
         }else{
-            resultado = (float) (nTests*1.0/match);
+            resultado = (float) (match*1.0/nTests);
             float porcentagem = resultado * 100;
             String number = String.format("%.2f", porcentagem);
             console.clean();
@@ -793,6 +809,7 @@ public class IVPProgram extends DomainModel {
             console.println("Total de testes: "+nTests);
             console.println("Passou em "+match+" testes.");
             console.println("Aproveitamento: 0%.");
+            System.out.println(1.1*1.1);
             console.println("-------------------------------------------------");
             return 0;
         }
@@ -862,3 +879,4 @@ public class IVPProgram extends DomainModel {
     }
     
 }
+
