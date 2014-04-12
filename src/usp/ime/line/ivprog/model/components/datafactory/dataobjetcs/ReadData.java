@@ -47,8 +47,9 @@ public class ReadData extends CodeComponent {
     public String toJavaString() {
         String str = "if (!isEvaluating){";
         VariableReference varRef = (VariableReference) Services.getService().getModelMapping().get(writableObject);
+        System.out.println(">>>>>>>>>> varRef.getReferencedType()"+varRef.getReferencedType());
         str += getStrForType(varRef.getReferencedType(), varRef);
-        str +="}else{ "+varRef.toJavaString()+" = ";
+        str += "}else{ " + varRef.toJavaString() + " = ";
         str += getElseEvaluationStrForType(varRef.getReferencedType());
         str += "}";
         return str;
@@ -67,17 +68,17 @@ public class ReadData extends CodeComponent {
         }
         return str;
     }
-
+    
     private String getStrForType(short type, VariableReference varRef) {
         String str = "";
         if (type == Expression.EXPRESSION_INTEGER) {
-            str += "readInteger.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
+            str += "readInteger.showAskUser(\"" + varRef.getReferencedName() + "\");" + varRef.toJavaString() + " = readInteger.getFinalValue(); if(readInteger.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_DOUBLE) {
-            str += "readDouble.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readDouble.showAskUser(\"" + varRef.getReferencedName() + "\");" + varRef.toJavaString() + " = readDouble.getFinalValue(); if(readDouble.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_BOOLEAN) {
-            str += "readBoolean.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readBoolean.showAskUser(\"" + varRef.getReferencedName() + "\");" + varRef.toJavaString() + " = readBoolean.getFinalValue(); if(readBoolean.isInterrupt()) return;";
         } else if (type == Expression.EXPRESSION_STRING) {
-            str += "readString.showAskUser(\""+varRef.getReferencedName()+"\");" + varRef.toJavaString() + " = readString.getFinalValue(); if(readDouble.isInterrupt()) return;";
+            str += "readString.showAskUser(\"" + varRef.getReferencedName() + "\");" + varRef.toJavaString() + " = readString.getFinalValue(); if(readString.isInterrupt()) return;";
         }
         return str;
     }

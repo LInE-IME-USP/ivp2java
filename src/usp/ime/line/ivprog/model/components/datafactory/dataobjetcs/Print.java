@@ -46,11 +46,10 @@ public class Print extends CodeComponent {
     
     public String toJavaString() {
         Expression e = (Expression) Services.getService().getModelMapping().get(printableObjectID);
-        String str = "if(!isEvaluating) {" +
-                " ivpConsole.println( \"> \"+";
+        String str = "if(!isEvaluating) {" + " ivpConsole.println( \"> \"+";
         str += e.toJavaString();
         str += "); } else {";
-        str += "interpreterOutput.push("+e.toJavaString()+");}";
+        str += "interpreterOutput.push(" + e.toJavaString() + ");}";
         return str;
     }
     

@@ -487,6 +487,10 @@ public class IVPProgram extends DomainModel {
     
     public Vector changeVariableType(String id, short newType, AssignmentState state) {
         Variable v = (Variable) Services.getService().getModelMapping().get(id);
+        for (int i = 0; i < v.getVariableReferenceList().size(); i++) {
+            Reference r = (Reference) Services.getService().getModelMapping().get(v.getVariableReferenceList().get(i));
+            r.setReferencedType(newType);
+        }
         short lastType = v.getVariableType();
         Vector returnedVector = new Vector();
         returnedVector.add(lastType);
@@ -670,15 +674,14 @@ public class IVPProgram extends DomainModel {
                 error = false;
             }
             try {
-                System.out.println(code);
                 interpreter.set("isEvaluating", false);
                 interpreter.eval(code);
             } catch (EvalError e) {
-                if(e.getCause() != null){
+                if (e.getCause() != null) {
                     if (e.getCause().equals("/ by zero")) {
-                        console.printError("Cuidado! Na linha " + e.getErrorLineNumber() + " ocorre uma divis�o por 0.");
+                        console.printError(ResourceBundleIVP.getString("IVPProgram.DivByZeroMessage"));
                     }
-                } 
+                }
                 e.printStackTrace();
             }
         } else {
@@ -692,7 +695,7 @@ public class IVPProgram extends DomainModel {
     }
     
     public boolean validateVariableName(String modelScopeID, String value) {
-        // TODO: generalize. each scope has to have s single localVarMap. It's easier to check for each scope;
+        // TODO: generalize. each scope has to have a single localVarMap. It's easier to check for each scope;
         Function f = (Function) Services.getService().getModelMapping().get(modelScopeID);
         Vector v = f.getLocalVariableMap().toVector();
         for (int i = 0; i < v.size(); i++) {
@@ -702,120 +705,113 @@ public class IVPProgram extends DomainModel {
         }
         return true;
     }
-
+    
     public float AutomaticChecking(AssignmentState studentAnswer, AssignmentState expectedAnswer) {
         return 0;
     }
-
-    public float getEvaluation(String tests){
-        Stack input = new Stack();
-        Stack output = new Stack();
-        Stack interpreterOutput = new Stack();
-        System.out.println(tests);
-        int nTests = 0;
-        nTests = prepareInputAndOutput(tests, input, output);
-        Stack invertedInput = new Stack();
-        int size = input.size();
-        for(int i = 0; i < size; i++){
-            invertedInput.push(input.pop());
-        }
-        input = invertedInput;
-        System.out.println("inputStack "+input);
-        System.out.println("outputStack "+output);
-        int contador = 0;
-        while(contador < nTests){
-            if (Services.getService().getController().isContentSet()) {
-                Services.getService().getController().lockCodeDown();
-                String code = "";
-                Object[] functionList = Services.getService().getCurrentState().getData().getFunctionMap().values().toArray();
-                for (int i = 0; i < functionList.length; i++) {
-                    code += " " + ((Function) functionList[i]).toJavaString() + " ";
-                }
-                code += " Principal(); ";
-                if (error) {
-                    console.clean();
-                    error = false;
-                }
-                try {
-                    interpreter.set("isEvaluating", true);
-                    interpreter.set("interpreterOutput", interpreterOutput);
-                    interpreter.set("interpreterInput", input);
-                    System.out.println(code);
-                    interpreter.eval(code);
-                } catch (EvalError e) {
-                    if(e.getCause() != null){
-                        if (e.getCause().equals("/ by zero")) {
-                            console.printError("Cuidado! em algum trecho do seu c�digo ocorre uma divis�o por 0. Por favor, verifique!");
+    
+    public float getEvaluation(String tests) {
+        if (Services.getService().getController().isContentSet()) {
+            Services.getService().getController().lockCodeDown();
+            Stack input = new Stack();
+            Stack output = new Stack();
+            Stack interpreterOutput = new Stack();
+            int nTests = 0;
+            nTests = prepareInputAndOutput(tests, input, output);
+            Stack invertedInput = new Stack();
+            int size = input.size();
+            for (int i = 0; i < size; i++) {
+                invertedInput.push(input.pop());
+            }
+            input = invertedInput;
+            int contador = 0;
+            while (contador < nTests) {
+                if (Services.getService().getController().isContentSet()) {
+                    Services.getService().getController().lockCodeDown();
+                    String code = "";
+                    Object[] functionList = Services.getService().getCurrentState().getData().getFunctionMap().values().toArray();
+                    for (int i = 0; i < functionList.length; i++) {
+                        code += " " + ((Function) functionList[i]).toJavaString() + " ";
+                    }
+                    code += " Principal(); ";
+                    if (error) {
+                        console.clean();
+                        error = false;
+                    }
+                    try {
+                        interpreter.set("isEvaluating", true);
+                        interpreter.set("interpreterOutput", interpreterOutput);
+                        interpreter.set("interpreterInput", input);
+                        interpreter.eval(code);
+                    } catch (EvalError e) {
+                        if (e.getCause() != null) {
+                            if (e.getCause().equals("/ by zero")) {
+                                console.printError(ResourceBundleIVP.getString("IVPProgram.DivByZeroMessage"));
+                            }
                         }
-                    } 
-                    e.printStackTrace();
+                        e.printStackTrace();
+                    }
+                } else {
+                    error = true;
+                    printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
                 }
+                contador++;
+            }
+            int match = 0;
+            for (int i = 0; i < nTests; i++) {
+                Object o1 = null, o2 = null;
+                if (!interpreterOutput.isEmpty()) {
+                    o1 = interpreterOutput.pop();
+                }
+                if (!output.isEmpty()) {
+                    o2 = output.pop();
+                }
+                if (o1 != null && o2 != null) {
+                    String o1Str = "";
+                    String o2Str = "";
+                    if (o1 instanceof Double) {
+                        o1Str = String.format("%.4f", o1);
+                    } else {
+                        o1Str = new String(o1 + "");
+                    }
+                    if (o1 instanceof Double) {
+                        o2Str = String.format("%.4f", o2);
+                    } else {
+                        o2Str = new String(o2 + "");
+                    }
+                    if (o1Str.equals(o2Str)) {
+                        match++;
+                    }
+                }
+            }
+            float resultado = 0;
+            if (match != 0) {
+                resultado = (float) (match * 1.0 / nTests);
+                float porcentagem = resultado * 100;
+                String number = String.format("%.2f", porcentagem);
+                console.clean();
+                console.println("-------------------------------------------------");
+                console.println("Total de testes: " + nTests);
+                console.println("Passou em " + match + " testes.");
+                console.println("Aproveitamento: " + number + "%.");
+                console.println("-------------------------------------------------");
+                return resultado;
             } else {
-                error = true;
-                printError(ResourceBundleIVP.getString("Error.fieldsNotSet"));
-            }
-            contador++;
-        }
-        System.out.println("Tentativa de valida��o: ");
-        System.out.println(interpreterOutput);
-        System.out.println(output);
-        int match = 0;
-        for(int i = 0; i < nTests; i++){
-            Object o1 = null, o2 = null;
-            if(!interpreterOutput.isEmpty()){
-                o1 = interpreterOutput.pop();
-            }
-            if(!output.isEmpty()){
-                o2 = output.pop();
-            }
-            if(o1!= null && o2 != null){
-                String o1Str = "";
-                String o2Str = "";
-                if(o1 instanceof Double){
-                    o1Str = String.format("%.4f", o1);
-                }else{
-                    o1Str = new String(o1+"");
-                }
-                if(o1 instanceof Double){
-                    o2Str = String.format("%.4f", o2);
-                }else{
-                    o2Str = new String(o2+"");
-                }
-                System.out.println(o1Str + " " +o2Str);
-                if(o1Str.equals(o2Str)){
-                    match++;    
-                }
+                resultado = (float) (match * 1.0 / nTests);
+                float porcentagem = resultado * 100;
+                String number = String.format("%.2f", porcentagem);
+                console.clean();
+                console.println("-------------------------------------------------");
+                console.println("Total de testes: " + nTests);
+                console.println("Passou em " + match + " testes.");
+                console.println("Aproveitamento: 0%.");
+                console.println("-------------------------------------------------");
+                return 0;
             }
         }
-        float resultado = 0;
-        if(match!=0){
-            resultado = (float) (match*1.0/nTests);
-            float porcentagem = resultado * 100;
-            String number = String.format("%.2f", porcentagem);
-            console.clean();
-            console.println("-------------------------------------------------");
-            console.println("Total de testes: "+nTests);
-            console.println("Passou em "+match+" testes.");
-            console.println("Aproveitamento: "+number+"%.");
-            System.out.println(1.1*1.1);
-            console.println("-------------------------------------------------");
-            return resultado;
-        }else{
-            resultado = (float) (match*1.0/nTests);
-            float porcentagem = resultado * 100;
-            String number = String.format("%.2f", porcentagem);
-            console.clean();
-            console.println("-------------------------------------------------");
-            console.println("Total de testes: "+nTests);
-            console.println("Passou em "+match+" testes.");
-            console.println("Aproveitamento: 0%.");
-            System.out.println(1.1*1.1);
-            console.println("-------------------------------------------------");
-            return 0;
-        }
-        
+        return 0;
     }
-
+    
     private int prepareInputAndOutput(String tests, Stack input, Stack outputStack) {
         Document doc = null;
         int testCount = 0;
@@ -828,24 +824,22 @@ public class IVPProgram extends DomainModel {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
-            if("testcase".equals(currentNode.getNodeName())){
+            if ("testcase".equals(currentNode.getNodeName())) {
                 testCount++;
             }
             String value = currentNode.getNodeName().trim();
             NodeList nodes = currentNode.getChildNodes();
             HashMap parameters = new HashMap();
             if (!value.equals("#text")) {
-                
                 for (int j = 0; j < nodes.getLength(); j++) {
-                    
                     Node cnode = nodes.item(j);
                     if (!cnode.getNodeName().equals("#text")) {
-                        if(cnode.getNodeName().equals("input")){
-                            if(cnode.hasAttributes()){
+                        if (cnode.getNodeName().equals("input")) {
+                            if (cnode.hasAttributes()) {
                                 input.push(parseValue(cnode.getAttributes().getNamedItem("type").getTextContent(), cnode.getTextContent()));
                             }
-                        }else if(cnode.getNodeName().equals("output")){
-                            if(cnode.hasAttributes()){
+                        } else if (cnode.getNodeName().equals("output")) {
+                            if (cnode.hasAttributes()) {
                                 outputStack.push(parseValue(cnode.getAttributes().getNamedItem("type").getTextContent(), cnode.getTextContent()));
                             }
                         }
@@ -857,26 +851,24 @@ public class IVPProgram extends DomainModel {
     }
     
     private Object parseValue(String type, String value) {
-        if(type.equals("int")){
-            return ((Integer)new Integer(value)).intValue();
-        }else if(type.equals("double")){
-            return ((Double)new Double(value)).doubleValue();
-        }else if(type.equals("String")){
+        if (type.equals("int")) {
+            return ((Integer) new Integer(value)).intValue();
+        } else if (type.equals("double")) {
+            return ((Double) new Double(value)).doubleValue();
+        } else if (type.equals("String")) {
             return new String(value);
-        }else if(type.equals("boolean")){
-            return ((Boolean)new Boolean(value)).booleanValue();
-        }else if(type.equals("float")){
-            return ((Float)new Float(value)).floatValue();
+        } else if (type.equals("boolean")) {
+            return ((Boolean) new Boolean(value)).booleanValue();
+        } else if (type.equals("float")) {
+            return ((Float) new Float(value)).floatValue();
         }
         return null;
     }
-
+    
     public static Document loadXMLFromString(String xml) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(new ByteArrayInputStream(xml.getBytes()));
     }
-    
 }
-

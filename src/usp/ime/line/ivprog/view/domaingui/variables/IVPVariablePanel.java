@@ -29,6 +29,7 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.utils.DynamicFlowLayout;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 import usp.ime.line.ivprog.view.utils.RoundedJPanel;
+import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class IVPVariablePanel extends JPanel implements IVariableListener {
     private static final long serialVersionUID = -2214975678822644250L;
@@ -93,7 +94,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_param.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("IVPVariablePanel.action.addParam") + "Principal");
         addParamBtn = new JButton(action);
         addParamBtn.setHorizontalAlignment(SwingConstants.LEFT);
         addParamBtn.setUI(new IconButtonUI());
@@ -125,7 +126,7 @@ public class IVPVariablePanel extends JPanel implements IVariableListener {
             }
         };
         action.putValue(Action.SMALL_ICON, new ImageIcon(IVPVariablePanel.class.getResource("/usp/ime/line/resources/icons/plus_var.png")));
-        action.putValue(Action.SHORT_DESCRIPTION, "Adiciona um novo parâmetro à função:" + "Principal");
+        action.putValue(Action.SHORT_DESCRIPTION, ResourceBundleIVP.getString("IVPVariablePanel.action.addVar") + "Principal");
         addVarBtn = new JButton(action);
         addVarBtn.setUI(new IconButtonUI());
         GridBagConstraints gbc_addVarBtn = new GridBagConstraints();

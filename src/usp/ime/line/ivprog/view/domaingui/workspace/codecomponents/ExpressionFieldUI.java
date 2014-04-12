@@ -19,6 +19,7 @@ import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public class ExpressionFieldUI extends JPanel {
+    
     private JButton            btnEdit;
     private ExpressionHolderUI expressionHolderUI;
     private boolean            isEditing = false;

@@ -30,7 +30,7 @@ import java.awt.Font;
 
 public class IlmAuthoringGUI extends AuthoringGUI {
     private JTextPane textPane;
-
+    
     public IlmAuthoringGUI() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(300, 200));

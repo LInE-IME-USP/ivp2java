@@ -13,6 +13,7 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
     protected AssignmentState _currentState;
     private boolean           _isUndo;
     private boolean           _isRedo;
+    protected boolean executingInSilence = false;
     
     public DomainAction(String name, String description) {
         _name = name;
@@ -46,9 +47,11 @@ public abstract class DomainAction extends Observable implements Cloneable, Seri
      * Silence!
      */
     public final void executeInSilence() {
+        executingInSilence = true;
         executeAction();
         _isUndo = false;
         _isRedo = false;
+        executingInSilence = false;
     }
     
     /**

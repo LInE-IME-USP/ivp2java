@@ -24,13 +24,11 @@ final class AssignmentParser {
         HashMap config = convertStringToMap(assignmentString, IlmProtocol.CONFIG_LIST_NODE);
         HashMap metadata = convertStringToMap(assignmentString, IlmProtocol.METADATA_LIST_NODE);
         Assignment assignment = new Assignment(proposition, initialState, currentState, expectedState);
-        System.out.println("o assignmentString\n"+assignmentString);
-        if(assignmentString.contains("<test>")){
+        if (assignmentString.contains("<test>")) {
             assignment.setTestCase(assignmentString.substring(assignmentString.indexOf("<test>"), assignmentString.length()));
-        }else{
+        } else {
             assignment.setTestCase("");
         }
-        System.out.println("criou o assignment com esse cara \n"+assignment.getTestCase());
         assignment.setConfig(config);
         assignment.setMetadata(metadata);
         return assignment;
@@ -104,10 +102,10 @@ final class AssignmentParser {
         /*
          * Romenig -> mudança para funcionar o test case
          */
-        if(assignment.getTestCase()!=null && !"".equals(assignment.getTestCase())){
-            string += "<test>"+assignment.getTestCase()+"</test>";    
-        }else{
-            string +="</test>";
+        if (assignment.getTestCase() != null && !"".equals(assignment.getTestCase())) {
+            string += "<test>" + assignment.getTestCase() + "</test>";
+        } else {
+            string += "</test>";
         }
         return string;
     }

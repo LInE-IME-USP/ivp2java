@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
@@ -22,6 +23,12 @@ public class CreateChild extends DomainAction {
     }
     
     protected void executeAction() {
+        if(executingInSilence){
+            int myId = Integer.parseInt(objectID);
+            if(myId > _currentState.getData().getDataFactory().getObjectID()){
+                _currentState.getData().getDataFactory().setObjectID(myId);
+            }
+        }
         if (isRedo()) {
             model.restoreChild(containerID, objectID, index, context, _currentState);
         } else {

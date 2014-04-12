@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import usp.ime.line.ivprog.model.domainaction.ChangeExpressionSign;
 import usp.ime.line.ivprog.model.domainaction.ChangeForMode;
 import usp.ime.line.ivprog.model.domainaction.ChangeValue;
@@ -207,16 +208,14 @@ public class IVPDomainConverter implements DomainConverter {
         return action;
     }
     
-    private Vector parseVector(String vectorAsString){
+    private Vector parseVector(String vectorAsString) {
         Vector v = new Vector();
-        String vec = vectorAsString.substring(1, vectorAsString.length()-1);
-        System.out.println(vec);
+        String vec = vectorAsString.substring(1, vectorAsString.length() - 1);
         String[] vecFinal = vec.trim().split(",");
-        v.add(Short.parseShort((String)vecFinal[0].trim()));
-        for(int i = 1; i < vecFinal.length; i++){
+        v.add(Short.parseShort((String) vecFinal[0].trim()));
+        for (int i = 1; i < vecFinal.length; i++) {
             v.add(vecFinal[i].trim());
         }
-        System.out.println("vector converted "+v);
         return v;
     }
     

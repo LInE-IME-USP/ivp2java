@@ -1,5 +1,7 @@
 package usp.ime.line.ivprog.model.components.datafactory;
 
+import org.omg.PortableInterceptor.ObjectIdHelper;
+
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AskUser;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.AttributionLine;
 import usp.ime.line.ivprog.model.components.datafactory.dataobjetcs.Comment;
@@ -27,9 +29,16 @@ public class DataFactory implements IDataFactory {
      */
     private int objectID = 0;
     
+    public int getObjectID() {
+        return objectID;
+    }
+
+    public void setObjectID(int objectID) {
+        this.objectID = objectID;
+    }
+
     /*
      * (non-Javadoc)
-     * 
      * @see usp.ime.line.ivprog.components.databuilder.dataobjetcs.IDataFactory# createConstant()
      */
     public DataObject createConstant() {
@@ -235,4 +244,5 @@ public class DataFactory implements IDataFactory {
         ask.setUniqueID("" + objectID++);
         return ask;
     }
+    
 }

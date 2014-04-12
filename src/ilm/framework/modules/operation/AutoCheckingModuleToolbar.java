@@ -17,9 +17,8 @@ import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
-    
-    private static final long       serialVersionUID = 1L;
-    private JButton                 button;
+    private static final long              serialVersionUID = 1L;
+    private JButton                        button;
     private static AutomaticCheckingModule _module;
     
     public AutoCheckingModuleToolbar(AutomaticCheckingModule module) {
@@ -28,10 +27,6 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 showEvaluation();
-                    
-                
-                
-                
                 Tracking.getInstance().track("event=CLICK;where=BTN_AUTOMATIC_CHECKING;");
             }
         });
@@ -41,10 +36,10 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     }
     
     public static void showEvaluation() {
-        if(Ilm.getInstance()!=null){
+        if (Ilm.getInstance() != null) {
             JSObject window = JSObject.getWindow(Ilm.getInstance());
-            window.call("getEvaluationCallback", new Object[]{_module.getEvaluation()});    
-        }else{
+            window.call("getEvaluationCallback", new Object[] { _module.getEvaluation() });
+        } else {
             _module.getEvaluation();
         }
     }
@@ -52,11 +47,7 @@ public class AutoCheckingModuleToolbar extends IlmModuleToolbar {
     public void update(Observable arg0, Object arg1) {
         button.setEnabled(true);
         /*
-        if (_module.hasExpectedAnswer()) {
-            button.setEnabled(true);
-        } else {
-            button.setEnabled(false);
-        }
-        */
+         * if (_module.hasExpectedAnswer()) { button.setEnabled(true); } else { button.setEnabled(false); }
+         */
     }
 }

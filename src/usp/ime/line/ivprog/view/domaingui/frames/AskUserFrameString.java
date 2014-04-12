@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,28 +15,38 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import usp.ime.line.ivprog.listeners.IValueListener;
+import usp.ime.line.ivprog.model.utils.Services;
 import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditInPlace;
 import usp.ime.line.ivprog.view.domaingui.editinplace.EditBoolean;
+import usp.ime.line.ivprog.view.domaingui.editinplace.ReadTextField;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class AskUserFrameString extends JDialog implements IValueListener {
-    private JPanel      contentPane;
-    private EditInPlace value;
-    private JPanel      content;
-    private JPanel      buttons;
-    private JButton     btnOk;
-    private JButton     btnCancel;
-    private JPanel      header;
-    private JLabel      plsInsertLabel;
-    private JLabel      propertyLabel;
-    private JLabel      variableNameLabel;
-    private String      finalValue = ResourceBundleIVP.getString("helloWorld.text");
-    private boolean     interrupt  = false;
+    private JPanel        contentPane;
+    private ReadTextField value;
+    private JPanel        content;
+    private JPanel        buttons;
+    private JButton       btnOk;
+    private JButton       btnCancel;
+    private JPanel        header;
+    private JLabel        plsInsertLabel;
+    private JLabel        propertyLabel;
+    private JLabel        variableNameLabel;
+    private String        finalValue = ResourceBundleIVP.getString("helloWorld.text");
+    private boolean       interrupt  = false;
     
     public AskUserFrameString() {
         super(new JFrame(), true);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                Tracking.getInstance().track("event=CLICK;where=BTN_CLOSE_ASKUSERINTEGER;");
+                interrupt = true;
+                setVisible(false);
+                Services.getService().getController().printError(ResourceBundleIVP.getString("Error.executionInterruptedByUser"));
+            }
+        });
         initLayout();
         initContent();
         initEditInPlace();
@@ -71,6 +83,7 @@ public class AskUserFrameString extends JDialog implements IValueListener {
                 Tracking.getInstance().track("event=CLICK;where=BTN_OK_ASKUSERSTRING;");
                 interrupt = false;
                 setVisible(false);
+                
             }
         });
         btnCancel = new JButton(ResourceBundleIVP.getString("AskUser.cancelBtn.text"));
@@ -80,6 +93,7 @@ public class AskUserFrameString extends JDialog implements IValueListener {
                 Tracking.getInstance().track("event=CLICK;where=BTN_CANCEL_ASKUSERSTRING;");
                 interrupt = true;
                 setVisible(false);
+                Services.getService().getController().printError(ResourceBundleIVP.getString("Error.executionInterruptedByUser"));
             }
         });
         buttons.add(btnCancel);
@@ -92,7 +106,7 @@ public class AskUserFrameString extends JDialog implements IValueListener {
     }
     
     private void initEditInPlace() {
-        value = new EditInPlace();
+        value = new ReadTextField();
         value.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_STRING);
         value.setValue("" + finalValue + "");
         value.setValueListener(this);
@@ -123,7 +137,7 @@ public class AskUserFrameString extends JDialog implements IValueListener {
     }
     
     public void showAskUser(String variableName) {
-        String str = variableName+": ";
+        String str = variableName + ": ";
         variableNameLabel.setText(str);
         variableNameLabel.repaint();
         pack();

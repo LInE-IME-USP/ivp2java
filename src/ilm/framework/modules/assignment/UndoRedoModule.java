@@ -121,6 +121,8 @@ public class UndoRedoModule extends AssignmentModule implements Serializable {
             string += "</redostack>";
         }
         string += "</" + _name + ">";
+        
+        
         return string;
     }
     

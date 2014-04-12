@@ -27,7 +27,7 @@ import usp.ime.line.ivprog.model.utils.Tracking;
 public class Ilm extends JApplet implements IlmProtocol {
     private static final long  serialVersionUID        = 1L;
     private static IlmProtocol _ilmProtocol;
-    private static Ilm instance;
+    private static Ilm         instance;
     private String             MA_PARAM_PropositionUrl = "";
     private String             MA_PARAM_Proposition    = "";
     public static String       ENCODE_TYPE             = "UTF-8";
@@ -75,7 +75,7 @@ public class Ilm extends JApplet implements IlmProtocol {
     }
     
     public float getEvaluation() {
-        float resposta =_ilmProtocol.getEvaluation(); 
+        float resposta = _ilmProtocol.getEvaluation();
         return resposta;
     }
     
@@ -90,7 +90,7 @@ public class Ilm extends JApplet implements IlmProtocol {
         return _ilmProtocol.getAssignmentPackage();
     }
     
-    public static Ilm getInstance(){
+    public static Ilm getInstance() {
         return instance;
     }
 }

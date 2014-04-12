@@ -26,13 +26,11 @@ import ilm.framework.modules.assignment.UndoRedoModule;
 import ilm.framework.modules.operation.AutomaticCheckingModule;
 
 public final class AssignmentControl implements IAssignment, IAssignmentOperator, IlmProtocol {
-    
     private SystemConfig    _config;
     private DomainModel     _model;
     private DomainConverter _converter;
     private ICommunication  _comm;
     private Vector          _assignmentList;
-    
     private HashMap         _moduleList;
     
     public AssignmentControl(SystemConfig config, ICommunication comm, DomainModel model, DomainConverter converter) {
@@ -333,9 +331,8 @@ public final class AssignmentControl implements IAssignment, IAssignmentOperator
     public Vector get_assignmentList() {
         return _assignmentList;
     }
-
+    
     public void set_assignmentList(Vector _assignmentList) {
         this._assignmentList = _assignmentList;
     }
-
 }

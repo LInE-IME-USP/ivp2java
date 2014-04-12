@@ -65,9 +65,6 @@ public class ChangeVariableType extends DomainAction {
         String str = "";
         str += "<changevariabletype>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lasttype>" + lastType + "</lasttype>\n" + "   <returnedvector>" + returnedVector.toString()
                 + "</returnedvector>\n" + "   <newtype>" + newType + "</newtype>\n" + "</changevariabletype>\n";
-        System.out.println("------------------------------------------------------------");
-        System.out.println(str);
-        System.out.println("------------------------------------------------------------");
         return str;
     }
     

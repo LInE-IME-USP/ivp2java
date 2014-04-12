@@ -33,8 +33,8 @@ public class EditInPlace extends JPanel implements KeyListener {
     public static int         PATTERN_VARIABLE_VALUE_INTEGER = 2;
     public static int         PATTERN_VARIABLE_VALUE_STRING  = 3;
     private int               currentPattern                 = 0;
-    private String[]          patternsTyping                 = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[0-9]*.[0-9]*$", "^[0-9]*$", ".*" };
-    private String[]          patterns                       = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", "\\b[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?\\b", ".*" };
+    private String[]          patternsTyping                 = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*" };
+    private String[]          patterns                       = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*" };
     private Color             bgColor                        = FlatUIColors.MAIN_BG;
     public static final Color hoverColor                     = FlatUIColors.HOVER_COLOR;
     public boolean            isUpdate                       = false;

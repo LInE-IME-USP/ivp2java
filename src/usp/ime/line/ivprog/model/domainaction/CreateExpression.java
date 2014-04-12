@@ -1,6 +1,7 @@
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
+import usp.ime.line.ivprog.model.components.datafactory.DataFactory;
 import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
@@ -23,6 +24,12 @@ public class CreateExpression extends DomainAction {
     }
     
     protected void executeAction() {
+        if(executingInSilence){
+            int myId = Integer.parseInt(newExpression);
+            if(myId > _currentState.getData().getDataFactory().getObjectID()){
+                _currentState.getData().getDataFactory().setObjectID(myId);
+            }
+        }
         if (isRedo()) {
             model.restoreExpression(removedExpression, holder, context, false, _currentState);
         } else {

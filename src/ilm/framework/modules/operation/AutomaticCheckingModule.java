@@ -14,7 +14,6 @@ import java.util.Vector;
 import usp.ime.line.ivprog.model.IVPProgram;
 
 public class AutomaticCheckingModule extends OperationModule implements Serializable {
-    
     private DomainModel _model;
     
     public AutomaticCheckingModule(IAssignment assignmentControl, IAssignmentOperator operator) {
@@ -26,14 +25,11 @@ public class AutomaticCheckingModule extends OperationModule implements Serializ
     
     public float getEvaluation() {
         /*
-        if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) {
-            return 0;
-        }
-        */
-        Assignment a = (Assignment) ((AssignmentControl)_assignmentList).get_assignmentList().get(_assignmentIndex);
+         * if (_assignmentList.getExpectedAnswer(_assignmentIndex) == null) { return 0; }
+         */
+        Assignment a = (Assignment) ((AssignmentControl) _assignmentList).get_assignmentList().get(_assignmentIndex);
         float resposta = 0;
-        System.out.println("CHEGOU AQUI NA CHAMADA!");
-        resposta = (((IVPProgram)_model).getEvaluation(a.getTestCase()));
+        resposta = (((IVPProgram) _model).getEvaluation(a.getTestCase()));
         return resposta;
     }
     

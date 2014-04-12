@@ -29,5 +29,4 @@ public interface IAssignment {
     public AssignmentState newAssignment();
     
     public void closeAssignment(int index);
-
 }

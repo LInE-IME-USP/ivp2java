@@ -100,7 +100,7 @@ public class IlmBaseGUI extends BaseGUI {
     private void initModelAndUI(int index) {
         Services.getService().getController().getProgram().addFunctionListener((IFunctionListener) _domainGUIList.get(index));
         Services.getService().getController().initializeModel();
-        gambiarraDoRo(_assignments.getIlmModuleList().values());
+        recuperandoEstado(_assignments.getIlmModuleList().values());
     }
     
     private void initAssignment(AssignmentState curState) {
@@ -120,10 +120,10 @@ public class IlmBaseGUI extends BaseGUI {
         Iterator moduleIterator = moduleList.iterator();
         while (moduleIterator.hasNext()) {
             IlmModule module = (IlmModule) moduleIterator.next();
-            if (!(module instanceof HistoryModule)) {
+            //if (!(module instanceof HistoryModule)) {
                 buttonsMenu.add(module.getGUI());
                 buttonsMenu.add(Box.createHorizontalStrut(50));
-            }
+            //}
         }
     }
     
@@ -340,7 +340,7 @@ public class IlmBaseGUI extends BaseGUI {
         }
         Vector list = new Vector();
         for (int i = 0; i < _assignments.getNumberOfAssignments(); i++) {
-            //Adaptação para pegar o testcase
+            // Adaptação para pegar o testcase
             if (((AuthoringGUI) _authoringGUIList.get(i)).getProposition().length() > 1) {
                 list.add(((AuthoringGUI) _authoringGUIList.get(i)).getAssignment());
             } else {
@@ -360,11 +360,11 @@ public class IlmBaseGUI extends BaseGUI {
     }
     
     /**
-     * Gambiarra pra restaurar o estado da atividade.
+     * Método para restaurar o estado da atividade.
      * 
      * @param moduleList
      */
-    public void gambiarraDoRo(Collection moduleList) {
+    public void recuperandoEstado(Collection moduleList) {
         if (!isOpening)
             return;
         Iterator moduleIterator = moduleList.iterator();
