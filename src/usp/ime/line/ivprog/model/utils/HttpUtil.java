@@ -21,10 +21,10 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
- * 
  * @author Tulio Faria <tuliofaria@gmail.com>
  */
 public class HttpUtil {
+    
     public static String METHOD_POST           = "POST";
     public static String METHOD_POST_MULTIDATA = "PostMultidata";
     public static String METHOD_GET            = "GET";

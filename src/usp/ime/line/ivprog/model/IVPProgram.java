@@ -398,7 +398,7 @@ public class IVPProgram extends DomainModel {
         if (dataHolder instanceof AttributionLine) {
             ((AttributionLine) dataHolder).setRightExpression("");
             lastExpressionID = "";
-        } else if (dataHolder instanceof Print) {
+        } else if (dataHolder instanceof Print) { // acho que o print nem está mais sendo usado para remover
             lastExpressionID = "";
         } else if (dataHolder instanceof Operation) {
             ((Operation) dataHolder).removeExpression(expression);
@@ -412,13 +412,17 @@ public class IVPProgram extends DomainModel {
         // checar aqui...
         if (isClean) {
             Expression newExp;
+            //TODO: Hora de remover tudo e reinicializar a porra toda...
             if (!isComparison) {
                 newExp = (Expression) state.getData().getDataFactory().createVarReference();
                 newExp.setExpressionType(Expression.EXPRESSION_VARIABLE);
                 if (dataHolder instanceof For) {
                     ((VariableReference) newExp).setReferencedType(Expression.EXPRESSION_INTEGER);
-                } else {
+                } else if(dataHolder instanceof AttributionLine){
                     ((VariableReference) newExp).setReferencedType(((AttributionLine) dataHolder).getLeftVariableType());
+                } else if(dataHolder instanceof Operation){
+                    short theOperationType = ((Operation)dataHolder).getExpressionType();
+                    ((VariableReference) newExp).setReferencedType(theOperationType);
                 }
             } else {
                 newExp = (Expression) state.getData().getDataFactory().createExpression();
