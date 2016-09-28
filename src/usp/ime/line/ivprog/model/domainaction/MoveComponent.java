@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
@@ -6,105 +19,107 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class MoveComponent extends DomainAction {
-	private IVPProgram model;
-	private String component;
-	private String destiny;
-	private String destinyContext;
-	private String originContext;
-	private String origin;
-	private int originIndex;
-	private int dropIndex = 0;
 
-	public MoveComponent(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private String component;
+  private String destiny;
+  private String destinyContext;
+  private String originContext;
+  private String origin;
+  private int originIndex;
+  private int dropIndex = 0;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public MoveComponent (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
-	}
+  protected void executeAction () {
+    originIndex = model.moveChild(component, origin, destiny, originContext, destinyContext, dropIndex, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.moveChild(component, destiny, origin, destinyContext, originContext, originIndex, _currentState);
+    }
 
-	public String getComponent() {
-		return component;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setComponent(String component) {
-		this.component = component;
-	}
+  public String getComponent () {
+    return component;
+    }
 
-	public String getDestiny() {
-		return destiny;
-	}
+  public void setComponent (String component) {
+    this.component = component;
+    }
 
-	public void setDestiny(String destiny) {
-		this.destiny = destiny;
-	}
+  public String getDestiny () {
+    return destiny;
+    }
 
-	public String getOrigin() {
-		return origin;
-	}
+  public void setDestiny (String destiny) {
+    this.destiny = destiny;
+    }
 
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
+  public String getOrigin () {
+    return origin;
+    }
 
-	public int getDropY() {
-		return dropIndex;
-	}
+  public void setOrigin (String origin) {
+    this.origin = origin;
+    }
 
-	public void setDropY(int dropY) {
-		this.dropIndex = dropY;
-	}
+  public int getDropY () {
+    return dropIndex;
+    }
 
-	public String getDestinyContext() {
-		return destinyContext;
-	}
+  public void setDropY (int dropY) {
+    this.dropIndex = dropY;
+    }
 
-	public void setDestinyContext(String destinyContext) {
-		this.destinyContext = destinyContext;
-	}
+  public String getDestinyContext () {
+    return destinyContext;
+    }
 
-	public String getOriginContext() {
-		return originContext;
-	}
+  public void setDestinyContext (String destinyContext) {
+    this.destinyContext = destinyContext;
+    }
 
-	public void setOriginContext(String originContext) {
-		this.originContext = originContext;
-	}
+  public String getOriginContext () {
+    return originContext;
+    }
 
-	public int getOriginIndex() {
-		return originIndex;
-	}
+  public void setOriginContext (String originContext) {
+    this.originContext = originContext;
+    }
 
-	public void setOriginIndex(int originIndex) {
-		this.originIndex = originIndex;
-	}
+  public int getOriginIndex () {
+    return originIndex;
+    }
 
-	public int getDropIndex() {
-		return dropIndex;
-	}
+  public void setOriginIndex (int originIndex) {
+    this.originIndex = originIndex;
+    }
 
-	public void setDropIndex(int dropIndex) {
-		this.dropIndex = dropIndex;
-	}
+  public int getDropIndex () {
+    return dropIndex;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<movecomponent>\n" + "   <component>" + component + "</component>\n" + "   <destiny>" + destiny + "</destiny>\n"
-		        + "   <destinycontext>" + destinyContext + "</destinycontext>\n" + "   <origincontext>" + originContext
-		        + "</origincontext>\n" + "   <origin>" + origin + "</origin>\n" + "   <originindex>" + originIndex + "</originindex>\n"
-		        + "   <dropindex>" + dropIndex + "</dropindex>\n" + "</movecomponent>\n";
-		return str;
-	}
-}
+  public void setDropIndex (int dropIndex) {
+    this.dropIndex = dropIndex;
+    }
+
+  public String toString () {
+    String str = "";
+    str += "<movecomponent>\n" + "   <component>" + component + "</component>\n" + "   <destiny>" + destiny + "</destiny>\n"
+            + "   <destinycontext>" + destinyContext + "</destinycontext>\n" + "   <origincontext>" + originContext
+            + "</origincontext>\n" + "   <origin>" + origin + "</origin>\n" + "   <originindex>" + originIndex + "</originindex>\n"
+            + "   <dropindex>" + dropIndex + "</dropindex>\n" + "</movecomponent>\n";
+    return str;
+    }
+
+  }

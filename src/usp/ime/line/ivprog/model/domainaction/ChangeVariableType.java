@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import java.util.Vector;
@@ -7,73 +20,75 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableType extends DomainAction {
-	private IVPProgram model;
-	private short lastType;
-	private Vector returnedVector;
-	private short newType;
-	private String variableID;
 
-	public ChangeVariableType(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private short lastType;
+  private Vector returnedVector;
+  private short newType;
+  private String variableID;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public ChangeVariableType (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		if (isRedo()) {
-			model.changeVariableType(variableID, newType, _currentState);
-		} else {
-			returnedVector = model.changeVariableType(variableID, newType, _currentState);
-		}
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.restoreVariableType(variableID, returnedVector, _currentState);
-	}
+  protected void executeAction () {
+    if (isRedo()) {
+      model.changeVariableType(variableID, newType, _currentState);
+      } else {
+      returnedVector = model.changeVariableType(variableID, newType, _currentState);
+      }
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.restoreVariableType(variableID, returnedVector, _currentState);
+    }
 
-	public String getVariableID() {
-		return variableID;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setVariableID(String variableID) {
-		this.variableID = variableID;
-	}
+  public String getVariableID () {
+    return variableID;
+    }
 
-	public short getNewType() {
-		return newType;
-	}
+  public void setVariableID (String variableID) {
+    this.variableID = variableID;
+    }
 
-	public void setNewType(short expressionInteger) {
-		this.newType = expressionInteger;
-	}
+  public short getNewType () {
+    return newType;
+    }
 
-	public short getLastType() {
-		return lastType;
-	}
+  public void setNewType (short expressionInteger) {
+    this.newType = expressionInteger;
+    }
 
-	public void setLastType(short lastType) {
-		this.lastType = lastType;
-	}
+  public short getLastType () {
+    return lastType;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<changevariabletype>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lasttype>" + lastType + "</lasttype>\n"
-		        + "   <returnedvector>" + returnedVector.toString() + "</returnedvector>\n" + "   <newtype>" + newType + "</newtype>\n"
-		        + "</changevariabletype>\n";
-		return str;
-	}
+  public void setLastType (short lastType) {
+    this.lastType = lastType;
+    }
 
-	public Vector getReturnedVector() {
-		return returnedVector;
-	}
+  public String toString () {
+    String str = "";
+    str += "<changevariabletype>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lasttype>" + lastType + "</lasttype>\n"
+           + "   <returnedvector>" + returnedVector.toString() + "</returnedvector>\n" + "   <newtype>" + newType + "</newtype>\n"
+           + "</changevariabletype>\n";
+    return str;
+    }
 
-	public void setReturnedVector(Vector returnedVector) {
-		this.returnedVector = returnedVector;
-	}
-}
+  public Vector getReturnedVector () {
+    return returnedVector;
+    }
+
+  public void setReturnedVector (Vector returnedVector) {
+    this.returnedVector = returnedVector;
+    }
+
+  }

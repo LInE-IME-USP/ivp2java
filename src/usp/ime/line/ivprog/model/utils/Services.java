@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming to the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ * 
+ * @description Static methods related to services.
+ * 
+ */
+
 package usp.ime.line.ivprog.model.utils;
 
 import ilm.framework.assignment.model.AssignmentState;
@@ -10,52 +23,45 @@ import usp.ime.line.ivprog.view.utils.IVPMouseListener;
 import usp.ime.line.ivprog.view.utils.language.ResourceBundleIVP;
 
 public class Services {
-	private IVPController controller;
-	private IVPRenderer render;
-	private IVPMouseListener mL = null;
-	private static Services instance;
-	private AssignmentState current;
 
-	private Services() {
-		controller = new IVPController();
-		render = new IVPRenderer();
-		mL = new IVPMouseListener();
-	}
+  private static IVPController controller;
+  private static IVPRenderer render;
+  private static IVPMouseListener mouseListener = null;
+  private static Services instance;
+  private static AssignmentState current;
 
-	public static Services getService() {
-		if (instance != null) {
-			return instance;
-		} else {
-			instance = new Services();
-		}
-		return instance;
-	}
+  static {
+    controller = new IVPController();
+    render = new IVPRenderer();
+    mouseListener = new IVPMouseListener();
+    }
 
-	public IVPRenderer getRenderer() {
-		return render;
-	}
+  public static IVPRenderer getRenderer () {
+    return render;
+    }
 
-	public IVPController getController() {
-		return controller;
-	}
+  public static IVPController getController() {
+    return controller;
+    }
 
-	public HashMap getModelMapping() {
-		return current.getData().getModelHash();
-	}
+  public static HashMap getModelMapping () {
+    return current.getData().getModelHash();
+    }
 
-	public HashMap getViewMapping() {
-		return current.getData().getViewHash();
-	}
+  public static HashMap getViewMapping () {
+    return current.getData().getViewHash();
+    }
 
-	public IVPMouseListener getML() {
-		return mL;
-	}
+  public static IVPMouseListener getML () {
+    return mouseListener;
+    }
 
-	public AssignmentState getCurrentState() {
-		return current;
-	}
+  public static AssignmentState getCurrentState () {
+    return current;
+    }
 
-	public void setCurrentState(AssignmentState current) {
-		this.current = current;
-	}
-}
+  public static void setCurrentState (AssignmentState current1) {
+    current = current1;
+    }
+
+  }

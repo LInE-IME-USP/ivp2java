@@ -1,3 +1,15 @@
+
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ * 
+ */
+
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.JPanel;
@@ -17,157 +29,163 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 public class ConstantUI extends JPanel implements IDomainObjectUI, IValueListener {
-	private String currentModelID;
-	private String parentModelID;
-	private String scopeModelID;
-	private String context;
-	private short expressionType;
-	private EditBoolean editBool;
-	private EditInPlace editInPlace;
-	private boolean isEditing = false;
-	private JLabel valueLabel;
 
-	public ConstantUI(String modelID) {
-		FlowLayout flowLayout = (FlowLayout) getLayout();
-		flowLayout.setVgap(2);
-		flowLayout.setHgap(2);
-		currentModelID = modelID;
-		initBool();
-		initEditInPlace();
-		valueLabel = new JLabel();
-		valueLabel.setForeground(Color.BLUE);
-		add(valueLabel);
-		add(editBool);
-		add(editInPlace);
-		setOpaque(false);
-	}
+  private String currentModelID;
+  private String parentModelID;
+  private String scopeModelID;
+  private String context;
+  private short expressionType;
+  private EditBoolean editBool;
+  private EditInPlace editInPlace;
+  private boolean isEditing = false;
+  private JLabel valueLabel;
 
-	private void initEditInPlace() {
-		editInPlace = new EditInPlace(FlatUIColors.CODE_BG);
-		editInPlace.setValueListener(new IValueListener() {
-			public void valueChanged(String value) {
-				Services.getService().getController().changeValue(currentModelID, value);
-			}
-		});
-	}
+  public ConstantUI (String modelID) {
+    FlowLayout flowLayout = (FlowLayout) getLayout();
+    flowLayout.setVgap(2);
+    flowLayout.setHgap(2);
+    currentModelID = modelID;
+    initBool();
+    initEditInPlace();
+    valueLabel = new JLabel();
+    valueLabel.setForeground(Color.BLUE);
+    add(valueLabel);
+    add(editBool);
+    add(editInPlace);
+    setOpaque(false);
+    }
 
-	private void initBool() {
-		editBool = new EditBoolean(FlatUIColors.CODE_BG);
-		editBool.setValueListener(new IValueListener() {
-			public void valueChanged(String value) {
-				Services.getService().getController().changeValue(currentModelID, value);
-			}
-		});
-	}
+  private void initEditInPlace () {
+    editInPlace = new EditInPlace(FlatUIColors.CODE_BG);
+    editInPlace.setValueListener(new IValueListener () {
+      public void valueChanged(String value) {
+        Services.getController().changeValue(currentModelID, value);
+        }
+      });
+    }
 
-	private void changeVariableType(short type) {
-		Constant c = (Constant) Services.getService().getModelMapping().get(currentModelID);
-		if (type == Expression.EXPRESSION_INTEGER) {
-			editInPlace.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
-			editInPlace.setValue(c.getConstantValue());
-		} else if (type == Expression.EXPRESSION_DOUBLE) {
-			editInPlace.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_DOUBLE);
-			editInPlace.setValue(c.getConstantValue());
-		} else if (type == Expression.EXPRESSION_STRING) {
-			editInPlace.setValue(c.getConstantValue());
-		} else if (type == Expression.EXPRESSION_BOOLEAN) {
-			editBool.setValue(c.getConstantValue());
-		}
-	}
+  private void initBool () {
+    editBool = new EditBoolean(FlatUIColors.CODE_BG);
+    editBool.setValueListener(new IValueListener () {
+      public void valueChanged(String value) {
+        Services.getController().changeValue(currentModelID, value);
+        }
+      });
+    }
 
-	public String getModelID() {
-		return currentModelID;
-	}
+  private void changeVariableType (short type) {
+    Constant c = (Constant) Services.getModelMapping().get(currentModelID);
+    if (type == Expression.EXPRESSION_INTEGER) {
+      editInPlace.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_INTEGER);
+      editInPlace.setValue(c.getConstantValue());
+       }
+    else if (type == Expression.EXPRESSION_DOUBLE) {
+      editInPlace.setCurrentPattern(EditInPlace.PATTERN_VARIABLE_VALUE_DOUBLE);
+      editInPlace.setValue(c.getConstantValue());
+      }
+    else if (type == Expression.EXPRESSION_STRING) {
+      editInPlace.setValue(c.getConstantValue());
+      }
+    else if (type == Expression.EXPRESSION_BOOLEAN) {
+      editBool.setValue(c.getConstantValue());
+      }
+    }
 
-	public String getModelParent() {
-		return parentModelID;
-	}
+  public String getModelID () {
+    return currentModelID;
+    }
 
-	public String getModelScope() {
-		return scopeModelID;
-	}
+  public String getModelParent () {
+    return parentModelID;
+    }
 
-	public void setModelID(String id) {
-		currentModelID = id;
-	}
+  public String getModelScope () {
+    return scopeModelID;
+    }
 
-	public void setModelParent(String id) {
-		parentModelID = id;
-	}
+  public void setModelID (String id) {
+    currentModelID = id;
+    }
 
-	public void setModelScope(String id) {
-		scopeModelID = id;
-	}
+  public void setModelParent (String id) {
+    parentModelID = id;
+    }
 
-	public void setContext(String context) {
-		this.context = context;
-	}
+  public void setModelScope (String id) {
+    scopeModelID = id;
+    }
 
-	public String getContext() {
-		return context;
-	}
+  public void setContext (String context) {
+    this.context = context;
+    }
 
-	public short getExpressionType() {
-		return expressionType;
-	}
+  public String getContext () {
+    return context;
+    }
 
-	public void setExpressionType(short expressionType) {
-		this.expressionType = expressionType;
-		changeVariableType(expressionType);
-	}
+  public short getExpressionType () {
+    return expressionType;
+    }
 
-	private void warningStateOn() {
-	}
+  public void setExpressionType (short expressionType) {
+    this.expressionType = expressionType;
+    changeVariableType(expressionType);
+    }
 
-	private void warningStateOff() {
-	}
+  private void warningStateOn () {
+    }
 
-	public void editStateOn() {
-		isEditing = true;
-		valueLabel.setVisible(false);
-		if (expressionType != Expression.EXPRESSION_BOOLEAN) {
-			editInPlace.setVisible(true);
-			editBool.setVisible(false);
-		} else {
-			editBool.setVisible(true);
-			editInPlace.setVisible(false);
-		}
-		if (getParent() instanceof ExpressionHolderUI)
-			((ExpressionHolderUI) getParent()).editStateOn();
-	}
+  private void warningStateOff () {
+    }
 
-	public void editStateOff(String string) {
-		isEditing = false;
-		valueLabel.setVisible(true);
-		valueLabel.setText(((Constant) Services.getService().getModelMapping().get(currentModelID)).getConstantValue());
-		editInPlace.setVisible(false);
-		editBool.setVisible(false);
-		if (getParent() instanceof ExpressionHolderUI)
-			((ExpressionHolderUI) getParent()).editStateOff();
-	}
+  public void editStateOn () {
+    isEditing = true;
+    valueLabel.setVisible(false);
+    if (expressionType != Expression.EXPRESSION_BOOLEAN) {
+      editInPlace.setVisible(true);
+      editBool.setVisible(false);
+       }else {
+      editBool.setVisible(true);
+      editInPlace.setVisible(false);
+      }
+    if (getParent() instanceof ExpressionHolderUI)
+      ((ExpressionHolderUI) getParent()).editStateOn();
+    }
 
-	public boolean isEditState() {
-		return isEditing;
-	}
+  public void editStateOff (String string) {
+    isEditing = false;
+    valueLabel.setVisible(true);
+    valueLabel.setText(((Constant) Services.getModelMapping().get(currentModelID)).getConstantValue());
+    editInPlace.setVisible(false);
+    editBool.setVisible(false);
+    if (getParent() instanceof ExpressionHolderUI)
+      ((ExpressionHolderUI) getParent()).editStateOff();
+    }
 
-	public void valueChanged(String value) {
-		if (expressionType == Expression.EXPRESSION_BOOLEAN) {
-			editBool.setValue(value);
-			if (value.equals("true"))
-				valueLabel.setText("Verdadeiro");
-			else
-				valueLabel.setText("Falso");
-		} else {
-			editInPlace.setValue(value);
-			valueLabel.setText(value);
-		}
-	}
+  public boolean isEditState () {
+    return isEditing;
+    }
 
-	public boolean isContentSet() {
-		return true;
-	}
+  public void valueChanged (String value) {
+    if (expressionType == Expression.EXPRESSION_BOOLEAN) {
+      editBool.setValue(value);
+      if (value.equals("true"))
+        valueLabel.setText("Verdadeiro");
+      else
+        valueLabel.setText("Falso");
+        }
+    else {
+      editInPlace.setValue(value);
+      valueLabel.setText(value);
+      }
+    }
 
-	public void lockDownCode() {
-		editStateOff("");
-	}
-}
+  public boolean isContentSet () {
+    return true;
+    }
+
+  public void lockDownCode () {
+    editStateOff("");
+    }
+
+  }

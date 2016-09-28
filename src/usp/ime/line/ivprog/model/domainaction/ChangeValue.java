@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
@@ -5,86 +18,88 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeValue extends DomainAction {
-	private IVPProgram model;
-	private String id = "";
-	private String lastValue = "";
-	private String newValue = "";
-	private String context = "";
-	private String holder = "";
 
-	public ChangeValue(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private String id = "";
+  private String lastValue = "";
+  private String newValue = "";
+  private String context = "";
+  private String holder = "";
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public ChangeValue (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		lastValue = model.changeValue(id, newValue, _currentState);
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.changeValue(id, lastValue, _currentState);
-	}
+  protected void executeAction () {
+    lastValue = model.changeValue(id, newValue, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.changeValue(id, lastValue, _currentState);
+    }
 
-	public IVPProgram getModel() {
-		return model;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setModel(IVPProgram model) {
-		this.model = model;
-	}
+  public IVPProgram getModel () {
+    return model;
+    }
 
-	public String getId() {
-		return id;
-	}
+  public void setModel(IVPProgram model) {
+    this.model = model;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId () {
+    return id;
+    }
 
-	public String getLastValue() {
-		return lastValue;
-	}
+  public void setId (String id) {
+    this.id = id;
+    }
 
-	public void setLastValue(String lastValue) {
-		this.lastValue = lastValue;
-	}
+  public String getLastValue () {
+    return lastValue;
+    }
 
-	public String getNewValue() {
-		return newValue;
-	}
+  public void setLastValue (String lastValue) {
+    this.lastValue = lastValue;
+    }
 
-	public void setNewValue(String newValue) {
-		this.newValue = newValue;
-	}
+  public String getNewValue () {
+    return newValue;
+    }
 
-	public String getContext() {
-		return context;
-	}
+  public void setNewValue (String newValue) {
+    this.newValue = newValue;
+    }
 
-	public void setContext(String context) {
-		this.context = context;
-	}
+  public String getContext () {
+    return context;
+    }
 
-	public String getHolder() {
-		return holder;
-	}
+  public void setContext (String context) {
+    this.context = context;
+    }
 
-	public void setHolder(String holder) {
-		this.holder = holder;
-	}
+  public String getHolder () {
+    return holder;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<changevalue>\n" + "   <id>" + id + "</id>\n" + "   <lastvalue>" + lastValue + "</lastvalue>\n" + "   <newvalue>"
-		        + newValue + "</newvalue>\n" + "   <context>" + context + "</context>\n" + "   <holder>" + holder + "</holder>\n"
-		        + "</changevalue>\n";
-		return str;
-	}
-}
+  public void setHolder (String holder) {
+    this.holder = holder;
+    }
+
+  public String toString () {
+    String str = "";
+    str += "<changevalue>\n" + "   <id>" + id + "</id>\n" + "   <lastvalue>" + lastValue + "</lastvalue>\n" + "   <newvalue>"
+            + newValue + "</newvalue>\n" + "   <context>" + context + "</context>\n" + "   <holder>" + holder + "</holder>\n"
+            + "</changevalue>\n";
+    return str;
+    }
+
+  }

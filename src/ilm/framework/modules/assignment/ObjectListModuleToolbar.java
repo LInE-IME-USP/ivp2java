@@ -1,3 +1,18 @@
+/*
+ * iLM - interactive Learning Modules in the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @description 
+ * 
+ * @author Danilo L. Dalmon, LOB
+ * 
+ */
+
 package ilm.framework.modules.assignment;
 
 import ilm.framework.modules.IlmModuleToolbar;
@@ -14,30 +29,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 
 public class ObjectListModuleToolbar extends IlmModuleToolbar {
-	private static final long serialVersionUID = 1L;
-	private ObjectListModuleGUI _window;
-	private JButton button;
 
-	public ObjectListModuleToolbar() {
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		button = makeButton("objectlist", "OBJECT LIST", "Open the list of objects", "Object List window");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				showWindow();
-				Tracking.getInstance().track("event=CLICK;where=BTN_OBJECT_LIST;");
-			}
-		});
-		// add(button);
-		_window = new ObjectListModuleGUI();
-	}
+  private static final long serialVersionUID = 1L;
+  private ObjectListModuleGUI _window;
+  private JButton button;
 
-	private void showWindow() {
-		_window.setVisible(true);
-	}
+  public ObjectListModuleToolbar () {
+    setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    button = makeButton("objectlist", "OBJECT LIST", "Open the list of objects", "Object List window");
+    button.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        showWindow();
+        Tracking.track("event=CLICK;where=BTN_OBJECT_LIST;");
+        }
+      });
+    // add(button);
+    _window = new ObjectListModuleGUI();
+    }
 
-	public void update(Observable o, Object arg) {
-		if (_window != null) {
-			_window.update(o, arg);
-		}
-	}
-}
+  private void showWindow () {
+    _window.setVisible(true);
+    }
+
+  public void update (Observable o, Object arg) {
+    if (_window != null) {
+      _window.update(o, arg);
+      }
+    }
+
+  }

@@ -1,3 +1,19 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ * 
+ * Create a field on expression
+ * @see: AttributionLineUI.java : addComponents(): blockContent(): when crating a new attribution, it is borned with no right side, indicating the message "select a variable" (AttributionLineUI.lblNewLabel)
+ * @see: ExpressionHolderUI.java: 
+ * @see: ExpressionFieldUI.java :
+ * 
+ */
+
 package usp.ime.line.ivprog.view.domaingui.workspace.codecomponents;
 
 import javax.swing.AbstractAction;
@@ -14,125 +30,166 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 
-import usp.ime.line.ivprog.model.utils.Services;
+// import usp.ime.line.ivprog.model.utils.Services;
+import ilm.framework.assignment.model.DomainAction; // to use 'DomainAction.staticExecutingInSilence'
+
 import usp.ime.line.ivprog.model.utils.Tracking;
 import usp.ime.line.ivprog.view.utils.IconButtonUI;
 
 public class ExpressionFieldUI extends JPanel {
 
-	private JButton btnEdit;
-	private ExpressionHolderUI expressionHolderUI;
-	private boolean isEditing = false;
-	private ImageIcon open;
-	private ImageIcon closed;
-	private JLabel lockerIcon;
-	private boolean isBlocked = true;
+  private JButton btnEdit;
+  private ExpressionHolderUI expressionHolderUI;
+  private ImageIcon open;
+  private ImageIcon closed;
+  private JLabel lockerIcon;
 
-	public ExpressionFieldUI(String parent, String scope) {
-		initLayout();
-		initExpressionHolder(parent, scope);
-		initEditionBtn();
-	}
+  // @see AttributionLineUI.java: addComponents(): blockContent(): attribution is created empty, only with the space to the use define the variable
+  // Default is: expression is rised with the locker open -- editable - here only the image, the action is actually in './usp/ime/line/ivprog/view/domaingui/workspace/codecomponents/ExpressionHolderUI.java'
+  private boolean isEditing = true;  // is under edition - can change varialbe
+  private boolean isBlocked = false; // is not blocked   - the lock is open and the user can edit variables
+   //command is rised open/editable - here only the image, the action is actually in ''
 
-	private void initEditionBtn() {
-		open = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_opened.png"));
-		closed = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_closed.png"));
-		lockerIcon = new JLabel();
-		lockerIcon.setIcon(closed);
-		Action edition = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				Tracking.getInstance().track("event=CLICK;where=BTN_CODE_EDITIONLOCKER_" + isBlocked + ";");
-				if (!isBlocked) {
-					if (isEditing) {
-						expressionHolderUI.disableEdition();
-						isEditing = false;
-						lockerIcon.setIcon(closed);
-						lockerIcon.repaint();
-					} else {
-						expressionHolderUI.enableEdition();
-						isEditing = true;
-						lockerIcon.setIcon(open);
-						lockerIcon.repaint();
-					}
-				}
-			}
-		};
-		btnEdit = new JButton(edition);
-		btnEdit.add(lockerIcon);
-		btnEdit.setIcon(new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/pog.png")));
-		btnEdit.setUI(new IconButtonUI());
-		add(btnEdit);
-	}
 
-	private void initExpressionHolder(String parent, String scope) {
-		expressionHolderUI = new ExpressionHolderUI(parent, scope);
-		add(expressionHolderUI);
-	}
+  //printParents(this);
+  public static void printParents (java.awt.Component component) {
+    java.awt.Component comp = component;
+    while (comp!=null) {
+      System.out.println(" " + comp.toString());
+      comp = comp.getParent();
+      }
+    }
 
-	private void initLayout() {
-		setOpaque(false);
-		FlowLayout flowLayout = (FlowLayout) getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		flowLayout.setVgap(1);
-		flowLayout.setHgap(1);
-	}
 
-	public void setHolderContent(JComponent expression) {
-		expressionHolderUI.setExpression(expression);
-	}
+  // Called by:
+  // * AttributionLineUI.java: initialization()
+  // * WhileUI.java: initExpression()
+  public ExpressionFieldUI (String parent, String scope) {
+    //D System.out.println("ExpressionFieldUI: " + parent + ", " + scope);
+    //D tring str=""; System.err.println(str.charAt(3)); } catch (Exception e1) { e1.printStackTrace(); }
+    if (DomainAction.getExecutingInSilence()) {
+      // ./src/ilm/framework/assignment/model/DomainAction.java: static boolean staticExecutingInSilence = true => is reading from a file
+      this.isEditing = false;
+      this.isBlocked = true;
+      } //D System.out.println("ExpressionFieldUI: DomainAction.staticExecutingInSilence=" + DomainAction.getExecutingInSilence());
 
-	public void setComparison(boolean isComparison) {
-		expressionHolderUI.setComparison(isComparison);
-	}
+    //
+    initLayout();
+    initExpressionHolder(parent, scope);
+    initEditionBtn();
+    }
 
-	public void setEdition(boolean edit) {
-		if (edit) {
-			lockerIcon.setIcon(open);
-			expressionHolderUI.enableEdition();
-		} else {
-			lockerIcon.setIcon(closed);
-			expressionHolderUI.disableEdition();
-		}
-		isEditing = edit;
-	}
+  //D System.err.println("isBlocked="+isBlocked);
 
-	public boolean isEdition() {
-		return isEditing;
-	}
+  private void initEditionBtn () {
+    // Icons presenting expression/command edition with a locker
+    open = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_opened.png"));
+    closed = new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/locker_closed.png"));
+    lockerIcon = new JLabel();
+    if (isEditing)
+      lockerIcon.setIcon(open);
+    else
+      lockerIcon.setIcon(closed);
+    Action edition = new AbstractAction () { // click on locker
+      public void actionPerformed (ActionEvent e) {
+        Tracking.track("event=CLICK;where=BTN_CODE_EDITIONLOCKER_" + isBlocked + ";");
+        //D System.out.println("ExpressionFieldUI.java: initEditionBtn(): isBlocked=" + isBlocked);
+        if (!isBlocked) {
+          if (isEditing) {
+            expressionHolderUI.disableEdition();
+            isEditing = false;
+            lockerIcon.setIcon(closed);
+            lockerIcon.repaint();
+            }
+          else {
+            expressionHolderUI.enableEdition();
+            isEditing = true;
+            lockerIcon.setIcon(open);
+            lockerIcon.repaint();
+            }
+          }
+        }
+      };
+    btnEdit = new JButton(edition);
+    btnEdit.add(lockerIcon);
+    btnEdit.setIcon(new ImageIcon(ExpressionFieldUI.class.getResource("/usp/ime/line/resources/icons/pog.png")));
+    btnEdit.setUI(new IconButtonUI());
+    add(btnEdit);
+    }
 
-	public boolean isBlocked() {
-		return isBlocked;
-	}
+  private void initExpressionHolder (String parent, String scope) {
+    expressionHolderUI = new ExpressionHolderUI(parent, scope);
+    add(expressionHolderUI);
+    }
 
-	public void setBlocked(boolean isBlocked) {
-		this.isBlocked = isBlocked;
-	}
+  private void initLayout () {
+    setOpaque(false);
+    FlowLayout flowLayout = (FlowLayout) getLayout();
+    flowLayout.setAlignment(FlowLayout.LEFT);
+    flowLayout.setVgap(1);
+    flowLayout.setHgap(1);
+    }
 
-	public void setHoldingType(short type) {
-		expressionHolderUI.setHoldingType(type);
-	}
+  public void setHolderContent (JComponent expression) {
+    expressionHolderUI.setExpression(expression);
+    }
 
-	public short getHoldingType() {
-		return expressionHolderUI.getHoldingType();
-	}
+  public void setComparison (boolean isComparison) {
+    expressionHolderUI.setComparison(isComparison);
+    }
 
-	public void hideMenu(boolean hide) {
-		expressionHolderUI.setHideMenu(hide);
-	}
+  public void setEdition (boolean edit) {
+    //try { String str=""; System.err.println(str.charAt(3)); } catch (Exception e) { e.printStackTrace(); }
+    if (edit) {
+      lockerIcon.setIcon(open);
+      expressionHolderUI.enableEdition();
+      }
+    else {
+      lockerIcon.setIcon(closed);
+      expressionHolderUI.disableEdition();
+      }
+    isEditing = edit;
+    }
 
-	public void setForHeader(boolean b) {
-		expressionHolderUI.setForHeader(b);
-	}
+  public boolean isEdition () {
+    return isEditing;
+    }
 
-	public void setForContext(String s) {
-		expressionHolderUI.setForContext(s);
-	}
+  public boolean isBlocked () {
+    return isBlocked;
+    }
 
-	public boolean isContentSet() {
-		boolean isCSet = true;
-		if (!expressionHolderUI.isCSet()) {
-			isCSet = false;
-		}
-		return isCSet;
-	}
-}
+  // Called by: ForUI.initIncrementField(...), IfElseUI.initExpression(...), initExpression(...)
+  public void setBlocked (boolean isBlocked) {
+    this.isBlocked = isBlocked;
+    }
+
+  public void setHoldingType (short type) {
+    expressionHolderUI.setHoldingType(type);
+    }
+
+  public short getHoldingType () {
+    return expressionHolderUI.getHoldingType();
+    }
+
+  public void hideMenu (boolean hide) {
+    expressionHolderUI.setHideMenu(hide);
+    }
+
+  public void setForHeader (boolean b) {
+    expressionHolderUI.setForHeader(b);
+    }
+
+  public void setForContext (String s) {
+    expressionHolderUI.setForContext(s);
+    }
+
+  public boolean isContentSet () {
+    boolean isCSet = true;
+    if (!expressionHolderUI.isCSet()) {
+      isCSet = false;
+      }
+    return isCSet;
+    }
+
+  }

@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
@@ -5,59 +18,61 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ChangeVariableInitValue extends DomainAction {
-	private IVPProgram model;
-	private String variableID;
-	private String lastValue;
-	private String newValue;
 
-	public ChangeVariableInitValue(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private String variableID;
+  private String lastValue;
+  private String newValue;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public ChangeVariableInitValue (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		lastValue = model.changeVariableInitialValue(variableID, newValue, _currentState);
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.changeVariableInitialValue(variableID, lastValue, _currentState);
-	}
+  protected void executeAction () {
+    lastValue = model.changeVariableInitialValue(variableID, newValue, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.changeVariableInitialValue(variableID, lastValue, _currentState);
+    }
 
-	public String getVariableID() {
-		return variableID;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setVariableID(String variableID) {
-		this.variableID = variableID;
-	}
+  public String getVariableID () {
+    return variableID;
+    }
 
-	public String getNewValue() {
-		return newValue;
-	}
+  public void setVariableID (String variableID) {
+    this.variableID = variableID;
+    }
 
-	public void setNewValue(String newValue) {
-		this.newValue = newValue;
-	}
+  public String getNewValue () {
+    return newValue;
+    }
 
-	public String getLastValue() {
-		return lastValue;
-	}
+  public void setNewValue (String newValue) {
+    this.newValue = newValue;
+    }
 
-	public void setLastValue(String lastValue) {
-		this.lastValue = lastValue;
-	}
+  public String getLastValue() {
+    return lastValue;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<changevariableinitvalue>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lastvalue>" + lastValue
-		        + "</lastvalue>\n" + "   <newvalue>" + newValue + "</newvalue>\n" + "</changevariableinitvalue>\n";
-		return str;
-	}
-}
+  public void setLastValue (String lastValue) {
+    this.lastValue = lastValue;
+    }
+
+  public String toString () {
+    String str = "";
+    str += "<changevariableinitvalue>\n" + "   <variableid>" + variableID + "</variableid>\n" + "   <lastvalue>" + lastValue
+           + "</lastvalue>\n" + "   <newvalue>" + newValue + "</newvalue>\n" + "</changevariableinitvalue>\n";
+    return str;
+    }
+
+  }

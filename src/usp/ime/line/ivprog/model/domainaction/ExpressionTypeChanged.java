@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
@@ -5,78 +18,80 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class ExpressionTypeChanged extends DomainAction {
-	private IVPProgram model;
-	private String holder;
-	private String expression;
-	private boolean isClean;
-	private boolean isComparison;
-	private String context;
 
-	public ExpressionTypeChanged(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private String holder;
+  private String expression;
+  private boolean isClean;
+  private boolean isComparison;
+  private String context;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public ExpressionTypeChanged (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		model.deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.restoreExpression(expression, holder, context, isClean, _currentState);
-	}
+  protected void executeAction () {
+    model.deleteExpression(expression, holder, context, isClean, isComparison, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.restoreExpression(expression, holder, context, isClean, _currentState);
+    }
 
-	public String getHolder() {
-		return holder;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setHolder(String holder) {
-		this.holder = holder;
-	}
+  public String getHolder () {
+    return holder;
+    }
 
-	public String getExpression() {
-		return expression;
-	}
+  public void setHolder (String holder) {
+    this.holder = holder;
+    }
 
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
+  public String getExpression () {
+    return expression;
+    }
 
-	public void setContext(String ctx) {
-		context = ctx;
-	}
+  public void setExpression (String expression) {
+    this.expression = expression;
+    }
 
-	public String getContext() {
-		return context;
-	}
+  public void setContext (String ctx) {
+    context = ctx;
+    }
 
-	public boolean isClean() {
-		return isClean;
-	}
+  public String getContext () {
+    return context;
+    }
 
-	public void setClean(boolean isClean) {
-		this.isClean = isClean;
-	}
+  public boolean isClean () {
+    return isClean;
+    }
 
-	public boolean isComparison() {
-		return isComparison;
-	}
+  public void setClean (boolean isClean) {
+    this.isClean = isClean;
+    }
 
-	public void setComparison(boolean isComparison) {
-		this.isComparison = isComparison;
-	}
+  public boolean isComparison () {
+    return isComparison;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<expressiontypechanged>\n" + "   <holder>" + holder + "</holder>\n" + "   <expression>" + expression + "</expression>\n"
-		        + "   <isclean>" + isClean + "</isclean>\n" + "   <iscomparison>" + isComparison + "</iscomparison>\n" + "   <context>"
-		        + context + "</context>\n" + "</expressiontypechanged>\n";
-		return str;
-	}
-}
+  public void setComparison (boolean isComparison) {
+    this.isComparison = isComparison;
+    }
+
+  public String toString () {
+    String str = "";
+    str += "<expressiontypechanged>\n" + "   <holder>" + holder + "</holder>\n" + "   <expression>" + expression + "</expression>\n"
+           + "   <isclean>" + isClean + "</isclean>\n" + "   <iscomparison>" + isComparison + "</iscomparison>\n" + "   <context>"
+           + context + "</context>\n" + "</expressiontypechanged>\n";
+    return str;
+    }
+
+  }

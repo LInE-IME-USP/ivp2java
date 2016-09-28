@@ -1,3 +1,18 @@
+/*
+ * iLM - interactive Learning Modules in the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @description 
+ * 
+ * @author Danilo L. Dalmon, LOB
+ * 
+ */
+
 package ilm.framework.modules.assignment;
 
 import ilm.framework.modules.IlmModuleToolbar;
@@ -15,54 +30,56 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 public class UndoRedoModuleToolbar extends IlmModuleToolbar {
-	private static final long serialVersionUID = 1L;
-	private UndoRedoModule _undoRedo;
-	private JButton _undoButton;
-	private JButton _redoButton;
 
-	public UndoRedoModuleToolbar() {
-		_undoButton = makeButton("undo", "UNDO", ResourceBundleIVP.getString("undoBtn.Tip"), ResourceBundleIVP.getString("undoBtn.AltText"));
-		add(_undoButton);
-		_undoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				_undoRedo.undo();
-				Tracking.getInstance().track("event=CLICK;where=BTN_UNDO;");
-			}
-		});
-		_undoButton.setEnabled(false);
-		_redoButton = makeButton("redo", "REDO", ResourceBundleIVP.getString("redoBtn.Tip"), ResourceBundleIVP.getString("redoBtn.AltText"));
-		add(_redoButton);
-		_redoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				_undoRedo.redo();
-				Tracking.getInstance().track("event=CLICK;where=BTN_REDO;");
-			}
-		});
-		_redoButton.setEnabled(false);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-	}
+  private static final long serialVersionUID = 1L;
+  private UndoRedoModule _undoRedo;
+  private JButton _undoButton;
+  private JButton _redoButton;
 
-	public void update(Observable o, Object arg) {
-		if (o instanceof UndoRedoModule) {
-			_undoRedo = (UndoRedoModule) o;
-			updateUndoButton();
-			updateRedoButton();
-		}
-	}
+  public UndoRedoModuleToolbar () {
+    _undoButton = makeButton("undo", "UNDO", ResourceBundleIVP.getString("undoBtn.Tip"), ResourceBundleIVP.getString("undoBtn.AltText"));
+    add(_undoButton);
+    _undoButton.addActionListener(new ActionListener () {
+      public void actionPerformed(ActionEvent e) {
+        _undoRedo.undo();
+        Tracking.track("event=CLICK;where=BTN_UNDO;");
+        }
+      });
+    _undoButton.setEnabled(false);
+    _redoButton = makeButton("redo", "REDO", ResourceBundleIVP.getString("redoBtn.Tip"), ResourceBundleIVP.getString("redoBtn.AltText"));
+    add(_redoButton);
+    _redoButton.addActionListener(new ActionListener () {
+      public void actionPerformed(ActionEvent e) {
+        _undoRedo.redo();
+        Tracking.track("event=CLICK;where=BTN_REDO;");
+        }
+      });
+    _redoButton.setEnabled(false);
+    setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    }
 
-	private void updateUndoButton() {
-		if (_undoRedo.isUndoStackEmpty()) {
-			_undoButton.setEnabled(false);
-		} else {
-			_undoButton.setEnabled(true);
-		}
-	}
+  public void update (Observable o, Object arg) {
+    if (o instanceof UndoRedoModule) {
+      _undoRedo = (UndoRedoModule) o;
+      updateUndoButton();
+      updateRedoButton();
+      }
+    }
 
-	private void updateRedoButton() {
-		if (_undoRedo.isRedoStackEmpty()) {
-			_redoButton.setEnabled(false);
-		} else {
-			_redoButton.setEnabled(true);
-		}
-	}
-}
+  private void updateUndoButton () {
+    if (_undoRedo.isUndoStackEmpty()) {
+      _undoButton.setEnabled(false);
+      } else {
+      _undoButton.setEnabled(true);
+      }
+    }
+
+  private void updateRedoButton () {
+    if (_undoRedo.isRedoStackEmpty()) {
+      _redoButton.setEnabled(false);
+      } else {
+      _redoButton.setEnabled(true);
+      }
+    }
+
+  }

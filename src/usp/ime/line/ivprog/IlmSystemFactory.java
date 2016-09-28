@@ -1,3 +1,15 @@
+
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ * 
+ */
+
 package usp.ime.line.ivprog;
 
 import java.util.Vector;
@@ -16,37 +28,40 @@ import ilm.framework.gui.AuthoringGUI;
 import ilm.framework.modules.IlmModule;
 
 public class IlmSystemFactory extends SystemFactory {
-	public DomainModel createDomainModel() {
-		IVPProgram program = new IVPProgram();
-		Services.getService().getController().setProgram(program);
-		return program;
-	}
 
-	public DomainConverter createDomainConverter() {
-		return new IVPDomainConverter();
-	}
+  public DomainModel createDomainModel () {
+    IVPProgram program = new IVPProgram();
+    Services.getController().setProgram(program);
+    return program;
+    }
 
-	public DomainGUI createDomainGUI(SystemConfig config, DomainModel model) {
-		IVPDomainGUI domainGUI = new IVPDomainGUI();
-		domainGUI.initDomainActionList(model);
-		Services.getService().getController().setGui(domainGUI);
-		Services.getService().getController().initDomainActionList(model);
-		return domainGUI;
-	}
+  public DomainConverter createDomainConverter () {
+    return new IVPDomainConverter();
+    }
 
-	public AuthoringGUI createAuthoringGUI(DomainGUI domainGUI, String proposition, AssignmentState initial, AssignmentState current,
-	        AssignmentState expected, HashMap config, HashMap metadata) {
-		AuthoringGUI gui = new IlmAuthoringGUI();
-		gui.setComponents(config, domainGUI, metadata);
-		gui.setAssignment(proposition, initial, current, expected);
-		return gui;
-	}
+  public DomainGUI createDomainGUI (SystemConfig config, DomainModel model) {
+    IVPDomainGUI domainGUI = new IVPDomainGUI();
+    domainGUI.initDomainActionList(model);
+    Services.getController().setGui(domainGUI);
+    Services.getController().initDomainActionList(model);
+    return domainGUI;
+    }
 
-	protected Vector getIlmModuleList() {
-		Vector list = new Vector();
-		// list.add(new ScriptModule());
-		// list.add(new ExampleTracingTutorModule());
-		// list.add(new ScormModule());
-		return list;
-	}
-}
+  public AuthoringGUI createAuthoringGUI (
+          DomainGUI domainGUI, String proposition, AssignmentState initial, AssignmentState current,
+          AssignmentState expected, HashMap config, HashMap metadata) {
+    AuthoringGUI gui = new IlmAuthoringGUI();
+    gui.setComponents(config, domainGUI, metadata);
+    gui.setAssignment(proposition, initial, current, expected);
+    return gui;
+    }
+
+  protected Vector getIlmModuleList () {
+    Vector list = new Vector();
+    // list.add(new ScriptModule());
+    // list.add(new ExampleTracingTutorModule());
+    // list.add(new ScormModule());
+    return list;
+    }
+
+  }

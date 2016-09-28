@@ -1,3 +1,16 @@
+/*
+ * iVProg2 - interactive Visual Programming for the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ *
+ * @see : ilm/framework/assignment/model/DomainAction.java
+ * 
+ */
+
 package usp.ime.line.ivprog.model.domainaction;
 
 import usp.ime.line.ivprog.model.IVPProgram;
@@ -5,59 +18,61 @@ import ilm.framework.assignment.model.DomainAction;
 import ilm.framework.domain.DomainModel;
 
 public class DeleteVariable extends DomainAction {
-	private IVPProgram model;
-	private String scopeID;
-	private String variableID;
-	private int index;
 
-	public DeleteVariable(String name, String description) {
-		super(name, description);
-	}
+  private IVPProgram model;
+  private String scopeID;
+  private String variableID;
+  private int index;
 
-	public void setDomainModel(DomainModel m) {
-		model = (IVPProgram) m;
-	}
+  public DeleteVariable (String name, String description) {
+    super(name, description);
+    }
 
-	protected void executeAction() {
-		model.removeVariable(scopeID, variableID, _currentState);
-	}
+  public void setDomainModel (DomainModel m) {
+    model = (IVPProgram) m;
+    }
 
-	protected void undoAction() {
-		model.restoreVariable(scopeID, variableID, _currentState);
-	}
+  protected void executeAction () {
+    model.removeVariable(scopeID, variableID, _currentState);
+    }
 
-	public boolean equals(DomainAction a) {
-		return false;
-	}
+  protected void undoAction () {
+    model.restoreVariable(scopeID, variableID, _currentState);
+    }
 
-	public String getScopeID() {
-		return scopeID;
-	}
+  public boolean equals (DomainAction a) {
+    return false;
+    }
 
-	public void setScopeID(String scopeID) {
-		this.scopeID = scopeID;
-	}
+  public String getScopeID () {
+    return scopeID;
+    }
 
-	public String getVariableID() {
-		return variableID;
-	}
+  public void setScopeID (String scopeID) {
+    this.scopeID = scopeID;
+    }
 
-	public void setVariableID(String variableID) {
-		this.variableID = variableID;
-	}
+  public String getVariableID () {
+    return variableID;
+    }
 
-	public int getIndex() {
-		return index;
-	}
+  public void setVariableID (String variableID) {
+    this.variableID = variableID;
+    }
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
+  public int getIndex () {
+    return index;
+    }
 
-	public String toString() {
-		String str = "";
-		str += "<deletevariable>\n" + "   <scopeid>" + scopeID + "</scopeid>\n" + "   <variableid>" + variableID + "</variableid>\n"
-		        + "   <index>" + index + "</index>\n" + "</deletevariable>\n";
-		return str;
-	}
-}
+  public void setIndex (int index) {
+    this.index = index;
+    }
+
+  public String toString () {
+    String str = "";
+    str += "<deletevariable>\n" + "   <scopeid>" + scopeID + "</scopeid>\n" + "   <variableid>" + variableID + "</variableid>\n"
+           + "   <index>" + index + "</index>\n" + "</deletevariable>\n";
+    return str;
+    }
+
+  }

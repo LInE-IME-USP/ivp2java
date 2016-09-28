@@ -1,3 +1,15 @@
+
+/*
+ * iVProg2 - interactive Visual Programming to the Internet
+ * Java version
+ * 
+ * LInE
+ * Free Software for Better Education (FSBE)
+ * http://www.matematica.br
+ * http://line.ime.usp.br
+ * 
+ */
+
 package usp.ime.line.ivprog.view.domaingui.editinplace;
 
 import java.awt.Color;
@@ -24,180 +36,184 @@ import usp.ime.line.ivprog.view.FlatUIColors;
 import usp.ime.line.ivprog.view.domaingui.workspace.codecomponents.IDomainObjectUI;
 
 public class EditInPlace extends JPanel implements KeyListener {
-	private JLabel nameLabel;
-	private JPanel nameContainer;
-	private JTextField nameField;
-	private IValueListener valueListener;
-	public static int PATTERN_VARIABLE_NAME = 0;
-	public static int PATTERN_VARIABLE_VALUE_DOUBLE = 1;
-	public static int PATTERN_VARIABLE_VALUE_INTEGER = 2;
-	public static int PATTERN_VARIABLE_VALUE_STRING = 3;
-	private int currentPattern = 0;
-	private String[] patternsTyping = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*" };
-	private String[] patterns = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*" };
-	private Color bgColor = FlatUIColors.MAIN_BG;
-	public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
-	public boolean isUpdate = false;
 
-	public EditInPlace(Color bgColor) {
-		this.bgColor = bgColor;
-		FlowLayout flowLayout = (FlowLayout) getLayout();
-		flowLayout.setVgap(0);
-		flowLayout.setHgap(0);
-		setBorder(new EmptyBorder(0, 0, 0, 0));
-		initNameContainer();
-		initNameLabel();
-		initNameField();
-	}
+  private JLabel nameLabel;
+  private JPanel nameContainer;
+  private JTextField nameField;
+  private IValueListener valueListener;
+  public static int PATTERN_VARIABLE_NAME = 0;
+  public static int PATTERN_VARIABLE_VALUE_DOUBLE = 1;
+  public static int PATTERN_VARIABLE_VALUE_INTEGER = 2;
+  public static int PATTERN_VARIABLE_VALUE_STRING = 3;
+  private int currentPattern = 0;
+  private String[] patternsTyping = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*"   };
+  private String[] patterns = { "^[a-zA-Z_][a-zA-Z0-9_]*$", "^[-]?[0-9]*.[0-9]*$", "^[-]?[0-9]*$", ".*"   };
+  private Color bgColor = FlatUIColors.MAIN_BG;
+  public static final Color hoverColor = FlatUIColors.HOVER_COLOR;
+  public boolean isUpdate = false;
 
-	public EditInPlace() {
-		FlowLayout flowLayout = (FlowLayout) getLayout();
-		flowLayout.setVgap(0);
-		flowLayout.setHgap(0);
-		setBorder(new EmptyBorder(0, 0, 0, 0));
-		initNameContainer();
-		initNameLabel();
-		initNameField();
-	}
+  public EditInPlace (Color bgColor) {
+    this.bgColor = bgColor;
+    FlowLayout flowLayout = (FlowLayout) getLayout();
+    flowLayout.setVgap(0);
+    flowLayout.setHgap(0);
+    setBorder(new EmptyBorder(0, 0, 0, 0));
+    initNameContainer();
+    initNameLabel();
+    initNameField();
+    }
 
-	private void initNameContainer() {
-		nameContainer = new JPanel();
-		nameContainer.setBackground(bgColor);
-		add(nameContainer);
-	}
+  public EditInPlace () {
+    FlowLayout flowLayout = (FlowLayout) getLayout();
+    flowLayout.setVgap(0);
+    flowLayout.setHgap(0);
+    setBorder(new EmptyBorder(0, 0, 0, 0));
+    initNameContainer();
+    initNameLabel();
+    initNameField();
+    }
 
-	private void initNameLabel() {
-		nameLabel = new JLabel("");
-		nameLabel.addMouseListener(new VariableMouseListener());
-		nameContainer.add(nameLabel);
-	}
+  private void initNameContainer () {
+    nameContainer = new JPanel();
+    nameContainer.setBackground(bgColor);
+    add(nameContainer);
+    }
 
-	private void hasFocusLost() {
-		nameContainer.setVisible(true);
-		nameField.setVisible(false);
-		if (valueListener != null) {
-			valueListener.valueChanged(nameField.getText());
-		}
-		nameField.setBorder(BorderFactory.createEtchedBorder());
-	}
+  private void initNameLabel () {
+    nameLabel = new JLabel("");
+    nameLabel.addMouseListener(new VariableMouseListener());
+    nameContainer.add(nameLabel);
+    }
 
-	private void initNameField() {
-		nameField = new JTextField(5);
-		nameField.addKeyListener(this);
-		nameField.addFocusListener(new FocusListener() {
-			public void focusLost(FocusEvent arg0) {
-				if (!isUpdate) {
-					String value = nameField.getText();
-					if (value.matches(patterns[currentPattern])) {
-						hasFocusLost();
-					} else {
-						nameField.setBorder(BorderFactory.createLineBorder(Color.red));
-					}
-				}
-				isUpdate = false;
-			}
+  private void hasFocusLost () {
+    nameContainer.setVisible(true);
+    nameField.setVisible(false);
+    if (valueListener != null) {
+      valueListener.valueChanged(nameField.getText());
+      }
+    nameField.setBorder(BorderFactory.createEtchedBorder());
+    }
 
-			public void focusGained(FocusEvent arg0) {
-			}
-		});
-		nameField.setVisible(false);
-		initInputMap();
-		add(nameField);
-	}
+  private void initNameField () {
+    nameField = new JTextField(5);
+    nameField.addKeyListener(this);
+    nameField.addFocusListener(new FocusListener () {
+      public void focusLost(FocusEvent arg0) {
+        if (!isUpdate) {
+          String value = nameField.getText();
+          if (value.matches(patterns[currentPattern])) {
+            hasFocusLost();
+            } else {
+            nameField.setBorder(BorderFactory.createLineBorder(Color.red));
+            }
+          }
+        isUpdate = false;
+        }
 
-	private void initInputMap() {
-		AbstractAction editDone = new AbstractAction() {
-			public void actionPerformed(ActionEvent ae) {
-				Tracking.getInstance().track("event=FOCUSLOST;where=EDIT_DONE_EDITINPLACE;");
-				isUpdate = true;
-				nameField.setFocusable(false);
-				nameField.setFocusable(true);
-			}
-		};
-		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER), editDone);
-		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ESCAPE), editDone);
-		nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_TAB), editDone);
-	}
+      public void focusGained (FocusEvent arg0) {
+        }
+      });
+    nameField.setVisible(false);
+    initInputMap();
+    add(nameField);
+    }
 
-	public void setValueListener(IValueListener listener) {
-		valueListener = listener;
-	}
+  private void initInputMap () {
+    AbstractAction editDone = new AbstractAction () {
+      public void actionPerformed(ActionEvent ae) {
+        Tracking.track("event=FOCUSLOST;where=EDIT_DONE_EDITINPLACE;");
+        isUpdate = true;
+        nameField.setFocusable(false);
+        nameField.setFocusable(true);
+        }
+      };
+    nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ENTER), editDone);
+    nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_ESCAPE), editDone);
+    nameField.getInputMap().put(KeyStroke.getKeyStroke((char) KeyEvent.VK_TAB), editDone);
+    }
 
-	private class VariableMouseListener implements MouseListener {
-		public void mouseClicked(MouseEvent e) {
-		}
+  public void setValueListener (IValueListener listener) {
+    valueListener = listener;
+    }
 
-		public void mouseEntered(MouseEvent arg0) {
-			nameContainer.setBackground(hoverColor);
-		}
 
-		public void mouseExited(MouseEvent arg0) {
-			nameContainer.setBackground(bgColor);
-		}
+  private class VariableMouseListener implements MouseListener {
 
-		public void mousePressed(MouseEvent arg0) {
-		}
+    public void mouseClicked (MouseEvent e) {
+      }
 
-		public void mouseReleased(MouseEvent e) {
-			if (e.getSource().equals(nameLabel)) {
-				nameField.setVisible(true);
-				nameContainer.setVisible(false);
-				nameField.requestFocus();
-			}
-		}
-	}
+    public void mouseEntered (MouseEvent arg0) {
+      nameContainer.setBackground(hoverColor);
+      }
 
-	public void setValue(String name) {
-		nameField.setText(name);
-		nameLabel.setText(name);
-		revalidate();
-		repaint();
-	}
+    public void mouseExited (MouseEvent arg0) {
+      nameContainer.setBackground(bgColor);
+      }
 
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
+    public void mousePressed (MouseEvent arg0) {
+      }
 
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
+    public void mouseReleased (MouseEvent e) {
+      if (e.getSource().equals(nameLabel)) {
+        nameField.setVisible(true);
+        nameContainer.setVisible(false);
+        nameField.requestFocus();
+        }
+      }
+    }
 
-	public void keyTyped(KeyEvent e) {
-		// enter é 13... verificar pq esta funfando com 10
-		if (((int) e.getKeyChar()) == 10 || ((int) e.getKeyChar()) == 13) {
-			hasFocusLost();
-			return;
-		}
-		String value = nameField.getText();
-		if (nameField.getSelectionStart() == 0) {
-			value = e.getKeyChar() + value;
-		} else if (nameField.getSelectionStart() == value.length()) {
-			value = value + e.getKeyChar();
-		} else {
-			value = value.substring(0, nameField.getSelectionStart()) + e.getKeyChar() + value.substring(nameField.getSelectionEnd());
-		}
-		if (!value.matches(patternsTyping[currentPattern])) {
-			int c = ((int) e.getKeyChar());
-			if ((c != 8) && (c != 127)) {
-				getToolkit().beep();
-				e.consume();
-			}
-		}
-	}
+  public void setValue (String name) {
+    nameField.setText(name);
+    nameLabel.setText(name);
+    revalidate();
+    repaint();
+    }
 
-	public boolean isValidValue(KeyEvent e) {
-		return false;
-	}
+  public void keyPressed (KeyEvent e) {
+    // TODO Auto-generated method stub
+    }
 
-	public int getCurrentPattern() {
-		return currentPattern;
-	}
+  public void keyReleased (KeyEvent e) {
+    // TODO Auto-generated method stub
+    }
 
-	public void setCurrentPattern(int currentPattern) {
-		this.currentPattern = currentPattern;
-	}
+  public void keyTyped (KeyEvent e) {
+    // enter é 13... verificar pq esta funfando com 10
+    if (((int) e.getKeyChar()) == 10 || ((int) e.getKeyChar()) == 13) {
+      hasFocusLost();
+      return;
+      }
+    String value = nameField.getText();
+    if (nameField.getSelectionStart() == 0) {
+      value = e.getKeyChar() + value;
+      } else if (nameField.getSelectionStart() == value.length()) {
+      value = value + e.getKeyChar();
+      } else {
+      value = value.substring(0, nameField.getSelectionStart()) + e.getKeyChar() + value.substring(nameField.getSelectionEnd());
+      }
+    if (!value.matches(patternsTyping[currentPattern])) {
+      int c = ((int) e.getKeyChar());
+      if ((c != 8) && (c != 127)) {
+        getToolkit().beep();
+        e.consume();
+        }
+      }
+    }
 
-	public void resetTextField() {
-		nameField.setText(nameLabel.getText());
-	}
-}
+  public boolean isValidValue (KeyEvent e) {
+    return false;
+    }
+
+  public int getCurrentPattern () {
+    return currentPattern;
+    }
+
+  public void setCurrentPattern (int currentPattern) {
+    this.currentPattern = currentPattern;
+    }
+
+  public void resetTextField () {
+    nameField.setText(nameLabel.getText());
+    }
+
+  }
